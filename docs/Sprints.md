@@ -1,7 +1,7 @@
-# Sprint A #
-Goals:
+# **Sprint A** #
+## Goals ##
 ...
-Description:
+## Description ##
 ...
-Retrospective:
+## Retrospective ##
 ...
