@@ -1,170 +1,182 @@
-	## Contents
+## Contents
 - [Views](#views)
-	- [Introduction](#introduction)
-	- [Nível 1](#nível-1)
-		- [Vista Lógica](#vista-lógica)
-		- [Vista de Processos](#vista-de-processos)
-			- [SSD US1](#ssd-us1)
-			- [SSD US2](#ssd-us2)
-			- [(outros SSD arquiteturalmente relevantes)](#outros-ssd-arquiteturalmente-relevantes)
-	- [Nível 2](#nível-2)
-		- [Vista Lógica](#vista-lógica-1)
-		- [Vista de Processos](#vista-de-processos-1)
-			- [SSD US13 (Porquê esta US?)](#ssd-us13-porquê-esta-us)
-			- [(outros SSD arquiteturalmente relevantes)](#outros-ssd-arquiteturalmente-relevantes-1)
-		- [Vista de Implementação](#vista-de-implementação)
-		- [Vista Física](#vista-física)
-	- [Nível 3 (MDR)](#nível-3-mdr)
-		- [Vista Lógica](#vista-lógica-2)
-		- [Vista de Processos](#vista-de-processos-2)
-			- [SD US01](#sd-us01)
-			- [(outros SSD arquiteturalmente relevantes)](#outros-ssd-arquiteturalmente-relevantes-2)
-		- [Vista de Implementação](#vista-de-implementação-1)
-		- [Vista Física](#vista-física-1)
-	- [Nível 3 (UI)](#nível-3-ui)
-		- [Vista Lógica](#vista-lógica-3)
-		- [Vista de Processos](#vista-de-processos-3)
-		- [Vista de Implementação](#vista-de-implementação-2)
-		- [Vista Física](#vista-física-2)
-	- [Nível 3 (MDV)](#nível-3-mdv)
-		- [Vista Lógica](#vista-lógica-4)
-		- [Vista de Processos](#vista-de-processos-4)
-		- [Vista de Implementação](#vista-de-implementação-3)
-		- [Vista Física](#vista-física-3)
-	- [Nível 3 (Planeamento)](#nível-3-planeamento)
-		- [Vista Lógica](#vista-lógica-5)
-		- [Vista de Processos](#vista-de-processos-5)
-		- [Vista de Implementação](#vista-de-implementação-4)
-		- [Vista Física](#vista-física-4)
+    - [Introduction](#introduction)
+    - [Level 1](#level-1)
+        - [Logical View](#logical-view)
+        - [Process View](#process-view)
+            - [SSD US1](#ssd-us1)
+            - [SSD US2](#ssd-us2)
+            - [(other architecturally relevant SSDs)](#other-architecturally-relevant-ssds)
+    - [Level 2](#level-2)
+        - [Logical View](#logical-view-1)
+        - [Process View](#process-view-1)
+            - [SSD US13 (Why this US?)](#ssd-us13-why-this-us)
+            - [(other architecturally relevant SSDs)](#other-architecturally-relevant-ssds-1)
+        - [Implementation View](#implementation-view)
+        - [Physical View](#physical-view)
+    - [Level 3 (MDR)](#level-3-mdr)
+        - [Logical View](#logical-view-2)
+        - [Process View](#process-view-2)
+            - [SD US01](#sd-us01)
+            - [(other architecturally relevant SSDs)](#other-architecturally-relevant-ssds-2)
+        - [Implementation View](#implementation-view-1)
+        - [Physical View](#physical-view-1)
+    - [Level 3 (UI)](#level-3-ui)
+        - [Logical View](#logical-view-3)
+        - [Process View](#process-view-3)
+        - [Implementation View](#implementation-view-2)
+        - [Physical View](#physical-view-2)
+    - [Level 3 (MDV)](#level-3-mdv)
+        - [Logical View](#logical-view-4)
+        - [Process View](#process-view-4)
+        - [Implementation View](#implementation-view-3)
+        - [Physical View](#physical-view-3)
+    - [Level 3 (Planning)](#level-3-planning)
+        - [Logical View](#logical-view-5)
+        - [Process View](#process-view-5)
+        - [Implementation View](#implementation-view-4)
+        - [Physical View](#physical-view-4)
 
 # Views
 
 ## Introduction
-Será adotada a combinação de dois modelos de representação arquitetural: C4 e 4+1.
+A combination of two architectural representation models will be adopted: C4 and 4+1.
 
-O Modelo de Vistas 4+1 [[Krutchen-1995]](References.md#Kruchten-1995) propõe a descrição do sistema através de vistas complementares permitindo assim analisar separadamente os requisitos dos vários stakeholders do software, tais como utilizadores, administradores de sistemas, project managers, arquitetos e programadores. As vistas são deste modo definidas da seguinte forma:
+The 4+1 View Model [[Krutchen-1995]](References.md#Kruchten-1995) proposes the description of the system through complementary views, allowing for separate analysis of the requirements of various software stakeholders, such as users, system administrators, project managers, architects, and programmers. The views are thus defined as follows:
 
-- Vista lógica: relativa aos aspetos do software visando responder aos desafios do negócio;
-- Vista de processos: relativa ao fluxo de processos ou interações no sistema;
-- Vista de desenvolvimento: relativa à organização do software no seu ambiente de desenvolvimento;
-- Vista física: relativa ao mapeamento dos vários componentes do software em hardware, i.e. onde é executado o software;
-- Vista de cenários: relativa à associação de processos de negócio com atores capazes de os espoletar.
+- Logical View: related to aspects of the software aimed at meeting business challenges;
+- Process View: related to the flow of processes or interactions in the system;
+- Development View: related to the organization of software in its development environment;
+- Physical View: related to the mapping of various software components to hardware, i.e., where the software is executed;
+- Scenario View: related to associating business processes with actors capable of triggering them.
 
-O Modelo C4 [[Brown-2020]](References.md#Brown-2020)[[C4-2020]](References.md#C4-2020) defende a descrição do software através de quatro níveis de abstração: sistema, contentor, componente e código. Cada nível adota uma granularidade mais fina que o nível que o antecede, dando assim acesso a mais detalhe de uma parte mais pequena do sistema. Estes níveis podem ser equiparáveis a mapas, e.g. a vista de sistema corresponde ao globo, a vista de contentor corresponde ao mapa de cada continente, a vista de componentes ao mapa de cada país e a vista de código ao mapa de estradas e bairros de cada cidade.
-Diferentes níveis permitem contar histórias diferentes a audiências distintas.
+The C4 Model [[Brown-2020]](References.md#Brown-2020)[[C4-2020]](References.md#C4-2020) advocates describing software through four levels of abstraction: system, container, component, and code. Each level adopts finer granularity than the preceding level, thus providing more detail of a smaller part of the system. These levels can be comparable to maps, e.g., the system view corresponds to the globe, the container view corresponds to the map of each continent, the component view to the map of each country, and the code view to the road and neighborhood map of each city. Different levels allow telling different stories to distinct audiences.
 
-Os níveis encontram-se definidos da seguinte forma:
-- Nível 1: Descrição (enquadramento) do sistema como um todo;
-- Nível 2: Descrição de contentores do sistema;
-- Nível 3: Descrição de componentes dos contentores;
-- Nível 4: Descrição do código ou partes mais pequenas dos componentes (e como tal, não será abordado neste DAS/SAD).
+The levels are defined as follows:
+- Level 1: Description (framework) of the system as a whole;
+- Level 2: Description of the system containers;
+- Level 3: Description of the components of the containers;
+- Level 4: Description of the code or smaller parts of the components (and as such, it will not be addressed in this DAS/SAD).
 
-Pode-se dizer que estes dois modelos se expandem ao longo de eixos distintos, sendo que o Modelo C4 apresenta o sistema com diferentes níveis de detalhe e o Modelo de Vista 4+1 apresenta o sistema de diferentes perspetivas. Ao combinar os dois modelos torna-se possível representar o sistema de diversas perspetivas, cada uma com vários níveis de detalhe.
+It can be said that these two models expand along distinct axes, with the C4 Model presenting the system with different levels of detail and the 4+1 View Model presenting the system from different perspectives. By combining the two models, it becomes possible to represent the system from various perspectives, each with several levels of detail.
 
-Para modelar/representar visualmente, tanto o que foi implementado como as ideias e alternativas consideradas, recorre-se à Unified Modeling Language (UML) [[UML-2020]](References.md#UML-2020) [[UMLDiagrams-2020]](References.md#UMLDiagrams-2020).
+For modeling/visually representing both what has been implemented and the considered ideas and alternatives, the Unified Modeling Language (UML) [[UML-2020]](References.md#UML-2020) [[UMLDiagrams-2020]](References.md#UMLDiagrams-2020) is used.
 
-## Nível 1
-### Vista Lógica
+## Level 1
+### Logical View
 
 ![N1-VL](diagramas/nivel1/N1-VL.png)
 
-### Vista de Processos
+### Process View
 #### SSD US1
 ![N1-VP-US1](diagramas/nivel1/N1-VP-US1.png)
 
 #### SSD US2
 ![N1-VP-US2](diagramas/nivel1/N1-VP-US2.png)
 
-#### (outros SSD arquiteturalmente relevantes)
+#### (other architecturally relevant SSDs)
 [...]
 
-## Nível 2
-### Vista Lógica
+## Level 2
+### Logical View
 
 ![N2-VL](diagramas/nivel2/N2-VL.png)
 
-### Vista de Processos
+### Process View
 
-#### SSD US13 (Porquê esta US?)
+#### SSD US13 (Why this US?)
 TBD
 
-#### (outros SSD arquiteturalmente relevantes)
+#### (other architecturally relevant SSDs)
 [...]
 
-### Vista de Implementação
+## Level 2
+### Logical View
+
+![N2-VL](diagramas/nivel2/N2-VL.png)
+
+### Process View
+
+#### SSD US13 (Why this US?)
+TBD
+
+#### (other architecturally relevant SSDs)
+[...]
+
+### Implementation View
 ![N2-VL](diagramas/nivel2/N2-VI.png)
 
-### Vista Física
+### Physical View
 
-Uma proposta muito simplificada. 
+A very simplified proposal. 
 ![N2-VL](diagramas/nivel2/N2-VF.png)
 
-De facto, deve-se ter em consideração os requisitos não funcionais ["Physical Contraints"](Background.md#Physical_Constraints).
+In fact, non-functional requirements ["Physical Contraints"](Background.md#Physical_Constraints) must be taken into consideration.
 
-## Nível 3 (MDR)
-### Vista Lógica
-Alternativa baseada numa arquitetura por camadas sobrepostas:
+## Level 3 (MDR)
+### Logical View
+Alternative based on an architecture of superimposed layers:
 ![N3-VL-MDR-alt1](diagramas/nivel3/MDR/N3-VL-MDR-alt1.png)
 
-Alternativa baseada numa arquitetura por camadas concêntricas (Onion):
+Alternative based on a concentric layer architecture (Onion):
 ![N3-VL-MDR-alt2](diagramas/nivel3/MDR/N3-VL-MDR-alt2.png)
 
-A alternativa Onion será a adotada.
+The Onion alternative will be adopted.
 
-### Vista de Processos
+### Process View
 
 #### SD US01
 TBD
 
-#### (outros SSD arquiteturalmente relevantes)
+#### (other architecturally relevant SSDs)
 [...]
 
-### Vista de Implementação
+### Implementation View
 ![N3-VI-MDR-alt2](diagramas/nivel3/MDR/N3-VI-MDR-alt2.png)
 
-Alguns detalhes mais (se existissem pais do que 4 níveis, podia ser considerado nível 4):
+Some more details (if there were more than 4 levels, it could be considered level 4):
 
 ![N3.1-VI-MDR-alt2](diagramas/nivel3/MDR/N3.1-VI-MDR-alt2.png)
 
-### Vista Física
+### Physical View
 
-Por agora, não existe necessidade de ser representada.
+For now, there is no need to be represented.
 
-## Nível 3 (UI)
-### Vista Lógica
+## Level 3 (UI)
+### Logical View
 TBD
 
-### Vista de Processos
+### Process View
 TBD
 
-### Vista de Implementação
+### Implementation View
 TBD
 
-### Vista Física
+### Physical View
 TBD
 
-## Nível 3 (MDV)
-### Vista Lógica
+## Level 3 (MDV)
+### Logical View
 TBD
 
-### Vista de Processos
+### Process View
 TBD
 
-### Vista de Implementação
+### Implementation View
 TBD
 
-### Vista Física
+### Physical View
 TBD
 
-## Nível 3 (Planeamento)
-### Vista Lógica
+## Level 3 (Planning)
+### Logical View
 TBD
 
-### Vista de Processos
+### Process View
 TBD
 
-### Vista de Implementação
+### Implementation View
 TBD
 
-### Vista Física
+### Physical View
 TBD

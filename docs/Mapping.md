@@ -1,67 +1,67 @@
 - [Mapping between Views](#mapping-between-views)
-	- [Nível 1](#nível-1)
-		- [Vista Lógica - Vista de Implementação](#vista-lógica---vista-de-implementação)
-		- [Vista de Implementação - Vista Física](#vista-de-implementação---vista-física)
-	- [Nível 2](#nível-2)
-		- [Vista Lógica - Vista de Implementação](#vista-lógica---vista-de-implementação-1)
-		- [Vista de Implementação - Vista Física](#vista-de-implementação---vista-física-1)
-	- [Nível 3 (MDR)](#nível-3-mdr)
-		- [Vista Lógica - Vista de Implementação](#vista-lógica---vista-de-implementação-2)
-		- [Vista de Implementação - Vista Física](#vista-de-implementação---vista-física-2)
-	- [Nível 3 (UI)](#nível-3-ui)
-		- [Vista Lógica - Vista de Implementação](#vista-lógica---vista-de-implementação-3)
-		- [Vista de Implementação - Vista Física](#vista-de-implementação---vista-física-3)
-	- [Nível 3 (MDV)](#nível-3-mdv)
-		- [Vista Lógica - Vista de Implementação](#vista-lógica---vista-de-implementação-4)
-		- [Vista de Implementação - Vista Física](#vista-de-implementação---vista-física-4)
-	- [Nível 3 (Planeamento)](#nível-3-planeamento)
-		- [Vista Lógica - Vista de Implementação](#vista-lógica---vista-de-implementação-5)
-		- [Vista de Implementação - Vista Física](#vista-de-implementação---vista-física-5)
+	- [Level 1](#level-1)
+		- [Logical View - Implementation View](#logical-view---implementation-view)
+		- [Implementation View - Physical View](#implementation-view---physical-view)
+	- [Level 2](#level-2)
+		- [Logical View - Implementation View](#logical-view---implementation-view-1)
+		- [Implementation View - Physical View](#implementation-view---physical-view-1)
+	- [Level 3 (MDR)](#level-3-mdr)
+		- [Logical View - Implementation View](#logical-view---implementation-view-2)
+		- [Implementation View - Physical View](#implementation-view---physical-view-2)
+	- [Level 3 (UI)](#level-3-ui)
+		- [Logical View - Implementation View](#logical-view---implementation-view-3)
+		- [Implementation View - Physical View](#implementation-view---physical-view-3)
+	- [Level 3 (MDV)](#level-3-mdv)
+		- [Logical View - Implementation View](#logical-view---implementation-view-4)
+		- [Implementation View - Physical View](#implementation-view---physical-view-4)
+	- [Level 3 (Planning)](#level-3-planning)
+		- [Logical View - Implementation View](#logical-view---implementation-view-5)
+		- [Implementation View - Physical View](#implementation-view---physical-view-5)
 
 # Mapping between Views
 
 
-## Nível 1
-### Vista Lógica - Vista de Implementação
+## Level 1
+### Logical View - Implementation View
 
 n/a
 
-### Vista de Implementação - Vista Física
+### Implementation View - Physical View
 
 n/a
 
-## Nível 2
-### Vista Lógica - Vista de Implementação 
+## Level 2
+### Logical View - Implementation View 
 
 ![N2-VLxVI](diagramas/nivel2/N2-VLxVI.png)
 
-### Vista de Implementação - Vista Física
+### Implementation View - Physical View
 ![N2-VIxVF](diagramas/nivel2/N2-VIxVF.png)
 
-## Nível 3 (MDR)
-### Vista Lógica - Vista de Implementação
+## Level 3 (MDR)
+### Logical View - Implementation View
 TBD
 
-### Vista de Implementação - Vista Física
+### Implementation View - Physical View
 TBD
 
-## Nível 3 (UI)
-### Vista Lógica - Vista de Implementação
+## Level 3 (UI)
+### Logical View - Implementation View
 TBD
 
-### Vista de Implementação - Vista Física
+### Implementation View - Physical View
 TBD
 
-## Nível 3 (MDV)
-### Vista Lógica - Vista de Implementação
+## Level 3 (MDV)
+### Logical View - Implementation View
 TBD
 
-### Vista de Implementação - Vista Física
+### Implementation View - Physical View
 TBD
 
-## Nível 3 (Planeamento)
-### Vista Lógica - Vista de Implementação
+## Level 3 (Planning)
+### Logical View - Implementation View
 TBD
 
-### Vista de Implementação - Vista Física
+### Implementation View - Physical View
 TBD
