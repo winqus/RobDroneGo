@@ -1,9 +1,8 @@
-# AIT
+# RobDroneGo Wiki
 
-This wiki is the Software Architecture Document (SAD) for the application requested by the Intermunicipal Transport Authority (AIT) and developed in the context of the 5th semester of LEI in 2020-2021 with the support of [OPT – Optimização e Planeamento de Transportes, S.A.](http://opt.pt/)
+This is wiki for the RobDroneGo project. It contains the following sections:
 
-This SAD consists of the following sections:
-
+The Software Architecture Document (SAD) describes the software architecture of the system. It is intended to capture and convey the significant architectural decisions which have been made on the system (based on [Software+Architecture+Documentation+Template](https://wiki.sei.cmu.edu/confluence/display/SAD/Software+Architecture+Documentation+Template)):
 - [Documentation Roadmap and Overview](RoadmapOverview.md)
 - [Architecture Background](Background.md)
 - [Views](Views.md)
@@ -11,4 +10,8 @@ This SAD consists of the following sections:
 - [Referenced Materials](References.md)
 - [Glossary and Acronyms](Glossary&Acronyms.md)
 
-NB: This SAD is based on [Software+Architecture+Documentation+Template](https://wiki.sei.cmu.edu/confluence/display/SAD/Software+Architecture+Documentation+Template)
+The Scrum development process is described in the following sections:
+- [DoD](DoD.md) and [DoR](DoR.md)
+- [Backlog items](Backlog%20Items.md)
+- [Version Control Strategy](Version%20Control+Strategy.md)
+
