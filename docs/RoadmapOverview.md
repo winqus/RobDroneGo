@@ -1,66 +1,66 @@
-## Contents
-- [Documentation Roadmap and Overview](#documentation-roadmap-and-overview)
-	- [Purpose and Scope of the SAD](#purpose-and-scope-of-the-sad)
-	- [How the SAD Is Organized](#how-the-sad-is-organized)
-	- [How a View Is Documented](#how-a-view-is-documented)
+- ## Contents
+  - [Documentation Roadmap and Overview](#documentation-roadmap-and-overview)
+    - [Purpose and Scope of the SAD](#purpose-and-scope-of-the-sad)
+    - [How the SAD Is Organized](#how-the-sad-is-organized)
+    - [How a View Is Documented](#how-a-view-is-documented)
 
 # Documentation Roadmap and Overview
 
-> Sub-parts of this section provide information that will help readers or users of the Software Architecture Document (SAD) quickly find information that will enable them to do their jobs. Readers of the SAD seeking an overview should begin here, as should readers interested in finding particular information to answer a specific question.
+> Sub-sections in this section provide information to assist readers or users of the Software Architecture Document (SAD) in quickly finding information necessary for their tasks. Readers of the SAD seeking an overview should begin here, as should readers interested in finding specific information to address particular questions.
 
-## Purpose and Scope of the SAD
-> This section explains the SAD's overall purpose and scope, the criteria for deciding which design decisions are architectural (and therefore documented in the SAD), and which design decisions are non-architectural (and therefore documented elsewhere).
+# Purpose and Scope of the SAD
 
-A arquitetura de software dum sistema é a estrutura ou estruturas desse sistema, que inclui elementos do software e suas proprieades visíveis externamente, e as relações entre ele (Bass 2012).
+> This section explains the overall purpose and scope of the SAD, outlining the criteria for determining which design decisions are architectural (and thus documented in the SAD) and which design decisions are non-architectural (and therefore documented elsewhere).
 
-Este SAD descreve a arquitetura de software do sistema a desenvolver por solicitação da Autoridade Intermunicipal de Transportes (AIT) para gestão e planeamento de transportes públicos que permite a gestão bem como consulta pelo público em geral de diferentes redes de transportes, linhas e viagens, bem como o planeamento dos serviços de viaturas e tripulantes a efetuar nessas linhas.
+The software architecture of a system is the structure or structures of that system, which includes software elements and their externally visible properties, as well as the relationships between them (Bass 2012).
 
-Este SAD é desenvolvido num contexto académico de ensino-aprendizagem (no 5º semestre da LEI no ano letivo 2020-2021), em que várias competências estão a ser adquiridas ao longo do semestre pelos/as estudantes, ao mesmo tempo que desenvolvem o sistema.
+This SAD describes the software architecture of the system being developed at the request of the Intermunicipal Transport Authority (ITA) for the management and planning of public transportation. This system allows management and general public access to various transportation networks, routes, trips, as well as the planning of vehicle services and crew assignments for those routes.
 
-Porque visa suportar o processo de ensino-aprendizagem, não tem como objetivo ser completo ou descrever a melhor arquitetura possível, mas servir de guia e exemplo, em linha com as competências a adquirir em cada iteração/sprint do projeto.
+This SAD is developed in an academic context of teaching and learning (in the 5th semester of the 2020-2021 academic year), where various competencies are being acquired throughout the semester by the students, while they simultaneously develop the system.
 
-Embora os/as estudantes sejam destinatários principais do SAD, as competências a adquirir pelos/as estudantes nas várias UC do semestre permitem-lhe desempenhar diferentes papéis (diferentes partes interessadas/destinatários), e.g. eliciadores (de requisitos), analistas, arquitetos de software, programadores/"testers", administradores e operadores (ops) e utilizadores.
+As it aims to support the teaching and learning process, it is not intended to be comprehensive or describe the best possible architecture. Instead, it serves as a guide and example, aligned with the competencies to be acquired in each iteration/sprint of the project.
 
-## How the SAD Is Organized
->This section provides a narrative description of the seven major sections of the SAD and the overall contents of each. Readers seeking specific information can use this section to help them locate it more quickly.
->This SAD is organized into the following seven sections:
-> 1. This Documentation Roadmap and Overview provides information about this document and its intended audience. It provides the roadmap and document overview.
-> 2. Architecture Background provides information about the software architecture. It describes the background and rationale for the software architecture. It explains the constraints and influences that led to the current architecture, and it describes the major architectural approaches that have been utilized in the architecture.
-> 3. Views and
-> 4. Mapping Between Views; both specify the software architecture.
-> 5. Referenced Materials, provides look-up information for documents that are cited elsewhere in this SAD.
-> 6. Glossary and Acronyms is an index of architectural elements and relations giving their definition, and where each is used in this SAD.
+Although students are the primary audience for this SAD, the competencies acquired by students in various course units throughout the semester enable them to assume different roles (different stakeholders/recipients), e.g., requirements elicitors, analysts, software architects, programmers/testers, administrators, operators (ops), and users.
 
-Este DAS/SAD adota a estrutura proposta acima.
+# How the SAD Is Organized
 
-## How a View Is Documented
->1. Primary Presentation
->> 1. Is usually graphical
->> 2. Should include a key that explains the notation
->> 3. Shows elements and relations among them
->> 4. Shows the information you want to convey about the view first
->> 5. Should identify elements that are external to scope of the view (if external entities are not clearly marked in the diagram, consider adding a context diagram)
-> 2. Element Catalog
->	- Explains elements depicted in primary presentation and their properties
->	- Is usually a table with element name and textual description
->	- May contain interface documentation
->	- May contain behavior documentation
-> 3. Variability Guide
->	- Points where system can be parameterized or reconfigured. Examples:
->		- Number of instances in a pool
->		- Support for plug-ins or add-ons
->		- Support for different versions of OS, database server or runtime environment
->	- Maybe the view is a reference architecture
->		- Provide guidelines to instantiate it
-> 4. Other Information
->	- Description and rationale for important design decisions (including relevant rejected alternatives)
->	- Results of analysis, prototypes and experiments
->	- Context diagram
-> 5. Parent View
->	- If the current view is the refinement of another view, indicate which one
+> This section provides a narrative description of the seven major sections of the SAD and their overall contents. Readers seeking specific information can use this section to expedite their search. This SAD is organized into the following seven sections:
 
-Neste DAS/SAD será adotado a notação UML, nomeadamente (mas não exclusivamente) diagramas de componentes, de sequência, de pacotes e de nós. Tal, garante 1.1, 1.2 e 1.3.
+1. [Documentation Roadmap and Overview](#documentation-roadmap-and-overview): Provides information about this document and its intended audience. It offers the roadmap and document overview.
+2. [Architecture Background](#architecture-background): Provides information about the software architecture. It describes the background and rationale for the software architecture. It explains the constraints and influences that led to the current architecture and describes the major architectural approaches used.
+3. [Views](#views) and [Mapping Between Views](#mapping-between-views): Both sections specify the software architecture.
+4. [Referenced Materials](#referenced-materials): Provides reference information for documents cited elsewhere in this SAD.
+5. [Glossary and Acronyms](#glossary-and-acronyms): Contains an index of architectural elements and relationships along with their definitions and indicates where each term is used in this SAD.
 
-A organização das vistas pela combinação do modelo C4 (diferentes níveis de abstração/granularidade) e modelo 4+1 vistas (vários pontos de vista da arquitetura) permite desde logo endereçar o requisito 1.4.
+This DAS/SAD follows the proposed structure above.
 
-Pela adoção do modelo C4, o requisito 1.5 é endereçado.
+# How a View Is Documented
+
+**Primary Presentation:**
+- Is usually graphical.
+- Should include a key that explains the notation.
+- Shows elements and relations among them.
+- Presents the most important information about the view first.
+- Identifies elements that fall outside the scope of the view (if external entities are not clearly marked in the diagram, consider adding a context diagram).
+
+**Element Catalog:**
+- Explains elements depicted in the primary presentation and their properties.
+- Typically presented as a table with element names and textual descriptions.
+- May include interface documentation.
+- May include behavior documentation.
+
+**Variability Guide:**
+- Identifies points in the system that can be parameterized or reconfigured. Examples include the number of instances in a pool, support for plug-ins or add-ons, and support for different versions of the OS, database server, or runtime environment.
+- The view may serve as a reference architecture, providing guidelines for instantiation.
+
+**Other Information:**
+- Provides a description and rationale for significant design decisions, including any alternative solutions considered and rejected.
+- Includes the results of analysis, prototypes, and experiments.
+- May include a context diagram.
+
+**Parent View:**
+- If the current view refines another view, indicate which view that is.
+
+In this DAS/SAD, the UML notation is adopted, including (but not limited to) component diagrams, sequence diagrams, package diagrams, and node diagrams. This choice ensures that requirements 1.1, 1.2, and 1.3 are met.
+
+The organization of views, using a combination of the C4 model (different levels of abstraction/granularity) and the 4+1 views model (multiple architectural perspectives), immediately addresses requirement 1.4.
