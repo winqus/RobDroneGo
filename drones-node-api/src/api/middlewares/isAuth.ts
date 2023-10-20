@@ -1,5 +1,7 @@
+/* eslint-disable no-var */
 // remove by JRT : import jwt from 'express-jwt';
-var { expressjwt: jwt } = require("express-jwt");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+var { expressjwt: jwt } = require('express-jwt');
 import config from '../../../config';
 
 /**
@@ -11,7 +13,7 @@ import config from '../../../config';
  * GET https://my-bulletproof-api.com/stats?apiKey=${JWT}
  * Luckily this API follow _common sense_ ergo a _good design_ and don't allow that ugly stuff
  */
-const getTokenFromHeader = req => {
+const getTokenFromHeader = (req) => {
   /**
    * @TODO Edge and Internet Explorer do some weird things with the headers
    * So I believe that this should handle more 'edge' cases ;)
@@ -22,6 +24,7 @@ const getTokenFromHeader = req => {
   ) {
     return req.headers.authorization.split(' ')[1];
   }
+
   return null;
 };
 
@@ -29,7 +32,7 @@ const isAuth = jwt({
   secret: config.jwtSecret, // The _secret_ to sign the JWTs
   userProperty: 'token', // Use req.token to store the JWT
   getToken: getTokenFromHeader, // How to extract the JWT from the request
-  algorithms: ["HS256"],  // Added by JRT
+  algorithms: ['HS256'], // Added by JRT
 });
 
 export default isAuth;

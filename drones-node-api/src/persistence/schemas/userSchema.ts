@@ -3,9 +3,9 @@ import mongoose from 'mongoose';
 
 const User = new mongoose.Schema(
   {
-    domainId: { 
+    domainId: {
       type: String,
-      unique: true
+      unique: true,
     },
 
     firstName: {
@@ -22,7 +22,7 @@ const User = new mongoose.Schema(
 
     email: {
       type: String,
-      lowercase: true,  
+      lowercase: true,
       unique: true,
       index: true,
     },
