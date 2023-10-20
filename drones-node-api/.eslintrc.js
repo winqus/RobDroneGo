@@ -15,5 +15,17 @@ module.exports = {
     '@typescript-eslint/no-parameter-properties': 0,
     '@typescript-eslint/interface-name-prefix': 0,
     '@typescript-eslint/no-var-requires': 0,
+    '@typescript-eslint/no-explicit-any': 0,
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    'padding-line-between-statements': ['error', { blankLine: 'always', prev: '*', next: 'return' }],
+    'dot-location': ['error', 'property'],
+    'lines-between-class-members': [
+      'error',
+      {
+        enforce: [{ blankLine: 'always', prev: 'method', next: 'method' }],
+      },
+    ],
+    'arrow-parens': ['error', 'always'],
+    curly: ['error', 'all'],
   },
 };
