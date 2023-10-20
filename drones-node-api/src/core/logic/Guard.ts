@@ -114,4 +114,12 @@ export class Guard {
       return { succeeded: true };
     }
   }
+
+  public static isTrue(predicate: boolean, message: string): IGuardResult {
+    if (!predicate) {
+      return { succeeded: false, message: message };
+    } else {
+      return { succeeded: true };
+    }
+  }
 }
