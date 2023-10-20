@@ -93,6 +93,16 @@ export class Guard {
     }
   }
 
+  public static isAlphanumericWithSpaces(value: string, argumentName: string): IGuardResult {
+    const isAlphanumericRegex = /^[a-z0-9\s]+$/i;
+    const isValid = isAlphanumericRegex.test(value);
+    if (!isValid) {
+      return { succeeded: false, message: `${argumentName} can only contain alphanumeric characters and spaces` };
+    } else {
+      return { succeeded: true };
+    }
+  }
+
   public static isOfLength(value: string, minLength: number, maxLength: number, argumentName: string): IGuardResult {
     const length = value.length;
     if (length < minLength || length > maxLength) {
