@@ -1,18 +1,18 @@
 import { ValueObject } from '../../../core/domain/ValueObject';
 
-import { Result } from '../../../core/logic/Result';
 import { Guard } from '../../../core/logic/Guard';
+import { Result } from '../../../core/logic/Result';
 
 interface FloorSizeProps {
+  length: number;
   width: number;
-  height: number;
 }
 
 export class FloorSize extends ValueObject<FloorSizeProps> {
   get value(): FloorSizeProps {
     return {
+      length: this.props.length,
       width: this.props.width,
-      height: this.props.height,
     };
   }
 
@@ -20,18 +20,18 @@ export class FloorSize extends ValueObject<FloorSizeProps> {
     super(props);
   }
 
-  public static create(width: number, height: number): Result<FloorSize> {
+  public static create(length: number, width: number): Result<FloorSize> {
     const guardResult = Guard.combine([
+      Guard.againstNullOrUndefined(length, 'length'),
       Guard.againstNullOrUndefined(width, 'width'),
-      Guard.againstNullOrUndefined(height, 'height'),
+      Guard.isTrue(length > 0, 'length must be greater than 0'),
       Guard.isTrue(width > 0, 'width must be greater than 0'),
-      Guard.isTrue(height > 0, 'height must be greater than 0'),
     ]);
 
     if (!guardResult.succeeded) {
       return Result.fail<FloorSize>(guardResult.message);
     } else {
-      return Result.ok<FloorSize>(new FloorSize({ width, height }));
+      return Result.ok<FloorSize>(new FloorSize({ length, width }));
     }
   }
 }
