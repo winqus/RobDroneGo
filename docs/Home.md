@@ -1,17 +1,16 @@
 # RobDroneGo Wiki
 
-This is wiki for the RobDroneGo project. It contains the following sections:
+This is a wiki for the RobDroneGo project. It contains the following sections:
 
-The Software Architecture Document (SAD) describes the software architecture of the system. It is intended to capture and convey the significant architectural decisions which have been made on the system (based on [Software+Architecture+Documentation+Template](https://wiki.sei.cmu.edu/confluence/display/SAD/Software+Architecture+Documentation+Template)):
-- [Documentation Roadmap and Overview](RoadmapOverview.md)
-- [Architecture Background](Background.md)
-- [Views](Views.md)
-- [Mapping Between Views](Mapping.md)
-- [Referenced Materials](References.md)
-- [Glossary and Acronyms](Glossary&Acronyms.md)
+The Software Architecture Document (SAD) describes the software architecture of the system. It is intended to capture and convey the significant architectural decisions that have been made on the system (based on [Software+Architecture+Documentation+Template](https://wiki.sei.cmu.edu/confluence/display/SAD/Software+Architecture+Documentation+Template)):
+* [Documentation Roadmap and Overview](RoadmapOverview.md)
+* [Architecture Background](Background.md)
+* [Views](Views.md)
+* [Mapping Between Views](Mapping.md)
+* [Referenced Materials](References.md)
+* [Glossary and Acronyms](Glossary&Acronyms.md)
 
 The Scrum development process is described in the following sections:
-- [DoD](DoD.md) and [DoR](DoR.md)
-- [Backlog items](Backlog%20Items.md)
-- [Version Control Strategy](Version%20Control+Strategy.md)
-
+* [DoD](DoD.md) and [DoR](DoR.md)
+* [Backlog items](Backlog%20Items.md)
+* [Version Control Strategy](Version%20Control%20Strategy.md)
