@@ -1,43 +1,42 @@
-import { Container, Service, Inject } from 'typedi';
+import { Inject, Service } from 'typedi';
 
-import jwt from 'jsonwebtoken';
-import config from '../../config';
 import argon2 from 'argon2';
 import { randomBytes } from 'crypto';
+import jwt from 'jsonwebtoken';
+import config from '../../config';
 
 //import MailerService from './mailer.ts.bak';
 
-import IUserService from '../services/IServices/IUserService';
-import { UserMap } from "../mappers/UserMap";
 import { IUserDTO } from '../dto/IUserDTO';
+import { UserMap } from '../mappers/UserMap';
+import IUserService from '../services/IServices/IUserService';
 
-import IUserRepo from './IRepos/IUserRepo';
 import IRoleRepo from './IRepos/IRoleRepo';
+import IUserRepo from './IRepos/IUserRepo';
 
 import { User } from '../domain/user';
-import { UserPassword } from '../domain/userPassword';
 import { UserEmail } from '../domain/userEmail';
+import { UserPassword } from '../domain/userPassword';
 
 import { Role } from '../domain/role';
 
-import { Result } from "../core/logic/Result";
+import { Result } from '../core/logic/Result';
 
 @Service()
-export default class UserService implements IUserService{
+export default class UserService implements IUserService {
   constructor(
-      @Inject(config.repos.user.name) private userRepo : IUserRepo,
-      @Inject(config.repos.role.name) private roleRepo : IRoleRepo,
-      @Inject('logger') private logger,
+    @Inject(config.repos.user.name) private userRepo: IUserRepo,
+    @Inject(config.repos.role.name) private roleRepo: IRoleRepo,
+    @Inject('logger') private logger,
   ) {}
 
-
-  public async SignUp(userDTO: IUserDTO): Promise<Result<{ userDTO: IUserDTO, token: string }>> {
+  public async SignUp(userDTO: IUserDTO): Promise<Result<{ userDTO: IUserDTO; token: string }>> {
     try {
-      const userDocument = await this.userRepo.findByEmail( userDTO.email );
+      const userDocument = await this.userRepo.findByEmail(userDTO.email);
       const found = !!userDocument;
-  
+
       if (found) {
-        return Result.fail<{userDTO: IUserDTO, token: string}>("User already exists with email=" + userDTO.email);
+        return Result.fail<{ userDTO: IUserDTO; token: string }>('User already exists with email=' + userDTO.email);
       }
 
       /**
@@ -56,20 +55,19 @@ export default class UserService implements IUserService{
        * watches every API call and if it spots a 'password' and 'email' property then
        * it decides to steal them!? Would you even notice that? I wouldn't :/
        */
-      
 
       const salt = randomBytes(32);
       this.logger.silly('Hashing password');
       const hashedPassword = await argon2.hash(userDTO.password, { salt });
       this.logger.silly('Creating user db record');
 
-      const password = await UserPassword.create({ value: hashedPassword, hashed: true}).getValue();
-      const email = await UserEmail.create( userDTO.email ).getValue();
+      const password = await UserPassword.create({ value: hashedPassword, hashed: true }).getValue();
+      const email = await UserEmail.create(userDTO.email).getValue();
       let role: Role;
 
       const roleOrError = await this.getRole(userDTO.role);
       if (roleOrError.isFailure) {
-        return Result.fail<{userDTO: IUserDTO; token: string}>(roleOrError.error);
+        return Result.fail<{ userDTO: IUserDTO; token: string }>(roleOrError.error);
       } else {
         role = roleOrError.getValue();
       }
@@ -97,18 +95,17 @@ export default class UserService implements IUserService{
       //this.eventDispatcher.dispatch(events.user.signUp, { user: userResult });
 
       await this.userRepo.save(userResult);
-      const userDTOResult = UserMap.toDTO( userResult ) as IUserDTO;
-      return Result.ok<{userDTO: IUserDTO, token: string}>( {userDTO: userDTOResult, token: token} )
+      const userDTOResult = UserMap.toDTO(userResult) as IUserDTO;
 
+      return Result.ok<{ userDTO: IUserDTO; token: string }>({ userDTO: userDTOResult, token: token });
     } catch (e) {
       this.logger.error(e);
       throw e;
     }
   }
 
-  public async SignIn(email: string, password: string): Promise<Result<{ userDTO: IUserDTO, token: string }>> {
-
-    const user = await this.userRepo.findByEmail( email );
+  public async SignIn(email: string, password: string): Promise<Result<{ userDTO: IUserDTO; token: string }>> {
+    const user = await this.userRepo.findByEmail(email);
 
     if (!user) {
       throw new Error('User not registered');
@@ -124,8 +121,9 @@ export default class UserService implements IUserService{
       this.logger.silly('Generating JWT');
       const token = this.generateToken(user) as string;
 
-      const userDTO = UserMap.toDTO( user ) as IUserDTO;
-      return Result.ok<{userDTO: IUserDTO, token: string}>( {userDTO: userDTO, token: token} );
+      const userDTO = UserMap.toDTO(user) as IUserDTO;
+
+      return Result.ok<{ userDTO: IUserDTO; token: string }>({ userDTO: userDTO, token: token });
     } else {
       throw new Error('Invalid Password');
     }
@@ -166,10 +164,8 @@ export default class UserService implements IUserService{
     );
   }
 
-
-  private async getRole (roleId: string): Promise<Result<Role>> {
-
-    const role = await this.roleRepo.findByDomainId( roleId );
+  private async getRole(roleId: string): Promise<Result<Role>> {
+    const role = await this.roleRepo.findByDomainId(roleId);
     const found = !!role;
 
     if (found) {
@@ -178,5 +174,4 @@ export default class UserService implements IUserService{
       return Result.fail<Role>("Couldn't find role by id=" + roleId);
     }
   }
-
 }
