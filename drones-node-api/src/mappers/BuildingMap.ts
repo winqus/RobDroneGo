@@ -1,9 +1,9 @@
-import { Mapper } from '../core/infra/Mapper';
-
-import { Document, Model } from 'mongoose';
-
 import { UniqueEntityID } from '../core/domain/UniqueEntityID';
-import { IBuildingPersistence } from '../dataschema/IBuildingPersistence';
+import { Mapper } from '../core/infra/Mapper';
+import { Code } from '../domain/Building/ValueObjects/code';
+import { Description } from '../domain/Building/ValueObjects/description';
+import { FloorSize } from '../domain/Building/ValueObjects/floorSize';
+import { Name } from '../domain/Building/ValueObjects/name';
 import { Building } from '../domain/Building/building';
 import IBuildingDTO from '../dto/IBuildingDTO';
 
@@ -19,8 +19,21 @@ export class BuildingMap extends Mapper<Building> {
     } as IBuildingDTO;
   }
 
-  public static toDomain(building: any | Model<IBuildingPersistence & Document>): Building {
-    const buildingOrError = Building.create(building, new UniqueEntityID(building.id.toString()));
+  public static toDomain(raw: any): Building {
+    const name = Name.create(raw.name).getValue();
+    const code = Code.create(raw.code).getValue();
+    const description = Description.create(raw.description).getValue();
+    const floorSize = FloorSize.create(raw.floorSizeLength, raw.floorSizeWidth).getValue();
+
+    const buildingOrError = Building.create(
+      {
+        name,
+        code,
+        description,
+        floorSize,
+      },
+      new UniqueEntityID(raw.id),
+    );
 
     buildingOrError.isFailure ? console.log(buildingOrError.error) : '';
 
