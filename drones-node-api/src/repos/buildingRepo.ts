@@ -10,7 +10,7 @@ import IBuildingRepo from '../services/IRepos/IBuildingRepo';
 
 @Service()
 export default class BuildingRepo implements IBuildingRepo {
-  constructor(@Inject('buildingSchema') private buildingSchema: Model<IBuildingPersistence & Document>) { }
+  constructor(@Inject('buildingSchema') private buildingSchema: Model<IBuildingPersistence & Document>) {}
 
   public async exists(building: Building): Promise<boolean> {
     const idX = building.id instanceof UniqueEntityID ? (<UniqueEntityID>building.id).toValue() : building.id;
