@@ -77,37 +77,37 @@ For modeling/visually representing both what has been implemented and the consid
 
 ### Process View
 #### SSD US150
-![L1-PV-US150](diagrams/Level1/L1-PV-US150.png)
+![L1-PV-US150](diagrams/level1/L1-PV-US150.png)
 
 #### SSD US160
-![L1-PV-US160](diagrams/Level1/L1-PV-US160.png)
+![L1-PV-US160](diagrams/level1/L1-PV-US160.png)
 
 #### SSD US170
-![L1-PV-US170](diagrams/Level1/L1-PV-US170.png)
+![L1-PV-US170](diagrams/level1/L1-PV-US170.png)
 
 #### SSD US180
-![L1-PV-US180](diagrams/Level1/L1-PV-US170.png)
+![L1-PV-US180](diagrams/level1/L1-PV-US170.png)
 
 #### SSD US190
-![L1-PV-US190](diagrams/Level1/L1-PV-US190.png)
+![L1-PV-US190](diagrams/level1/L1-PV-US190.png)
 
 #### SSD US 200 to 340
 Similar to previous Level 1 diagrams and therefore seperate diagrams are not shown here.
 
 #### SSD US350
-![L1-PV-US350](diagrams/Level1/L1-PV-US350.png)
+![L1-PV-US350](diagrams/level1/L1-PV-US350.png)
 
 #### SSD US360
-![L1-PV-US360](diagrams/Level1/L1-PV-US360.png)
+![L1-PV-US360](diagrams/level1/L1-PV-US360.png)
 
 #### SSD US370
-![L1-PV-US370](diagrams/Level1/L1-PV-US370.png)
+![L1-PV-US370](diagrams/level1/L1-PV-US370.png)
 
 #### SSD US380
-![L1-PV-US380](diagrams/Level1/L1-PV-US380.png)
+![L1-PV-US380](diagrams/level1/L1-PV-US380.png)
 
 #### SSD US390
-![L1-PV-US390](diagrams/Level1/L1-PV-US390.png)
+![L1-PV-US390](diagrams/level1/L1-PV-US390.png)
 
 ## Level 2
 ### Logical View
@@ -116,7 +116,7 @@ Similar to previous Level 1 diagrams and therefore seperate diagrams are not sho
 ### Process View
 
 #### SSD US150
-![L2-PV-US150](diagrams/Level2/L2-PV-US150.png)
+![L2-PV-US150](diagrams/level2/L2-PV-US150.png)
 
 #### (other SSDs)
 [...]
@@ -140,7 +140,7 @@ In fact, non-functional requirements ["Physical Contraints"](Background.md#Physi
 
 ### Process View
 #### SSD US150
-![L3-PV-US150](diagrams/Level3/L3-PV-US150.png)
+![L3-PV-US150](diagrams/level3/L3-PV-US150.png)
 
 #### (other SSDs)
 [...]
