@@ -1,7 +1,7 @@
 import { ValueObject } from '../../../core/domain/ValueObject';
 
-import { Result } from '../../../core/logic/Result';
 import { Guard } from '../../../core/logic/Guard';
+import { Result } from '../../../core/logic/Result';
 
 interface NameProps {
   value: string;
@@ -16,7 +16,12 @@ export class Name extends ValueObject<NameProps> {
     super(props);
   }
 
-  public static create(name: string): Result<Name> {
+  public static create(name: string): Result<Name | null> {
+    if (Guard.isOneOf(name, [null, undefined, ''], 'name').succeeded) {
+      return Result.ok<Name>(new Name({ value: '' }));
+    }
+
+    name = name.trim();
     const guardResult = Guard.combine([Guard.isAlphanumeric(name, 'name'), Guard.isOfLength(name, 0, 50, 'name')]);
 
     if (!guardResult.succeeded) {

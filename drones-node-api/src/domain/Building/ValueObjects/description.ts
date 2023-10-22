@@ -1,7 +1,7 @@
 import { ValueObject } from '../../../core/domain/ValueObject';
 
-import { Result } from '../../../core/logic/Result';
 import { Guard } from '../../../core/logic/Guard';
+import { Result } from '../../../core/logic/Result';
 
 interface DescriptionProps {
   value: string;
@@ -17,7 +17,7 @@ export class Description extends ValueObject<DescriptionProps> {
   }
 
   public static create(description: string): Result<Description> {
-    description = description.trim();
+    description = description?.trim();
 
     const guardResult = Guard.combine([
       Guard.againstNullOrUndefined(description, 'description'),

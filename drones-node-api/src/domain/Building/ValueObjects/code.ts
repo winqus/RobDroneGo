@@ -1,7 +1,7 @@
 import { ValueObject } from '../../../core/domain/ValueObject';
 
-import { Result } from '../../../core/logic/Result';
 import { Guard } from '../../../core/logic/Guard';
+import { Result } from '../../../core/logic/Result';
 
 interface CodeProps {
   value: string;
@@ -17,7 +17,7 @@ export class Code extends ValueObject<CodeProps> {
   }
 
   public static create(code: string): Result<Code> {
-    code = code.trim();
+    code = code?.trim();
     const guardResult = Guard.combine([
       Guard.againstNullOrUndefined(code, 'name'),
       Guard.isAlphanumericWithSpaces(code, 'name'),
