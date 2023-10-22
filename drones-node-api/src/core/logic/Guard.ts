@@ -104,7 +104,7 @@ export class Guard {
   }
 
   public static isOfLength(value: string, minLength: number, maxLength: number, argumentName: string): IGuardResult {
-    const length = value.length;
+    const length = value?.length;
     if (length < minLength || length > maxLength) {
       return {
         succeeded: false,
