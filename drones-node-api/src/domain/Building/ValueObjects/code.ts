@@ -19,9 +19,9 @@ export class Code extends ValueObject<CodeProps> {
   public static create(code: string): Result<Code> {
     code = code?.trim();
     const guardResult = Guard.combine([
-      Guard.againstNullOrUndefined(code, 'name'),
-      Guard.isAlphanumericWithSpaces(code, 'name'),
-      Guard.isOfLength(code, 1, 5, 'name'),
+      Guard.againstNullOrUndefined(code, 'code'),
+      Guard.isAlphanumericWithSpaces(code, 'code'),
+      Guard.isOfLength(code, 1, 5, 'code'),
     ]);
 
     if (!guardResult.succeeded) {

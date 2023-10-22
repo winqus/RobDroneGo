@@ -108,7 +108,7 @@ export class Guard {
     if (length < minLength || length > maxLength) {
       return {
         succeeded: false,
-        message: `${argumentName} should be between ${minLength} and ${maxLength} characters`,
+        message: `${argumentName} length should be between ${minLength} and ${maxLength} characters`,
       };
     } else {
       return { succeeded: true };
