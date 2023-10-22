@@ -1,6 +1,8 @@
 ## Contents
 - [Views](#views)
     - [Introduction](#introduction)
+    - [Business Concepts](#business-concepts)
+    - [Domain Design](#domain-design)
     - [Level 1](#level-1)
         - [Logical View](#logical-view)
         - [Process View](#process-view)
@@ -36,6 +38,7 @@
         - [Process View](#process-view-5)
         - [Implementation View](#implementation-view-4)
         - [Physical View](#physical-view-4)
+    - [Scenario View (Use Cases)](#scenario-view-use-cases)
 
 # Views
 
@@ -62,51 +65,69 @@ It can be said that these two models expand along distinct axes, with the C4 Mod
 
 For modeling/visually representing both what has been implemented and the considered ideas and alternatives, the Unified Modeling Language (UML) [[UML-2020]](References.md#UML-2020) [[UMLDiagrams-2020]](References.md#UMLDiagrams-2020) is used.
 
+## Business Concepts
+![BusinessConcepts](diagrams/BusinessConcepts.jpg)
+
+## Domain Design
+![DomainDesign](diagrams/DomainDesign.png)
+
 ## Level 1
 ### Logical View
-
-![N1-VL](diagramas/nivel1/N1-VL.png)
+![L1-LV](diagrams/level1/L1-LV.png)
 
 ### Process View
-#### SSD US1
-![N1-VP-US1](diagramas/nivel1/N1-VP-US1.png)
+#### SSD US150
+![L1-PV-US150](diagrams/Level1/L1-PV-US150.png)
 
-#### SSD US2
-![N1-VP-US2](diagramas/nivel1/N1-VP-US2.png)
+#### SSD US160
+![L1-PV-US160](diagrams/Level1/L1-PV-US160.png)
 
-#### (other architecturally relevant SSDs)
-[...]
+#### SSD US170
+![L1-PV-US170](diagrams/Level1/L1-PV-US170.png)
+
+#### SSD US180
+![L1-PV-US180](diagrams/Level1/L1-PV-US170.png)
+
+#### SSD US190
+![L1-PV-US190](diagrams/Level1/L1-PV-US190.png)
+
+#### SSD US 200 to 340
+Similar to previous Level 1 diagrams and therefore seperate diagrams are not shown here.
+
+#### SSD US350
+![L1-PV-US350](diagrams/Level1/L1-PV-US350.png)
+
+#### SSD US360
+![L1-PV-US360](diagrams/Level1/L1-PV-US360.png)
+
+#### SSD US370
+![L1-PV-US370](diagrams/Level1/L1-PV-US370.png)
+
+#### SSD US380
+![L1-PV-US380](diagrams/Level1/L1-PV-US380.png)
+
+#### SSD US390
+![L1-PV-US390](diagrams/Level1/L1-PV-US390.png)
 
 ## Level 2
 ### Logical View
-
-![N2-VL](diagramas/nivel2/N2-VL.png)
-
-### Process View
-
-#### SSD US13 (Why this US?)
-TBD
-
-#### (other architecturally relevant SSDs)
-[...]
-
-## Level 2
-### Logical View
-
-![N2-VL](diagramas/nivel2/N2-VL.png)
+![L2-LV](diagrams/level2/L2-LV.png)
 
 ### Process View
 
-#### SSD US13 (Why this US?)
-TBD
+#### SSD US150
+![L2-PV-US150](diagrams/Level2/L2-PV-US150.png)
 
-#### (other architecturally relevant SSDs)
+#### (other SSDs)
 [...]
 
-### Implementation View
+#### SSD US 200 to 340
+Similar to previous Level 1 diagrams and therefore seperate diagrams are not shown here.
+
+### Implementation View (replace)
 ![N2-VL](diagramas/nivel2/N2-VI.png)
 
-### Physical View
+### Physical View (replace)
 
 A very simplified proposal. 
 ![N2-VL](diagramas/nivel2/N2-VF.png)
@@ -115,31 +136,26 @@ In fact, non-functional requirements ["Physical Contraints"](Background.md#Physi
 
 ## Level 3 (MDR)
 ### Logical View
-Alternative based on an architecture of superimposed layers:
-![N3-VL-MDR-alt1](diagramas/nivel3/MDR/N3-VL-MDR-alt1.png)
-
-Alternative based on a concentric layer architecture (Onion):
-![N3-VL-MDR-alt2](diagramas/nivel3/MDR/N3-VL-MDR-alt2.png)
-
-The Onion alternative will be adopted.
+![L3-LV](diagrams/level3/L3-LV.png)
 
 ### Process View
+#### SSD US150
+![L3-PV-US150](diagrams/Level3/L3-PV-US150.png)
 
-#### SD US01
-TBD
-
-#### (other architecturally relevant SSDs)
+#### (other SSDs)
 [...]
+
+#### SSD US 200 to 340
+Similar to previous Level 1 diagrams and therefore seperate diagrams are not shown here.
 
 ### Implementation View
 ![N3-VI-MDR-alt2](diagramas/nivel3/MDR/N3-VI-MDR-alt2.png)
 
-Some more details (if there were more than 4 levels, it could be considered level 4):
+Some more details:
 
 ![N3.1-VI-MDR-alt2](diagramas/nivel3/MDR/N3.1-VI-MDR-alt2.png)
 
 ### Physical View
-
 For now, there is no need to be represented.
 
 ## Level 3 (UI)
@@ -180,3 +196,6 @@ TBD
 
 ### Physical View
 TBD
+
+## Scenario View (Use Cases)
+![UseCase](diagrams/UseCase.jpg)
