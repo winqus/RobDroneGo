@@ -19,7 +19,7 @@
 ### Elevator Attributes ###
 
 * **Building**: Mandatory reference.
-* **Identification Number**: Mandatory, unique in building.
+* **Identification Number**: Mandatory, unique in the building. (ID is based on elevator count in building, starting with ID=1 - if there were more elevators in the future).
 * **List of Floors Served**: Mandatory.
 * **Make and Model**: Optional, alphanumeric, max 50 chars.
 * **Manufacturer’s Serial Number**: Optional, alphanumeric, max 50 chars.
