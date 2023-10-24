@@ -1,5 +1,6 @@
 import { Inject, Service } from 'typedi';
 import config from '../../config';
+import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { Result } from '../core/logic/Result';
 import { Code } from '../domain/Building/ValueObjects/code';
 import { Description } from '../domain/Building/ValueObjects/description';
@@ -47,6 +48,47 @@ export default class BuildingService implements IBuildingService {
       }
 
       const buildingDTOResult = BuildingMap.toDTO(buildingResult) as IBuildingDTO;
+
+      return Result.ok<IBuildingDTO>(buildingDTOResult);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async updateBuilding(buildingDTO: IBuildingDTO): Promise<Result<IBuildingDTO>> {
+    try {
+      const buildingId = buildingDTO.id;
+      const buildingToUpdate = await this.buildingRepo.findById(buildingId);
+
+      if (buildingToUpdate === null) {
+        return Result.fail<IBuildingDTO>('Building not found');
+      }
+
+      const nameResult = buildingDTO.name ? await Name.create(buildingDTO.name) : Result.ok(buildingToUpdate.name);
+      const descriptionResult = buildingDTO.description
+        ? await Description.create(buildingDTO.description)
+        : Result.ok(buildingToUpdate.description);
+      const floorSizeResult = await FloorSize.create(
+        buildingDTO.floorSizeLength ?? buildingToUpdate.floorSize.value.length,
+        buildingDTO.floorSizeWidth ?? buildingToUpdate.floorSize.value.width,
+      );
+
+      const combinedResult = Result.combine([nameResult, descriptionResult, floorSizeResult]);
+      if (combinedResult.isFailure) {
+        return Result.fail<IBuildingDTO>(combinedResult.error);
+      }
+
+      buildingToUpdate.name = nameResult.getValue();
+      buildingToUpdate.description = descriptionResult.getValue();
+      buildingToUpdate.floorSize = floorSizeResult.getValue();
+
+      try {
+        await this.buildingRepo.save(buildingToUpdate);
+      } catch (error) {
+        return Result.fail<IBuildingDTO>(error);
+      }
+
+      const buildingDTOResult = BuildingMap.toDTO(buildingToUpdate) as IBuildingDTO;
 
       return Result.ok<IBuildingDTO>(buildingDTOResult);
     } catch (error) {

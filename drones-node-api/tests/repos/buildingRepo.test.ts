@@ -71,4 +71,34 @@ describe('BuildingRepo', () => {
       expect(saveStub).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('findById', () => {
+    it('should return a building if it exists', async () => {
+      buildingSchemaMock.findOne.mockResolvedValue({
+        id: buildingStub.id.toString(),
+        name: buildingStub.name.value,
+        code: buildingStub.code.value,
+        description: buildingStub.description.value,
+        floorSizeLength: buildingStub.floorSize.value.length,
+        floorSizeWidth: buildingStub.floorSize.value.width,
+      } as HydratedDocument<any, any, any>);
+
+      const result = await buildingRepo.findById(buildingStub.id.toString());
+
+      expect(result.id).toEqual(buildingStub.id);
+      expect(result.name.value).toEqual(buildingStub.name.value);
+      expect(result.code.value).toEqual(buildingStub.code.value);
+      expect(result.description.value).toEqual(buildingStub.description.value);
+      expect(result.floorSize.value.length).toEqual(buildingStub.floorSize.value.length);
+      expect(result.floorSize.value.width).toEqual(buildingStub.floorSize.value.width);
+    });
+
+    it('should return null if building does not exist', async () => {
+      buildingSchemaMock.findOne.mockResolvedValue(null as HydratedDocument<any, any, any>);
+
+      const result = await buildingRepo.findById(buildingStub.id.toString());
+
+      expect(result).toBeNull();
+    });
+  });
 });

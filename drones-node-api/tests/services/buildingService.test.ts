@@ -14,6 +14,7 @@ describe('BuildingService', () => {
     buildingRepoMock = {
       save: jest.fn(),
       exists: jest.fn(),
+      findById: jest.fn(),
     };
 
     buildingStub = {
@@ -61,6 +62,98 @@ describe('BuildingService', () => {
 
       expect(result.isFailure).toBe(true);
       expect(buildingRepoMock.save).not.toBeCalled();
+    });
+  });
+
+  describe('updateBuilding', () => {
+    it('should successfully update a building', async () => {
+      const buildingDTO: IBuildingDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        name: 'Building1',
+        code: 'A1',
+        description: 'Test building',
+        floorSizeLength: 100,
+        floorSizeWidth: 200,
+      };
+
+      buildingRepoMock.findById.mockResolvedValue(buildingStub as any);
+      buildingRepoMock.save.mockResolvedValue(buildingStub as any);
+
+      const result = await buildingService.updateBuilding(buildingDTO);
+
+      expect(result.isSuccess).toBe(true);
+      expect(buildingRepoMock.findById).toHaveBeenCalledWith(buildingDTO.id);
+      expect(buildingRepoMock.save).toBeCalled();
+    });
+
+    it('should fail to update a building when input is invalid', async () => {
+      const buildingDTO: IBuildingDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        name: '---invalid name---',
+        code: 'A1',
+        description: 'Test building',
+        floorSizeLength: 100,
+        floorSizeWidth: 200,
+      };
+
+      buildingRepoMock.findById.mockResolvedValue(buildingStub as any);
+
+      const result = await buildingService.updateBuilding(buildingDTO);
+
+      expect(result.isFailure).toBe(true);
+      expect(buildingRepoMock.findById).toHaveBeenCalledWith(buildingDTO.id);
+      expect(buildingRepoMock.save).not.toBeCalled();
+    });
+
+    // add two tests each of which try creating building with only either floor width or length
+    it('should successfully update a building when only floor width is provided', async () => {
+      const buildingDTO: any = {
+        id: '00000000-0000-0000-0000-000000000000',
+        floorSizeWidth: 201,
+      };
+      const expectedBuildingStub = {
+        ...buildingStub,
+        floorSize: {
+          props: {
+            length: buildingStub.floorSize.value.length,
+            width: buildingDTO.floorSizeWidth,
+          },
+        },
+      } as Building;
+
+      buildingRepoMock.findById.mockResolvedValue(buildingStub as any);
+      buildingRepoMock.save.mockResolvedValue(buildingStub as any);
+
+      const result = await buildingService.updateBuilding(buildingDTO);
+
+      expect(result.isSuccess).toBe(true);
+      expect(buildingRepoMock.findById).toHaveBeenCalledWith(buildingDTO.id);
+      expect(buildingRepoMock.save).toHaveBeenCalledWith(expectedBuildingStub);
+    });
+
+    it('should successfully update a building when only floor length is provided', async () => {
+      const buildingDTO: any = {
+        id: '00000000-0000-0000-0000-000000000000',
+        floorSizeLength: 101,
+      };
+      const expectedBuildingStub = {
+        ...buildingStub,
+        floorSize: {
+          props: {
+            length: buildingDTO.floorSizeLength,
+            width: buildingStub.floorSize.value.width,
+          },
+        },
+      } as Building;
+
+      buildingRepoMock.findById.mockResolvedValue(buildingStub as any);
+      buildingRepoMock.save.mockResolvedValue(buildingStub as any);
+
+      const result = await buildingService.updateBuilding(buildingDTO);
+
+      expect(result.isSuccess).toBe(true);
+      expect(buildingRepoMock.findById).toHaveBeenCalledWith(buildingDTO.id);
+      expect(buildingRepoMock.save).toHaveBeenCalledWith(expectedBuildingStub);
     });
   });
 });

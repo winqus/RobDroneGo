@@ -1,8 +1,9 @@
-import { celebrate, Joi } from 'celebrate';
+import { celebrate, errors, Joi } from 'celebrate';
 import { Router } from 'express';
 import { Container } from 'typedi';
 import config from '../../../config';
 import IBuildingController from '../../controllers/IControllers/IBuildingController';
+import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
 const route = Router();
 
@@ -27,5 +28,51 @@ export default (app: Router) => {
       }),
     }),
     (req, res, next) => controller.createBuilding(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
+
+  route.put(
+    '/:id',
+    celebrate({
+      body: Joi.object({
+        name: Joi.string()
+          .allow('')
+          .optional(),
+        description: Joi.string()
+          .allow('')
+          .optional(),
+        floorSizeLength: Joi.number().optional(),
+        floorSizeWidth: Joi.number().optional(),
+      }),
+      params: Joi.object({
+        id: Joi.string().required(),
+      }),
+    }),
+    (req, res, next) => controller.updateBuilding(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
+
+  route.patch(
+    '/:id',
+    celebrate({
+      body: Joi.object({
+        name: Joi.string()
+          .allow('')
+          .optional(),
+        description: Joi.string()
+          .allow('')
+          .optional(),
+        floorSizeLength: Joi.number().optional(),
+        floorSizeWidth: Joi.number().optional(),
+      }),
+      params: Joi.object({
+        id: Joi.string().required(),
+      }),
+    }),
+    (req, res, next) => controller.updateBuilding(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
   );
 };
