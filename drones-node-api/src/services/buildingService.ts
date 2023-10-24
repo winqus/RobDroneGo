@@ -40,7 +40,11 @@ export default class BuildingService implements IBuildingService {
 
       const buildingResult = buildingOrError.getValue();
 
-      await this.buildingRepo.save(buildingResult);
+      try {
+        await this.buildingRepo.save(buildingResult);
+      } catch (error) {
+        return Result.fail<IBuildingDTO>(error);
+      }
 
       const buildingDTOResult = BuildingMap.toDTO(buildingResult) as IBuildingDTO;
 
