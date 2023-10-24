@@ -17,12 +17,13 @@ export class Description extends ValueObject<DescriptionProps> {
   }
 
   public static create(description: string): Result<Description> {
+    if (Guard.isOneOf(description, [null, undefined, ''], 'name').succeeded) {
+      return Result.ok<Description>(new Description({ value: '' }));
+    }
+
     description = description?.trim();
 
-    const guardResult = Guard.combine([
-      Guard.againstNullOrUndefined(description, 'description'),
-      Guard.isOfLength(description, 0, 255, 'description'),
-    ]);
+    const guardResult = Guard.combine([Guard.isOfLength(description, 0, 255, 'description')]);
 
     if (!guardResult.succeeded) {
       return Result.fail<Description>(guardResult.message);

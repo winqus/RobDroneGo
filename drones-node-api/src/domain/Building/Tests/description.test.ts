@@ -15,17 +15,18 @@ describe('Description', () => {
       expect(descriptionResult.getValue().value).toBe(validDescription.trim());
     });
 
-    it('should fail if the description is null or undefined', () => {
-      // Arrange
-      const invalidDescription = null;
+    it.each([null, undefined, ''])(
+      'should successfully create a Description instance with empty null or undefined',
+      (validDescription) => {
+    // Act
+        const descriptionResult = Description.create(validDescription);
 
-      // Act
-      const descriptionResult = Description.create(invalidDescription);
-
-      // Assert
-      expect(descriptionResult.isFailure).toBe(true);
-      expect(descriptionResult.error).toMatch(/null or undefined/);
-    });
+        // Assert
+        expect(descriptionResult.isSuccess).toBe(true);
+        expect(descriptionResult.getValue()).toBeInstanceOf(Description);
+        expect(descriptionResult.getValue().value).toBe('');
+      },
+    );
 
     it('should fail if the description length is more than 255 characters', () => {
       // Arrange

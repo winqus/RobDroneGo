@@ -19,7 +19,9 @@ export default (app: Router) => {
           .allow('')
           .optional(),
         code: Joi.string().required(),
-        description: Joi.string().optional(),
+        description: Joi.string()
+          .allow('')
+          .optional(),
         floorSizeLength: Joi.number().required(),
         floorSizeWidth: Joi.number().required(),
       }),
