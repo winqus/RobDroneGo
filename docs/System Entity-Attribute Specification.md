@@ -1,5 +1,7 @@
 # System Entity-Attribute Specification #
 
+*Alphanumeric in most general cases (like description) means that spaces are also allowed.*
+
 ### Building Attributes ###
 
 * **Code**: Mandatory and unique, max 5 chars, alphanumeric.
@@ -25,13 +27,14 @@
 
 ### Room Attributes ###
 
-* **Name**: Unique, max 50 chars.
-* **Description**: Max 250 chars.
+* **Name**: Unique, max 50 chars., mandatory.
+* **Description**: Max 250 chars., optional
 * **Size**: Defined by a minimum of 1 cell.
 * **Position and Dimensions**: Can be collected during creation or part of an upload.
+* **Category**: Office, Amphitheater, Laboratory, Other.
 
 ### Passageway Attributes ###
-
+* **Buildings and floors** that are connected by this passage 
 * **Editing**: All data editable except building reference.
 * **Multiple Entries**: Multiple passageways can exist between buildings.
 
