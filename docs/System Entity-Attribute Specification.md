@@ -1,6 +1,6 @@
 # System Entity-Attribute Specification #
 
-*Alphanumeric in most general cases (like description) means that spaces are also allowed.*
+***Alphanumeric** in most general cases (like description) means that spaces are also allowed.*
 
 ### Building Attributes ###
 
