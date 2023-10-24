@@ -82,4 +82,44 @@ export class Guard {
       return { succeeded: true };
     }
   }
+
+  public static isAlphanumeric(value: string, argumentName: string): IGuardResult {
+    const isAlphanumericRegex = /^[a-z0-9]+$/i;
+    const isValid = isAlphanumericRegex.test(value);
+    if (!isValid) {
+      return { succeeded: false, message: `${argumentName} can only contain alphanumeric characters` };
+    } else {
+      return { succeeded: true };
+    }
+  }
+
+  public static isAlphanumericWithSpaces(value: string, argumentName: string): IGuardResult {
+    const isAlphanumericRegex = /^[a-z0-9\s]+$/i;
+    const isValid = isAlphanumericRegex.test(value);
+    if (!isValid) {
+      return { succeeded: false, message: `${argumentName} can only contain alphanumeric characters and spaces` };
+    } else {
+      return { succeeded: true };
+    }
+  }
+
+  public static isOfLength(value: string, minLength: number, maxLength: number, argumentName: string): IGuardResult {
+    const length = value?.length;
+    if (length < minLength || length > maxLength) {
+      return {
+        succeeded: false,
+        message: `${argumentName} length should be between ${minLength} and ${maxLength} characters`,
+      };
+    } else {
+      return { succeeded: true };
+    }
+  }
+
+  public static isTrue(predicate: boolean, message: string): IGuardResult {
+    if (!predicate) {
+      return { succeeded: false, message: message };
+    } else {
+      return { succeeded: true };
+    }
+  }
 }
