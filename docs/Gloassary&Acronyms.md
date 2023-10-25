@@ -1,6 +1,8 @@
-# Glossary and Acronyms
-DoD - Definition of Done
-DoR - Definition of Ready
+# Glossary and Acronyms #
+
+- DoD - Definition of Done
+
+- DoR - Definition of Ready
 MD - Master Data
 DB - Data Base
 UI - User Interface
