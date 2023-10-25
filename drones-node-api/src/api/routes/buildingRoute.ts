@@ -75,4 +75,8 @@ export default (app: Router) => {
     errors(),
     routeJoiErrorHandler,
   );
+
+  route.get('', (req, res, next) => controller.listAllBuildings(req, res, next));
+
+  route.get('/:code', (req, res, next) => controller.getBuildingByCode(req, res, next));
 };

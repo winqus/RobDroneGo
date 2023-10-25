@@ -5,5 +5,9 @@ export default interface IBuildingController {
 
   updateBuilding(req: Request, res: Response, next: NextFunction);
 
+  listAllBuildings(req: Request, res: Response, next: NextFunction);
+
+  getBuildingByCode(req: Request, res: Response, next: NextFunction);
+
   // getBuilding(req: Request, res: Response, next: NextFunction);
 }
