@@ -17,4 +17,4 @@ Done - The backlog item is completed.
 ## Estimation ##
 Story points are used to estimate the effort required to implement a backlog item. The following scale is used:
 1, 2, 4, 8, 16, ... (doubling).
-The value of story poitns means the estimated number of hours needed to complete the backlog item, including the possible of need for extendent time due to unexpected problems.
+The value of story points means the estimated number of hours needed to complete the backlog item, including the possible of need for extendent time due to unexpected problems.
