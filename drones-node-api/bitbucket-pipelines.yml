@@ -1,0 +1,41 @@
+image: node:18.18.0
+
+pipelines:
+  pull-requests:
+    '**/develop': # this will run as a result of a PR that targets the develop branch
+      - parallel:
+          - step:
+              name: Build and Test Node
+              caches:
+                - node
+              script:
+                - apt-get update
+                - apt-get install -y python3.10
+                - python3.10 --version
+                - npm install
+                - npm run build
+                - npx jest
+          - step:
+              name: Code linting Node
+              caches:
+                - node
+              script:
+                - npm install
+                - npm run lint:js || true
+  custom: 
+    manual-trigger:
+      - parallel:
+          - step:
+              name: Manually Triggered Build and Test
+              script:
+                - apt-get update
+                - apt-get install -y python3.10
+                - python3.10 --version
+                - npm install
+                - npm run build
+                - npx jest
+          - step:
+              name: Manually Triggered Code linting
+              script:
+                - npm install
+                - npm run lint:js || true
