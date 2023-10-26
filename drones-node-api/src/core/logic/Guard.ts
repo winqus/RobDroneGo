@@ -115,6 +115,18 @@ export class Guard {
     }
   }
 
+  public static isNotEmpty(value: string, argumentName: string): IGuardResult {
+    const length = value?.length;
+    if (length == 0) {
+      return {
+        succeeded: false,
+        message: `${argumentName} length should be more than 0 characters`,
+      };
+    } else {
+      return { succeeded: true };
+    }
+  }
+
   public static isTrue(predicate: boolean, message: string): IGuardResult {
     if (!predicate) {
       return { succeeded: false, message: message };
