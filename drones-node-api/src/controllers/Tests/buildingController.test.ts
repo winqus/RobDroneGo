@@ -16,6 +16,8 @@ describe('BuildingController', () => {
     buildingServiceMock = {
       createBuilding: jest.fn(),
       updateBuilding: jest.fn(),
+      getAllBuildings: jest.fn(),
+      getBuildingByCode: jest.fn(),
     };
 
     reqMock = {

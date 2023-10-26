@@ -15,6 +15,8 @@ describe('BuildingService', () => {
       save: jest.fn(),
       exists: jest.fn(),
       findById: jest.fn(),
+      findByCode: jest.fn(),
+      findAllBuildings: jest.fn(),
     };
 
     buildingStub = {
@@ -41,6 +43,7 @@ describe('BuildingService', () => {
       };
 
       buildingRepoMock.save.mockResolvedValue(buildingStub as any);
+      buildingRepoMock.findByCode.mockResolvedValue(null as any);
 
       const result = await buildingService.createBuilding(buildingDTO);
 
