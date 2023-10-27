@@ -5,6 +5,7 @@
       "es2017",
       "esnext.asynciterable"
     ],
+    "types": ["jest", "node"],
     "typeRoots": [
       "./node_modules/@types",
       "./src/types"
