@@ -16,7 +16,7 @@ export default (app: Router) => {
     '',
     celebrate({
       body: Joi.object({
-        code: Joi.string().required(),
+        floorNumber: Joi.number().required(),
         description: Joi.string()
           .allow('')
           .optional(),

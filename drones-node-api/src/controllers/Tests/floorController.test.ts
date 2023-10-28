@@ -39,14 +39,14 @@ describe('FloorController', () => {
 
     Container.set('floorService', floorServiceMock);
     Container.set('buildingService', buildingServiceMock);
-    floorController = new FloorController(floorServiceMock, buildingServiceMock);
+    floorController = new FloorController(floorServiceMock);
   });
 
   describe('createFloor', () => {
     it('should successfully create a floor and return 201 status', async () => {
       const floorDTO: IFloorDTO = {
         id: '00000000-0000-0000-0000-000000000000',
-        code: 'F1',
+        floorNumber: 12,
         description: 'Test floor',
         servedByElevator: true,
         buildingCode: 'B1',
@@ -59,15 +59,6 @@ describe('FloorController', () => {
 
       expect(resMock.status).toHaveBeenCalledWith(201);
       expect(resMock.json).toHaveBeenCalledWith(floorDTO);
-    });
-
-    it('should return 400 status if building does not exist', async () => {
-      buildingServiceMock.getBuildingByCode.mockResolvedValue(Result.fail('Building not found') as any);
-
-      await floorController.createFloor(reqMock as Request, resMock as Response, nextMock);
-
-      expect(resMock.status).toHaveBeenCalledWith(400);
-      expect(resMock.json).toHaveBeenCalledWith({ message: 'Building with the provided code does not exist.' });
     });
 
     it('should return 400 status if floor creation fails', async () => {

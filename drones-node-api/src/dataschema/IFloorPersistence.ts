@@ -1,6 +1,6 @@
 export interface IFloorPersistence {
   id: string;
-  code: string;
+  floorNumber: number;
   description: string | null;
   servedByElevator: boolean;
   buildingCode: string;

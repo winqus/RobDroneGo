@@ -6,7 +6,7 @@ import { Code as BuildingCode } from '../Building/ValueObjects/code';
 import { Description } from '../Building/ValueObjects/description';
 
 interface FloorProps {
-  code: string;
+  floorNumber: number;
   description: Description | null;
   servedByElevator: boolean;
   buildingCode: BuildingCode;
@@ -17,8 +17,8 @@ export class Floor extends AggregateRoot<FloorProps> {
     return this._id;
   }
 
-  get code(): string {
-    return this.props.code;
+  get floorNumber(): number {
+    return this.props.floorNumber;
   }
 
   get description(): Description {
@@ -33,8 +33,8 @@ export class Floor extends AggregateRoot<FloorProps> {
     return this.props.servedByElevator;
   }
 
-  set code(value: string) {
-    this.props.code = value;
+  set floorNumber(value: number) {
+    this.props.floorNumber = value;
   }
 
   set description(value: Description) {
@@ -51,14 +51,14 @@ export class Floor extends AggregateRoot<FloorProps> {
 
   public static create(props: FloorProps, id?: UniqueEntityID): Result<Floor> {
     const guardedProps = [
-      { argument: props.code, argumentName: 'code' },
+      { argument: props.floorNumber, argumentName: 'floorNumber' },
       { argument: props.servedByElevator, argumentName: 'servedByElevator' },
       { argument: props.buildingCode, argumentName: 'buildingCode' },
     ];
 
     const guardResult = Guard.combine([
       Guard.againstNullOrUndefinedBulk(guardedProps),
-      Guard.isNotEmpty(props.code, 'code'),
+      Guard.isInteger(props.floorNumber, 'floorNumber'),
     ]);
 
     if (!guardResult.succeeded) {

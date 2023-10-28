@@ -8,11 +8,9 @@ const Floor = new mongoose.Schema(
       unique: true,
     },
 
-    code: {
-      type: String,
-      required: [true, 'Please enter floor code'],
-      unique: true,
-      index: true,
+    floorNumber: {
+      type: Number,
+      required: [true, 'Please enter floor number'],
     },
 
     description: String,
@@ -24,7 +22,9 @@ const Floor = new mongoose.Schema(
       required: [true, 'Please enter building code'],
     },
   },
-  { timestamps: true },
+  { timestamps: true, autoIndex: true },
 );
+
+Floor.index({ floorNumber: 1, buildingCode: 1 }, { unique: true });
 
 export default mongoose.model<IFloorPersistence & mongoose.Document>('Floor', Floor);

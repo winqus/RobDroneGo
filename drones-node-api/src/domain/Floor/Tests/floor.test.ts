@@ -5,7 +5,7 @@ import { Floor } from '../floor';
 describe('Floor', () => {
   it('should create a valid floor', () => {
     const validFloorProps = {
-      code: '123',
+      floorNumber: 123,
       description: Description.create('Sample floor description').getValue(),
       servedByElevator: true,
       buildingCode: BuildingCode.create('ABC1').getValue(),
@@ -14,7 +14,7 @@ describe('Floor', () => {
     const floorResult = Floor.create(validFloorProps);
     expect(floorResult.isSuccess).toBe(true);
     const floor = floorResult.getValue();
-    expect(floor.code).toBe('123');
+    expect(floor.floorNumber).toBe(123);
     expect(floor.description.value).toBe('Sample floor description');
     expect(floor.servedByElevator).toBe(true);
     expect(floor.buildingCode.value).toBe('ABC1');
@@ -22,7 +22,7 @@ describe('Floor', () => {
 
   it('should create a valid floor even without description', () => {
     const validFloorProps = {
-      code: '123',
+      floorNumber: 123,
       description: Description.create(null).getValue(),
       servedByElevator: true,
       buildingCode: BuildingCode.create('ABC1').getValue(),
@@ -31,7 +31,7 @@ describe('Floor', () => {
     const floorResult = Floor.create(validFloorProps);
     expect(floorResult.isSuccess).toBe(true);
     const floor = floorResult.getValue();
-    expect(floor.code).toBe('123');
+    expect(floor.floorNumber).toBe(123);
     expect(floor.description.value).toBe('');
     expect(floor.servedByElevator).toBe(true);
     expect(floor.buildingCode.value).toBe('ABC1');
@@ -39,7 +39,7 @@ describe('Floor', () => {
 
   it('should fail to create a floor with code null', () => {
     const invalidFloorProps = {
-      code: null,
+      floorNumber: null,
       description: Description.create('Sample floor description').getValue(),
       servedByElevator: false,
       buildingCode: BuildingCode.create('ABC1').getValue(),
@@ -47,6 +47,6 @@ describe('Floor', () => {
 
     const floorResult = Floor.create(invalidFloorProps);
     expect(floorResult.isFailure).toBe(true);
-    expect(floorResult.error).toBe('code is null or undefined');
+    expect(floorResult.error).toBe('floorNumber is null or undefined');
   });
 });

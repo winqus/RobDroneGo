@@ -33,7 +33,7 @@ export default class FloorRepo implements IFloorRepo {
 
         return FloorMap.toDomain(floorCreated) ? FloorMap.toDomain(floorCreated).getValue() : null;
       } else {
-        floorDocument.code = floor.code;
+        floorDocument.floorNumber = floor.floorNumber;
         floorDocument.description = floor.description.value;
         floorDocument.servedByElevator = floor.servedByElevator;
         floorDocument.buildingCode = floor.buildingCode.value;

@@ -1,3 +1,5 @@
+import { isInteger } from 'lodash';
+
 export interface IGuardResult {
   succeeded: boolean;
   message?: string;
@@ -130,6 +132,14 @@ export class Guard {
   public static isTrue(predicate: boolean, message: string): IGuardResult {
     if (!predicate) {
       return { succeeded: false, message: message };
+    } else {
+      return { succeeded: true };
+    }
+  }
+
+  public static isInteger(value: number, argumentName: string): IGuardResult {
+    if (!isInteger(value)) {
+      return { succeeded: false, message: `${argumentName} should be an integer` };
     } else {
       return { succeeded: true };
     }

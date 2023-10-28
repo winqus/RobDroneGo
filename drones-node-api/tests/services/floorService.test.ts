@@ -1,5 +1,7 @@
+import { isNull } from 'lodash';
 import { Container } from 'typedi';
 import { UniqueEntityID } from '../../src/core/domain/UniqueEntityID';
+import { Result } from '../../src/core/logic/Result';
 import { Floor } from '../../src/domain/Floor/floor';
 import IFloorDTO from '../../src/dto/IFloorDTO';
 import IFloorRepo from '../../src/services/IRepos/IFloorRepo';
@@ -8,6 +10,7 @@ import FloorService from '../../src/services/floorService';
 describe('FloorService', () => {
   let floorService: FloorService;
   let floorRepoMock: jest.Mocked<IFloorRepo>;
+  let buildingServiceMock: jest.Mocked<any>;
   let floorStub: Floor;
 
   beforeEach(() => {
@@ -16,29 +19,37 @@ describe('FloorService', () => {
       exists: jest.fn(),
     };
 
+    buildingServiceMock = {
+      createBuilding: jest.fn(),
+      updateBuilding: jest.fn(),
+      getBuildingByCode: jest.fn(),
+      getAllBuildings: jest.fn(),
+    };
+
     floorStub = {
       id: new UniqueEntityID(),
-      code: 'F1',
+      floorNumber: 1,
       description: { value: 'Test floor' },
       servedByElevator: true,
       buildingCode: { value: 'B1' },
     } as Floor;
 
     Container.set('floorRepo', floorRepoMock);
-    floorService = new FloorService(floorRepoMock);
+    floorService = new FloorService(floorRepoMock, buildingServiceMock);
   });
 
   describe('createFloor', () => {
     it('should successfully create a floor', async () => {
       const floorDTO: IFloorDTO = {
         id: '00000000-0000-0000-0000-000000000000',
-        code: 'F1',
+        floorNumber: 1,
         description: 'Test floor',
         servedByElevator: true,
         buildingCode: 'B1',
       };
 
       floorRepoMock.save.mockResolvedValue(floorStub as any);
+      buildingServiceMock.getBuildingByCode.mockResolvedValue(Result.ok(true));
 
       const result = await floorService.createFloor(floorDTO);
 
@@ -49,7 +60,7 @@ describe('FloorService', () => {
     it('should fail to create a floor when input is invalid', async () => {
       const floorDTO: IFloorDTO = {
         id: '00000000-0000-0000-0000-000000000000',
-        code: '',
+        floorNumber: null,
         description: 'Test floor',
         servedByElevator: true,
         buildingCode: 'B1',

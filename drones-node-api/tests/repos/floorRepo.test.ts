@@ -20,10 +20,10 @@ describe('FloorRepo', () => {
 
     floorStub = {
       id: new UniqueEntityID(),
-      code: '123',
+      floorNumber: 13,
       description: { value: 'Sample floor description' },
       servedByElevator: true,
-      buildingCode: { value: 'A1' },
+      buildingCode: { value: 'A11' },
     } as Floor;
   });
 
@@ -50,7 +50,7 @@ describe('FloorRepo', () => {
       floorSchemaMock.findOne.mockResolvedValue(null as HydratedDocument<any, any, any>);
       floorSchemaMock.create.mockResolvedValue({
         id: floorStub.id.toString(),
-        code: floorStub.code,
+        floorNumber: floorStub.floorNumber,
         description: floorStub.description.value,
         servedByElevator: floorStub.servedByElevator,
         buildingCode: floorStub.buildingCode.value,

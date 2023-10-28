@@ -10,7 +10,7 @@ export class FloorMap extends Mapper<Floor> {
   public static toDTO(floor: Floor): IFloorDTO {
     return {
       id: floor.id.toString(),
-      code: floor.code,
+      floorNumber: floor.floorNumber,
       description: floor.description.value,
       servedByElevator: floor.servedByElevator,
       buildingCode: floor.buildingCode.value,
@@ -18,7 +18,7 @@ export class FloorMap extends Mapper<Floor> {
   }
 
   public static toDomain(raw: any): Result<Floor> {
-    const code = raw.code as string;
+    const floorNumber = raw.floorNumber as number;
     const description = Description.create(raw.description as string);
     const servedByElevator = raw.servedByElevator as boolean;
     const buildingCode = BuildingCode.create(raw.buildingCode as string);
@@ -29,7 +29,7 @@ export class FloorMap extends Mapper<Floor> {
     }
     const floorOrError = Floor.create(
       {
-        code,
+        floorNumber: floorNumber,
         description: description.getValue(),
         servedByElevator,
         buildingCode: buildingCode.getValue(),
@@ -45,10 +45,10 @@ export class FloorMap extends Mapper<Floor> {
   public static toPersistence(floor: Floor): any {
     return {
       id: floor.id.toString(),
-      code: floor.code,
-      description: floor.description,
+      floorNumber: floor.floorNumber,
+      description: floor.description.value,
       servedByElevator: floor.servedByElevator,
-      buildingCode: floor.buildingCode,
+      buildingCode: floor.buildingCode.value,
     };
   }
 }

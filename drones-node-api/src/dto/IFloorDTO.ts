@@ -1,6 +1,6 @@
 export default interface IFloorDTO {
   id: string;
-  code: string;
+  floorNumber: number;
   description: string | null;
   servedByElevator: boolean;
   buildingCode: string;
