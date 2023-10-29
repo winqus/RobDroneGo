@@ -1,12 +1,12 @@
 @startuml SD Lv1
 
 participant RobDroneGo as system
-[o-> system : Post
+[o-> system : Get
 activate system
 
-system -> system : Create and Save\nfloor
+system -> system : List all buildings
 
-[o<--o system : Success
+[o<--o system : List with buildings
 deactivate system
 
 @enduml
