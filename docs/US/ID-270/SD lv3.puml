@@ -1,0 +1,132 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant " "
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Building Persistence" as Persistence
+        participant "Floor Persistence" as FloorPers
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Building Repository" as Repository
+        participant "Floor Repository" as FloorRepo
+    end box
+
+    participant DTO
+    box "Application Business Rules" #ff6666
+        participant "Building Service" as BuildingS
+        participant "Floor Service" as FloorS
+    end box
+
+    box "Enterprise Business Rules" #eeddaa
+        participant Building
+        participant Elevator
+        participant Floor
+    end box
+end box
+
+
+[o-> Routing : Post
+activate Routing
+
+    Routing -> Controller : 
+    activate Controller
+
+        Controller -> BuildingS :
+        activate BuildingS
+        
+            BuildingS -> Repository : findByCode(code)
+            activate Repository
+
+                Repository -> Persistence : findByCode(code)
+                activate Persistence
+
+                Persistence --> Repository : building
+                deactivate Persistence
+
+            Repository --> BuildingS : building
+            deactivate Repository
+            
+            BuildingS -> FloorS
+            activate FloorS
+
+                FloorS -> FloorRepo : findByCodesAndBuilding(codes, building)
+                activate FloorRepo
+
+                    FloorRepo -> FloorPers : findByCodeAndBuilding(codes, building)
+                    activate FloorPers
+
+                    FloorPers --> FloorRepo : floors
+                    deactivate FloorPers
+
+                FloorRepo --> FloorS : floors
+                deactivate FloorRepo
+
+            FloorS --> BuildingS : floors
+            deactivate FloorS
+
+            BuildingS -> Elevator : create(...)
+            activate Elevator
+
+            Elevator --> BuildingS : elevator
+            deactivate Elevator
+
+            BuildingS -> Building : defineElevator(elevator)
+            activate Building
+            Building --> BuildingS : Success
+            deactivate Building
+
+            loop for each floor
+                BuildingS -> Floor : servedByElevator(true)
+                activate Floor
+                Floor --> BuildingS : servedByElevator(true)
+                deactivate Floor
+            end
+
+            BuildingS -> FloorS
+            activate FloorS
+
+                FloorS -> FloorRepo : save(floors)
+                activate FloorRepo
+
+                    FloorRepo -> FloorPers : save(floors)
+                    activate FloorPers
+
+                    FloorPers --> FloorRepo : Success
+                    deactivate FloorPers
+
+                FloorRepo --> FloorS : Success
+                deactivate FloorRepo
+
+            FloorS --> BuildingS : Success
+            deactivate FloorS
+
+            BuildingS -> Repository : save(building)
+            activate Repository
+
+                Repository -> Persistence : save(building)
+                activate Persistence
+
+                Persistence --> Repository : Success
+                deactivate Persistence
+
+            Repository --> BuildingS : Success
+            deactivate Repository
+
+        BuildingS --> Controller : Success
+        deactivate BuildingS
+
+    Controller --> Routing : Success
+    deactivate Controller
+
+[o<--o Routing : Success
+deactivate Routing
+
+
+@enduml
