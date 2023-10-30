@@ -60,7 +60,9 @@ describe('FloorRepo', () => {
 
       expect(floorSchemaMock.create).toHaveBeenCalledTimes(1);
     });
+  });
 
+  describe('update', () => {
     it('should update an existing floor successfully', async () => {
       const saveStub = jest.fn();
       floorSchemaMock.findOne.mockResolvedValue({ save: saveStub } as HydratedDocument<any, any, any>);
@@ -68,6 +70,20 @@ describe('FloorRepo', () => {
       await floorRepo.save(floorStub);
 
       expect(saveStub).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return failure if the floor does not exist', async () => {
+      floorSchemaMock.findOne.mockResolvedValue(null as HydratedDocument<any, any, any>);
+
+      const result = await floorRepo.save(floorStub);
+
+      expect(floorSchemaMock.findOne).toHaveBeenCalled();
+    });
+
+    it('should handle errors and throw them', async () => {
+      floorSchemaMock.findOne.mockRejectedValue(new Error('Database error'));
+
+      await expect(floorRepo.save(floorStub)).rejects.toThrow('Database error');
     });
   });
 });

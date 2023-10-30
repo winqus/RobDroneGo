@@ -2,6 +2,7 @@ import { celebrate, errors, Joi } from 'celebrate';
 import { Router } from 'express';
 import { Container } from 'typedi';
 import config from '../../../config';
+
 import IFloorController from '../../controllers/IControllers/IFloorController';
 import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
@@ -25,6 +26,39 @@ export default (app: Router) => {
       }),
     }),
     (req, res, next) => controller.createFloor(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
+  route.put(
+    '/:floorId',
+    celebrate({
+      body: Joi.object({
+        description: Joi.string()
+          .allow('')
+          .optional(),
+      }),
+      params: Joi.object({
+        floorId: Joi.string().required(),
+      }),
+    }),
+    (req, res, next) => controller.updateFloor(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
+
+  route.patch(
+    '/:floorId',
+    celebrate({
+      body: Joi.object({
+        description: Joi.string()
+          .allow('')
+          .optional(),
+      }),
+      params: Joi.object({
+        floorId: Joi.string().required(),
+      }),
+    }),
+    (req, res, next) => controller.partialUpdateFloor(req, res, next),
     errors(),
     routeJoiErrorHandler,
   );

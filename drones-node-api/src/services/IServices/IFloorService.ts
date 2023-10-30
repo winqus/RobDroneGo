@@ -4,6 +4,7 @@ import IFloorDTO from '../../dto/IFloorDTO';
 export default interface IFloorService {
   createFloor(floorDTO: IFloorDTO): Promise<Result<IFloorDTO>>;
 
-  // updateFloor(floorDTO: IFloorDTO): Promise<Result<IFloorDTO>>;
-  // getFloor(floorId: string): Promise<Result<IFloorDTO>>;
+  updateFloor(updatedFloorDTO: IFloorDTO): Promise<Result<IFloorDTO>>;
+
+  partialUpdateFloor(updatedFloorDTO: Partial<IFloorDTO>): Promise<Result<IFloorDTO>>;
 }

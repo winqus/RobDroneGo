@@ -23,6 +23,7 @@ describe('PassageService', () => {
       save: jest.fn(),
       exists: jest.fn(),
       findByCode: jest.fn(),
+      findById: jest.fn(),
     };
 
     passageStub = {

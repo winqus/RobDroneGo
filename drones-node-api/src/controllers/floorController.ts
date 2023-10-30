@@ -25,4 +25,53 @@ export default class FloorController implements IFloorController {
       return next(error);
     }
   }
+
+  public async updateFloor(req: Request, res: Response, next: NextFunction) {
+    try {
+      const floorId: string = req.params.floorId;
+
+      if (!floorId) {
+        return res.status(400).json({ message: 'Floor ID is required' });
+      }
+
+      const updatedFloorDTO: IFloorDTO = req.body;
+      updatedFloorDTO.id = floorId;
+
+      const result: Result<IFloorDTO> = await this.floorService.updateFloor(updatedFloorDTO);
+
+      if (result.isFailure) {
+        return res.status(400).json({ message: result.error.toString() });
+      }
+
+      const floorDTO = result.getValue();
+
+      return res.status(200).json(floorDTO);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  public async partialUpdateFloor(req: Request, res: Response, next: NextFunction) {
+    try {
+      const floorId: string = req.params.floorId;
+
+      if (!floorId) {
+        return res.status(400).json({ message: 'Floor ID is required' });
+      }
+      const updatedFloorDTO: IFloorDTO = req.body;
+      updatedFloorDTO.id = floorId;
+
+      const result: Result<IFloorDTO> = await this.floorService.partialUpdateFloor(updatedFloorDTO);
+
+      if (result.isFailure) {
+        return res.status(400).json({ message: result.error.toString() });
+      }
+
+      const floorDTO = result.getValue();
+
+      return res.status(200).json(floorDTO);
+    } catch (error) {
+      return next(error);
+    }
+  }
 }

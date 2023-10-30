@@ -42,7 +42,9 @@ export default class FloorRepo implements IFloorRepo {
         const rawFloor: any = FloorMap.toPersistence(floor);
         const floorCreated = await this.floorSchema.create(rawFloor);
 
-        return FloorMap.toDomain(floorCreated) ? FloorMap.toDomain(floorCreated).getValue() : null;
+        const floorResult = FloorMap.toDomain(floorCreated);
+
+        return floorResult.isSuccess ? floorResult.getValue() : null;
       } else {
         floorDocument.floorNumber = floor.floorNumber;
         floorDocument.description = floor.description.value;
@@ -56,5 +58,15 @@ export default class FloorRepo implements IFloorRepo {
     } catch (error) {
       throw error;
     }
+  }
+
+  public async findById(floorId: string): Promise<Floor | null> {
+    const query = { id: floorId };
+
+    const floorDocument = await this.floorSchema.findOne(query);
+
+    const floorResult = FloorMap.toDomain(floorDocument);
+
+    return floorResult.isSuccess ? floorResult.getValue() : null;
   }
 }

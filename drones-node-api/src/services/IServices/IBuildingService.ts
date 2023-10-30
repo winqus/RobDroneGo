@@ -10,5 +10,4 @@ export default interface IBuildingService {
   getAllBuildings(): Promise<Result<IBuildingDTO[]>>;
 
   getBuildingByCode(buildingCode: string): Promise<Result<IBuildingDTO>>;
-  // getBuilding(buildingId: string): Promise<Result<IBuildingDTO>>;
 }

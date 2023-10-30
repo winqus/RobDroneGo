@@ -17,7 +17,9 @@ describe('FloorController', () => {
   beforeEach(() => {
     floorServiceMock = {
       createFloor: jest.fn(),
-    };
+      updateFloor: jest.fn(),
+      partialUpdateFloor: jest.fn(),
+    } as jest.Mocked<IFloorService>;
 
     buildingServiceMock = {
       createBuilding: jest.fn(),
@@ -69,6 +71,92 @@ describe('FloorController', () => {
 
       expect(resMock.status).toHaveBeenCalledWith(400);
       expect(resMock.json).toHaveBeenCalledWith({ message: 'Error creating floor' });
+    });
+  });
+
+  describe('updateFloor', () => {
+    it('should successfully update a floor and return 200 status', async () => {
+      const floorDTO: IFloorDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        floorNumber: 12,
+        description: 'Updated floor',
+        servedByElevator: true,
+        buildingCode: 'B1',
+      };
+
+      reqMock.params = { floorId: floorDTO.id };
+      reqMock.body = floorDTO;
+
+      floorServiceMock.updateFloor.mockResolvedValue(Result.ok<IFloorDTO>(floorDTO) as any);
+
+      await floorController.updateFloor(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(200);
+      expect(resMock.json).toHaveBeenCalledWith(floorDTO);
+    });
+
+    it('should return 400 status if floor update fails', async () => {
+      const floorDTO: IFloorDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        floorNumber: 12,
+        description: 'Updated floor',
+        servedByElevator: true,
+        buildingCode: 'B1',
+      };
+
+      reqMock.params = { floorId: floorDTO.id };
+      reqMock.body = floorDTO;
+
+      floorServiceMock.updateFloor.mockResolvedValue(Result.fail<IFloorDTO>('Error updating floor') as any);
+
+      await floorController.updateFloor(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(400);
+      expect(resMock.json).toHaveBeenCalledWith({ message: 'Error updating floor' });
+    });
+  });
+
+  describe('partialUpdateFloor', () => {
+    it('should successfully partially update a floor and return 200 status', async () => {
+      const floorDTO: IFloorDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        floorNumber: 12,
+        description: 'Partially Updated floor',
+        servedByElevator: true,
+        buildingCode: 'B1',
+      };
+
+      reqMock.params = { floorId: floorDTO.id };
+      reqMock.body = floorDTO;
+
+      floorServiceMock.partialUpdateFloor.mockResolvedValue(Result.ok<IFloorDTO>(floorDTO) as any);
+
+      await floorController.partialUpdateFloor(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(200);
+      expect(resMock.json).toHaveBeenCalledWith(floorDTO);
+    });
+
+    it('should return 400 status if floor partial update fails', async () => {
+      const floorDTO: IFloorDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        floorNumber: 12,
+        description: 'Partially Updated floor',
+        servedByElevator: true,
+        buildingCode: 'B1',
+      };
+
+      reqMock.params = { floorId: floorDTO.id };
+      reqMock.body = floorDTO;
+
+      floorServiceMock.partialUpdateFloor.mockResolvedValue(
+        Result.fail<IFloorDTO>('Error partially updating floor') as any,
+      );
+
+      await floorController.partialUpdateFloor(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(400);
+      expect(resMock.json).toHaveBeenCalledWith({ message: 'Error partially updating floor' });
     });
   });
 });
