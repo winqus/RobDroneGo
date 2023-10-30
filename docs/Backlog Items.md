@@ -1,4 +1,7 @@
 # Backlog Items #
+
+Backlog items are created based on client project specifications, the technical and research needs of the team/project, and are traceable to client requirements.
+
 ## Types ##
 
 The following backlog item (issue) types are used:
