@@ -2,8 +2,9 @@
 
 *Template with examples*
 
-Sprint retrospective is done at the end of each sprint and should cover the following.
+Retrospective summaries are accessible in Microsoft Teams, SEM5 Group25 @-ISEP365Group Team > LARP5 file folder > "Sprint Retrospective.docx".
 
+A Sprint retrospective is done at the end of each sprint and should cover the following.
 
 ## What Went Well ##
 - **Team Collaboration**: The team collaborated effectively, sharing ideas and solutions during daily standups.
