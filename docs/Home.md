@@ -17,3 +17,4 @@ The Scrum development process is described in the following sections:
 * [Daily Scrum Meetings](Daily%20Scrum%20Meetings.md)
 * [Backlog items](Backlog%20Items.md)
 * [Version Control Strategy](Version%20Control%20Strategy.md)
+* [Sprint Retrospective](Sprint%20Retrospective.md)
