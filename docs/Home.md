@@ -19,3 +19,7 @@ The Scrum development process is described in the following sections:
 * [Version Control Strategy](Version%20Control%20Strategy.md)
 * [Testing Strategy](Testing%20Strategy.md)
 * [Sprint Retrospective](Sprint%20Retrospective.md)
+
+Other documentation:
+* [System Entity-Attribute Specification](System%20Entity-Attribute%20Specification.md)
+* [All Wiki files](https://bitbucket.org/isep-2324-5sem-g025/lapr5-wiki-and-documentation/wiki/browse/)
