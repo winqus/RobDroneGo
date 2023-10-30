@@ -26,6 +26,7 @@ describe('FloorController', () => {
       updateBuilding: jest.fn(),
       getBuildingByCode: jest.fn(),
       getAllBuildings: jest.fn(),
+      getBuildingsByFloorRange: jest.fn(),
     };
 
     reqMock = {

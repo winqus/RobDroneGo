@@ -10,6 +10,7 @@ import IBuildingRepo from '../services/IRepos/IBuildingRepo';
 
 @Service()
 export default class BuildingRepo implements IBuildingRepo {
+  static buildingSchema: any;
   constructor(@Inject('buildingSchema') private buildingSchema: Model<IBuildingPersistence & Document>) {}
 
   public async exists(building: Building): Promise<boolean> {

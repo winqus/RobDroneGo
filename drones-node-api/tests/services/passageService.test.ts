@@ -24,6 +24,7 @@ describe('PassageService', () => {
       exists: jest.fn(),
       findByCode: jest.fn(),
       findById: jest.fn(),
+      findByBuildingCode: jest.fn(),
     };
 
     passageStub = {

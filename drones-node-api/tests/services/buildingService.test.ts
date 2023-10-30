@@ -3,11 +3,13 @@ import { UniqueEntityID } from '../../src/core/domain/UniqueEntityID';
 import { Building } from '../../src/domain/Building/building';
 import IBuildingDTO from '../../src/dto/IBuildingDTO';
 import IBuildingRepo from '../../src/services/IRepos/IBuildingRepo';
+import IFloorRepo from '../../src/services/IRepos/IFloorRepo';
 import BuildingService from '../../src/services/buildingService';
 
 describe('BuildingService', () => {
   let buildingService: BuildingService;
   let buildingRepoMock: jest.Mocked<IBuildingRepo>;
+  let floorRepoMock: jest.Mocked<IFloorRepo>;
   let buildingStub: Building;
 
   beforeEach(() => {
@@ -19,6 +21,14 @@ describe('BuildingService', () => {
       findAllBuildings: jest.fn(),
     };
 
+    floorRepoMock = {
+      save: jest.fn(),
+      exists: jest.fn(),
+      findById: jest.fn(),
+      findByCode: jest.fn(),
+      findByBuildingCode: jest.fn(),
+    };
+
     buildingStub = {
       id: new UniqueEntityID(),
       name: { value: 'Building1' },
@@ -28,7 +38,8 @@ describe('BuildingService', () => {
     } as Building;
 
     Container.set('buildingRepo', buildingRepoMock);
-    buildingService = new BuildingService(buildingRepoMock);
+    Container.set('floorRepo', floorRepoMock);
+    buildingService = new BuildingService(buildingRepoMock, floorRepoMock);
   });
 
   describe('createBuilding', () => {

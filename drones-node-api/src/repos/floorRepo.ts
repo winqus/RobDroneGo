@@ -12,6 +12,10 @@ import IFloorRepo from '../services/IRepos/IFloorRepo';
 export default class FloorRepo implements IFloorRepo {
   constructor(@Inject('floorSchema') private floorSchema: Model<IFloorPersistence & Document>) {}
 
+  findByQuery(query: any): Promise<Floor[]> {
+    throw new Error('Method not implemented.');
+  }
+
   public async exists(floor: Floor): Promise<boolean> {
     const idX = floor.id instanceof UniqueEntityID ? (<UniqueEntityID>floor.id).toValue() : floor.id;
 
@@ -68,5 +72,19 @@ export default class FloorRepo implements IFloorRepo {
     const floorResult = FloorMap.toDomain(floorDocument);
 
     return floorResult.isSuccess ? floorResult.getValue() : null;
+  }
+
+  public async findByBuildingCode(buildingCode: string): Promise<Floor[]> {
+    const query = { buildingCode: buildingCode };
+
+    const floorDocuments = await this.floorSchema.find(query);
+
+    if (floorDocuments === null) {
+      return null;
+    }
+
+    const floorResults = floorDocuments.map((floorDocument) => FloorMap.toDomain(floorDocument));
+
+    return floorResults.map((floorResult) => floorResult.getValue());
   }
 }

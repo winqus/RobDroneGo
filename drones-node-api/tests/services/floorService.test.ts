@@ -20,6 +20,7 @@ describe('FloorService', () => {
       exists: jest.fn(),
       findByCode: jest.fn(),
       findById: jest.fn(),
+      findByBuildingCode: jest.fn(),
     };
 
     buildingServiceMock = {
@@ -27,6 +28,7 @@ describe('FloorService', () => {
       updateBuilding: jest.fn(),
       getBuildingByCode: jest.fn(),
       getAllBuildings: jest.fn(),
+      getBuildingsByFloorRange: jest.fn(),
     };
 
     floorStub = {

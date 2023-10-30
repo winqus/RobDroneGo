@@ -9,6 +9,7 @@ describe('BuildingService and BuildingController Tests', () => {
   let buildingService: BuildingService;
   let buildingController: BuildingController;
   let fakeBuildingRepo;
+  let fakeFloorRepo;
   let fakeReq: any;
   let fakeRes: any;
   let fakeNext: any;
@@ -29,7 +30,8 @@ describe('BuildingService and BuildingController Tests', () => {
     };
 
     fakeBuildingRepo = new FakeBuildingRepo();
-    buildingService = new BuildingService(fakeBuildingRepo as IBuildingRepo);
+    fakeFloorRepo = {} as any;
+    buildingService = new BuildingService(fakeBuildingRepo as IBuildingRepo, fakeFloorRepo);
     buildingController = new BuildingController(buildingService as IBuildingService);
 
     fakeReq = mockRequest();

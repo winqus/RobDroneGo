@@ -9,5 +9,5 @@ export default interface IBuildingController {
 
   getBuildingByCode(req: Request, res: Response, next: NextFunction);
 
-  // getBuilding(req: Request, res: Response, next: NextFunction);
+  getBuildingByFloorRange(req: Request, res: Response, next: NextFunction);
 }

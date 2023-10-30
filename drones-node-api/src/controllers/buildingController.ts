@@ -81,4 +81,23 @@ export default class BuildingController implements IBuildingController {
       return next(error);
     }
   }
+
+  public async getBuildingByFloorRange(req: Request, res: Response, next: NextFunction) {
+    const minFloor: number = parseInt(req.query.minFloor as string, 10);
+    const maxFloor: number = parseInt(req.query.maxFloor as string, 10);
+
+    try {
+      const buildingsResult = await this.buildingService.getBuildingsByFloorRange(minFloor, maxFloor);
+
+      if (buildingsResult.isFailure) {
+        return res.status(404).json({ message: buildingsResult.error.toString() });
+      }
+
+      const buildingDTOs: IBuildingDTO[] = buildingsResult.getValue();
+
+      return res.status(200).json(buildingDTOs);
+    } catch (error) {
+      return next(error);
+    }
+  }
 }

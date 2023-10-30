@@ -10,11 +10,15 @@ import { Building } from '../domain/Building/building';
 import IBuildingDTO from '../dto/IBuildingDTO';
 import { BuildingMap } from '../mappers/BuildingMap';
 import IBuildingRepo from './IRepos/IBuildingRepo';
+import IFloorRepo from './IRepos/IFloorRepo';
 import IBuildingService from './IServices/IBuildingService';
 
 @Service()
 export default class BuildingService implements IBuildingService {
-  constructor(@Inject(config.repos.building.name) private buildingRepo: IBuildingRepo) {}
+  constructor(
+    @Inject(config.repos.building.name) private buildingRepo: IBuildingRepo,
+    @Inject(config.repos.floor.name) private floorRepo: IFloorRepo,
+  ) {}
 
   public async createBuilding(buildingDTO: IBuildingDTO): Promise<Result<IBuildingDTO>> {
     try {
@@ -127,6 +131,31 @@ export default class BuildingService implements IBuildingService {
       return Result.ok<IBuildingDTO>(buildingDTO);
     } catch (error) {
       return Result.fail<IBuildingDTO>(error);
+    }
+  }
+
+  public async getBuildingsByFloorRange(minFloors: number, maxFloors: number): Promise<Result<IBuildingDTO[]>> {
+    try {
+      const buildingCodes = (await this.getAllBuildings()).getValue().map((building) => building.code);
+
+      const buildings = await Promise.all(
+        buildingCodes.map(async (buildingCode) => {
+          const floors = await this.floorRepo.findByBuildingCode(buildingCode);
+          if (floors.length >= minFloors && floors.length <= maxFloors) {
+            return this.buildingRepo.findByCode(buildingCode);
+          }
+        }),
+      );
+
+      const filteredBuildings = buildings.filter((building) => building !== undefined);
+
+      const buildingDTOs: IBuildingDTO[] = filteredBuildings.map((building: Building) => {
+        return BuildingMap.toDTO(building);
+      });
+
+      return Result.ok<IBuildingDTO[]>(buildingDTOs);
+    } catch (error) {
+      return Result.fail<IBuildingDTO[]>(error);
     }
   }
 }
