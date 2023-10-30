@@ -31,6 +31,11 @@ export default async ({ expressApp }) => {
     schema: '../persistence/schemas/floorSchema',
   };
 
+  const passageSchema = {
+    name: 'passageSchema',
+    schema: '../persistence/schemas/passageSchema',
+  };
+
   const roleController = {
     name: config.controllers.role.name,
     path: config.controllers.role.path,
@@ -81,12 +86,27 @@ export default async ({ expressApp }) => {
     path: config.services.floor.path,
   };
 
+  const passageController = {
+    name: config.controllers.passage.name,
+    path: config.controllers.passage.path,
+  };
+
+  const passageRepo = {
+    name: config.repos.passage.name,
+    path: config.repos.passage.path,
+  };
+
+  const passageService = {
+    name: config.services.passage.name,
+    path: config.services.passage.path,
+  };
+
   await dependencyInjectorLoader({
     mongoConnection,
-    schemas: [userSchema, roleSchema, buildingSchema, floorSchema],
-    controllers: [roleController, buildingController, floorController],
-    repos: [roleRepo, userRepo, buildingRepo, floorRepo],
-    services: [roleService, buildingService, floorService],
+    schemas: [userSchema, roleSchema, buildingSchema, floorSchema, passageSchema],
+    controllers: [roleController, buildingController, floorController, passageController],
+    repos: [roleRepo, userRepo, buildingRepo, floorRepo, passageRepo],
+    services: [roleService, buildingService, floorService, passageService],
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');
 

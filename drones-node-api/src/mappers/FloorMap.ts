@@ -18,10 +18,10 @@ export class FloorMap extends Mapper<Floor> {
   }
 
   public static toDomain(raw: any): Result<Floor> {
-    const floorNumber = raw.floorNumber as number;
-    const description = Description.create(raw.description as string);
-    const servedByElevator = raw.servedByElevator as boolean;
-    const buildingCode = BuildingCode.create(raw.buildingCode as string);
+    const floorNumber = raw?.floorNumber as number;
+    const description = Description.create(raw?.description as string);
+    const servedByElevator = raw?.servedByElevator as boolean;
+    const buildingCode = BuildingCode.create(raw?.buildingCode as string);
 
     const combinedResults = Result.combine([description, buildingCode]);
     if (combinedResults.isFailure) {

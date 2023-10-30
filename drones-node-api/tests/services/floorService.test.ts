@@ -17,6 +17,7 @@ describe('FloorService', () => {
     floorRepoMock = {
       save: jest.fn(),
       exists: jest.fn(),
+      findByCode: jest.fn(),
     };
 
     buildingServiceMock = {
@@ -60,10 +61,10 @@ describe('FloorService', () => {
     it('should fail to create a floor when input is invalid', async () => {
       const floorDTO: IFloorDTO = {
         id: '00000000-0000-0000-0000-000000000000',
-        floorNumber: null,
+        floorNumber: 1,
         description: 'Test floor',
         servedByElevator: true,
-        buildingCode: 'B1',
+        buildingCode: '--------------------------',
       };
 
       const result = await floorService.createFloor(floorDTO);
