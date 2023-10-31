@@ -57,6 +57,14 @@ export default {
       name: 'PassageController',
       path: '../controllers/passageController',
     },
+    robotType: {
+      name: 'RobotTypeController',
+      path: '../controllers/robotTypeController',
+    },
+    taskType: {
+      name: 'TaskTypeController',
+      path: '../controllers/taskTypeController',
+    },
   },
 
   repos: {
@@ -80,6 +88,14 @@ export default {
       name: 'PassageRepo',
       path: '../repos/passageRepo',
     },
+    robotType: {
+      name: 'RobotTypeRepo',
+      path: '../repos/robotTypeRepo',
+    },
+    taskType: {
+      name: 'TaskTypeRepo',
+      path: '../repos/taskTypeRepo',
+    },
   },
 
   services: {
@@ -98,6 +114,14 @@ export default {
     passage: {
       name: 'PassageService',
       path: '../services/passageService',
+    },
+    robotType: {
+      name: 'RobotTypeService',
+      path: '../services/robotTypeService',
+    },
+    taskType: {
+      name: 'TaskTypeService',
+      path: '../services/taskTypeService',
     },
   },
 };

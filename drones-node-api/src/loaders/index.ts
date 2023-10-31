@@ -36,6 +36,16 @@ export default async ({ expressApp }) => {
     schema: '../persistence/schemas/passageSchema',
   };
 
+  const robotTypeSchema = {
+    name: 'robotTypeSchema',
+    schema: '../persistence/schemas/robotTypeSchema',
+  };
+
+  const taskTypeSchema = {
+    name: 'taskTypeSchema',
+    schema: '../persistence/schemas/taskTypeSchema',
+  };
+
   const roleController = {
     name: config.controllers.role.name,
     path: config.controllers.role.path,
@@ -66,6 +76,11 @@ export default async ({ expressApp }) => {
     path: config.controllers.floor.path,
   };
 
+  const robotTypeController = {
+    name: config.controllers.robotType.name,
+    path: config.controllers.robotType.path,
+  };
+
   const buildingRepo = {
     name: config.repos.building.name,
     path: config.repos.building.path,
@@ -74,6 +89,16 @@ export default async ({ expressApp }) => {
   const floorRepo = {
     name: config.repos.floor.name,
     path: config.repos.floor.path,
+  };
+
+  const robotTypeRepo = {
+    name: config.repos.robotType.name,
+    path: config.repos.robotType.path,
+  };
+
+  const taskTypeRepo = {
+    name: config.repos.taskType.name,
+    path: config.repos.taskType.path,
   };
 
   const buildingService = {
@@ -101,12 +126,22 @@ export default async ({ expressApp }) => {
     path: config.services.passage.path,
   };
 
+  const robotTypeService = {
+    name: config.services.robotType.name,
+    path: config.services.robotType.path,
+  };
+
+  const taskTypeService = {
+    name: config.services.taskType.name,
+    path: config.services.taskType.path,
+  };
+
   await dependencyInjectorLoader({
     mongoConnection,
-    schemas: [userSchema, roleSchema, buildingSchema, floorSchema, passageSchema],
-    controllers: [roleController, buildingController, floorController, passageController],
-    repos: [roleRepo, userRepo, buildingRepo, floorRepo, passageRepo],
-    services: [roleService, buildingService, floorService, passageService],
+    schemas: [userSchema, roleSchema, buildingSchema, floorSchema, passageSchema, taskTypeSchema, robotTypeSchema],
+    controllers: [roleController, buildingController, floorController, passageController, robotTypeController],
+    repos: [roleRepo, userRepo, buildingRepo, floorRepo, passageRepo, taskTypeRepo, robotTypeRepo],
+    services: [roleService, buildingService, floorService, passageService, taskTypeService, robotTypeService],
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');
 
