@@ -5,6 +5,10 @@ As user, I want to do a post request to the api to create a elevator on one buil
 
 ## Acceptance Criteria
 
+* POST method can be called to create an elevator.
+* Appropriate HTTP Status codes are returned (201 / 202 / 400).
+* Unit tests are written and passed.
+
 ## Questions from the forum
 
 > 

@@ -1,7 +1,7 @@
 @startuml SD Lv1
 
 participant RobDroneGo as system
-[o-> system : Post
+[o-> system : Post (elevator info)
 activate system
 
 system -> system : Create and Save\nelevator
