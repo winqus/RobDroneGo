@@ -1,0 +1,84 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant " "
+box "Fleet Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Robot Persistence" as Schema
+    end box
+
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Robot Repository" as Repository
+        participant "Robor Type Repository" as RTRepository
+    end box
+
+    participant DTO
+    participant RobotMap as Map
+    box "Application Business Rules" #ff6666
+        participant "Robot Service" as RobotS
+    end box
+
+    box "Enterprise Business Rules" #eeddaa
+        participant Floor
+    end box
+end box
+
+
+[o-> Routing : Post
+activate Routing
+
+    Routing -> Controller : create()
+    activate Controller
+    Routing -> Controller : createRobot()
+        Controller -> RobotS : create()
+        activate RobotS
+            Controller -> RobotS : createRobot(IRobotDTO)
+            RobotS -> Map : toDomain(robotDTO)
+
+            activate Map
+                Map -> Robot ** : create(...)
+                Map --> RobotS : RobotOrError
+            deactivate Map
+            RobotS -> RTRepository : findByName\n(robotResult.type.value)
+            note right: check if robot type\n exists
+
+            activate RTRepository
+                RTRepository --> RobotS : robotTypeResult
+            deactivate RTRepository
+
+            RobotS -> Repository : save(robotResult)
+            activate Repository
+
+                Repository -> Map : toPersistence(robot)
+                activate Map
+                    Map --> Repository : rawRobot
+                deactivate Map
+
+                Repository -> Schema : create(rawRobot)
+                activate Schema
+                    Schema --> Repository : robotCreated
+                deactivate Schema
+
+                Repository --> RobotS : RobotMap.toDomain(robotCreated) ? \nRobotMap.toDomain(robotCreated).getValue() : \nnull
+
+            deactivate Repository
+
+            RobotS -> Map : toDTO(robotResult))
+            activate Map
+                Map --> RobotS : RobotDTOResult
+            deactivate Map
+            RobotS --> Controller : Result.ok<IRobotDTO>(robotDTOResult)
+        deactivate RobotS
+
+    Controller --> Routing : res.status(201).json(robotDTO)
+    deactivate Controller
+
+[o<--o Routing : Success
+deactivate Routing
+
+
+@enduml

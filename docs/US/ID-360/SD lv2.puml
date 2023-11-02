@@ -1,0 +1,26 @@
+@startuml SD Lv2
+
+participant " "
+box "RobDroneGo" #LightBlue
+    participant "Fleet Management" as fleet
+    participant "DB" as DB
+end box
+
+[o-> fleet : Post
+activate fleet
+
+fleet -> DB : find robot type
+
+DB --> fleet : robot type
+
+fleet -> fleet : create robot
+
+fleet -> DB : save robot
+activate DB
+DB --> fleet : Success
+deactivate DB
+
+[o<--o fleet : Success
+deactivate fleet
+
+@enduml
