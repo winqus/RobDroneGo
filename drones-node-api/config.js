@@ -77,6 +77,10 @@ export default {
       name: 'TaskTypeController',
       path: '../controllers/taskTypeController',
     },
+    robot: {
+      name: 'RobotController',
+      path: '../controllers/robotController',
+    },
   },
 
   repos: {
@@ -108,6 +112,10 @@ export default {
       name: 'TaskTypeRepo',
       path: '../repos/taskTypeRepo',
     },
+    robot: {
+      name: 'RobotRepo',
+      path: '../repos/robotRepo',
+    },
   },
 
   services: {
@@ -138,6 +146,10 @@ export default {
     elevator: {
       name: 'ElevatorService',
       path: '../services/elevatorService',
+    },
+    robot: {
+      name: 'RobotService',
+      path: '../services/robotService',
     },
   },
 };
