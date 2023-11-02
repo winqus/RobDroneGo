@@ -51,4 +51,21 @@ export default (app: Router) => {
     errors(),
     routeJoiErrorHandler,
   );
+
+  route.post(
+    '/:code/elevator',
+    celebrate({
+      body: Joi.object({
+        number: Joi.number().required(),
+        make: Joi.string(),
+        model: Joi.string(),
+        serialNumber: Joi.string(),
+        description: Joi.string(),
+        floors: Joi.array()
+          .items(Joi.number())
+          .required(),
+      }),
+    }),
+    (req, res, next) => controller.createElevator(req, res, next),
+  );
 };

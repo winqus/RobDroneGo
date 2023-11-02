@@ -135,5 +135,9 @@ export default {
       name: 'TaskTypeService',
       path: '../services/taskTypeService',
     },
+    elevator: {
+      name: 'ElevatorService',
+      path: '../services/elevatorService',
+    },
   },
 };

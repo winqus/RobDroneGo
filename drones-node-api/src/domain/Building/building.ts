@@ -2,6 +2,7 @@ import { AggregateRoot } from '../../core/domain/AggregateRoot';
 import { UniqueEntityID } from '../../core/domain/UniqueEntityID';
 import { Guard } from '../../core/logic/Guard';
 import { Result } from '../../core/logic/Result';
+import { Elevator } from './Entities/elevator';
 import { Code } from './ValueObjects/code';
 import { Description } from './ValueObjects/description';
 import { FloorSize } from './ValueObjects/floorSize';
@@ -12,6 +13,7 @@ interface BuildingProps {
   code: Code;
   description: Description;
   floorSize: FloorSize;
+  elevator?: Elevator;
 }
 
 export class Building extends AggregateRoot<BuildingProps> {
@@ -45,6 +47,14 @@ export class Building extends AggregateRoot<BuildingProps> {
 
   get floorSize(): FloorSize {
     return this.props.floorSize;
+  }
+
+  get elevator(): Elevator {
+    return this.props.elevator;
+  }
+
+  set elevator(value: Elevator) {
+    this.props.elevator = value;
   }
 
   private constructor(props: BuildingProps, id?: UniqueEntityID) {

@@ -27,6 +27,7 @@ describe('BuildingService', () => {
       findById: jest.fn(),
       findByCode: jest.fn(),
       findByBuildingCode: jest.fn(),
+      findByCodes: jest.fn(),
     };
 
     buildingStub = {

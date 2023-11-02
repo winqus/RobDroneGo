@@ -6,6 +6,7 @@ import { FloorSize } from '../domain/Building/ValueObjects/floorSize';
 import { Name } from '../domain/Building/ValueObjects/name';
 import { Building } from '../domain/Building/building';
 import IBuildingDTO from '../dto/IBuildingDTO';
+import { ElevatorMap } from './ElevatorMap';
 
 export class BuildingMap extends Mapper<Building> {
   public static toDTO(building: Building): IBuildingDTO {
@@ -16,6 +17,7 @@ export class BuildingMap extends Mapper<Building> {
       description: building.description.value,
       floorSizeLength: building.floorSize.value.length,
       floorSizeWidth: building.floorSize.value.width,
+      elevator: building.elevator ? ElevatorMap.toDTO(building.elevator) : null,
     } as IBuildingDTO;
   }
 
@@ -25,12 +27,16 @@ export class BuildingMap extends Mapper<Building> {
     const description = Description.create(raw.description).getValue();
     const floorSize = FloorSize.create(raw.floorSizeLength, raw.floorSizeWidth).getValue();
 
+    // Handle the elevator relationship
+    const elevator = raw.elevator ? ElevatorMap.toDomain(raw.elevator) : null;
+
     const buildingOrError = Building.create(
       {
         name,
         code,
         description,
         floorSize,
+        elevator, // Assign the elevator to the Building
       },
       new UniqueEntityID(raw.id),
     );
@@ -48,6 +54,7 @@ export class BuildingMap extends Mapper<Building> {
       description: building.description.value,
       floorSizeLength: building.floorSize.value.length,
       floorSizeWidth: building.floorSize.value.width,
+      elevator: building.elevator ? ElevatorMap.toPersistence(building.elevator) : null,
     };
   }
 }

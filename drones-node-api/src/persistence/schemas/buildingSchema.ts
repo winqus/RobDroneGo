@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { IBuildingPersistence } from '../../dataschema/IBuildingPersistence';
+import { elevatorSchema } from './elevatorSchema';
 
 const Building = new mongoose.Schema(
   {
@@ -29,6 +30,9 @@ const Building = new mongoose.Schema(
     floorSizeWidth: {
       type: Number,
       required: [true, 'Please enter building width'],
+    },
+    elevator: {
+      type: elevatorSchema,
     },
   },
   { timestamps: true },

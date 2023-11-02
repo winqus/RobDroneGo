@@ -4,12 +4,17 @@ import config from '../../config';
 import { Result } from '../core/logic/Result';
 import { Building } from '../domain/Building/building';
 import IBuildingDTO from '../dto/IBuildingDTO';
+import IElevatorDTO from '../dto/IElevatorDTO';
 import IBuildingService from '../services/IServices/IBuildingService';
+import IElevatorService from '../services/IServices/IElevadorService';
 import IBuildingController from './IControllers/IBuildingController';
 
 @Service()
 export default class BuildingController implements IBuildingController {
-  constructor(@Inject(config.services.building.name) private buildingService: IBuildingService) {}
+  constructor(
+    @Inject(config.services.building.name) private buildingService: IBuildingService,
+    @Inject(config.services.elevator.name) private elevatorService: IElevatorService,
+  ) {}
 
   public async createBuilding(req: Request, res: Response, next: NextFunction) {
     try {
@@ -96,6 +101,26 @@ export default class BuildingController implements IBuildingController {
       const buildingDTOs: IBuildingDTO[] = buildingsResult.getValue();
 
       return res.status(200).json(buildingDTOs);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  public async createElevator(req: Request, res: Response, next: NextFunction) {
+    try {
+      const elevatorOrError = (await this.elevatorService.createElevator(
+        req.body as IElevatorDTO,
+        req.params.code,
+        req.body.floors,
+      )) as Result<IBuildingDTO>;
+
+      if (elevatorOrError.isFailure) {
+        return res.status(400).json({ message: elevatorOrError.error.toString() });
+      }
+
+      const elevatorDTO = elevatorOrError.getValue();
+
+      return res.status(201).json(elevatorDTO);
     } catch (error) {
       return next(error);
     }

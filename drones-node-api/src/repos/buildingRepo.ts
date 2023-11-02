@@ -1,6 +1,7 @@
 import { Inject, Service } from 'typedi';
 
 import { BuildingMap } from '../mappers/BuildingMap';
+import { ElevatorMap } from '../mappers/ElevatorMap';
 
 import { Document, FilterQuery, Model } from 'mongoose';
 import { UniqueEntityID } from '../core/domain/UniqueEntityID';
@@ -66,6 +67,7 @@ export default class BuildingRepo implements IBuildingRepo {
         buildingDocument.description = building.description.value;
         buildingDocument.floorSizeLength = building.floorSize.value.length;
         buildingDocument.floorSizeWidth = building.floorSize.value.width;
+        buildingDocument.elevator = building.elevator ? ElevatorMap.toPersistence(building.elevator) : null;
 
         await buildingDocument.save();
 
