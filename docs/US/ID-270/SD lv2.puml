@@ -6,7 +6,7 @@ box "RobDroneGo" #LightBlue
     participant "DB" as DB
 end box
 
-[o-> campus : Post
+[o-> campus : Post (elevator info)
 activate campus
 
 campus -> DB : load building
@@ -15,13 +15,14 @@ DB --> campus : building
 deactivate DB
 
 campus -> campus : create elevator
+campus -> campus : add elevator\nto building
 
-campus -> DB : save elevator
+campus -> DB : save building
 activate DB
-DB --> campus : Success
+DB --> campus : building
 deactivate DB
 
-[o<--o campus : Success
+[o<--o campus : building
 deactivate campus
 
 @enduml

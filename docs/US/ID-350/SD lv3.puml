@@ -1,0 +1,130 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant " "
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Robot Type Persistence" as Persistence
+        participant "Task Type Persistence" as TaskTypePers
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Robot Type Repository" as Repository
+        participant "Task Type Repository" as TaskTypeRepo
+    end box
+
+    participant "Robot Type DTO" as DTO
+    participant "Task Type DTO" as TaskTypeDTO
+    participant "Task Type Mapper" as TaskTypeMapper
+    participant "Robot Type Mapper" as RobotTypeMapper
+    box "Application Business Rules" #ff6666
+        participant "Robot Type Service" as Service
+        participant "Task Type Service" as TaskTypeService
+    end box
+
+    box "Enterprise Business Rules" #eeddaa
+        participant "Robot Type" as RobotType
+        participant "Task Type" as TaskType
+    end box
+end box
+
+
+[o-> Routing : Post
+activate Routing
+
+    Routing -> Controller : createRobotType(input)
+    activate Controller
+
+        Controller -> DTO : input as DTO
+        activate DTO
+
+        DTO --> Controller : robotTypeDTO
+        deactivate DTO
+
+        Controller -> Service : createRobotType(robotTypeDTO)
+        activate Service
+
+            loop for each type of task
+
+                Service -> TaskTypeService: getTaskType(taskTypeId)
+                activate TaskTypeService
+
+                    TaskTypeService -> TaskTypeRepo: findByType(type)
+                    activate TaskTypeRepo
+
+                        TaskTypeRepo -> TaskTypePers: findByType(type)
+                        activate TaskTypePers
+
+                        TaskTypePers --> TaskTypeRepo: taskType
+                        deactivate TaskTypePers
+
+                    TaskTypeRepo --> TaskTypeService: taskType
+                    deactivate TaskTypeRepo
+                
+                TaskTypeService --> Service: taskType
+                deactivate TaskTypeService
+
+            end loop
+
+            Service -> RobotType: create(name, brand, model, typeOfTasks)
+            activate RobotType
+
+            RobotType --> Service: robotType
+            deactivate RobotType
+
+            Service -> Repository: save(robotType)
+            activate Repository
+
+                Repository -> Persistence: save(robotType)
+                activate Persistence
+
+                Persistence --> Repository: robotType
+                deactivate Persistence
+            
+            Repository --> Service: robotType
+            deactivate Repository
+
+        Service -> RobotTypeMapper: toDTO(robotType)
+        activate RobotTypeMapper
+
+            RobotTypeMapper -> DTO: robotTypeDTO
+            activate DTO
+
+            DTO --> RobotTypeMapper: robotTypeDTO
+            deactivate DTO
+
+            loop for each task type
+
+                RobotTypeMapper -> TaskTypeMapper: toDTO(taskType)
+                activate TaskTypeMapper
+
+                    TaskTypeMapper -> TaskTypeDTO: taskTypeDTO
+                    activate TaskTypeDTO
+
+                    TaskTypeDTO --> TaskTypeMapper: taskTypeDTO
+                    deactivate TaskTypeDTO
+
+                TaskTypeMapper --> RobotTypeMapper: taskTypeDTO
+                deactivate TaskTypeMapper
+
+            end loop
+        
+        RobotTypeMapper --> Service: robotTypeDTO
+        deactivate RobotTypeMapper
+
+        Service --> Controller : robotTypeDTO
+        deactivate Service
+
+    Controller --> Routing : buildingDTO
+    deactivate Controller
+
+[o<--o Routing : buildingDTO
+deactivate Routing
+
+
+@enduml

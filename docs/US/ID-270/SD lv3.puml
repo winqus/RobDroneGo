@@ -18,9 +18,12 @@ box "Campus Management" #LightBlue
         participant "Floor Repository" as FloorRepo
     end box
 
-    participant DTO
+    participant "Elevator DTO" as DTO
+    participant "Building DTO" as BuildingDTO
+    participant "Elevator Mapper" as Mapper
+    participant "Building Mapper" as BuildingMapper
     box "Application Business Rules" #ff6666
-        participant "Building Service" as BuildingS
+        participant "Elevator Service" as ElevatorService
         participant "Floor Service" as FloorS
     end box
 
@@ -35,13 +38,19 @@ end box
 [o-> Routing : Post
 activate Routing
 
-    Routing -> Controller : 
+    Routing -> Controller : createElevator(input)
     activate Controller
 
-        Controller -> BuildingS :
-        activate BuildingS
+        Controller -> DTO : input as DTO
+        activate DTO
+
+        DTO --> Controller : elevatorDTO
+        deactivate DTO
+
+        Controller -> ElevatorService : createElevator(elevatorDTO, code, floors)
+        activate ElevatorService
         
-            BuildingS -> Repository : findByCode(code)
+            ElevatorService -> Repository : findByCode(code)
             activate Repository
 
                 Repository -> Persistence : findByCode(code)
@@ -50,64 +59,41 @@ activate Routing
                 Persistence --> Repository : building
                 deactivate Persistence
 
-            Repository --> BuildingS : building
+            Repository --> ElevatorService : building
             deactivate Repository
-            
-            BuildingS -> FloorS
-            activate FloorS
 
-                FloorS -> FloorRepo : findByCodesAndBuilding(codes, building)
-                activate FloorRepo
+            ElevatorService -> FloorRepo : findByCodes(building, codes)
+            activate FloorRepo
 
-                    FloorRepo -> FloorPers : findByCodeAndBuilding(codes, building)
-                    activate FloorPers
+                FloorRepo -> FloorPers : findByCodes(building, codes)
+                activate FloorPers
 
-                    FloorPers --> FloorRepo : floors
-                    deactivate FloorPers
+                FloorPers --> FloorRepo : floors
+                deactivate FloorPers
 
-                FloorRepo --> FloorS : floors
-                deactivate FloorRepo
+            FloorRepo --> ElevatorService : floors
+            deactivate FloorRepo
 
-            FloorS --> BuildingS : floors
-            deactivate FloorS
-
-            BuildingS -> Elevator : create(...)
+            ElevatorService -> Elevator : create(...)
             activate Elevator
 
-            Elevator --> BuildingS : elevator
+            Elevator --> ElevatorService : elevator
             deactivate Elevator
 
-            BuildingS -> Building : defineElevator(elevator)
+            ElevatorService -> Building : set elevator = elevator
             activate Building
-            Building --> BuildingS : Success
+            
+            Building --> ElevatorService : Success
             deactivate Building
 
             loop for each floor
-                BuildingS -> Floor : servedByElevator(true)
+                ElevatorService -> Floor : servedByElevator = true
                 activate Floor
-                Floor --> BuildingS : servedByElevator(true)
+                Floor --> ElevatorService : Success
                 deactivate Floor
             end
 
-            BuildingS -> FloorS
-            activate FloorS
-
-                FloorS -> FloorRepo : save(floors)
-                activate FloorRepo
-
-                    FloorRepo -> FloorPers : save(floors)
-                    activate FloorPers
-
-                    FloorPers --> FloorRepo : Success
-                    deactivate FloorPers
-
-                FloorRepo --> FloorS : Success
-                deactivate FloorRepo
-
-            FloorS --> BuildingS : Success
-            deactivate FloorS
-
-            BuildingS -> Repository : save(building)
+            ElevatorService -> Repository : save(building)
             activate Repository
 
                 Repository -> Persistence : save(building)
@@ -116,16 +102,53 @@ activate Routing
                 Persistence --> Repository : Success
                 deactivate Persistence
 
-            Repository --> BuildingS : Success
+            Repository --> ElevatorService : Success
             deactivate Repository
 
-        BuildingS --> Controller : Success
-        deactivate BuildingS
+            ElevatorService -> FloorRepo : save(floors)
+            activate FloorRepo
 
-    Controller --> Routing : Success
+                FloorRepo -> FloorPers : save(floors)
+                activate FloorPers
+
+                FloorPers --> FloorRepo : Success
+                deactivate FloorPers
+
+            FloorRepo --> ElevatorService : Success
+            deactivate FloorRepo
+
+        ElevatorService -> BuildingMapper : toDTO(building)
+        activate BuildingMapper
+
+            BuildingMapper -> Mapper : toDTO(elevator)
+            activate Mapper
+
+                Mapper -> DTO : elevator as DTO
+                activate DTO
+
+                DTO --> Mapper: elevatorDTO
+                deactivate DTO
+
+            Mapper --> BuildingMapper : elevatorDTO
+            deactivate Mapper
+
+            
+                BuildingMapper -> BuildingDTO : building as DTO
+                activate BuildingDTO
+
+                BuildingDTO --> BuildingMapper: buildingDTO
+                deactivate BuildingDTO
+        
+        BuildingMapper --> ElevatorService : buildingDTO
+        deactivate BuildingMapper
+
+        ElevatorService --> Controller : buildingDTO
+        deactivate ElevatorService
+
+    Controller --> Routing : buildingDTO
     deactivate Controller
 
-[o<--o Routing : Success
+[o<--o Routing : buildingDTO
 deactivate Routing
 
 

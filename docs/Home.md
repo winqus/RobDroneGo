@@ -13,6 +13,14 @@ The Software Architecture Document (SAD) describes the software architecture of 
 
 The Scrum development process is described in the following sections:
 
-* [DoD](DoD.md) and [DoR](DoR.md)
+* [DoR](DoR.md) and [DoD](DoD.md)
+* [Daily Scrum Meetings](Daily%20Scrum%20Meetings.md)
 * [Backlog items](Backlog%20Items.md)
 * [Version Control Strategy](Version%20Control%20Strategy.md)
+* [Testing Strategy](Testing%20Strategy.md)
+* [Sprint Retrospective](Sprint%20Retrospective.md)
+
+Other documentation:
+
+* [System Entity-Attribute Specification](System%20Entity-Attribute%20Specification.md)
+* [All Wiki files](https://bitbucket.org/isep-2324-5sem-g025/lapr5-wiki-and-documentation/wiki/browse/)
