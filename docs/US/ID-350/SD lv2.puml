@@ -1,0 +1,28 @@
+@startuml SD Lv2
+
+participant " "
+box "RobDroneGo" #LightBlue
+    participant "Fleet Management" as fleet
+    participant "DB" as DB
+end box
+
+[o-> fleet : Post (robot type info)
+activate fleet
+
+fleet -> DB : get task types
+activate DB
+
+DB --> fleet : task types
+deactivate DB
+
+fleet -> fleet : create robot type
+
+fleet -> DB : save robot type
+activate DB
+DB --> fleet : robot type
+deactivate DB
+
+[o<--o fleet : robot type
+deactivate fleet
+
+@enduml
