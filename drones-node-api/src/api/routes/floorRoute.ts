@@ -41,7 +41,7 @@ export default (app: Router) => {
         floorId: Joi.string().required(),
       }),
     }),
-    (req, res, next) => controller.updateFloor(req, res, next),
+    (req, res, next) => controller.partialUpdateFloor(req, res, next),
     errors(),
     routeJoiErrorHandler,
   );
