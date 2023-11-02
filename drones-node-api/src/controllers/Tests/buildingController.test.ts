@@ -33,7 +33,7 @@ describe('BuildingController', () => {
     nextMock = jest.fn();
 
     Container.set('buildingService', buildingServiceMock);
-    buildingController = new BuildingController(buildingServiceMock as IBuildingService);
+    buildingController = new BuildingController(buildingServiceMock as IBuildingService, null);
   });
 
   describe('createBuilding', () => {

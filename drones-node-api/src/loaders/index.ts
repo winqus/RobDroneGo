@@ -136,12 +136,25 @@ export default async ({ expressApp }) => {
     path: config.services.taskType.path,
   };
 
+  const elevatorService = {
+    name: config.services.elevator.name,
+    path: config.services.elevator.path,
+  };
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [userSchema, roleSchema, buildingSchema, floorSchema, passageSchema, taskTypeSchema, robotTypeSchema],
     controllers: [roleController, buildingController, floorController, passageController, robotTypeController],
     repos: [roleRepo, userRepo, buildingRepo, floorRepo, passageRepo, taskTypeRepo, robotTypeRepo],
-    services: [roleService, buildingService, floorService, passageService, taskTypeService, robotTypeService],
+    services: [
+      roleService,
+      buildingService,
+      floorService,
+      passageService,
+      taskTypeService,
+      robotTypeService,
+      elevatorService,
+    ],
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');
 

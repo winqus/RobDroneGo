@@ -2,11 +2,14 @@ import BuildingController from '../../src/controllers/buildingController';
 import FakeBuildingRepo from '../../src/repos/Fake/fakeBuildingRepo';
 import IBuildingRepo from '../../src/services/IRepos/IBuildingRepo';
 import IBuildingService from '../../src/services/IServices/IBuildingService';
+import IElevatorService from '../../src/services/IServices/IElevadorService';
 import BuildingService from '../../src/services/buildingService';
+import ElevatorService from '../../src/services/elevatorService';
 import { mockNext, mockRequest, mockResponse } from '../../src/utils/controllerInterceptor';
 
 describe('BuildingService and BuildingController Tests', () => {
   let buildingService: BuildingService;
+  let elevatorService: ElevatorService;
   let buildingController: BuildingController;
   let fakeBuildingRepo;
   let fakeFloorRepo;
@@ -32,7 +35,10 @@ describe('BuildingService and BuildingController Tests', () => {
     fakeBuildingRepo = new FakeBuildingRepo();
     fakeFloorRepo = {} as any;
     buildingService = new BuildingService(fakeBuildingRepo as IBuildingRepo, fakeFloorRepo);
-    buildingController = new BuildingController(buildingService as IBuildingService);
+    buildingController = new BuildingController(
+      buildingService as IBuildingService,
+      elevatorService as IElevatorService,
+    );
 
     fakeReq = mockRequest();
     fakeRes = mockResponse();

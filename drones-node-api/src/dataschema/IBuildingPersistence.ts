@@ -5,4 +5,12 @@ export interface IBuildingPersistence {
   description: string;
   floorSizeLength: number;
   floorSizeWidth: number;
+  elevator?: {
+    id: string;
+    number: number;
+    make?: string;
+    model?: string;
+    serialNumber?: string;
+    description?: string;
+  };
 }
