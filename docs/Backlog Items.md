@@ -12,11 +12,13 @@ The following backlog item (issue) types are used:
 * Technical - A task that is not visible to the user.
 * Knowledge - Related to research and information gathering. A task that is not visible to the user.
 * Bug - A bug that needs to be fixed.
+* Sub-task - a sub-issue type item that is created for clear division of work for a single US (other issue type), it follows the same definition as the parent issue and is moved to the *Done* state together with the parent.
 
 ## States ##
 
 * To Do - The backlog item is not yet started.
 * In Progress - The backlog item is being worked on.
+* Testing - the US implementation is being tested (e. g. unit tests are being written for it).
 * Done - The backlog item is completed.
 
 ## Estimation ##
