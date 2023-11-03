@@ -1,6 +1,12 @@
+import exp from 'constants';
 import BuildingController from '../../src/controllers/buildingController';
+import { Code as BuildingCode } from '../../src/domain/Building/ValueObjects/code';
+import { Description } from '../../src/domain/Building/ValueObjects/description';
+import { Floor } from '../../src/domain/Floor/floor';
 import FakeBuildingRepo from '../../src/repos/Fake/fakeBuildingRepo';
+import FakeFloorRepo from '../../src/repos/Fake/fakeFloorRepo';
 import IBuildingRepo from '../../src/services/IRepos/IBuildingRepo';
+import IFloorRepo from '../../src/services/IRepos/IFloorRepo';
 import IBuildingService from '../../src/services/IServices/IBuildingService';
 import IElevatorService from '../../src/services/IServices/IElevadorService';
 import BuildingService from '../../src/services/buildingService';
@@ -26,6 +32,7 @@ describe('BuildingService and BuildingController Tests', () => {
       description: 'A building for integration testing',
       floorSizeLength: 100,
       floorSizeWidth: 50,
+      elevator: null,
     };
     buildingRawBad = {
       name: '!@#',
@@ -33,8 +40,9 @@ describe('BuildingService and BuildingController Tests', () => {
     };
 
     fakeBuildingRepo = new FakeBuildingRepo();
-    fakeFloorRepo = {} as any;
-    buildingService = new BuildingService(fakeBuildingRepo as IBuildingRepo, fakeFloorRepo);
+    fakeFloorRepo = new FakeFloorRepo();
+    buildingService = new BuildingService(fakeBuildingRepo as IBuildingRepo, fakeFloorRepo as IFloorRepo);
+    elevatorService = new ElevatorService(fakeBuildingRepo as IBuildingRepo, fakeFloorRepo as IFloorRepo);
     buildingController = new BuildingController(
       buildingService as IBuildingService,
       elevatorService as IElevatorService,
@@ -80,6 +88,95 @@ describe('BuildingService and BuildingController Tests', () => {
     fakeReq.body = {} as any;
 
     await buildingController.createBuilding(fakeReq, fakeRes, fakeNext);
+
+    expect(fakeRes.status).toHaveBeenCalledWith(400);
+    expect(fakeRes.json).toHaveBeenCalled();
+  });
+
+  it('should create and save a building with correct data', async () => {
+    fakeReq.body = buildingRawGood;
+
+    await buildingController.createBuilding(fakeReq, fakeRes, fakeNext);
+    fakeFloorRepo.save(
+      Floor.create({
+        buildingCode: BuildingCode.create('TB123').getValue(),
+        floorNumber: 4,
+        description: Description.create('floor 4').getValue(),
+        servedByElevator: false,
+      }).getValue(),
+    );
+    fakeFloorRepo.save(
+      Floor.create({
+        buildingCode: BuildingCode.create('TB123').getValue(),
+        floorNumber: 5,
+        description: Description.create('floor 5').getValue(),
+        servedByElevator: false,
+      }).getValue(),
+    );
+
+    fakeReq = mockRequest();
+    fakeRes = mockResponse();
+    fakeNext = mockNext();
+
+    fakeReq.body = {
+      number: 1,
+      make: 'brand X',
+      model: 'model Y',
+      serialNumber: '00001',
+      description: 'elevator of building TB123',
+      floors: [4, 5],
+    };
+    fakeReq.params = {
+      code: 'TB123',
+    };
+
+    await buildingController.createElevator(fakeReq, fakeRes, fakeNext);
+
+    expect(fakeRes.status).toHaveBeenCalledWith(201);
+    expect(fakeRes.json).toHaveBeenCalled();
+    expect(fakeFloorRepo.getItems()[0].servedByElevator).toBe(true);
+    expect(fakeFloorRepo.getItems()[1].servedByElevator).toBe(true);
+  });
+
+  it('should fail to create and save in building with one elevator already', async () => {
+    fakeReq.body = buildingRawGood;
+
+    await buildingController.createBuilding(fakeReq, fakeRes, fakeNext);
+    fakeFloorRepo.save(
+      Floor.create({
+        buildingCode: BuildingCode.create('TB123').getValue(),
+        floorNumber: 4,
+        description: Description.create('floor 4').getValue(),
+        servedByElevator: false,
+      }).getValue(),
+    );
+    fakeFloorRepo.save(
+      Floor.create({
+        buildingCode: BuildingCode.create('TB123').getValue(),
+        floorNumber: 5,
+        description: Description.create('floor 5').getValue(),
+        servedByElevator: false,
+      }).getValue(),
+    );
+
+    fakeReq = mockRequest();
+    fakeRes = mockResponse();
+    fakeNext = mockNext();
+
+    fakeReq.body = {
+      number: 1,
+      make: 'brand X',
+      model: 'model Y',
+      serialNumber: '00001',
+      description: 'elevator of building TB123',
+      floors: [4, 5],
+    };
+    fakeReq.params = {
+      code: 'TB123',
+    };
+
+    await buildingController.createElevator(fakeReq, fakeRes, fakeNext);
+    await buildingController.createElevator(fakeReq, fakeRes, fakeNext);
 
     expect(fakeRes.status).toHaveBeenCalledWith(400);
     expect(fakeRes.json).toHaveBeenCalled();

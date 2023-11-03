@@ -31,7 +31,7 @@ export default class ElevatorService implements IElevatorService {
       if (building === null) {
         return Result.fail<IBuildingDTO>('Building not found');
       }
-      if (building.elevator !== null) {
+      if (building.elevator !== null && building.elevator !== undefined) {
         return Result.fail<IBuildingDTO>('Building already has an elevator');
       }
 
