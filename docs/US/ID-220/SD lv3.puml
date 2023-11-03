@@ -1,0 +1,97 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant " "
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Floor Persistence" as FloorPers
+        participant "Passage Persistence" as PassagePers
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Passage Repository" as PassageRepository
+        participant "Floor Repository" as FloorRepo
+    end box
+
+    participant "Floor DTO" as FloorDTO
+    participant "Floor Mapper" as FloorMapper
+    box "Application Business Rules" #ff6666
+        participant "Passage Service" as PassageService
+    end box
+
+    box "Enterprise Business Rules" #eeddaa
+        participant Floor
+        participant Passage
+    end box
+end box
+
+
+[o-> Routing : Post
+activate Routing
+
+    Routing -> Controller : listFloorsWithPassagesToDifferentBuilding(buildingCode)
+    activate Controller
+
+        Controller -> PassageService : getPassagesToDiferentBuildings(buildingCode)
+        activate PassageService
+
+            PassageService -> PassageRepository : getPassagesToDiferentBuildings(buildingCode)
+            activate PassageRepository
+
+                PassageRepository -> PassagePers : getPassagesToDiferentBuildings(buildingCode)
+                activate PassagePers
+
+                PassagePers --> PassageRepository : passage[]
+                deactivate PassagePers
+
+            PassageRepository --> PassageService : passage[]
+            deactivate PassageRepository
+
+            PassageService -> PassageService : listFloorsDTO = []
+
+            loop for each passage 
+                
+                PassageService -> FloorRepo: getFloorByCode(buildingCode, floorNumber)
+                activate FloorRepo
+
+                    FloorRepo -> FloorPers: getFloorByCode(buildingCode, floorNumber)
+                    activate FloorPers
+
+                    FloorPers --> FloorRepo: floor
+                    deactivate FloorPers
+
+                FloorRepo --> PassageService: floor
+                deactivate FloorRepo
+
+                PassageService -> FloorMapper: toDTO(floor)
+                activate FloorMapper
+
+                    FloorMapper -> FloorDTO: floor as DTO
+                    activate FloorDTO
+
+                    FloorDTO --> FloorMapper: floorDTO
+                    deactivate FloorDTO
+
+                FloorMapper -> PassageService: floorDTO
+                deactivate FloorMapper
+
+                PassageService -> PassageService: listFloorsDTO.push(floorDTO)
+
+
+            end
+
+            PassageService --> Controller : listFloorsDTO
+
+    Controller --> Routing : floorDTO[]
+    deactivate Controller
+
+[o<--o Routing : floorDTO[]
+deactivate Routing
+
+
+@enduml
