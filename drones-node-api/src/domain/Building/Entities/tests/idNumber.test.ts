@@ -1,4 +1,4 @@
-import { IDNumber } from '../ValueObjects/idNumber'; // Import the IDNumber class
+import { IDNumber } from '../ValueObjects/idNumber';
 
 describe('IDNumber', () => {
   describe('create', () => {

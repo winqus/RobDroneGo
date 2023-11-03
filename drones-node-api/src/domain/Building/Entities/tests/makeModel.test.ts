@@ -1,4 +1,4 @@
-import { MakeModel } from '../ValueObjects/makeModel'; // Import the MakeModel class
+import { MakeModel } from '../ValueObjects/makeModel';
 
 describe('MakeModel', () => {
   describe('create', () => {

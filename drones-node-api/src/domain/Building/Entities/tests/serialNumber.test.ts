@@ -1,4 +1,4 @@
-import { SerialNumber } from '../ValueObjects/serialNumber'; // Import the SerialNumber class
+import { SerialNumber } from '../ValueObjects/serialNumber';
 
 describe('SerialNumber', () => {
   describe('create', () => {

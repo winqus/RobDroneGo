@@ -82,4 +82,53 @@ export default class ElevatorService implements IElevatorService {
       return Result.fail<IBuildingDTO>(error);
     }
   }
+
+  public async updateElevator(updates: Partial<IElevatorDTO>, buildingCode: string): Promise<Result<IBuildingDTO>> {
+    try {
+      const building = await this.buildingRepo.findByCode(buildingCode);
+      if (building === null) {
+        return Result.fail<IBuildingDTO>('Building not found');
+      }
+      if (building.elevator === null) {
+        return Result.fail<IBuildingDTO>('Building has no elevator');
+      }
+
+      const elevator = building.elevator;
+
+      const numberResult = await IDNumber.create(elevator.number.value);
+      const makeModelResult = await MakeModel.create(
+        updates.make || elevator.makeModel.make,
+        updates.model || elevator.makeModel.model,
+      );
+      const serialNumberResult = await SerialNumber.create(updates.serialNumber || elevator.serialNumber.value);
+      const descriptionResult = await Description.create(updates.description || elevator.description.value);
+
+      const combinedResult = Result.combine([numberResult, makeModelResult, serialNumberResult, descriptionResult]);
+      if (combinedResult.isFailure) {
+        return Result.fail<IBuildingDTO>(combinedResult.error);
+      }
+
+      building.elevator = Elevator.create(
+        {
+          number: numberResult.getValue(),
+          makeModel: makeModelResult.getValue(),
+          serialNumber: serialNumberResult.getValue(),
+          description: descriptionResult.getValue(),
+        },
+        new UniqueEntityID(elevator.id.toString()),
+      ).getValue();
+
+      try {
+        await this.buildingRepo.save(building);
+      } catch (error) {
+        return Result.fail<IBuildingDTO>(error);
+      }
+
+      const buildingDTOResult = BuildingMap.toDTO(building) as IBuildingDTO;
+
+      return Result.ok<IBuildingDTO>(buildingDTOResult);
+    } catch (error) {
+      return Result.fail<IBuildingDTO>(error);
+    }
+  }
 }

@@ -4,7 +4,7 @@ import { Types } from '../../TaskType/type';
 import { Brand } from '../ValueObjects/brand';
 import { Model } from '../ValueObjects/model';
 import { Name } from '../ValueObjects/name';
-import { RobotType } from '../robotType'; // Import the RobotType class
+import { RobotType } from '../robotType';
 
 describe('RobotType', () => {
   describe('create', () => {

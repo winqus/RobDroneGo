@@ -27,7 +27,6 @@ export class BuildingMap extends Mapper<Building> {
     const description = Description.create(raw.description).getValue();
     const floorSize = FloorSize.create(raw.floorSizeLength, raw.floorSizeWidth).getValue();
 
-    // Handle the elevator relationship
     const elevator = raw.elevator ? ElevatorMap.toDomain(raw.elevator) : null;
 
     const buildingOrError = Building.create(
@@ -36,7 +35,7 @@ export class BuildingMap extends Mapper<Building> {
         code,
         description,
         floorSize,
-        elevator, // Assign the elevator to the Building
+        elevator,
       },
       new UniqueEntityID(raw.id),
     );

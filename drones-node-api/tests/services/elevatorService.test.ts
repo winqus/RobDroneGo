@@ -107,4 +107,42 @@ describe('ElevatorService', () => {
       expect(result.isFailure).toBe(true);
     });
   });
+
+  describe('updateElevator', () => {
+    it('should successfully update an elevator', async () => {
+      building.elevator = ElevatorMap.toDomain(elevatorDTO);
+      buildingRepoMock.findByCode.mockResolvedValue(Promise.resolve(building));
+      buildingRepoMock.save.mockResolvedValue(Promise.resolve(building));
+
+      const result = await elevatorService.updateElevator(elevatorDTO, buildingCode);
+
+      expect(result.isSuccess).toBe(true);
+      expect(buildingRepoMock.findByCode).toHaveBeenCalledWith(buildingCode);
+      expect(buildingRepoMock.save).toHaveBeenCalledWith(building);
+    });
+
+    it('should fail when the building does not exist', async () => {
+      buildingRepoMock.findByCode.mockResolvedValue(Promise.resolve(null as any));
+
+      const result = await elevatorService.updateElevator(elevatorDTO, buildingCode);
+
+      expect(result.isFailure).toBe(true);
+      expect(result.error).toBe('Building not found');
+    });
+
+    it('should fail when the building does not have an elevator', async () => {
+      buildingRepoMock.findByCode.mockResolvedValue(Promise.resolve(building));
+
+      const result = await elevatorService.updateElevator(elevatorDTO, buildingCode);
+
+      expect(result.isFailure).toBe(true);
+      expect(result.error).toBe('Building has no elevator');
+    });
+
+    it('should fail when input data is invalid', async () => {
+      const result = await elevatorService.updateElevator(elevatorDTO, buildingCode);
+
+      expect(result.isFailure).toBe(true);
+    });
+  });
 });

@@ -3,7 +3,7 @@ import { Description } from '../ValueObjects/description';
 import { IDNumber } from '../ValueObjects/idNumber';
 import { MakeModel } from '../ValueObjects/makeModel';
 import { SerialNumber } from '../ValueObjects/serialNumber';
-import { Elevator } from '../elevator'; // Import the Elevator class
+import { Elevator } from '../elevator';
 
 describe('Elevator', () => {
   describe('create', () => {

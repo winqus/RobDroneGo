@@ -1,9 +1,8 @@
 import { celebrate, errors, Joi } from 'celebrate';
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
 import { Container } from 'typedi';
 import config from '../../../config';
 import IBuildingController from '../../controllers/IControllers/IBuildingController';
-import BuildingRepo from '../../repos/buildingRepo';
 import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
 const route = Router();
@@ -67,5 +66,37 @@ export default (app: Router) => {
       }),
     }),
     (req, res, next) => controller.createElevator(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
+
+  route.put(
+    '/:code/elevator',
+    celebrate({
+      body: Joi.object({
+        make: Joi.string().required(),
+        model: Joi.string().required(),
+        serialNumber: Joi.string().required(),
+        description: Joi.string().required(),
+      }),
+    }),
+    (req, res, next) => controller.updateElevator(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
+
+  route.patch(
+    '/:code/elevator',
+    celebrate({
+      body: Joi.object({
+        make: Joi.string(),
+        model: Joi.string(),
+        serialNumber: Joi.string(),
+        description: Joi.string(),
+      }),
+    }),
+    (req, res, next) => controller.updateElevator(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
   );
 };

@@ -10,7 +10,7 @@ import { IUserDTO } from '../dto/IUserDTO';
 import { UserMap } from '../mappers/UserMap';
 
 exports.getMe = async function(req, res: Response) {
-  // NB: a arquitetura ONION não está a ser seguida aqui
+  // NB: the ONION architecture is not being followed here
 
   const userRepo = Container.get(config.repos.user.name) as IUserRepo;
 

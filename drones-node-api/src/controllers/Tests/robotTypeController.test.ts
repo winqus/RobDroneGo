@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { Result } from '../../core/logic/Result';
 import IRobotTypeDTO from '../../dto/IRobotTypeDTO';
-import IRobotTypeService from '../../services/IServices/IRobotTypeService'; // Import the interface for the service
-import RobotTypeController from '../robotTypeController'; // Import the actual controller
+import IRobotTypeService from '../../services/IServices/IRobotTypeService';
+import RobotTypeController from '../robotTypeController';
 
 describe('RobotTypeController', () => {
   let robotTypeController: RobotTypeController;

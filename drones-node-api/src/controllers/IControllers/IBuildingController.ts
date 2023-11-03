@@ -12,4 +12,6 @@ export default interface IBuildingController {
   getBuildingByFloorRange(req: Request, res: Response, next: NextFunction);
 
   createElevator(req: Request, res: Response, next: NextFunction);
+
+  updateElevator(req: Request, res: Response, next: NextFunction);
 }

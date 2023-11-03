@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '../../../core/domain/UniqueEntityID';
-import { TaskType } from '../taskType'; // Import the TaskType class
+import { TaskType } from '../taskType';
 import { Types } from '../type';
 
 describe('TaskType', () => {

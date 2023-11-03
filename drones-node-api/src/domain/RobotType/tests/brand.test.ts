@@ -1,4 +1,4 @@
-import { Brand } from '../ValueObjects/brand'; // Import the Brand class
+import { Brand } from '../ValueObjects/brand';
 
 describe('Brand', () => {
   describe('create', () => {

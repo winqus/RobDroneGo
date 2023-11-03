@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { MockProxy, mock } from 'jest-mock-extended';
 import { Container } from 'typedi';
 import { Result } from '../../core/logic/Result';
 import { Building } from '../../domain/Building/building';
@@ -10,33 +11,21 @@ import BuildingController from '../buildingController';
 
 describe('BuildingController', () => {
   let buildingController: BuildingController;
-  let buildingServiceMock: jest.Mocked<IBuildingService>;
-  let elevatorServiceMock: jest.Mocked<IElevatorService>;
-  let reqMock: Partial<Request>;
-  let resMock: Partial<Response>;
-  let nextMock: NextFunction;
+  let buildingServiceMock: MockProxy<IBuildingService>;
+  let elevatorServiceMock: MockProxy<IElevatorService>;
+  let reqMock: MockProxy<Request>;
+  let resMock: MockProxy<Response>;
+  let nextMock: MockProxy<NextFunction>;
 
   beforeEach(() => {
-    buildingServiceMock = {
-      createBuilding: jest.fn(),
-      updateBuilding: jest.fn(),
-      getAllBuildings: jest.fn(),
-      getBuildingByCode: jest.fn(),
-      getBuildingsByFloorRange: jest.fn(),
-    };
-    elevatorServiceMock = {
-      createElevator: jest.fn(),
-    } as any;
+    buildingServiceMock = mock<IBuildingService>();
+    elevatorServiceMock = mock<IElevatorService>();
 
-    reqMock = {
-      body: {},
-    };
-
-    resMock = {
+    reqMock = mock<Request>({ body: {} });
+    resMock = mock<Response>({
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
-    };
-
+    });
     nextMock = jest.fn();
 
     Container.set('buildingService', buildingServiceMock);
@@ -116,9 +105,9 @@ describe('BuildingController', () => {
       expect(resMock.json).toHaveBeenCalledWith({ message: 'An error occurred' });
     });
   });
+
   describe('ElevatorController', () => {
     it('should create an elevator and return 201 status', async () => {
-      // Mock request and response data
       reqMock.body = {
         number: 1,
         make: 'Make',
@@ -131,7 +120,6 @@ describe('BuildingController', () => {
         code: 'A',
       };
 
-      // Mock the successful result from the service
       const elevatorDTO: IElevatorDTO = {
         id: '00000000-0000-0000-0000-000000000000',
         number: 1,
@@ -153,16 +141,13 @@ describe('BuildingController', () => {
 
       elevatorServiceMock.createElevator.mockReturnValue(Promise.resolve(Result.ok(buildingDTO)) as any);
 
-      // Call the controller method
       await buildingController.createElevator(reqMock as any, resMock as any, nextMock);
 
-      // Check if the response status and JSON were called correctly
       expect(resMock.status).toHaveBeenCalledWith(201);
       expect(resMock.json).toHaveBeenCalledWith(buildingDTO);
     });
 
     it('should handle a failure and return 400 status with an error message', async () => {
-      // Mock request data
       reqMock.body = {
         number: 1,
         make: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
@@ -175,18 +160,44 @@ describe('BuildingController', () => {
         code: 'BuildingCode',
       };
 
-      // Mock the failure result from the service
       const errorMessage = 'Invalid elevator data';
       const elevatorResult = Result.fail(errorMessage);
 
       elevatorServiceMock.createElevator.mockResolvedValue(elevatorResult as any);
 
-      // Call the controller method
       await buildingController.createElevator(reqMock as any, resMock as any, nextMock);
 
-      // Check if the response status and JSON were called correctly
       expect(resMock.status).toHaveBeenCalledWith(400);
       expect(resMock.json).toHaveBeenCalledWith({ message: errorMessage });
+    });
+
+    it('should update an elevator and return 200 status', async () => {
+      reqMock.body = {
+        number: 1,
+        make: 'Make',
+        model: 'Model',
+        serialNumber: 'SN123',
+        description: 'Elevator Description',
+      };
+      reqMock.params = {
+        code: 'BuildingCode',
+      };
+
+      const elevatorDTO: IElevatorDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        number: 1,
+        make: 'Make',
+        model: 'Model',
+        serialNumber: 'SN123',
+        description: 'Elevator Description',
+      };
+
+      elevatorServiceMock.updateElevator.mockResolvedValue(Result.ok(elevatorDTO) as any);
+
+      await buildingController.updateElevator(reqMock as any, resMock as any, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(200);
+      expect(resMock.json).toHaveBeenCalledWith(elevatorDTO);
     });
   });
 });

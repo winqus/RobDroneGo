@@ -1,4 +1,4 @@
-import { Description } from '../ValueObjects/description'; // Import the Description class
+import { Description } from '../ValueObjects/description';
 
 describe('Description', () => {
   describe('create', () => {

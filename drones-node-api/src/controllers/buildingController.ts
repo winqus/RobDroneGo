@@ -125,4 +125,23 @@ export default class BuildingController implements IBuildingController {
       return next(error);
     }
   }
+
+  public async updateElevator(req: Request, res: Response, next: NextFunction) {
+    try {
+      const elevatorOrError = (await this.elevatorService.updateElevator(
+        req.body as IElevatorDTO,
+        req.params.code,
+      )) as Result<IBuildingDTO>;
+
+      if (elevatorOrError.isFailure) {
+        return res.status(400).json({ message: elevatorOrError.error.toString() });
+      }
+
+      const elevatorDTO = elevatorOrError.getValue();
+
+      return res.status(200).json(elevatorDTO);
+    } catch (error) {
+      return next(error);
+    }
+  }
 }
