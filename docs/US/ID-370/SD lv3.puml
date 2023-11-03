@@ -1,0 +1,71 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+
+participant " "
+box "Fleet Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Robot Persistence" as Schema
+    end box
+
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Robot Repository" as Repository
+    end box
+
+    participant DTO
+    participant RobotMap as Map
+    box "Application Business Rules" #ff6666
+        participant "Robot Service" as RobotS
+    end box
+
+end box
+
+
+[o-> Routing : Patch
+activate Routing
+
+    Routing -> Controller : create()
+    activate Controller
+    Routing -> Controller : changeRobotState(req, res, next)
+        Controller -> RobotS : create()
+        activate RobotS
+            Controller -> RobotS : changeRobotState(updatedRobotDTO)
+
+            RobotS -> Repository : findByCode\n(updatedRobotDTO.code)
+
+            activate Repository
+                Repository --> RobotS : robotResult.getValue()
+            deactivate Repository
+
+                RobotS -> Map : toDomain(updatedRobotData)
+                activate Map
+                    Map --> RobotS : robotOrError
+                deactivate Map
+
+                RobotS -> Schema : save(robotOrError.getValue())
+
+                activate Schema
+                    Schema --> RobotS : robot
+                deactivate Schema
+
+            deactivate Repository
+
+            RobotS -> Map : toDTO(robotResult))
+            activate Map
+                Map --> RobotS : RobotDTOResult
+            deactivate Map
+            RobotS --> Controller : Result.ok<IRobotDTO>(robotDTOResult)
+        deactivate RobotS
+
+    Controller --> Routing : res.status(201).json(robotDTO)
+    deactivate Controller
+
+[o<--o Routing : Success
+deactivate Routing
+
+
+@enduml
