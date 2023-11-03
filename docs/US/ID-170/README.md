@@ -1,10 +1,11 @@
-# ID 170 - List all floors of a building
+# ID 170 - List all buildings
 
 ## Description
-As user, I want to do a get request to the api to list all floors of a building.
+As user, I want to do a get request to the api to list buildings that exist
+in the system.
 
 ## Acceptance Criteria
-* Get the information about all floors of one building.
+* Get the information about all buildings.
 * Unit tests are written and passed.
 
 ## Questions from the forum
