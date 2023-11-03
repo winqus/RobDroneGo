@@ -1,6 +1,9 @@
 # Backlog Items #
 
-Backlog items are created based on client project specifications, the technical and research needs of the team/project, and are traceable to client requirements.
+Backlog items are created based on client project specifications, and the technical and research needs of the team/project, and are traceable to client requirements.
+
+## Naming ##
+Backlog items follow the requirement names defined in the client requirement list. Those should include the ID of the client requirement (e.g. "ID310 - Create building floor room"). Other project-related backlog items should be named in User Story writing style with the role, need, and value defined.
 
 ## Types ##
 
