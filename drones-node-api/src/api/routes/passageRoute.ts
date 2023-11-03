@@ -30,4 +30,17 @@ export default (app: Router) => {
     errors(),
     routeJoiErrorHandler,
   );
+
+  route.get(
+    '/',
+    celebrate({
+      query: Joi.object({
+        buildingCode1: Joi.string(),
+        buildingCode2: Joi.string(),
+      }).and('buildingCode1', 'buildingCode2'),
+    }),
+    (req, res, next) => controller.getPassages(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
 };

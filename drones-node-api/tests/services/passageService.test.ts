@@ -1,3 +1,4 @@
+import { MockProxy, mock } from 'jest-mock-extended';
 import { Container } from 'typedi';
 import { UniqueEntityID } from '../../src/core/domain/UniqueEntityID';
 import { Passage } from '../../src/domain/Passage/passage';
@@ -8,26 +9,13 @@ import PassageService from '../../src/services/passageService';
 
 describe('PassageService', () => {
   let passageService: PassageService;
-  let passageRepoMock: jest.Mocked<IPassageRepo>;
-  let floorRepoMock: jest.Mocked<IFloorRepo>;
+  let passageRepoMock: MockProxy<IPassageRepo>;
+  let floorRepoMock: MockProxy<IFloorRepo>;
   let passageStub: Passage;
 
   beforeEach(() => {
-    passageRepoMock = {
-      save: jest.fn(),
-      exists: jest.fn(),
-      findByCodes: jest.fn(),
-    };
-
-    floorRepoMock = {
-      save: jest.fn(),
-      exists: jest.fn(),
-      findByCode: jest.fn(),
-      findById: jest.fn(),
-      findByBuildingCode: jest.fn(),
-      findByCodes: jest.fn(),
-      findAllFloors: jest.fn(),
-    };
+    passageRepoMock = mock<IPassageRepo>();
+    floorRepoMock = mock<IFloorRepo>();
 
     passageStub = {
       id: new UniqueEntityID(),
@@ -37,8 +25,6 @@ describe('PassageService', () => {
       floorNumber2: 2,
     } as Passage;
 
-    Container.set('passageRepo', passageRepoMock);
-    Container.set('floorRepo', floorRepoMock);
     passageService = new PassageService(passageRepoMock, floorRepoMock);
   });
 

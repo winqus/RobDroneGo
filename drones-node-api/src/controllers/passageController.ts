@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { ParsedQs } from 'qs';
 import { Inject, Service } from 'typedi';
 import config from '../../config';
 import { Result } from '../core/logic/Result';
@@ -21,6 +22,30 @@ export default class PassageController implements IPassageController {
       const passageDTO = passageOrError.getValue();
 
       return res.status(201).json(passageDTO);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  public async getPassages(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { buildingCode1, buildingCode2 } = req.query as ParsedQs;
+
+      let passagesResult: Result<IPassageDTO[]>;
+
+      if (typeof buildingCode1 === 'string' && typeof buildingCode2 === 'string') {
+        passagesResult = await this.passageService.getPassagesBetweenBuildings(buildingCode1, buildingCode2);
+      } else {
+        passagesResult = await this.passageService.getAllPassages();
+      }
+
+      if (passagesResult.isFailure) {
+        return res.status(400).json({ message: passagesResult.error.toString() });
+      }
+
+      const passagesDTO = passagesResult.getValue();
+
+      return res.status(200).json(passagesDTO);
     } catch (error) {
       return next(error);
     }

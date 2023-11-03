@@ -36,6 +36,25 @@ export default class PassageRepo implements IPassageRepo {
     }
   }
 
+  public async findAllByBuildingCodes(buildingCode1: string, buildingCode2: string): Promise<Passage[]> {
+    const query = {
+      $or: [
+        { buildingCode1: buildingCode1, buildingCode2: buildingCode2 },
+        { buildingCode1: buildingCode2, buildingCode2: buildingCode1 },
+      ],
+    };
+
+    const passages = await this.passageSchema.find(query as FilterQuery<IPassagePersistence & Document>);
+
+    return passages.map((passage) => PassageMap.toDomain(passage).getValue());
+  }
+
+  public async getAll(): Promise<Passage[]> {
+    const passages = await this.passageSchema.find({});
+
+    return passages.map((passage) => PassageMap.toDomain(passage).getValue());
+  }
+
   public async save(passage: Passage): Promise<Passage> {
     const query = {
       buildingCode1: passage.buildingCode1.value,

@@ -14,6 +14,33 @@ export default class PassageService implements IPassageService {
     @Inject(config.repos.floor.name) private floorRepo: IFloorRepo,
   ) {}
 
+  public async getAllPassages(): Promise<Result<IPassageDTO[]>> {
+    try {
+      const passages = await this.passageRepo.getAll();
+
+      const passagesDTO = passages.map((passage) => PassageMap.toDTO(passage));
+
+      return Result.ok<IPassageDTO[]>(passagesDTO);
+    } catch (error) {
+      return Result.fail<IPassageDTO[]>(error);
+    }
+  }
+
+  public async getPassagesBetweenBuildings(
+    buildingCode1: string,
+    buildingCode2: string,
+  ): Promise<Result<IPassageDTO[]>> {
+    try {
+      const passages = await this.passageRepo.findAllByBuildingCodes(buildingCode1, buildingCode2);
+
+      const passagesDTO = passages.map((passage) => PassageMap.toDTO(passage));
+
+      return Result.ok<IPassageDTO[]>(passagesDTO);
+    } catch (error) {
+      return Result.fail<IPassageDTO[]>(error);
+    }
+  }
+
   public async createPassage(passageDTO: IPassageDTO): Promise<Result<IPassageDTO>> {
     try {
       const passageOrError = PassageMap.toDomain(passageDTO);
@@ -58,7 +85,7 @@ export default class PassageService implements IPassageService {
 
       return Result.ok<IPassageDTO>(passageDTOResult);
     } catch (error) {
-      throw error;
+      return Result.fail<IPassageDTO>(error);
     }
   }
 }
