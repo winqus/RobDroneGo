@@ -32,4 +32,29 @@ export default class RobotController implements IRobotController {
       return next(error);
     }
   }
+
+  public async changeRobotState(req: Request, res: Response, next: NextFunction) {
+    try {
+      const robotCode: string = req.params.robotCode;
+
+      if (!robotCode) {
+        return res.status(400).json({ message: 'Robot code is required' });
+      }
+
+      const updatedRobotDTO: IRobotDTO = req.body;
+      updatedRobotDTO.code = robotCode;
+
+      const result: Result<IRobotDTO> = await this.robotService.changeRobotState(updatedRobotDTO);
+
+      if (result.isFailure) {
+        return res.status(400).json({ message: result.error.toString() });
+      }
+
+      const robotDTO = result.getValue();
+
+      return res.status(200).json(robotDTO);
+    } catch (error) {
+      return next(error);
+    }
+  }
 }

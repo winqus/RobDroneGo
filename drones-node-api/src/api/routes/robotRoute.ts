@@ -29,4 +29,19 @@ export default (app: Router) => {
     errors(),
     routeJoiErrorHandler,
   );
+
+  route.patch(
+    '/:robotCode/state',
+    celebrate({
+      body: Joi.object({
+        available: Joi.boolean().required(),
+      }),
+      params: Joi.object({
+        robotCode: Joi.string().required(),
+      }),
+    }),
+    (req, res, next) => controller.changeRobotState(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
 };

@@ -46,4 +46,33 @@ export default class RobotRepo implements IRobotRepo {
       throw error;
     }
   }
+
+  public async findById(robotId: string): Promise<Robot | null> {
+    const query = { id: robotId };
+    const robotRecord = await this.robotSchema.findOne(query as FilterQuery<IRobotPersistence & Document>);
+    if (!robotRecord) {
+      return null;
+    }
+    const robotResult = RobotMap.toDomain(robotRecord);
+    if (robotResult.isSuccess) {
+      return robotResult.getValue();
+    } else {
+      return null;
+    }
+  }
+
+  public async findByCode(robotCode: string): Promise<Robot | null> {
+    const query = { code: robotCode };
+    const robotRecord = await this.robotSchema.findOne(query as FilterQuery<IRobotPersistence & Document>);
+
+    if (!robotRecord) {
+      return null;
+    }
+    const robotResult = RobotMap.toDomain(robotRecord);
+    if (robotResult.isSuccess) {
+      return robotResult.getValue();
+    } else {
+      return null;
+    }
+  }
 }

@@ -1,5 +1,9 @@
 import RobotController from '../../src/controllers/robotController';
 import { Result } from '../../src/core/logic/Result';
+import { Code } from '../../src/domain/Robot/ValueObjects/code';
+import { Nickname } from '../../src/domain/Robot/ValueObjects/nickname';
+import { SerialNumber } from '../../src/domain/Robot/ValueObjects/serialNumber';
+import { Robot } from '../../src/domain/Robot/robot';
 import { Brand } from '../../src/domain/RobotType/ValueObjects/brand';
 import { Model } from '../../src/domain/RobotType/ValueObjects/model';
 import { Name } from '../../src/domain/RobotType/ValueObjects/name';
@@ -25,6 +29,7 @@ describe('RobotService and RobotController Tests', () => {
   let fakeNext: any;
   let robotRawGood: any;
   let robotRawBad: any;
+  let robotRaw: any;
 
   beforeEach(() => {
     robotRawGood = {
@@ -42,6 +47,14 @@ describe('RobotService and RobotController Tests', () => {
       serialNumber: 'A11',
       available: true,
       type: 'Type',
+    };
+    robotRaw = {
+      code: Code.create('A11' as string).getValue(),
+      description: 'Sample robot',
+      nickname: Nickname.create('Nickname').getValue(),
+      serialNumber: SerialNumber.create('A11' as string).getValue(),
+      available: true,
+      type: Name.create('Type' as string).getValue(),
     };
 
     fakeRobotRepo = new FakeRobotRepo();
@@ -83,6 +96,42 @@ describe('RobotService and RobotController Tests', () => {
     await robotController.createRobot(fakeReq, fakeRes, fakeNext);
 
     expect(fakeRes.status).toHaveBeenCalledWith(400);
+    expect(fakeRes.json).toHaveBeenCalled();
+  });
+
+  it('should fail to create robots with same code', async () => {
+    fakeReq.body = robotRawGood;
+
+    await robotController.createRobot(fakeReq, fakeRes, fakeNext);
+    await robotController.createRobot(fakeReq, fakeRes, fakeNext);
+
+    expect(fakeRes.status).toHaveBeenCalledWith(400);
+    expect(fakeRes.json).toHaveBeenCalled();
+  });
+
+  it('should fail to change robot status if robot does not exist', async () => {
+    fakeReq.body = {
+      code: 'A11111',
+      available: true,
+    };
+
+    await robotController.changeRobotState(fakeReq, fakeRes, fakeNext);
+
+    expect(fakeRes.status).toHaveBeenCalledWith(400);
+    expect(fakeRes.json).toHaveBeenCalled();
+  });
+
+  it('should successfuly change robot status', async () => {
+    fakeReq.body = {
+      available: false,
+    };
+    fakeReq.params.robotCode = 'A11';
+
+    await fakeRobotRepo.save(Robot.create(robotRaw).getValue());
+
+    await robotController.changeRobotState(fakeReq, fakeRes, fakeNext);
+
+    expect(fakeRes.status).toHaveBeenCalledWith(200);
     expect(fakeRes.json).toHaveBeenCalled();
   });
 });

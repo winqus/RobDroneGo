@@ -15,6 +15,7 @@ describe('RobotController', () => {
   beforeEach(() => {
     robotServiceMock = {
       createRobot: jest.fn(),
+      changeRobotState: jest.fn(),
     } as jest.Mocked<IRobotService>;
 
     reqMock = {
@@ -59,6 +60,52 @@ describe('RobotController', () => {
 
       expect(resMock.status).toHaveBeenCalledWith(400);
       expect(resMock.json).toHaveBeenCalledWith({ message: 'Error' });
+    });
+  });
+
+  describe('changeRobotState', () => {
+    it('should successfully change robot state and return 200 status', async () => {
+      const robotDTO: IRobotDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        code: 'A11',
+        description: 'Sample robot',
+        nickname: 'Nickname',
+        serialNumber: 'A11',
+        available: true,
+        type: 'Type',
+      };
+
+      reqMock.params = { robotCode: robotDTO.code };
+      reqMock.body = { available: false };
+
+      robotServiceMock.changeRobotState.mockResolvedValue(Result.ok<IRobotDTO>(robotDTO) as any);
+
+      await robotController.changeRobotState(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(200);
+      expect(resMock.json).toHaveBeenCalledWith(robotDTO);
+    });
+
+    it('should fail to change robot state and return 400 status when requested state is already applyed', async () => {
+      const robotDTO: IRobotDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        code: 'A11',
+        description: 'Sample robot',
+        nickname: 'Nickname',
+        serialNumber: 'A11',
+        available: true,
+        type: 'Type',
+      };
+
+      reqMock.params = { robotCode: robotDTO.code };
+      reqMock.body = { available: true };
+
+      robotServiceMock.changeRobotState.mockResolvedValue(Result.fail<IRobotDTO>('Error changing the state') as any);
+
+      await robotController.changeRobotState(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(400);
+      expect(resMock.json).toHaveBeenCalledWith({ message: 'Error changing the state' });
     });
   });
 });

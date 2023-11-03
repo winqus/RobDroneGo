@@ -64,5 +64,42 @@ describe('RobotRepo', () => {
 
       expect(robotSchemaMock.create).toHaveBeenCalledTimes(1);
     });
+
+    it('should fail to save a new robot if code is missing', async () => {
+      robotSchemaMock.findOne.mockResolvedValue(null as HydratedDocument<any, any, any>);
+      robotSchemaMock.create.mockRejectedValue(new Error('Code is missing'));
+
+      try {
+        await robotRepo.save(robotStub);
+      } catch (error) {
+        expect(error.message).toBe('Code is missing');
+      }
+    });
+  });
+
+  describe('findByCode', () => {
+    it('should return a robot if it exists', async () => {
+      robotSchemaMock.findOne.mockResolvedValue({
+        id: robotStub.id.toString(),
+        code: robotStub.code.value,
+        description: robotStub.description.value,
+        nickname: robotStub.nickname.value,
+        serialNumber: robotStub.serialNumber.value,
+        available: robotStub.available,
+        type: robotStub.type.value,
+      } as HydratedDocument<any, any, any>);
+
+      const result = await robotRepo.findByCode(robotStub.code.value);
+
+      expect(result).toBeInstanceOf(Robot);
+    });
+
+    it('should return null if robot does not exist', async () => {
+      robotSchemaMock.findOne.mockResolvedValue(null as HydratedDocument<any, any, any>);
+
+      const result = await robotRepo.findByCode(robotStub.code.value);
+
+      expect(result).toBeNull();
+    });
   });
 });

@@ -40,4 +40,41 @@ export default class RobotService implements IRobotService {
       throw error;
     }
   }
+
+  public async changeRobotState(updatedRobotDTO: Partial<IRobotDTO>): Promise<Result<IRobotDTO>> {
+    try {
+      const existingRobot = await this.robotRepo.findByCode(updatedRobotDTO.code);
+      if (!existingRobot) {
+        return Result.fail<IRobotDTO>('Robot does not exist.');
+      }
+
+      if (existingRobot.available === updatedRobotDTO.available) {
+        return Result.fail<IRobotDTO>('Robot is already in the requested state.');
+      }
+
+      const updatedRobotData = {
+        id: existingRobot.id.toString(),
+        code: existingRobot.code.value,
+        description: existingRobot.description.value,
+        nickname: existingRobot.nickname.value,
+        serialNumber: existingRobot.serialNumber.value,
+        available: updatedRobotDTO.available,
+        type: existingRobot.type.value,
+      };
+
+      const robotOrError = RobotMap.toDomain(updatedRobotData);
+
+      if (robotOrError.isFailure) {
+        return Result.fail<IRobotDTO>(robotOrError.errorValue().toString());
+      }
+
+      await this.robotRepo.save(robotOrError.getValue());
+
+      const robotDTOResult = RobotMap.toDTO(robotOrError.getValue()) as IRobotDTO;
+
+      return Result.ok<IRobotDTO>(robotDTOResult);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
