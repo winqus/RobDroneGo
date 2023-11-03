@@ -4,15 +4,22 @@ import dotenv from 'dotenv';
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const envFound = dotenv.config();
-if (!envFound) {
-  // This error should crash whole process
+if (!envFound /* || envFound?.error */) {
+  // This error should crash whole process (should uncomment envFound?.error), disabled for pipelines for now
   throw new Error("⚠️  Couldn't find .env file  ⚠️");
 }
 
 if (process.env.NODE_ENV === 'development') {
   const developEnvFound = dotenv.config({ path: '.env.development' });
-  if (developEnvFound) {
-    console.log('⚠️  Using .env.development file to supply config environment variables  ⚠️');
+  if (developEnvFound && !developEnvFound?.error) {
+    console.log('❕  Using .env.development file to supply config environment variables  ❕');
+  }
+}
+
+if (process.env.NODE_ENV === 'test') {
+  const testEnvFound = dotenv.config({ path: '.env.test' });
+  if (testEnvFound && !testEnvFound?.error) {
+    console.log('❕  Using .env.test file to supply config environment variables  ❕');
   }
 }
 
@@ -27,12 +34,10 @@ export default {
    */
   databaseURL:
     process.env.NODE_ENV === 'development'
-      ? process.env.TEST_MONGODB_URI || // for e2e testing
-        process.env.DEV_MONGODB_URI ||
-        process.env.MONGODB_URI ||
-        'mongodb://127.0.0.1:27017/test'
+      ? process.env.DEV_MONGODB_URI || process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/test'
+      : process.env.NODE_ENV === 'test' // for e2e testing
+      ? process.env.TEST_MONGODB_URI || 'mongodb://127.0.0.1:27017/test'
       : process.env.MONGODB_URI,
-
   /**
    * Your secret sauce
    */

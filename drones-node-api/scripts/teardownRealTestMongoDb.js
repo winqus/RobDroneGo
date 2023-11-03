@@ -3,14 +3,14 @@ const dotenv = require('dotenv');
 const process = require('node:process');
 
 if (!process.env.TEST_MONGODB_URI) {
-  const developEnvFound = dotenv.config({ path: '.env.development' });
-  if (!developEnvFound) {
-    throw new Error("⚠️  Couldn't find .env.development file  ⚠️");
+  const testEnvFound = dotenv.config({ path: '.env.test' });
+  if (!testEnvFound) {
+    throw new Error("⚠️  Couldn't find .env.test file  ⚠️");
   }
 }
 const testDbUri = process.env.TEST_MONGODB_URI || undefined;
 if (!testDbUri) {
-  throw new Error("⚠️  Couldn't find TEST_MONGODB_URI in .env.development file  ⚠️");
+  throw new Error("⚠️  Couldn't find TEST_MONGODB_URI in .env.test file  ⚠️");
 }
 
 async function teardown() {

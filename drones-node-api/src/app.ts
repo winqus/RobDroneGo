@@ -18,6 +18,8 @@ async function startServer() {
       Logger.info(`
       ################################################
       🛡️  Server listening on port: ${config.port} 🛡️ 
+      DB: ${['test', 'development'].some((x) => x === process.env.NODE_ENV) ? config.databaseURL : '******'}
+      ENV: ${process.env.NODE_ENV}
       ################################################
     `);
     })
