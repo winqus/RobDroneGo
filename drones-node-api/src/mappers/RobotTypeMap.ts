@@ -22,11 +22,10 @@ export class RobotTypeMap extends Mapper<RobotType> {
   }
 
   public static toDomain(raw: any): RobotType {
-    const repo = Container.get(config.repos.taskType.name) as ITaskTypeRepo;
     const nameOrError = Name.create(raw.name);
     const brandOrError = Brand.create(raw.brand);
     const modelOrError = Model.create(raw.model);
-    const typesOfTasksOrError = raw.typesOfTasks.map((taskType) => repo.findByType(taskType));
+    const typesOfTasksOrError = raw.typesOfTasks.map((taskType) => TaskTypeMap.toDomain({ type: taskType }));
 
     const robotTypeOrError = RobotType.create(
       {

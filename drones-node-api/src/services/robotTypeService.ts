@@ -35,7 +35,7 @@ export default class RobotTypeService implements IRobotTypeService {
           if (result.isSuccess) {
             return Result.ok<TaskType>(TaskTypeMap.toDomain(result.getValue()));
           } else {
-            return Result.fail<TaskType>(result.getValue());
+            return Result.fail<TaskType>(result.error);
           }
         }),
       );
