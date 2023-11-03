@@ -200,4 +200,35 @@ describe('BuildingController', () => {
       expect(resMock.json).toHaveBeenCalledWith(elevatorDTO);
     });
   });
+
+  describe('listAllBuildings', () => {
+    it('should successfully get all buildings and return 200 status', async () => {
+      const buildingDTO: IBuildingDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        name: 'Building1',
+        code: 'A1',
+        description: 'Test building',
+        floorSizeLength: 100,
+        floorSizeWidth: 200,
+      };
+
+      buildingServiceMock.getAllBuildings.mockResolvedValue(
+        Result.ok<IBuildingDTO[]>([buildingDTO]) as any,
+      );
+
+      await buildingController.listAllBuildings(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(200);
+      expect(resMock.json).toHaveBeenCalledWith([buildingDTO]);
+    });
+
+    it('should return 400 status if there is a failure in getting buildings', async () => {
+      buildingServiceMock.getAllBuildings.mockResolvedValue(Result.fail<IBuildingDTO[]>('An error occurred') as any);
+
+      await buildingController.listAllBuildings(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(404);
+      expect(resMock.json).toHaveBeenCalledWith({ message: 'An error occurred' });
+    });
+  });
 });

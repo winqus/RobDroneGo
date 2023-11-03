@@ -58,7 +58,7 @@ export default class BuildingController implements IBuildingController {
       const buildingsResult = await this.buildingService.getAllBuildings();
 
       if (buildingsResult.isFailure) {
-        return res.status(500).json({ message: buildingsResult.error.toString() });
+        return res.status(404).json({ message: buildingsResult.error.toString() });
       }
 
       const buildingDTOs: IBuildingDTO[] = buildingsResult.getValue();

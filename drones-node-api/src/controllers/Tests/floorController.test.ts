@@ -162,4 +162,40 @@ describe('FloorController', () => {
       expect(resMock.json).toHaveBeenCalledWith({ message: 'Error partially updating floor' });
     });
   });
+
+  describe('getFloorsByBuildingCode', () => {
+    it('should successfully get floors by building code and return 200 status', async () => {
+      const floorDTO: IFloorDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        floorNumber: 12,
+        description: 'Partially Updated floor',
+        servedByElevator: true,
+        buildingCode: 'B1',
+      };
+
+      reqMock.params = { buildingCode: floorDTO.buildingCode };
+
+      floorServiceMock.getFloorsByBuildingCode.mockResolvedValue(
+        Result.ok<IFloorDTO[]>([floorDTO]) as any,
+      );
+
+      await floorController.getFloorsByBuildingCode(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(200);
+      expect(resMock.json).toHaveBeenCalledWith([floorDTO]);
+    });
+
+    it('should return 400 status if there is a failure in getting floors', async () => {
+      reqMock.params = { buildingCode: 'B1' };
+
+      floorServiceMock.getFloorsByBuildingCode.mockResolvedValue(
+        Result.fail<IFloorDTO[]>('Error getting floors by building code') as any,
+      );
+
+      await floorController.getFloorsByBuildingCode(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(404);
+      expect(resMock.json).toHaveBeenCalledWith({ message: 'Error getting floors by building code' });
+    });
+  });
 });
