@@ -19,6 +19,8 @@ describe('FloorController', () => {
       createFloor: jest.fn(),
       updateFloor: jest.fn(),
       partialUpdateFloor: jest.fn(),
+      getAllFloors: jest.fn(),
+      getFloorsByBuildingCode: jest.fn(),
     } as jest.Mocked<IFloorService>;
 
     buildingServiceMock = {

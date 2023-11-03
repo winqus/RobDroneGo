@@ -26,6 +26,7 @@ describe('PassageService', () => {
       findById: jest.fn(),
       findByBuildingCode: jest.fn(),
       findByCodes: jest.fn(),
+      findAllFloors: jest.fn(),
     };
 
     passageStub = {

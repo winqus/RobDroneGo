@@ -101,4 +101,10 @@ export default class FloorRepo implements IFloorRepo {
 
     return floorResults.map((floorResult) => floorResult.getValue());
   }
+
+  public async findAllFloors(): Promise<Floor[]> {
+    const floorRecords = await this.floorSchema.find({});
+
+    return floorRecords.map((record) => FloorMap.toDomain(record).getValue());
+  }
 }

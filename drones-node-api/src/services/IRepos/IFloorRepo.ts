@@ -3,6 +3,8 @@ import { Floor } from '../../domain/Floor/floor';
 
 export default interface IFloorRepo extends Repo<Floor> {
   save(floor: Floor): Promise<Floor>;
+  findAllFloors(): Promise<Floor[]>;
+  findByBuildingCode(codeBuilding: string): Promise<Floor[]>;
 
   findByCode(buildingCode: string, floorNumber: number): Promise<Floor>;
 

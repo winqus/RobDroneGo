@@ -22,6 +22,7 @@ describe('FloorService', () => {
       findById: jest.fn(),
       findByBuildingCode: jest.fn(),
       findByCodes: jest.fn(),
+      findAllFloors: jest.fn(),
     };
 
     buildingServiceMock = {

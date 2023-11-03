@@ -1,6 +1,7 @@
 import { Inject, Service } from 'typedi';
 import config from '../../config';
 import { Result } from '../core/logic/Result';
+import { Floor } from '../domain/Floor/floor';
 import IFloorDTO from '../dto/IFloorDTO';
 import { FloorMap } from '../mappers/FloorMap';
 import IBuildingService from '../services/IServices/IBuildingService';
@@ -99,6 +100,34 @@ export default class FloorService implements IFloorService {
       return Result.ok<IFloorDTO>(floorDTOResult);
     } catch (error) {
       throw error;
+    }
+  }
+
+  public async getAllFloors(): Promise<Result<IFloorDTO[]>> {
+    try {
+      const floors = await this.floorRepo.findAllFloors();
+
+      const floorDTOs: IFloorDTO[] = floors.map((floor: Floor) => {
+        return FloorMap.toDTO(floor);
+      });
+
+      return Result.ok<IFloorDTO[]>(floorDTOs);
+    } catch (error) {
+      return Result.fail<IFloorDTO[]>(error);
+    }
+  }
+
+  public async getFloorsByBuildingCode(buildingCode: string): Promise<Result<IFloorDTO[]>> {
+    try {
+      const floors = await this.floorRepo.findByBuildingCode(buildingCode);
+
+      const floorDTOs: IFloorDTO[] = floors.map((floor: Floor) => {
+        return FloorMap.toDTO(floor);
+      });
+
+      return Result.ok<IFloorDTO[]>(floorDTOs);
+    } catch (error) {
+      return Result.fail<IFloorDTO[]>(error);
     }
   }
 }

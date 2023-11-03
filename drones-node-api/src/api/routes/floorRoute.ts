@@ -62,4 +62,7 @@ export default (app: Router) => {
     errors(),
     routeJoiErrorHandler,
   );
+
+  route.get('', (req, res, next) => controller.listAllFloors(req, res, next));
+  route.get('/:buildingCode', (req, res, next) => controller.getFloorsByBuildingCode(req, res, next));
 };
