@@ -46,6 +46,26 @@ export default async ({ expressApp }) => {
     schema: '../persistence/schemas/taskTypeSchema',
   };
 
+  const roomSchema = {
+    name: 'roomSchema',
+    schema: '../persistence/schemas/roomSchema',
+  };
+
+  const roomService = {
+    name: config.services.room.name,
+    path: config.services.room.path,
+  };
+
+  const roomRepo = {
+    name: config.repos.room.name,
+    path: config.repos.room.path,
+  };
+
+  const roomController = {
+    name: config.controllers.room.name,
+    path: config.controllers.room.path,
+  };
+
   const robotSchema = {
     name: 'robotSchema',
     schema: '../persistence/schemas/robotSchema',
@@ -172,6 +192,7 @@ export default async ({ expressApp }) => {
       taskTypeSchema,
       robotTypeSchema,
       robotSchema,
+      roomSchema,
     ],
     controllers: [
       roleController,
@@ -180,22 +201,18 @@ export default async ({ expressApp }) => {
       passageController,
       robotTypeController,
       robotController,
+      roomController,
     ],
-    repos: [roleRepo, userRepo, buildingRepo, floorRepo, passageRepo, taskTypeRepo, robotTypeRepo, robotRepo],
+    repos: [roleRepo, userRepo, buildingRepo, floorRepo, passageRepo, taskTypeRepo, robotTypeRepo, robotRepo, roomRepo],
     services: [
       roleService,
-
       buildingService,
-
       floorService,
-
       passageService,
-
       taskTypeService,
-
       robotTypeService,
       elevatorService,
-      ,
+      roomService,
       robotService,
     ],
   });

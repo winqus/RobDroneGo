@@ -65,6 +65,10 @@ export default {
       name: 'FloorController',
       path: '../controllers/floorController',
     },
+    room: {
+      name: 'RoomController',
+      path: '../controllers/roomController',
+    },
     passage: {
       name: 'PassageController',
       path: '../controllers/passageController',
@@ -100,6 +104,10 @@ export default {
       name: 'FloorRepo',
       path: '../repos/floorRepo',
     },
+    room: {
+      name: 'RoomRepo',
+      path: '../repos/roomRepo',
+    },
     passage: {
       name: 'PassageRepo',
       path: '../repos/passageRepo',
@@ -130,6 +138,10 @@ export default {
     floor: {
       name: 'FloorService',
       path: '../services/floorService',
+    },
+    room: {
+      name: 'RoomService',
+      path: '../services/roomService',
     },
     passage: {
       name: 'PassageService',
