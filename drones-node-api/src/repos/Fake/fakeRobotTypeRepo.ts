@@ -42,6 +42,33 @@ export default class FakeRobotTypeRepo extends BaseFakeRepo<RobotType> implement
     return robotType || null;
   }
 
+  public async findByMultiple(
+    name?: string,
+    brand?: string,
+    model?: string,
+    taskTypes?: string[],
+  ): Promise<RobotType[]> {
+    let robotTypes = this._items;
+
+    if (name) {
+      robotTypes = robotTypes.filter((r) => r.name.value === name);
+    }
+
+    if (brand) {
+      robotTypes = robotTypes.filter((r) => r.brand.value === brand);
+    }
+
+    if (model) {
+      robotTypes = robotTypes.filter((r) => r.model.value === model);
+    }
+
+    if (taskTypes) {
+      robotTypes = robotTypes.filter((r) => r.typesOfTasks.some((t) => taskTypes.includes(t.type.toString())));
+    }
+
+    return robotTypes;
+  }
+
   compareFakeItems(a: RobotType, b: RobotType): boolean {
     return a.id.equals(b.id);
   }

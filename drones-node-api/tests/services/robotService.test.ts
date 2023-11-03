@@ -1,4 +1,4 @@
-import { Container } from 'typedi';
+import { MockProxy, mock } from 'jest-mock-extended';
 import { UniqueEntityID } from '../../src/core/domain/UniqueEntityID';
 import { Result } from '../../src/core/logic/Result';
 import { Robot } from '../../src/domain/Robot/robot';
@@ -9,26 +9,13 @@ import RobotService from '../../src/services/robotService';
 
 describe('RobotService', () => {
   let robotService: RobotService;
-  let robotRepoMock: jest.Mocked<IRobotRepo>;
-  let robotTypeRepoMock: jest.Mocked<IRobotTypeRepo>;
+  let robotRepoMock: MockProxy<IRobotRepo>;
+  let robotTypeRepoMock: MockProxy<IRobotTypeRepo>;
   let robotStub: Robot;
 
   beforeEach(() => {
-    robotRepoMock = {
-      save: jest.fn(),
-      exists: jest.fn(),
-      findByCode: jest.fn(),
-      findById: jest.fn(),
-      findAll: jest.fn(),
-    };
-
-    robotTypeRepoMock = {
-      findById: jest.fn(),
-      findByBrandAndModel: jest.fn(),
-      save: jest.fn(),
-      exists: jest.fn(),
-      findByName: jest.fn(),
-    };
+    robotRepoMock = mock<IRobotRepo>();
+    robotTypeRepoMock = mock<IRobotTypeRepo>();
 
     robotStub = {
       id: new UniqueEntityID(),
@@ -40,8 +27,6 @@ describe('RobotService', () => {
       type: { value: 'Type' },
     } as Robot;
 
-    Container.set('robotRepo', robotRepoMock);
-    Container.set('robotTypeRepo', robotTypeRepoMock);
     robotService = new RobotService(robotRepoMock, robotTypeRepoMock);
   });
 

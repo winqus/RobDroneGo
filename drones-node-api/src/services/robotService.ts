@@ -3,6 +3,7 @@ import config from '../../config';
 import { Result } from '../core/logic/Result';
 import { Robot } from '../domain/Robot/robot';
 import IRobotDTO from '../dto/IRobotDTO';
+import IRobotTypeDTO from '../dto/IRobotTypeDTO';
 import { RobotMap } from '../mappers/RobotMap';
 import IRobotRepo from './IRepos/IRobotRepo';
 import IRobotTypeRepo from './IRepos/IRobotTypeRepo';
@@ -89,6 +90,31 @@ export default class RobotService implements IRobotService {
       return Result.ok<IRobotDTO[]>(robotsDTOs);
     } catch (error) {
       return Result.fail<IRobotDTO[]>(error);
+    }
+  }
+
+  public async findRobotByType(robotTypeDTO: Partial<IRobotTypeDTO>): Promise<Result<IRobotDTO[]>> {
+    try {
+      const robotTypes = await this.robotTypeRepo.findByMultiple(
+        robotTypeDTO.name,
+        robotTypeDTO.brand,
+        robotTypeDTO.model,
+        robotTypeDTO.typesOfTasks,
+      );
+
+      if (robotTypes.length === 0) {
+        return Result.ok<IRobotDTO[]>([]);
+      }
+
+      const robotPromises = robotTypes.map((type) => this.robotRepo.findByType(type.name.value));
+
+      const robotsArray = await Promise.all(robotPromises);
+
+      const robots = robotsArray.flat().map((robot) => RobotMap.toDTO(robot));
+
+      return Result.ok<IRobotDTO[]>(robots);
+    } catch (error) {
+      return Result.fail<IRobotDTO[]>(`Failed to find robots: ${error}`);
     }
   }
 }

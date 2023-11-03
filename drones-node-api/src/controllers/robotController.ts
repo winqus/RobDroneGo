@@ -1,9 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
 import { MongoError } from 'mongodb';
+import { ParsedQs } from 'qs';
 import { Inject, Service } from 'typedi';
 import config from '../../config';
 import { Result } from '../core/logic/Result';
 import IRobotDTO from '../dto/IRobotDTO';
+import IRobotTypeDTO from '../dto/IRobotTypeDTO';
 import IRobotService from '../services/IServices/IRobotService';
 import IRobotController from './IControllers/IRobotController';
 
@@ -69,6 +72,24 @@ export default class RobotController implements IRobotController {
       const robotsDTOs: IRobotDTO[] = robotsResult.getValue();
 
       return res.status(200).json(robotsDTOs);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  public async getByType(req: Request, res: Response, next: NextFunction) {
+    try {
+      const robotType: Partial<IRobotTypeDTO> = req.query || req.body;
+
+      const result: Result<IRobotDTO[]> = await this.robotService.findRobotByType(robotType);
+
+      if (result.isFailure) {
+        return res.status(404).json({ message: result.errorValue() });
+      }
+
+      const robotDTOs = result.getValue();
+
+      return res.status(200).json(robotDTOs);
     } catch (error) {
       return next(error);
     }

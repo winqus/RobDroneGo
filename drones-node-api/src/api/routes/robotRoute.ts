@@ -45,5 +45,29 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.get('', (req, res, next) => controller.listAllRobots(req, res, next));
+  route.get(
+    '/',
+    celebrate({
+      query: Joi.object({
+        id: Joi.string().optional(),
+        name: Joi.string().optional(),
+        type: Joi.string().optional(),
+        brand: Joi.string().optional(),
+        model: Joi.string().optional(),
+        typesOfTasks: Joi.array()
+          .items(Joi.string())
+          .single()
+          .optional(),
+      }),
+    }),
+    async (req, res, next) => {
+      if (Object.keys(req.query).length > 0) {
+        return controller.getByType(req, res, next);
+      }
+
+      return controller.listAllRobots(req, res, next);
+    },
+    errors(),
+    routeJoiErrorHandler,
+  );
 };

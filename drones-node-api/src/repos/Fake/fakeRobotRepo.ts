@@ -36,6 +36,12 @@ export default class FakeRobotRepo extends BaseFakeRepo<Robot> implements IRobot
     return this._items;
   }
 
+  public async findByType(robotTypeName: string): Promise<Robot[]> {
+    const robots = this._items.filter((r) => r.type.value === robotTypeName);
+
+    return robots || null;
+  }
+
   compareFakeItems(a: Robot, b: Robot): boolean {
     return a.id.equals(b.id);
   }

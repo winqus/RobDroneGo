@@ -79,4 +79,29 @@ export default class RobotTypeRepo implements IRobotTypeRepo {
       return null;
     }
   }
+
+  public async findByMultiple(
+    name?: string,
+    brand?: string,
+    model?: string,
+    taskTypes?: string[],
+  ): Promise<RobotType[]> {
+    const query: FilterQuery<IRobotTypePersistence & Document> = {};
+    if (name) {
+      query.name = name;
+    }
+    if (brand) {
+      query.brand = brand;
+    }
+    if (model) {
+      query.model = model;
+    }
+    if (taskTypes && taskTypes.length) {
+      query.typesOfTasks = { $all: taskTypes };
+    }
+
+    const robotTypeRecords = await this.robotTypeSchema.find(query);
+
+    return robotTypeRecords.map(RobotTypeMap.toDomain);
+  }
 }

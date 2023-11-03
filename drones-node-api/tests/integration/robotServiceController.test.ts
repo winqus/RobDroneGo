@@ -1,5 +1,4 @@
 import RobotController from '../../src/controllers/robotController';
-import { Result } from '../../src/core/logic/Result';
 import { Code } from '../../src/domain/Robot/ValueObjects/code';
 import { Nickname } from '../../src/domain/Robot/ValueObjects/nickname';
 import { SerialNumber } from '../../src/domain/Robot/ValueObjects/serialNumber';
@@ -10,7 +9,6 @@ import { Name } from '../../src/domain/RobotType/ValueObjects/name';
 import { RobotType } from '../../src/domain/RobotType/robotType';
 import { TaskType } from '../../src/domain/TaskType/taskType';
 import { Types } from '../../src/domain/TaskType/type';
-import IRobotTypeDTO from '../../src/dto/IRobotTypeDTO';
 import FakeRobotRepo from '../../src/repos/Fake/fakeRobotRepo';
 import FakeRobotTypeRepo from '../../src/repos/Fake/fakeRobotTypeRepo';
 import IRobotRepo from '../../src/services/IRepos/IRobotRepo';

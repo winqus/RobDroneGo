@@ -9,4 +9,6 @@ export default interface IRobotTypeRepo extends Repo<RobotType> {
   findByName(robotTypeName: string): Promise<RobotType>;
 
   findByBrandAndModel(robotTypeBrand: string, robotTypeModel: string): Promise<RobotType>;
+
+  findByMultiple(name?: string, brand?: string, model?: string, taskTypes?: string[]): Promise<RobotType[]>;
 }

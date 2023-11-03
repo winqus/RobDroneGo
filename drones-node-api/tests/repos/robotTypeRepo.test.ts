@@ -1,5 +1,4 @@
 import { Document, Model } from 'mongoose';
-import { UniqueEntityID } from '../../src/core/domain/UniqueEntityID';
 import { Brand } from '../../src/domain/RobotType/ValueObjects/brand';
 import { Model as ModelValue } from '../../src/domain/RobotType/ValueObjects/model';
 import { Name } from '../../src/domain/RobotType/ValueObjects/name';

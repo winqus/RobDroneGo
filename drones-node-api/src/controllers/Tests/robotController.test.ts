@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { MockProxy, mock } from 'jest-mock-extended';
 import { Container } from 'typedi';
 import { Result } from '../../core/logic/Result';
 import IRobotDTO from '../../dto/IRobotDTO';
@@ -7,27 +8,19 @@ import RobotController from '../robotController';
 
 describe('RobotController', () => {
   let robotController: RobotController;
-  let robotServiceMock: jest.Mocked<IRobotService>;
-  let reqMock: Partial<Request>;
-  let resMock: Partial<Response>;
-  let nextMock: NextFunction;
+  let robotServiceMock: MockProxy<IRobotService>;
+  let reqMock: MockProxy<Request>;
+  let resMock: MockProxy<Response>;
+  let nextMock: MockProxy<NextFunction>;
 
   beforeEach(() => {
-    robotServiceMock = {
-      createRobot: jest.fn(),
-      changeRobotState: jest.fn(),
-      getAllRobots: jest.fn(),
-    } as jest.Mocked<IRobotService>;
+    robotServiceMock = mock<IRobotService>();
 
-    reqMock = {
-      body: {},
-    };
-
-    resMock = {
+    reqMock = mock<Request>({ body: {} });
+    resMock = mock<Response>({
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
-    };
-
+    });
     nextMock = jest.fn();
 
     Container.set('robotService', robotServiceMock);
