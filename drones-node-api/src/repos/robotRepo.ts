@@ -75,4 +75,10 @@ export default class RobotRepo implements IRobotRepo {
       return null;
     }
   }
+
+  public async findAll(): Promise<Robot[]> {
+    const robotRecords = await this.robotSchema.find({});
+
+    return robotRecords.map((record) => RobotMap.toDomain(record).getValue());
+  }
 }

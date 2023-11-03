@@ -32,7 +32,7 @@ export default class FakeRobotRepo extends BaseFakeRepo<Robot> implements IRobot
     return robot || null;
   }
 
-  public async findAllRobots(): Promise<Robot[]> {
+  public async findAll(): Promise<Robot[]> {
     return this._items;
   }
 

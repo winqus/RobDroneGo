@@ -44,4 +44,6 @@ export default (app: Router) => {
     errors(),
     routeJoiErrorHandler,
   );
+
+  route.get('', (req, res, next) => controller.listAllRobots(req, res, next));
 };

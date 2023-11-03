@@ -16,6 +16,7 @@ describe('RobotController', () => {
     robotServiceMock = {
       createRobot: jest.fn(),
       changeRobotState: jest.fn(),
+      getAllRobots: jest.fn(),
     } as jest.Mocked<IRobotService>;
 
     reqMock = {
@@ -106,6 +107,38 @@ describe('RobotController', () => {
 
       expect(resMock.status).toHaveBeenCalledWith(400);
       expect(resMock.json).toHaveBeenCalledWith({ message: 'Error changing the state' });
+    });
+  });
+
+  describe('listAllRobots', () => {
+    it('should successfully list all robots and return 200 status', async () => {
+      const robotDTO: IRobotDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        code: 'A11',
+        description: 'Sample robot',
+        nickname: 'Nickname',
+        serialNumber: 'A11',
+        available: true,
+        type: 'Type',
+      };
+
+      robotServiceMock.getAllRobots.mockResolvedValue(
+        Result.ok<IRobotDTO[]>([robotDTO]) as any,
+      );
+
+      await robotController.listAllRobots(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(200);
+      expect(resMock.json).toHaveBeenCalledWith([robotDTO]);
+    });
+
+    it('should return 404 status if there are no robots', async () => {
+      robotServiceMock.getAllRobots.mockResolvedValue(Result.fail<IRobotDTO[]>('Error') as any);
+
+      await robotController.listAllRobots(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(404);
+      expect(resMock.json).toHaveBeenCalledWith({ message: 'Error' });
     });
   });
 });

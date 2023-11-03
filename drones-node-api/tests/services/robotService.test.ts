@@ -19,6 +19,7 @@ describe('RobotService', () => {
       exists: jest.fn(),
       findByCode: jest.fn(),
       findById: jest.fn(),
+      findAll: jest.fn(),
     };
 
     robotTypeRepoMock = {
