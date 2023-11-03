@@ -37,7 +37,7 @@ activate Routing
     Routing -> Controller : listFloorsWithPassagesToDifferentBuilding(buildingCode)
     activate Controller
 
-        Controller -> PassageService : getPassagesToDiferentBuildings(buildingCode)
+        Controller -> PassageService : listFloorsWithPassagesToDifferentBuilding(buildingCode)
         activate PassageService
 
             PassageService -> PassageRepository : getPassagesToDiferentBuildings(buildingCode)
