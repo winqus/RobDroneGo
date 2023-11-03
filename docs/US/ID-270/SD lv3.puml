@@ -24,7 +24,6 @@ box "Campus Management" #LightBlue
     participant "Building Mapper" as BuildingMapper
     box "Application Business Rules" #ff6666
         participant "Elevator Service" as ElevatorService
-        participant "Floor Service" as FloorS
     end box
 
     box "Enterprise Business Rules" #eeddaa
