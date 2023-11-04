@@ -1,6 +1,7 @@
 import { Inject, Service } from 'typedi';
 import config from '../../config';
 import { Result } from '../core/logic/Result';
+import { Code } from '../domain/Building/ValueObjects/code';
 import IFloorDTO from '../dto/IFloorDTO';
 import IPassageDTO from '../dto/IPassageDTO';
 import { FloorMap } from '../mappers/FloorMap';
@@ -79,7 +80,7 @@ export default class PassageService implements IPassageService {
         return Result.fail<IPassageDTO>('Building codes must be different');
       }
 
-      const existingPassage = await this.passageRepo.findByCodes(newPassage);
+      const passage = await this.passageRepo.findByCodes(newPassage);
       const existingPassageSwapped = await this.passageRepo.findByCodes(
         PassageMap.toDomain({
           buildingCode1: passageDTO.buildingCode2,
@@ -89,7 +90,7 @@ export default class PassageService implements IPassageService {
         }).getValue(),
       );
 
-      if (existingPassage !== null || existingPassageSwapped !== null) {
+      if (passage !== null || existingPassageSwapped !== null) {
         return Result.fail<IPassageDTO>('Passage already exists');
       }
 
@@ -107,6 +108,46 @@ export default class PassageService implements IPassageService {
       await this.passageRepo.save(newPassage);
 
       const passageDTOResult = PassageMap.toDTO(newPassage) as IPassageDTO;
+
+      return Result.ok<IPassageDTO>(passageDTOResult);
+    } catch (error) {
+      return Result.fail<IPassageDTO>(error);
+    }
+  }
+
+  public async updatePassage(oldPassageDTO: IPassageDTO, newPassageDTO: IPassageDTO): Promise<Result<IPassageDTO>> {
+    try {
+      let floor = await this.floorRepo.findByCode(newPassageDTO.buildingCode1, newPassageDTO.floorNumber1);
+      if (floor === null) {
+        return Result.fail<IPassageDTO>('Floor1 does not belong to building1 that might not exist');
+      }
+      floor = await this.floorRepo.findByCode(newPassageDTO.buildingCode2, newPassageDTO.floorNumber2);
+      if (floor === null) {
+        return Result.fail<IPassageDTO>('Floor2 does not belong to building2 that might not exist');
+      }
+
+      const oldPassageOrError = PassageMap.toDomain(oldPassageDTO);
+
+      if (oldPassageOrError.isFailure) {
+        return Result.fail<IPassageDTO>(oldPassageOrError.errorValue().toString());
+      }
+
+      const oldPassage = oldPassageOrError.getValue();
+
+      const passage = await this.passageRepo.findByCodes(oldPassage);
+
+      if (passage === null) {
+        return Result.fail<IPassageDTO>('Passage does not exist');
+      }
+
+      passage.buildingCode1 = Code.create(newPassageDTO.buildingCode1).getValue();
+      passage.buildingCode2 = Code.create(newPassageDTO.buildingCode2).getValue();
+      passage.floorNumber1 = newPassageDTO.floorNumber1;
+      passage.floorNumber2 = newPassageDTO.floorNumber2;
+
+      await this.passageRepo.save(passage);
+
+      const passageDTOResult = PassageMap.toDTO(passage) as IPassageDTO;
 
       return Result.ok<IPassageDTO>(passageDTOResult);
     } catch (error) {

@@ -68,4 +68,22 @@ export default class PassageController implements IPassageController {
       return next(error);
     }
   }
+
+  public async updatePassage(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { oldPassage, newPassage } = req.body as { oldPassage: IPassageDTO; newPassage: IPassageDTO };
+
+      const passageOrError = (await this.passageService.updatePassage(oldPassage, newPassage)) as Result<IPassageDTO>;
+
+      if (passageOrError.isFailure) {
+        return res.status(400).json({ message: passageOrError.error.toString() });
+      }
+
+      const passageDTO = passageOrError.getValue();
+
+      return res.status(200).json(passageDTO);
+    } catch (error) {
+      return next(error);
+    }
+  }
 }

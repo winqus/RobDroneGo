@@ -1,6 +1,7 @@
 import { MockProxy, mock } from 'jest-mock-extended';
 import { Container } from 'typedi';
 import { UniqueEntityID } from '../../src/core/domain/UniqueEntityID';
+import { Code } from '../../src/domain/Building/ValueObjects/code';
 import { Passage } from '../../src/domain/Passage/passage';
 import IPassageDTO from '../../src/dto/IPassageDTO';
 import IFloorRepo from '../../src/services/IRepos/IFloorRepo';
@@ -11,13 +12,13 @@ describe('PassageService', () => {
   let passageService: PassageService;
   let passageRepoMock: MockProxy<IPassageRepo>;
   let floorRepoMock: MockProxy<IFloorRepo>;
-  let passageStub: Passage;
+  let oldPassageStub: Passage;
 
   beforeEach(() => {
     passageRepoMock = mock<IPassageRepo>();
     floorRepoMock = mock<IFloorRepo>();
 
-    passageStub = {
+    oldPassageStub = {
       id: new UniqueEntityID(),
       buildingCode1: { value: 'BA' },
       buildingCode2: { value: 'BB' },
@@ -38,7 +39,7 @@ describe('PassageService', () => {
         floorNumber2: 4,
       };
 
-      passageRepoMock.save.mockResolvedValue(passageStub as any);
+      passageRepoMock.save.mockResolvedValue(oldPassageStub as any);
       passageRepoMock.findByCodes.mockResolvedValue(null as any);
       floorRepoMock.findByCode.mockResolvedValue({} as any);
 
@@ -88,7 +89,7 @@ describe('PassageService', () => {
         floorNumber2: 4,
       };
 
-      passageRepoMock.findByCodes.mockResolvedValue(passageStub as any);
+      passageRepoMock.findByCodes.mockResolvedValue(oldPassageStub as any);
 
       const result = await passageService.createPassage(passageDTO);
 
@@ -120,7 +121,7 @@ describe('PassageService', () => {
   it('should return a list of floors with passages to a different building', async () => {
     const buildingCode = 'BA';
 
-    passageRepoMock.getPassagesToDiferentBuildings.mockResolvedValue([passageStub] as any);
+    passageRepoMock.getPassagesToDiferentBuildings.mockResolvedValue([oldPassageStub] as any);
     floorRepoMock.findByCode.mockResolvedValue({
       id: '00000000-0000-0000-0000-000000000000',
       floorNumber: 2,
@@ -144,5 +145,115 @@ describe('PassageService', () => {
 
     expect(result.isSuccess).toBe(true);
     expect(result.getValue()).toEqual([]);
+  });
+  describe('PassageService - updatePassage', () => {
+    let passageService: PassageService;
+    let passageRepoMock: MockProxy<IPassageRepo>;
+    let floorRepoMock: MockProxy<IFloorRepo>;
+    let oldPassageDTO: IPassageDTO;
+    let newPassageDTO: IPassageDTO;
+    let oldPassageStub: Passage;
+    let newPassageStub: Passage;
+
+    beforeEach(() => {
+      passageRepoMock = mock<IPassageRepo>();
+      floorRepoMock = mock<IFloorRepo>();
+
+      oldPassageDTO = {
+        id: '00000000-0000-0000-0000-000000000001',
+        buildingCode1: 'BA',
+        buildingCode2: 'BB',
+        floorNumber1: 2,
+        floorNumber2: 2,
+      };
+
+      newPassageDTO = {
+        id: '00000000-0000-0000-0000-000000000001',
+        buildingCode1: 'BC',
+        buildingCode2: 'BD',
+        floorNumber1: 3,
+        floorNumber2: 3,
+      };
+
+      oldPassageStub = Passage.create(
+        {
+          buildingCode1: Code.create('BA').getValue(),
+          buildingCode2: Code.create('BB').getValue(),
+          floorNumber1: 2,
+          floorNumber2: 2,
+        },
+        new UniqueEntityID('00000000-0000-0000-0000-000000000001'),
+      ).getValue();
+
+      newPassageStub = Passage.create(
+        {
+          buildingCode1: Code.create('BC').getValue(),
+          buildingCode2: Code.create('BD').getValue(),
+          floorNumber1: 3,
+          floorNumber2: 3,
+        },
+        new UniqueEntityID('00000000-0000-0000-0000-000000000001'),
+      ).getValue();
+
+      passageRepoMock = mock<IPassageRepo>();
+      floorRepoMock = mock<IFloorRepo>();
+      passageService = new PassageService(passageRepoMock, floorRepoMock);
+    });
+
+    it('should successfully update a passage', async () => {
+      passageRepoMock.findByCodes.mockResolvedValue(oldPassageStub as any);
+      floorRepoMock.findByCode.mockResolvedValue({} as any);
+      passageRepoMock.save.mockResolvedValue(oldPassageStub as any);
+
+      const result = await passageService.updatePassage(oldPassageDTO, newPassageDTO);
+
+      expect(result.isSuccess).toBe(true);
+      expect(passageRepoMock.findByCodes).toHaveBeenCalledTimes(1);
+      expect(floorRepoMock.findByCode).toHaveBeenCalledWith('BC', 3);
+      expect(floorRepoMock.findByCode).toHaveBeenCalledWith('BD', 3);
+      expect(passageRepoMock.save).toHaveBeenCalledWith(newPassageStub);
+    });
+
+    it('should fail when the old passage does not exist', async () => {
+      passageRepoMock.findByCodes.mockResolvedValue(null as any);
+
+      const result = await passageService.updatePassage(oldPassageDTO, newPassageDTO);
+
+      expect(result.isFailure).toBe(true);
+      expect(result.error).toBe('Passage does not exist');
+      expect(passageRepoMock.save).not.toBeCalled();
+    });
+
+    it('should fail when floor1 does not belong to building1', async () => {
+      passageRepoMock.findByCodes.mockResolvedValue(oldPassageStub as any);
+      floorRepoMock.findByCode.mockResolvedValue(null as any);
+
+      const result = await passageService.updatePassage(oldPassageDTO, newPassageDTO);
+
+      expect(result.isFailure).toBe(true);
+      expect(result.error).toBe('Floor1 does not belong to building1 that might not exist');
+      expect(passageRepoMock.save).not.toBeCalled();
+    });
+
+    it('should fail when floor2 does not belong to building2', async () => {
+      passageRepoMock.findByCodes.mockResolvedValue(oldPassageStub as any);
+      floorRepoMock.findByCode.mockResolvedValueOnce({} as any);
+      floorRepoMock.findByCode.mockResolvedValue(null as any);
+
+      const result = await passageService.updatePassage(oldPassageDTO, newPassageDTO);
+
+      expect(result.isFailure).toBe(true);
+      expect(result.error).toBe('Floor2 does not belong to building2 that might not exist');
+      expect(passageRepoMock.save).not.toBeCalled();
+    });
+
+    it('should pass an exception to Result when an error occurs', async () => {
+      passageRepoMock.findByCodes.mockRejectedValue(new Error('Unexpected error'));
+
+      const result = await passageService.updatePassage(oldPassageDTO, newPassageDTO);
+
+      expect(result.isFailure).toBe(true);
+      expect(result.error.toString()).toBe('Error: Unexpected error');
+    });
   });
 });

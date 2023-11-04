@@ -31,10 +31,20 @@ export default class PassageRepo implements IPassageRepo {
 
   public async findByCodes(passage: Passage): Promise<Passage> {
     const query = {
-      buildingCode1: passage.buildingCode1.value,
-      buildingCode2: passage.buildingCode2.value,
-      floorNumber1: passage.floorNumber1,
-      floorNumber2: passage.floorNumber2,
+      $or: [
+        {
+          buildingCode1: passage.buildingCode1.value,
+          buildingCode2: passage.buildingCode2.value,
+          floorNumber1: passage.floorNumber1,
+          floorNumber2: passage.floorNumber2,
+        },
+        {
+          buildingCode1: passage.buildingCode2.value,
+          buildingCode2: passage.buildingCode1.value,
+          floorNumber1: passage.floorNumber2,
+          floorNumber2: passage.floorNumber1,
+        },
+      ],
     };
 
     const passageRecord = await this.passageSchema.findOne(query as FilterQuery<IPassagePersistence & Document>);
@@ -67,10 +77,15 @@ export default class PassageRepo implements IPassageRepo {
 
   public async save(passage: Passage): Promise<Passage> {
     const query = {
-      buildingCode1: passage.buildingCode1.value,
-      buildingCode2: passage.buildingCode2.value,
-      floorNumber1: passage.floorNumber1,
-      floorNumber2: passage.floorNumber2,
+      $or: [
+        { id: passage.id.toString() },
+        {
+          buildingCode1: passage.buildingCode1.value,
+          buildingCode2: passage.buildingCode2.value,
+          floorNumber1: passage.floorNumber1,
+          floorNumber2: passage.floorNumber2,
+        },
+      ],
     };
 
     const passageDocument = await this.passageSchema.findOne(query);

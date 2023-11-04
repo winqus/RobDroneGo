@@ -186,4 +186,87 @@ describe('PassageController', () => {
       expect(nextMock).toHaveBeenCalledWith(error);
     });
   });
+
+  describe('PassageController - updatePassage', () => {
+    let passageController: PassageController;
+    let passageServiceMock: MockProxy<IPassageService>;
+    let reqMock: MockProxy<Request>;
+    let resMock: MockProxy<Response>;
+    let nextMock: MockProxy<NextFunction>;
+
+    beforeEach(() => {
+      passageServiceMock = mock<IPassageService>();
+
+      reqMock = mock<Request>({ body: {} });
+      resMock = mock<Response>({
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn().mockReturnThis(),
+      });
+      nextMock = jest.fn();
+
+      passageController = new PassageController(passageServiceMock);
+    });
+
+    it('should successfully update a passage and return 200 status', async () => {
+      const oldPassageDTO: IPassageDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        buildingCode1: 'A',
+        buildingCode2: 'B',
+        floorNumber1: 2,
+        floorNumber2: 2,
+      };
+
+      const newPassageDTO: IPassageDTO = {
+        id: '00000000-0000-0000-0000-000000000001',
+        buildingCode1: 'C',
+        buildingCode2: 'D',
+        floorNumber1: 3,
+        floorNumber2: 3,
+      };
+
+      const updatedPassageDTO = {
+        id: newPassageDTO.id,
+        buildingCode1: newPassageDTO.buildingCode1,
+        buildingCode2: newPassageDTO.buildingCode2,
+        floorNumber1: newPassageDTO.floorNumber1,
+        floorNumber2: newPassageDTO.floorNumber2,
+      };
+
+      passageServiceMock.updatePassage.mockResolvedValue(Result.ok<IPassageDTO>(updatedPassageDTO) as any);
+
+      reqMock.body = { oldPassage: oldPassageDTO, newPassage: newPassageDTO };
+
+      await passageController.updatePassage(reqMock, resMock, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(200);
+      expect(resMock.json).toHaveBeenCalledWith(updatedPassageDTO);
+    });
+
+    it('should return 400 status if passage update fails', async () => {
+      const oldPassageDTO: IPassageDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        buildingCode1: 'A',
+        buildingCode2: 'B',
+        floorNumber1: 2,
+        floorNumber2: 2,
+      };
+
+      const newPassageDTO: IPassageDTO = {
+        id: '00000000-0000-0000-0000-000000000001',
+        buildingCode1: 'C',
+        buildingCode2: 'D',
+        floorNumber1: 3,
+        floorNumber2: 3,
+      };
+
+      passageServiceMock.updatePassage.mockResolvedValue(Result.fail<IPassageDTO>('An error occurred') as any);
+
+      reqMock.body = { oldPassage: oldPassageDTO, newPassage: newPassageDTO };
+
+      await passageController.updatePassage(reqMock, resMock, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(400);
+      expect(resMock.json).toHaveBeenCalledWith({ message: 'An error occurred' });
+    });
+  });
 });

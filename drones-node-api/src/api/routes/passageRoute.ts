@@ -55,4 +55,33 @@ export default (app: Router) => {
     errors(),
     routeJoiErrorHandler,
   );
+
+  route.put(
+    '/',
+    celebrate({
+      body: Joi.object({
+        oldPassage: Joi.object({
+          buildingCode1: Joi.string().required(),
+          buildingCode2: Joi.string().required(),
+          floorNumber1: Joi.number()
+            .integer()
+            .required(),
+          floorNumber2: Joi.number()
+            .integer()
+            .required(),
+        }),
+        newPassage: Joi.object({
+          buildingCode1: Joi.string().required(),
+          buildingCode2: Joi.string().required(),
+          floorNumber1: Joi.number()
+            .integer()
+            .required(),
+          floorNumber2: Joi.number()
+            .integer()
+            .required(),
+        }),
+      }),
+    }),
+    (req, res, next) => controller.updatePassage(req, res, next),
+  );
 };
