@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
 import { MongoError } from 'mongodb';
+import { ParsedQs } from 'qs';
 import { Inject, Service } from 'typedi';
 import config from '../../config';
 import { Result } from '../core/logic/Result';
@@ -103,6 +105,24 @@ export default class FloorController implements IFloorController {
       const codeBuilding: string = req.params.buildingCode;
 
       const floorResult = await this.floorService.getFloorsByBuildingCode(codeBuilding);
+
+      if (floorResult.isFailure) {
+        return res.status(404).json({ message: floorResult.error.toString() });
+      }
+
+      const floorDTOs: IFloorDTO[] = floorResult.getValue();
+
+      return res.status(200).json(floorDTOs);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  public async getFloorsServedByElevator(req: Request, res: Response, next: NextFunction) {
+    try {
+      const buildingCode: string = req.query.buildingCode as string;
+
+      const floorResult = await this.floorService.getFloorsServedByElevator(buildingCode);
 
       if (floorResult.isFailure) {
         return res.status(404).json({ message: floorResult.error.toString() });

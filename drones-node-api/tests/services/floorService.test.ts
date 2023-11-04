@@ -80,6 +80,7 @@ describe('FloorService', () => {
       expect(floorRepoMock.save).not.toBeCalled();
     });
   });
+
   describe('updateFloor', () => {
     it('should successfully update a floor', async () => {
       const floorId = floorStub.id.toString();
@@ -140,6 +141,62 @@ describe('FloorService', () => {
       expect(result.isSuccess).toBe(true);
       expect(floorRepoMock.findById).toBeCalledWith(floorId);
       expect(floorRepoMock.save).toBeCalledWith(expect.anything());
+    });
+  });
+
+  describe('getAllFloors', () => {
+    it('should successfully get all floors', async () => {
+      floorRepoMock.findAllFloors.mockResolvedValue([floorStub] as any);
+
+      const result = await floorService.getAllFloors();
+
+      expect(result.isSuccess).toBe(true);
+      expect(floorRepoMock.findAllFloors).toBeCalled();
+    });
+  });
+
+  describe('getFloorsByBuildingCode', () => {
+    it('should successfully get floors by building code', async () => {
+      const buildingCode = 'B1';
+
+      floorRepoMock.findByBuildingCode.mockResolvedValue([floorStub] as any);
+
+      const result = await floorService.getFloorsByBuildingCode(buildingCode);
+
+      expect(result.isSuccess).toBe(true);
+      expect(floorRepoMock.findByBuildingCode).toBeCalledWith(buildingCode);
+    });
+  });
+
+  describe('getFloorsServedByElevator', () => {
+    it('should successfully get floors served by elevator', async () => {
+      const buildingCode = 'B1';
+
+      floorRepoMock.findByBuildingCode.mockResolvedValue([floorStub] as any);
+
+      const result = await floorService.getFloorsServedByElevator(buildingCode);
+
+      expect(result.isSuccess).toBe(true);
+      expect(floorRepoMock.findByBuildingCode).toBeCalledWith(buildingCode);
+    });
+
+    it('should get an empty array when no floors are served by elevator', async () => {
+      const buildingCode = 'B1';
+
+      floorRepoMock.findByBuildingCode.mockResolvedValue([] as any);
+
+      const result = await floorService.getFloorsServedByElevator(buildingCode);
+
+      expect(result.isSuccess).toBe(true);
+      expect(floorRepoMock.findByBuildingCode).toBeCalledWith(buildingCode);
+    });
+
+    it('should fail to get floors served by elevator when building code is invalid', async () => {
+      const buildingCode = null;
+
+      const result = await floorService.getFloorsServedByElevator(buildingCode as any);
+
+      expect(result.isFailure).toBe(true);
     });
   });
 });

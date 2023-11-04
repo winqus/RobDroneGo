@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { Container } from 'typedi';
+import { MockProxy, mock } from 'jest-mock-extended';
 import { Result } from '../../core/logic/Result';
 import IFloorDTO from '../../dto/IFloorDTO';
 import IBuildingService from '../../services/IServices/IBuildingService';
@@ -8,42 +8,23 @@ import FloorController from '../floorController';
 
 describe('FloorController', () => {
   let floorController: FloorController;
-  let floorServiceMock: jest.Mocked<IFloorService>;
-  let buildingServiceMock: jest.Mocked<IBuildingService>;
-  let reqMock: Partial<Request>;
-  let resMock: Partial<Response>;
-  let nextMock: NextFunction;
+  let floorServiceMock: MockProxy<IFloorService>;
+  let buildingServiceMock: MockProxy<IBuildingService>;
+  let reqMock: MockProxy<Request>;
+  let resMock: MockProxy<Response>;
+  let nextMock: MockProxy<NextFunction>;
 
   beforeEach(() => {
-    floorServiceMock = {
-      createFloor: jest.fn(),
-      updateFloor: jest.fn(),
-      partialUpdateFloor: jest.fn(),
-      getAllFloors: jest.fn(),
-      getFloorsByBuildingCode: jest.fn(),
-    } as jest.Mocked<IFloorService>;
+    floorServiceMock = mock<IFloorService>();
+    buildingServiceMock = mock<IBuildingService>();
 
-    buildingServiceMock = {
-      createBuilding: jest.fn(),
-      updateBuilding: jest.fn(),
-      getBuildingByCode: jest.fn(),
-      getAllBuildings: jest.fn(),
-      getBuildingsByFloorRange: jest.fn(),
-    };
-
-    reqMock = {
-      body: {},
-    };
-
-    resMock = {
+    reqMock = mock<Request>({ body: {} });
+    resMock = mock<Response>({
       status: jest.fn().mockReturnThis(),
       json: jest.fn().mockReturnThis(),
-    };
-
+    });
     nextMock = jest.fn();
 
-    Container.set('floorService', floorServiceMock);
-    Container.set('buildingService', buildingServiceMock);
     floorController = new FloorController(floorServiceMock);
   });
 
@@ -196,6 +177,42 @@ describe('FloorController', () => {
 
       expect(resMock.status).toHaveBeenCalledWith(404);
       expect(resMock.json).toHaveBeenCalledWith({ message: 'Error getting floors by building code' });
+    });
+  });
+
+  describe('getFloorsServedByElevator', () => {
+    it('should successfully get floors served by elevator and return 200 status', async () => {
+      const floorDTO: IFloorDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        floorNumber: 12,
+        description: 'Partially Updated floor',
+        servedByElevator: true,
+        buildingCode: 'B1',
+      };
+
+      reqMock.query = { buildingCode: floorDTO.buildingCode };
+
+      floorServiceMock.getFloorsServedByElevator.mockResolvedValue(
+        Result.ok<IFloorDTO[]>([floorDTO]) as any,
+      );
+
+      await floorController.getFloorsServedByElevator(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(200);
+      expect(resMock.json).toHaveBeenCalledWith([floorDTO]);
+    });
+
+    it('should return 400 status if there is a failure in getting floors', async () => {
+      reqMock.query = { buildingCode: 'B1' };
+
+      floorServiceMock.getFloorsServedByElevator.mockResolvedValue(
+        Result.fail<IFloorDTO[]>('Error getting floors served by elevator') as any,
+      );
+
+      await floorController.getFloorsServedByElevator(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(404);
+      expect(resMock.json).toHaveBeenCalledWith({ message: 'Error getting floors served by elevator' });
     });
   });
 });

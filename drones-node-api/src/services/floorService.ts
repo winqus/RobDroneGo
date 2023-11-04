@@ -130,4 +130,20 @@ export default class FloorService implements IFloorService {
       return Result.fail<IFloorDTO[]>(error);
     }
   }
+
+  public async getFloorsServedByElevator(buildingCode: string): Promise<Result<IFloorDTO[]>> {
+    try {
+      const floors = await this.floorRepo.findByBuildingCode(buildingCode);
+
+      const floorDTOs: IFloorDTO[] = floors
+        .filter((floor: Floor) => floor.servedByElevator)
+        .map((floor: Floor) => {
+          return FloorMap.toDTO(floor);
+        });
+
+      return Result.ok<IFloorDTO[]>(floorDTOs);
+    } catch (error) {
+      return Result.fail<IFloorDTO[]>(error);
+    }
+  }
 }

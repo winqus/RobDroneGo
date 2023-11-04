@@ -29,6 +29,7 @@ export default (app: Router) => {
     errors(),
     routeJoiErrorHandler,
   );
+
   route.put(
     '/:floorId',
     celebrate({
@@ -63,6 +64,19 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
+  route.get(
+    '/elevator',
+    celebrate({
+      query: Joi.object({
+        buildingCode: Joi.string().required(),
+      }),
+    }),
+    (req, res, next) => controller.getFloorsServedByElevator(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
+
   route.get('', (req, res, next) => controller.listAllFloors(req, res, next));
+
   route.get('/:buildingCode', (req, res, next) => controller.getFloorsByBuildingCode(req, res, next));
 };
