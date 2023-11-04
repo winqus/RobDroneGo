@@ -1,0 +1,140 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant " "
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Passage Persistence" as PassagePers
+        participant "Floor Persistence" as FloorPers
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Passage Repository" as PassageRepository
+        participant "Floor Repository" as FloorRepository
+    end box
+
+    participant "Floor DTO" as FloorDTO
+    participant "Floor Mapper" as FloorMapper
+    participant "Passage DTO" as PassageDTO
+    participant "Passage Mapper" as PassageMapper
+    box "Application Business Rules" #ff6666
+        participant "Passage Service" as PassageService
+    end box
+
+    box "Enterprise Business Rules" #eeddaa
+        participant Passage
+    end box
+end box
+
+
+[o-> Routing : Put
+activate Routing
+
+    Routing -> Controller : updatePassage(req, res, next)
+    activate Controller
+
+        Controller -> PassageService : updatePassage(oldPassageDTO, newPassageDTO)
+        activate PassageService
+
+            PassageService -> FloorRepository : findByCode(newPassageDTO.buildingCode1, newPassageDTO.floorNumber1)
+            activate FloorRepository
+
+                FloorRepository -> FloorPers : findByCode(newPassageDTO.buildingCode1, newPassageDTO.floorNumber1)
+                activate FloorPers
+
+                FloorPers --> FloorRepository : floor1
+                deactivate FloorPers
+            
+            FloorRepository --> PassageService : floor1
+            deactivate FloorRepository
+
+            PassageService -> FloorRepository : findByCode(newPassageDTO.buildingCode2, newPassageDTO.floorNumber2)
+            activate FloorRepository
+
+                FloorRepository -> FloorPers : findByCode(newPassageDTO.buildingCode2, newPassageDTO.floorNumber2)
+                activate FloorPers
+
+                FloorPers --> FloorRepository : floor2
+                deactivate FloorPers
+            
+            FloorRepository --> PassageService : floor2
+            deactivate FloorRepository
+
+            PassageService -> PassageMapper : toDomain(oldPassageDTO)
+            activate PassageMapper
+
+                PassageMapper -> Passage : Passage(oldPassageDTO)
+                activate Passage
+
+                Passage --> PassageMapper : passageOld
+                deactivate Passage
+
+            PassageMapper --> PassageService : passageOld
+            deactivate PassageMapper
+            
+            PassageService -> PassageRepository : findByCodes(passageOld)
+            activate PassageRepository
+
+                PassageRepository -> PassagePers : findByCodes(passageOld)
+                activate PassagePers
+
+                PassagePers --> PassageRepository : passage
+                deactivate PassagePers
+
+            PassageRepository --> PassageService : passage
+            deactivate PassageRepository
+
+            PassageService -> Passage: buildingCode1 = newPassageDTO.buildingCode1
+            activate Passage
+            PassageService -> Passage: buildingCode2 = newPassageDTO.buildingCode2
+            PassageService -> Passage: floorNumber1 = newPassageDTO.floorNumber1
+            PassageService -> Passage: floorNumber2 = newPassageDTO.floorNumber2
+            deactivate Passage
+
+            PassageService -> PassageRepository : save(passage)
+            activate PassageRepository
+
+                PassageRepository -> PassageMapper: toPersistence(passage)
+                activate PassageMapper
+                
+                PassageMapper --> PassageRepository : passageDocument
+                deactivate PassageMapper
+
+                PassageRepository -> PassagePers : save(passageDocument)
+                activate PassagePers
+
+                PassagePers --> PassageRepository : Success
+                deactivate PassagePers
+            
+            PassageRepository --> PassageService : passage
+            deactivate PassageRepository
+
+
+            PassageService -> PassageMapper : toDTO(passage)
+            activate PassageMapper
+
+                PassageMapper -> PassageDTO : PassageDTO(passage)
+                activate PassageDTO
+
+                PassageDTO --> PassageMapper : passageDTO
+                deactivate PassageDTO
+            
+            PassageMapper --> PassageService : passageDTO
+            deactivate PassageMapper
+
+
+            PassageService --> Controller : passageDTO
+
+    Controller --> Routing : passageDTO
+    deactivate Controller
+
+[o<--o Routing : floorDTO[]
+deactivate Routing
+
+
+@enduml
