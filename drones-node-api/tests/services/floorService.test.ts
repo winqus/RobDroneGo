@@ -4,6 +4,7 @@ import { Result } from '../../src/core/logic/Result';
 import { Floor } from '../../src/domain/Floor/floor';
 import IFloorDTO from '../../src/dto/IFloorDTO';
 import { FloorMap } from '../../src/mappers/FloorMap';
+import IBuildingRepo from '../../src/services/IRepos/IBuildingRepo';
 import IFloorRepo from '../../src/services/IRepos/IFloorRepo';
 import IBuildingService from '../../src/services/IServices/IBuildingService';
 import FloorService from '../../src/services/floorService';
@@ -11,11 +12,13 @@ import FloorService from '../../src/services/floorService';
 describe('FloorService', () => {
   let floorService: FloorService;
   let floorRepoMock: MockProxy<IFloorRepo>;
+  let buildingRepoMock: MockProxy<IBuildingRepo>;
   let buildingServiceMock: MockProxy<IBuildingService>;
   let floorStub: Floor;
 
   beforeEach(() => {
     floorRepoMock = mock<IFloorRepo>();
+    buildingRepoMock = mock<IBuildingRepo>();
     buildingServiceMock = mock<IBuildingService>();
 
     floorStub = {
@@ -26,7 +29,7 @@ describe('FloorService', () => {
       buildingCode: { value: 'B1' },
     } as Floor;
 
-    floorService = new FloorService(floorRepoMock, buildingServiceMock);
+    floorService = new FloorService(floorRepoMock, buildingServiceMock, buildingRepoMock);
   });
 
   describe('createFloor', () => {

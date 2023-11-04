@@ -12,10 +12,6 @@ import IFloorRepo from '../services/IRepos/IFloorRepo';
 export default class FloorRepo implements IFloorRepo {
   constructor(@Inject('floorSchema') private floorSchema: Model<IFloorPersistence & Document>) {}
 
-  findByQuery(query: any): Promise<Floor[]> {
-    throw new Error('Method not implemented.');
-  }
-
   public async exists(floor: Floor): Promise<boolean> {
     const idX = floor.id instanceof UniqueEntityID ? (<UniqueEntityID>floor.id).toValue() : floor.id;
 

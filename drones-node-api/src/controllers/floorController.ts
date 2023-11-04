@@ -89,7 +89,7 @@ export default class FloorController implements IFloorController {
       const floorsResult = await this.floorService.getAllFloors();
 
       if (floorsResult.isFailure) {
-        return res.status(500).json({ message: floorsResult.error.toString() });
+        return res.status(404).json({ message: floorsResult.error.toString() });
       }
 
       const floorDTOs: IFloorDTO[] = floorsResult.getValue();
