@@ -1,0 +1,34 @@
+@startuml SD Lv2
+
+participant " "
+box "RobDroneGo" #LightBlue
+    participant "Campus Management" as campus
+    participant "DB" as DB
+end box
+
+[o-> campus : Patch (map, buildingCode, \nfloorNumber)
+activate campus
+
+campus -> DB : load building
+activate DB
+DB --> campus : building
+deactivate DB
+
+campus -> campus : verify size of map
+
+campus -> DB : load floor
+activate DB
+DB --> campus : floor
+deactivate DB
+
+campus -> campus : add map to floor
+
+campus -> DB : save floor\nwith map
+activate DB
+DB --> campus : floor
+deactivate DB
+
+[o<--o campus : floor
+deactivate campus
+
+@enduml

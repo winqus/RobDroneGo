@@ -86,6 +86,7 @@ activate Routing
             end
 
             PassageService --> Controller : listFloorsDTO
+            deactivate PassageService
 
     Controller --> Routing : floorDTO[]
     deactivate Controller
