@@ -116,4 +116,33 @@ describe('PassageService', () => {
       expect(passageRepoMock.save).not.toBeCalled();
     });
   });
+
+  it('should return a list of floors with passages to a different building', async () => {
+    const buildingCode = 'BA';
+
+    passageRepoMock.getPassagesToDiferentBuildings.mockResolvedValue([passageStub] as any);
+    floorRepoMock.findByCode.mockResolvedValue({
+      id: '00000000-0000-0000-0000-000000000000',
+      floorNumber: 2,
+      description: { value: 'description' },
+      servedByElevator: false,
+      buildingCode: { value: 'BB' },
+    } as any);
+
+    const result = await passageService.listFloorsWithPassagesToDifferentBuilding(buildingCode);
+
+    expect(result.isSuccess).toBe(true);
+    expect(floorRepoMock.findByCode).toHaveBeenCalledTimes(1);
+  });
+
+  it('should return an empty list when there are no passages to a different building', async () => {
+    const buildingCode = 'BC';
+
+    passageRepoMock.getPassagesToDiferentBuildings.mockResolvedValue([] as any);
+
+    const result = await passageService.listFloorsWithPassagesToDifferentBuilding(buildingCode);
+
+    expect(result.isSuccess).toBe(true);
+    expect(result.getValue()).toEqual([]);
+  });
 });

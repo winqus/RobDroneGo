@@ -131,4 +131,59 @@ describe('PassageController', () => {
       expect(nextMock).toHaveBeenCalledWith(error);
     });
   });
+
+  describe('PassageController - listFloorsWithPassagesToDifferentBuilding', () => {
+    let passageController: PassageController;
+    let passageServiceMock: MockProxy<IPassageService>;
+    let reqMock: MockProxy<Request>;
+    let resMock: MockProxy<Response>;
+    let nextMock: MockProxy<NextFunction>;
+
+    beforeEach(() => {
+      passageServiceMock = mock<IPassageService>();
+      reqMock = mock<Request>({ query: {} });
+      resMock = mock<Response>({
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn().mockReturnThis(),
+      });
+      nextMock = jest.fn();
+
+      Container.set('passageService', passageServiceMock);
+      passageController = new PassageController(passageServiceMock as IPassageService);
+    });
+
+    it('should successfully list floors with passages to different buildings', async () => {
+      const buildingCode = 'BA';
+      const listFloorsDTO = [{ floorName: 'Floor A' }, { floorName: 'Floor B' }];
+
+      passageServiceMock.listFloorsWithPassagesToDifferentBuilding.mockResolvedValue(Result.ok(listFloorsDTO) as any);
+
+      await passageController.listFloorsWithPassagesToDifferentBuilding(reqMock, resMock, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(200);
+      expect(resMock.json).toHaveBeenCalledWith(listFloorsDTO);
+    });
+
+    it('should return 400 status if listing fails', async () => {
+      const buildingCode = 'BA';
+
+      passageServiceMock.listFloorsWithPassagesToDifferentBuilding.mockResolvedValue(
+        Result.fail('An error occurred') as any,
+      );
+
+      await passageController.listFloorsWithPassagesToDifferentBuilding(reqMock, resMock, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(400);
+      expect(resMock.json).toHaveBeenCalledWith({ message: 'An error occurred' });
+    });
+
+    it('should pass the error to next if an exception occurs', async () => {
+      const error = new Error('Unexpected error');
+      passageServiceMock.listFloorsWithPassagesToDifferentBuilding.mockRejectedValue(error);
+
+      await passageController.listFloorsWithPassagesToDifferentBuilding(reqMock, resMock, nextMock);
+
+      expect(nextMock).toHaveBeenCalledWith(error);
+    });
+  });
 });

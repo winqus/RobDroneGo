@@ -9,4 +9,6 @@ export default interface IPassageRepo extends Repo<Passage> {
   findAllByBuildingCodes(buildingCode1: string, buildingCode2: string): Promise<Passage[]>;
 
   getAll(): Promise<Passage[]>;
+
+  getPassagesToDiferentBuildings(buildingCode: string): Promise<Passage[]>;
 }

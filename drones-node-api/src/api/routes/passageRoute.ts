@@ -43,4 +43,16 @@ export default (app: Router) => {
     errors(),
     routeJoiErrorHandler,
   );
+
+  route.get(
+    '/toDifferentBuildings',
+    celebrate({
+      query: Joi.object({
+        buildingCode: Joi.string().required(),
+      }),
+    }),
+    (req, res, next) => controller.listFloorsWithPassagesToDifferentBuilding(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
 };

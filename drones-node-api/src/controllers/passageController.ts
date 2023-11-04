@@ -50,4 +50,22 @@ export default class PassageController implements IPassageController {
       return next(error);
     }
   }
+
+  public async listFloorsWithPassagesToDifferentBuilding(req: Request, res: Response, next: NextFunction) {
+    try {
+      const buildingCode = req.query.buildingCode as string;
+
+      const listFloorsResult = await this.passageService.listFloorsWithPassagesToDifferentBuilding(buildingCode);
+
+      if (listFloorsResult.isFailure) {
+        return res.status(400).json({ message: listFloorsResult.error.toString() });
+      }
+
+      const listFloorsDTO = listFloorsResult.getValue();
+
+      return res.status(200).json(listFloorsDTO);
+    } catch (error) {
+      return next(error);
+    }
+  }
 }

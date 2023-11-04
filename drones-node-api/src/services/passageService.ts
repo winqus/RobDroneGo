@@ -1,7 +1,9 @@
 import { Inject, Service } from 'typedi';
 import config from '../../config';
 import { Result } from '../core/logic/Result';
+import IFloorDTO from '../dto/IFloorDTO';
 import IPassageDTO from '../dto/IPassageDTO';
+import { FloorMap } from '../mappers/FloorMap';
 import { PassageMap } from '../mappers/PassageMap';
 import IFloorRepo from './IRepos/IFloorRepo';
 import IPassageRepo from './IRepos/IPassageRepo';
@@ -13,6 +15,29 @@ export default class PassageService implements IPassageService {
     @Inject(config.repos.passage.name) private passageRepo: IPassageRepo,
     @Inject(config.repos.floor.name) private floorRepo: IFloorRepo,
   ) {}
+
+  public async listFloorsWithPassagesToDifferentBuilding(buildingCode: string): Promise<Result<IFloorDTO[]>> {
+    try {
+      const passages = await this.passageRepo.getPassagesToDiferentBuildings(buildingCode);
+
+      const listFloorsDTO = await Promise.all(
+        passages.map(async (passage) => {
+          let floor;
+          if (passage.buildingCode1.value === buildingCode) {
+            floor = await this.floorRepo.findByCode(passage.buildingCode1.value, passage.floorNumber1);
+          } else {
+            floor = await this.floorRepo.findByCode(passage.buildingCode2.value, passage.floorNumber2);
+          }
+
+          return FloorMap.toDTO(floor);
+        }),
+      );
+
+      return Result.ok<IFloorDTO[]>(listFloorsDTO);
+    } catch (error) {
+      return Result.fail<IFloorDTO[]>(error);
+    }
+  }
 
   public async getAllPassages(): Promise<Result<IPassageDTO[]>> {
     try {

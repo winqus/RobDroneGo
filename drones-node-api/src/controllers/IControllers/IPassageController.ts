@@ -4,4 +4,6 @@ export default interface IPassageController {
   createPassage(req: Request, res: Response, next: NextFunction);
 
   getPassages(req: Request, res: Response, next: NextFunction);
+
+  listFloorsWithPassagesToDifferentBuilding(req: Request, res: Response, next: NextFunction);
 }
