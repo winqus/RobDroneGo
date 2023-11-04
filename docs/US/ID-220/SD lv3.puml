@@ -56,10 +56,10 @@ activate Routing
 
             loop for each passage 
                 
-                PassageService -> FloorRepo: getFloorByCode(buildingCode, floorNumber)
+                PassageService -> FloorRepo: getByCode(buildingCode, floorNumber)
                 activate FloorRepo
 
-                    FloorRepo -> FloorPers: getFloorByCode(buildingCode, floorNumber)
+                    FloorRepo -> FloorPers: getByCode(buildingCode, floorNumber)
                     activate FloorPers
 
                     FloorPers --> FloorRepo: floor
