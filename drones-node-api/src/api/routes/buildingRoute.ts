@@ -101,4 +101,6 @@ export default (app: Router) => {
   );
 
   route.get('/:code/elevators', (req, res, next) => controller.listElevatorsInBuilding(req, res, next));
+  route.get('/:code', (req, res, next) => controller.getBuildingByCode(req, res, next));
+  route.get('/all', (req, res, next) => controller.listAllBuildings(req, res, next));
 };
