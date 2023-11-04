@@ -1,4 +1,5 @@
 import { Repo } from '../../core/infra/Repo';
+import { Elevator } from '../../domain/Building/Entities/elevator';
 import { Building } from '../../domain/Building/building';
 
 export default interface IBuildingRepo extends Repo<Building> {
@@ -10,7 +11,5 @@ export default interface IBuildingRepo extends Repo<Building> {
 
   findAllBuildings(): Promise<Building[]>;
 
-  //findByIds (buildingsIds: BuildingId[]): Promise<Building[]>;
-  //saveCollection (buildings: Building[]): Promise<Building[]>;
-  //removeByBuildingIds (buildings: BuildingId[]): Promise<any>
+  findElevatorsInBuilding(buildingCode: string): Promise<Elevator[]>;
 }

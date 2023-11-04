@@ -6,6 +6,7 @@ import { ElevatorMap } from '../mappers/ElevatorMap';
 import { Document, FilterQuery, Model } from 'mongoose';
 import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { IBuildingPersistence } from '../dataschema/IBuildingPersistence';
+import { Elevator } from '../domain/Building/Entities/elevator';
 import { Building } from '../domain/Building/building';
 import IBuildingRepo from '../services/IRepos/IBuildingRepo';
 
@@ -73,6 +74,19 @@ export default class BuildingRepo implements IBuildingRepo {
 
         return building;
       }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async findElevatorsInBuilding(buildingCode: string): Promise<Elevator[]> {
+    try {
+      const building = await this.buildingSchema.findOne({ code: buildingCode });
+      if (!building || !building.elevator) {
+        return [];
+      }
+
+      return [ElevatorMap.toDomain(building.elevator)];
     } catch (error) {
       throw error;
     }

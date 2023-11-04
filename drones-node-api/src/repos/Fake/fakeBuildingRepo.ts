@@ -1,6 +1,7 @@
 import { Service } from 'typedi';
 import { UniqueEntityID } from '../../core/domain/UniqueEntityID';
 import { BaseFakeRepo } from '../../core/tests/BaseFakeRepo';
+import { Elevator } from '../../domain/Building/Entities/elevator';
 import { Building } from '../../domain/Building/building';
 import IBuildingRepo from '../../services/IRepos/IBuildingRepo';
 
@@ -34,6 +35,12 @@ export default class FakeBuildingRepo extends BaseFakeRepo<Building> implements 
 
   public async findAllBuildings(): Promise<Building[]> {
     return this._items;
+  }
+
+  public async findElevatorsInBuilding(buildingCode: string): Promise<Elevator[]> {
+    const building = this._items.find((b) => b.code.value === buildingCode);
+
+    return [building.elevator];
   }
 
   compareFakeItems(a: Building, b: Building): boolean {

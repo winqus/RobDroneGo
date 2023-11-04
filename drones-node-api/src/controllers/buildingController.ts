@@ -11,6 +11,7 @@ import IBuildingController from './IControllers/IBuildingController';
 
 @Service()
 export default class BuildingController implements IBuildingController {
+  buildingRepo: any;
   constructor(
     @Inject(config.services.building.name) private buildingService: IBuildingService,
     @Inject(config.services.elevator.name) private elevatorService: IElevatorService,
@@ -140,6 +141,28 @@ export default class BuildingController implements IBuildingController {
       const elevatorDTO = elevatorOrError.getValue();
 
       return res.status(200).json(elevatorDTO);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  public async listElevatorsInBuilding(req: Request, res: Response, next: NextFunction) {
+    try {
+      const buildingCode: string = req.params.code;
+
+      const buildingResult = await this.buildingService.getBuildingByCode(buildingCode);
+
+      if (buildingResult.isFailure) {
+        return res.status(404).json({ message: buildingResult.error.toString() });
+      }
+
+      const elevatorDTOs = await this.buildingService.listElevatorsInBuilding(buildingCode);
+
+      if (!elevatorDTOs) {
+        return res.status(404).json({ message: 'No elevators found in building' });
+      }
+
+      return res.status(200).json(elevatorDTOs.getValue());
     } catch (error) {
       return next(error);
     }

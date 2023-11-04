@@ -99,4 +99,6 @@ export default (app: Router) => {
     errors(),
     routeJoiErrorHandler,
   );
+
+  route.get('/:code/elevators', (req, res, next) => controller.listElevatorsInBuilding(req, res, next));
 };

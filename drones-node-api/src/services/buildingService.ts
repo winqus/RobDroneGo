@@ -8,7 +8,9 @@ import { FloorSize } from '../domain/Building/ValueObjects/floorSize';
 import { Name } from '../domain/Building/ValueObjects/name';
 import { Building } from '../domain/Building/building';
 import IBuildingDTO from '../dto/IBuildingDTO';
+import IElevatorDTO from '../dto/IElevatorDTO';
 import { BuildingMap } from '../mappers/BuildingMap';
+import { ElevatorMap } from '../mappers/ElevatorMap';
 import IBuildingRepo from './IRepos/IBuildingRepo';
 import IFloorRepo from './IRepos/IFloorRepo';
 import IBuildingService from './IServices/IBuildingService';
@@ -156,6 +158,24 @@ export default class BuildingService implements IBuildingService {
       return Result.ok<IBuildingDTO[]>(buildingDTOs);
     } catch (error) {
       return Result.fail<IBuildingDTO[]>(error);
+    }
+  }
+
+  public async listElevatorsInBuilding(buildingCode: string): Promise<Result<IElevatorDTO[]>> {
+    try {
+      const building = await this.buildingRepo.findByCode(buildingCode);
+
+      if (!building) {
+        return Result.fail<IElevatorDTO[]>('Building not found');
+      }
+
+      const elevators = await this.buildingRepo.findElevatorsInBuilding(buildingCode);
+
+      const elevatorDTOs: IElevatorDTO[] = elevators.map((elevator) => ElevatorMap.toDTO(elevator));
+
+      return Result.ok<IElevatorDTO[]>(elevatorDTOs);
+    } catch (error) {
+      return Result.fail<IElevatorDTO[]>(error);
     }
   }
 }

@@ -1,35 +1,28 @@
-import { Container } from 'typedi';
+import exp from 'constants';
+import { MockProxy, mock } from 'jest-mock-extended';
 import { UniqueEntityID } from '../../src/core/domain/UniqueEntityID';
+import { Elevator } from '../../src/domain/Building/Entities/elevator';
 import { Building } from '../../src/domain/Building/building';
 import IBuildingDTO from '../../src/dto/IBuildingDTO';
+import IElevatorDTO from '../../src/dto/IElevatorDTO';
+import { BuildingMap } from '../../src/mappers/BuildingMap';
+import { ElevatorMap } from '../../src/mappers/ElevatorMap';
 import IBuildingRepo from '../../src/services/IRepos/IBuildingRepo';
 import IFloorRepo from '../../src/services/IRepos/IFloorRepo';
 import BuildingService from '../../src/services/buildingService';
 
 describe('BuildingService', () => {
   let buildingService: BuildingService;
-  let buildingRepoMock: jest.Mocked<IBuildingRepo>;
-  let floorRepoMock: jest.Mocked<IFloorRepo>;
+  let buildingRepoMock: MockProxy<IBuildingRepo>;
+  let floorRepoMock: MockProxy<IFloorRepo>;
   let buildingStub: Building;
+  let buildingDTOstub: IBuildingDTO;
+  let elevatorStub: Elevator;
+  let elevatorDTOstub: IElevatorDTO;
 
   beforeEach(() => {
-    buildingRepoMock = {
-      save: jest.fn(),
-      exists: jest.fn(),
-      findById: jest.fn(),
-      findByCode: jest.fn(),
-      findAllBuildings: jest.fn(),
-    };
-
-    floorRepoMock = {
-      save: jest.fn(),
-      exists: jest.fn(),
-      findById: jest.fn(),
-      findByCode: jest.fn(),
-      findByBuildingCode: jest.fn(),
-      findByCodes: jest.fn(),
-      findAllFloors: jest.fn(),
-    };
+    buildingRepoMock = mock<IBuildingRepo>();
+    floorRepoMock = mock<IFloorRepo>();
 
     buildingStub = {
       id: new UniqueEntityID(),
@@ -38,9 +31,18 @@ describe('BuildingService', () => {
       description: { value: 'Test building' },
       floorSize: { value: { length: 100, width: 200 } },
     } as Building;
+    buildingDTOstub = BuildingMap.toDTO(buildingStub) as IBuildingDTO;
 
-    Container.set('buildingRepo', buildingRepoMock);
-    Container.set('floorRepo', floorRepoMock);
+    elevatorDTOstub = {
+      id: '123',
+      number: 1,
+      make: 'Make',
+      model: 'Model',
+      serialNumber: 'SerialNumber',
+      description: 'Description',
+    } as IElevatorDTO;
+    elevatorStub = ElevatorMap.toDomain(elevatorDTOstub) as Elevator;
+
     buildingService = new BuildingService(buildingRepoMock, floorRepoMock);
   });
 
@@ -121,7 +123,6 @@ describe('BuildingService', () => {
       expect(buildingRepoMock.save).not.toBeCalled();
     });
 
-    // add two tests each of which try creating building with only either floor width or length
     it('should successfully update a building when only floor width is provided', async () => {
       const buildingDTO: any = {
         id: '00000000-0000-0000-0000-000000000000',
@@ -170,6 +171,39 @@ describe('BuildingService', () => {
       expect(result.isSuccess).toBe(true);
       expect(buildingRepoMock.findById).toHaveBeenCalledWith(buildingDTO.id);
       expect(buildingRepoMock.save).toHaveBeenCalledWith(expectedBuildingStub);
+    });
+  });
+
+  describe('getAllBuildings', () => {
+    it('should successfully get all buildings', async () => {
+      buildingRepoMock.findAllBuildings.mockResolvedValue([buildingStub] as any);
+
+      const result = await buildingService.getAllBuildings();
+
+      expect(result.isSuccess).toBe(true);
+      expect(buildingRepoMock.findAllBuildings).toBeCalled();
+    });
+
+    it('should return empty list when there are no buildings', async () => {
+      buildingRepoMock.findAllBuildings.mockResolvedValue([] as any);
+
+      const result = await buildingService.getAllBuildings();
+
+      expect(result.isSuccess).toBe(true);
+      expect(result.getValue()).toEqual([]);
+      expect(buildingRepoMock.findAllBuildings).toBeCalled();
+    });
+  });
+
+  describe('listElevatorsInBuilding', () => {
+    it('should successfully list elevators in a building', async () => {
+      buildingRepoMock.findByCode.mockResolvedValue(buildingStub as any);
+      buildingRepoMock.findElevatorsInBuilding.mockResolvedValue([elevatorStub] as any);
+
+      const result = await buildingService.listElevatorsInBuilding(buildingDTOstub.id);
+
+      expect(result.isSuccess).toBe(true);
+      expect(result.getValue()).toEqual([elevatorDTOstub]);
     });
   });
 });

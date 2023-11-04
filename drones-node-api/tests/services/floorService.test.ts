@@ -1,4 +1,4 @@
-import { Container } from 'typedi';
+import { MockProxy, mock } from 'jest-mock-extended';
 import { UniqueEntityID } from '../../src/core/domain/UniqueEntityID';
 import { Result } from '../../src/core/logic/Result';
 import { Floor } from '../../src/domain/Floor/floor';
@@ -10,28 +10,13 @@ import FloorService from '../../src/services/floorService';
 
 describe('FloorService', () => {
   let floorService: FloorService;
-  let floorRepoMock: jest.Mocked<IFloorRepo>;
-  let buildingServiceMock: jest.Mocked<IBuildingService>;
+  let floorRepoMock: MockProxy<IFloorRepo>;
+  let buildingServiceMock: MockProxy<IBuildingService>;
   let floorStub: Floor;
 
   beforeEach(() => {
-    floorRepoMock = {
-      save: jest.fn(),
-      exists: jest.fn(),
-      findByCode: jest.fn(),
-      findById: jest.fn(),
-      findByBuildingCode: jest.fn(),
-      findByCodes: jest.fn(),
-      findAllFloors: jest.fn(),
-    };
-
-    buildingServiceMock = {
-      createBuilding: jest.fn(),
-      updateBuilding: jest.fn(),
-      getBuildingByCode: jest.fn(),
-      getAllBuildings: jest.fn(),
-      getBuildingsByFloorRange: jest.fn(),
-    };
+    floorRepoMock = mock<IFloorRepo>();
+    buildingServiceMock = mock<IBuildingService>();
 
     floorStub = {
       id: new UniqueEntityID(),
@@ -41,8 +26,6 @@ describe('FloorService', () => {
       buildingCode: { value: 'B1' },
     } as Floor;
 
-    Container.set('floorRepo', floorRepoMock);
-    Container.set('buildingService', buildingServiceMock);
     floorService = new FloorService(floorRepoMock, buildingServiceMock);
   });
 

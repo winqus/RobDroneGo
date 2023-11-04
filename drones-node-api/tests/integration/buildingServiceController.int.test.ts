@@ -1,4 +1,3 @@
-import exp from 'constants';
 import BuildingController from '../../src/controllers/buildingController';
 import { Code as BuildingCode } from '../../src/domain/Building/ValueObjects/code';
 import { Description } from '../../src/domain/Building/ValueObjects/description';
@@ -7,8 +6,6 @@ import FakeBuildingRepo from '../../src/repos/Fake/fakeBuildingRepo';
 import FakeFloorRepo from '../../src/repos/Fake/fakeFloorRepo';
 import IBuildingRepo from '../../src/services/IRepos/IBuildingRepo';
 import IFloorRepo from '../../src/services/IRepos/IFloorRepo';
-import IBuildingService from '../../src/services/IServices/IBuildingService';
-import IElevatorService from '../../src/services/IServices/IElevadorService';
 import BuildingService from '../../src/services/buildingService';
 import ElevatorService from '../../src/services/elevatorService';
 import { mockNext, mockRequest, mockResponse } from '../../src/utils/controllerInterceptor';
@@ -43,10 +40,7 @@ describe('BuildingService and BuildingController Tests', () => {
     fakeFloorRepo = new FakeFloorRepo();
     buildingService = new BuildingService(fakeBuildingRepo as IBuildingRepo, fakeFloorRepo as IFloorRepo);
     elevatorService = new ElevatorService(fakeBuildingRepo as IBuildingRepo, fakeFloorRepo as IFloorRepo);
-    buildingController = new BuildingController(
-      buildingService as IBuildingService,
-      elevatorService as IElevatorService,
-    );
+    buildingController = new BuildingController(buildingService, elevatorService);
 
     fakeReq = mockRequest();
     fakeRes = mockResponse();

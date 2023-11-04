@@ -14,4 +14,6 @@ export default interface IBuildingController {
   createElevator(req: Request, res: Response, next: NextFunction);
 
   updateElevator(req: Request, res: Response, next: NextFunction);
+
+  listElevatorsInBuilding(req: Request, res: Response, next: NextFunction);
 }

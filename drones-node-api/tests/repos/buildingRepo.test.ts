@@ -1,3 +1,4 @@
+import { MockProxy, mock } from 'jest-mock-extended';
 import { Document, HydratedDocument, Model } from 'mongoose';
 import { Container } from 'typedi';
 import { UniqueEntityID } from '../../src/core/domain/UniqueEntityID';
@@ -6,14 +7,11 @@ import BuildingRepo from '../../src/repos/buildingRepo';
 
 describe('BuildingRepo', () => {
   let buildingRepo: BuildingRepo;
-  let buildingSchemaMock: jest.Mocked<Model<Document>>;
+  let buildingSchemaMock: MockProxy<Model<Document>>;
   let buildingStub: Building;
 
   beforeEach(() => {
-    buildingSchemaMock = ({
-      findOne: jest.fn(),
-      create: jest.fn(),
-    } as unknown) as jest.Mocked<Model<Document>>;
+    buildingSchemaMock = mock<Model<any & Document>>();
     Container.set('buildingSchema', buildingSchemaMock);
 
     buildingRepo = new BuildingRepo(buildingSchemaMock as any);
@@ -100,5 +98,36 @@ describe('BuildingRepo', () => {
 
       expect(result).toBeNull();
     });
+  });
+
+  describe('findElevatorsInBuilding', () => {
+    it('should return elevator data if building with elevators exists', async () => {
+      const buildingCode = 'sampleBuildingCode';
+
+      buildingSchemaMock.findOne.mockResolvedValue({
+        code: buildingStub.code.value,
+        elevator: {
+          number: 1,
+          make: 'Sample Make',
+          model: 'Sample Model',
+          serialNumber: '12345',
+          description: 'Sample Elevator',
+        },
+      } as HydratedDocument<any, any, any>);
+
+      const elevatorData = await buildingRepo.findElevatorsInBuilding(buildingCode);
+
+      expect(elevatorData.length).toEqual(1);
+    });
+  });
+
+  it('should return empty array if building does not exist', async () => {
+    const buildingCode = 'nonExistentBuildingCode';
+
+    buildingSchemaMock.findOne.mockResolvedValue(null as HydratedDocument<any, any, any>);
+
+    const elevatorData = await buildingRepo.findElevatorsInBuilding(buildingCode);
+
+    expect(elevatorData.length).toBe(0);
   });
 });
