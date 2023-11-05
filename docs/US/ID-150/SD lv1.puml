@@ -1,0 +1,12 @@
+@startuml SD Lv1
+
+participant RobDroneGo as system
+[o-> system : POST building
+activate system
+
+system -> system : Save building
+
+[o<--o system : building result
+deactivate system
+
+@enduml

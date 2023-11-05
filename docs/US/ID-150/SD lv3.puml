@@ -1,0 +1,102 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant " "
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Building Persistence" as Persistence
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Building Repository" as Repository
+    end box
+
+    participant "Building DTO" as BuildingDTO
+    participant "Building Mapper" as BuildingMapper
+    box "Application Business Rules" #ff6666
+        participant "Building Service" as BuildingService
+    end box
+
+    box "Enterprise Business Rules" #eeddaa
+        participant Building
+    end box
+end box
+
+[o-> Routing : Post
+activate Routing
+
+    Routing -> Controller : createBuilding(input)
+    activate Controller
+
+        Controller -> BuildingDTO : input as BuildingDTO
+        activate BuildingDTO
+
+        BuildingDTO --> Controller : buildingDTO
+        deactivate BuildingDTO
+
+        Controller -> BuildingService : createBuilding(buildingDTO)
+        activate BuildingService
+        
+            BuildingService -> Repository : findByCode(buildingDTO.code)
+            activate Repository
+
+                Repository -> Persistence : findByCode(buildingDTO.code)
+                activate Persistence
+
+                Persistence --> Repository : buildingExists
+                deactivate Persistence
+
+            Repository --> BuildingService : buildingExists
+            deactivate Repository
+
+            alt if building does not exist
+
+                BuildingService -> Building : create(buildingDTO)
+                activate Building
+
+                Building --> BuildingService : building
+                deactivate Building
+
+                BuildingService -> Repository : save(building)
+                activate Repository
+
+                    Repository -> Persistence : save(building)
+                    activate Persistence
+
+                    Persistence --> Repository : Success
+                    deactivate Persistence
+
+                Repository --> BuildingService : Success
+                deactivate Repository
+
+            else building exists
+                BuildingService --> Controller : Failure(Building already exists)
+            end
+
+        BuildingService -> BuildingMapper : toDTO(building)
+        activate BuildingMapper
+        
+            BuildingMapper -> BuildingDTO : building as DTO
+            activate BuildingDTO
+
+            BuildingDTO --> BuildingMapper : buildingDTO
+            deactivate BuildingDTO
+
+        BuildingMapper --> BuildingService : buildingDTO
+        deactivate BuildingMapper
+
+        BuildingService --> Controller : buildingDTO
+        deactivate BuildingService
+
+    Controller --> Routing : buildingDTO
+    deactivate Controller
+
+[o<--o Routing : buildingDTO
+deactivate Routing
+
+@enduml
