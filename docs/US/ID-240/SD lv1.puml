@@ -1,0 +1,21 @@
+@startuml SD Lv1
+
+participant "Campus Management System" as system
+
+[o-> system : POST /passage
+activate system
+
+alt if passage does not exist and floors are valid
+
+    system -> system : Create new passage
+
+    [o<--o system : creation result
+
+else if passage exists or floors are invalid
+
+    [o<--o system : error "Invalid data or passage exists"
+
+end
+deactivate system
+
+@enduml
