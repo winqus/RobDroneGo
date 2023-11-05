@@ -30,55 +30,54 @@
 > The sub-parts of this section explain the constraints that provided significant influence over the architecture.
 
 ### System Overview
-> This section describes the general function and purpose for the system or subsystem whose architecture is described in this SAD.
 
-The Intermunicipal Transport Authority (AIT) wants a public transportation management and planning system that allows both management and public access to different transportation networks, routes, trips, as well as planning of vehicle services and crew assignments on those routes.
+> This section describes the general function and purpose of the system or subsystem whose architecture is described in this SAD.
+
+The ISEP requires a comprehensive system designed to facilitate the management and navigation of campus facilities. This includes the ability to create, edit, and list buildings and their specific features such as floors, rooms, passages, and elevators. The system will serve as a platform for campus administrators to manage physical resources effectively, while also providing students and staff with the means to navigate the campus infrastructure efficiently.
 
 ### Context
-> This section describes the goals and major contextual factors for the software architecture. The section includes a description of the role software architecture plays in the life cycle, the relationship to system engineering results and artifacts, and any other relevant factors.
 
-Transport planning involves various optimizations and resource allocations with the aim of fulfilling the desired transportation service and maximizing certain operator parameters (e.g., STCP) for operational and financial efficiency. In general, the transportation offering of an operator is the set of trips offered by each of its lines along the routes of the network that are most important in terms of people's mobility in the geographic area in which it operates.
+> This section describes the goals and major contextual factors for the software architecture. The section includes a description of the role software architecture plays in the lifecycle, the relationship to system engineering results and artifacts, and any other relevant factors.
 
-*NB: However, the system requested here is a simplification of what a transportation management system is, and simplifications are assumed to make the project feasible in this context (i.e., 5th semester of LEI).*
+Campus management involves coordinating multiple facilities and logistical elements to support the institution's academic and operational goals. This includes optimizing space utilization, maintaining facilities, and ensuring safe and accessible movement throughout the campus. The system's architecture will thus need to facilitate a wide range of functionalities, from detailed administrative controls to user-friendly interfaces for information retrieval and navigation support.
 
-In this edition of the 5th semester of LEI, we will have the collaboration of the company OPT - Optimização e Planeamento de Transportes, S.A. (http://opt.pt/), which operates in the field of transportation optimization and planning, and develops computer systems that address the issues treated in this project.
+*NB: This system is designed as a manageable project within the context of the 5th semester of Computer Science and Engineering (CSE) program. Certain complexities inherent in campus management systems may be abstracted to ensure the project's feasibility within this academic framework.*
 
-This SAD serves as a basis for a discussion of the system to be built (implemented, tested, and deployed) and is intended to be aligned with the constructed system. In addition to the obvious in describing software architecture, it should identify design alternatives and points of variation.
+For this semester's edition, we will engage with the expertise of companies specializing in architectural and facilities management software to provide practical insights into the development process. 
 
-Although students are the primary audience for this SAD, the competencies acquired by students in various course units throughout the semester enable them to assume different roles (different stakeholders/recipients), e.g., requirements elicitors, analysts, software architects, programmers/testers, administrators, operators (ops), and users.
+This SAD is not just a documentation artifact but also a strategic tool for guiding the development of the system. It will outline the architectural decisions, highlight design alternatives, and identify the system's points of variability.
+
+The document targets a wide audience that includes students who, throughout their coursework, will take on various roles pertinent to the software development lifecycle. These roles include, but are not limited to, requirements gatherers, analysts, software architects, developers, testers, system administrators, and end-users.
+
 
 ### Driving Requirements
 > This section lists the functional requirements, quality attributes, and design constraints. It may point to a separate requirements document.
 
 #### Functional requirements
-1. As a data administrator, I want to import nodes, routes, lines, vehicle types, and crew types from a .glx file.
-2. As a data administrator, I want to create network nodes, indicating their name, whether they are a collection point or drop-off point, and their coordinates.
-3. As a data administrator, I want to create a line, indicating its code (e.g., "C"), name (e.g., "Green Line"), and its terminal nodes (e.g., Campanha, ISMAI), as well as any restrictions on the type of vehicle and crew type.
-4. As a data administrator, I want to define a one-way/round-trip route for a line. Define the various segments that make up a route, indicating the order, distance, and travel time of each segment.
+1. ID150 Create building
+1. ID160 Edit building
+1. ID170 List all buildings
+1. ID180 List buildings with min and max floors
+1. ID190 Create building floor
+1. ID200 Edit building floor information
+1. ID210 List all floors in a building
+1. ID220 List building floors with passage to other buildings
+1. ID230 Upload floor map
+1. ID240 Create passage between buildings
+1. ID250 Edit passage between buildings
+1. ID260 List passages between 2 buildings
+1. ID270 Create an elevator in a building
+1. ID280 Edit elevator in building
+1. ID290 List elevators in building
+1. ID300 List building floors served by elevator
+1. ID310 Create building floor room
+1. ID350 As a fleet manager, I want to add a new type of robot indicating its designation and what types of tasks it can perform from the predefined list of tasks
+1. ID360 As a fleet manager, I want to add a new robot to the fleet indicating its type, name, etc.
+1. ID370 As a fleet manager, I want to inhibit a robot
+1. ID380 As a fleet manager, I intend to consult all robots in the fleet
+1. ID390 As a fleet manager, I want to search all the robots in the fleet by designation or task they can perform.
+1. ID760 As a solution architect, I want a duly justified and clear diagram of which components will exist in the solution and what their integration interfaces are, indicating the type of information and information structure to be shared.
 
-[...]
-
-19. As a data administrator, I want to list vehicle service on a specific day.
-20. As a data administrator, I want to list crew service on a specific day.
-
-[...]
-
-21. As a customer or manager, I want to view the transportation network graphically in 2D.
-22. As a customer or manager, I want to control the view. Add camera pan and zoom commands; the orbit command should be inactive (suggestion: right mouse button - pan; mouse wheel - zoom).
-23. As a customer or manager, I want to have a georeferenced representation of the network. Overlay the geographic area (map) covered by the transportation network.
-
-[...]
-
-29. As a customer, I want to access and cancel my account under the legally permitted cases and conditions.
-
-[...]
-
-30. As a customer or manager, I want to control the view. Add interaction objects (e.g., buttons, sliders, etc.) that allow configuring the scene's lighting conditions; these objects should be active in 3D mode and inactive or invisible in 2D mode.
-31. As a customer or manager, I want to increase the realism of first-person navigation. Detect vehicle collisions with 3D models representing network nodes.
-
-[...]
-
-<insert use case model here/>
 
 #### Quality attributes
 Quality attributes are categorized and systematized according to the [FURPS+ model](https://en.wikipedia.org/wiki/FURPS).
@@ -91,7 +90,7 @@ Quality attributes are categorized and systematized according to the [FURPS+ mod
 
 ##### Usability
 5. The SPA should provide access to all modules of the system: master data, planning, and visualization, as well as GDPR.
-6. In the scope of the current project, user administration can be done directly in the database, and a user management module is not necessary.
+
 
 ##### Reliability
 N/A
