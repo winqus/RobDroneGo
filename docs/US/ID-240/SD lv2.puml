@@ -1,0 +1,42 @@
+@startuml SD Lv2
+
+participant " "
+box "Campus Management System" #LightBlue
+    participant "Campus Management" as Campus
+    participant "DB" as DB
+end box
+
+[o-> Campus : POST /passage
+activate Campus
+
+Campus -> DB : find passages by building codes
+activate DB
+DB --> Campus : passage data / not found
+deactivate DB
+
+alt if passage not found
+
+    Campus -> DB : find floor by building code and floor number
+    activate DB
+    DB --> Campus : floor data / not found
+    deactivate DB
+    
+    alt if both floors found
+        Campus -> Campus : create new passage properties
+
+        Campus -> DB : save new passage
+        activate DB
+        DB --> Campus : operation result
+        deactivate DB
+
+        [o<--o Campus : creation result
+    else if one or both floors not found
+        [o<--o Campus : error "Floor or building not found"
+    end
+
+else if passage found
+    [o<--o Campus : error "Passage already exists"
+end
+deactivate Campus
+
+@enduml
