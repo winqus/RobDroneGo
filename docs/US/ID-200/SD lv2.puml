@@ -1,0 +1,35 @@
+@startuml SD Lv2
+
+box "RobDroneGo" #LightBlue
+    participant "Campus Management" as campus
+    participant "DB" as DB
+end box
+
+[o-> campus : PUT /floor/{floorId}
+activate campus
+
+campus -> DB : check floor existence
+activate DB
+DB --> campus : floor data / not found
+deactivate DB
+
+alt if floor found
+
+    campus -> campus : validate and update floor properties
+
+    campus -> DB : save updated floor
+    activate DB
+    DB --> campus : save operation result
+    deactivate DB
+
+    [o<--o campus : floor update success
+    deactivate campus
+
+else if floor not found or building invalid
+
+    [o<--o campus : error "Floor not found or Building invalid"
+    deactivate campus
+
+end
+
+@enduml

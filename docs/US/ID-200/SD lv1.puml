@@ -1,0 +1,20 @@
+@startuml SD Lv1
+
+participant "RobDroneGo" as system
+[o-> system : PUT /floor/{floorId}
+activate system
+
+alt if floor exists
+
+    system -> system : Update floor properties
+
+    [o<--o system : updated floor
+
+else if floor does not exist
+
+    [o<--o system : error message
+
+end
+deactivate system
+
+@enduml
