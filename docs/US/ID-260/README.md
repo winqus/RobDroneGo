@@ -1,20 +1,20 @@
-# ID 160 - Edit building
+# ID 260 - List passages between 2 buildings
 
 ## Description
-Create PUT/PATCH method for updating an existing building.
+Create GET method to get passages between two buildings.
 
 ## Acceptance Criteria
 
-* It’s possible to edit any attribute of an existing building except a building code.
-* Unit tests are implemented and pass.
+* Can get a list of passages between two buildings.
+* Unit tests written and passed.
 
 ## Questions from the forum
 
-### Discussion - "US160, US200, US250 e US280"
-Creation date: 16/10/2023. [Go to discussion.](https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=25168)
+### Discussion - "[Requirements] List passages between 2 buildings"
+Creation date: 09/10/2023. [Go to discussion.](https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=25007)
 
 **Discussion summary:**
-US160 allows for the modification of all building details except for the building code.
+US260 aims to enable the visualization of all existing passageways between buildings, returning all passageways if no specific buildings are indicated, or only those between a specified pair of buildings if designated.
 
 ## Diagrams
 
