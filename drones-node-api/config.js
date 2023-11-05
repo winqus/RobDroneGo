@@ -4,10 +4,23 @@ import dotenv from 'dotenv';
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const envFound = dotenv.config();
-if (!envFound) {
-  // This error should crash whole process
-
+if (!envFound /* || envFound?.error */) {
+  // This error should crash whole process (should uncomment envFound?.error), disabled for pipelines for now
   throw new Error("⚠️  Couldn't find .env file  ⚠️");
+}
+
+if (process.env.NODE_ENV === 'development') {
+  const developEnvFound = dotenv.config({ path: '.env.development' });
+  if (developEnvFound && !developEnvFound?.error) {
+    console.log('❕  Using .env.development file to supply config environment variables  ❕');
+  }
+}
+
+if (process.env.NODE_ENV === 'test') {
+  const testEnvFound = dotenv.config({ path: '.env.test' });
+  if (testEnvFound && !testEnvFound?.error) {
+    console.log('❕  Using .env.test file to supply config environment variables  ❕');
+  }
 }
 
 export default {
@@ -19,8 +32,12 @@ export default {
   /**
    * That long string from mlab
    */
-  databaseURL: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/test',
-
+  databaseURL:
+    process.env.NODE_ENV === 'development'
+      ? process.env.DEV_MONGODB_URI || process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/test'
+      : process.env.NODE_ENV === 'test' // for e2e testing
+      ? process.env.TEST_MONGODB_URI || 'mongodb://127.0.0.1:27017/test'
+      : process.env.MONGODB_URI,
   /**
    * Your secret sauce
    */
@@ -45,6 +62,34 @@ export default {
       name: 'RoleController',
       path: '../controllers/roleController',
     },
+    building: {
+      name: 'BuildingController',
+      path: '../controllers/buildingController',
+    },
+    floor: {
+      name: 'FloorController',
+      path: '../controllers/floorController',
+    },
+    room: {
+      name: 'RoomController',
+      path: '../controllers/roomController',
+    },
+    passage: {
+      name: 'PassageController',
+      path: '../controllers/passageController',
+    },
+    robotType: {
+      name: 'RobotTypeController',
+      path: '../controllers/robotTypeController',
+    },
+    taskType: {
+      name: 'TaskTypeController',
+      path: '../controllers/taskTypeController',
+    },
+    robot: {
+      name: 'RobotController',
+      path: '../controllers/robotController',
+    },
   },
 
   repos: {
@@ -56,12 +101,72 @@ export default {
       name: 'UserRepo',
       path: '../repos/userRepo',
     },
+    building: {
+      name: 'BuildingRepo',
+      path: '../repos/buildingRepo',
+    },
+    floor: {
+      name: 'FloorRepo',
+      path: '../repos/floorRepo',
+    },
+    room: {
+      name: 'RoomRepo',
+      path: '../repos/roomRepo',
+    },
+    passage: {
+      name: 'PassageRepo',
+      path: '../repos/passageRepo',
+    },
+    robotType: {
+      name: 'RobotTypeRepo',
+      path: '../repos/robotTypeRepo',
+    },
+    taskType: {
+      name: 'TaskTypeRepo',
+      path: '../repos/taskTypeRepo',
+    },
+    robot: {
+      name: 'RobotRepo',
+      path: '../repos/robotRepo',
+    },
   },
 
   services: {
     role: {
       name: 'RoleService',
       path: '../services/roleService',
+    },
+    building: {
+      name: 'BuildingService',
+      path: '../services/buildingService',
+    },
+    floor: {
+      name: 'FloorService',
+      path: '../services/floorService',
+    },
+    room: {
+      name: 'RoomService',
+      path: '../services/roomService',
+    },
+    passage: {
+      name: 'PassageService',
+      path: '../services/passageService',
+    },
+    robotType: {
+      name: 'RobotTypeService',
+      path: '../services/robotTypeService',
+    },
+    taskType: {
+      name: 'TaskTypeService',
+      path: '../services/taskTypeService',
+    },
+    elevator: {
+      name: 'ElevatorService',
+      path: '../services/elevatorService',
+    },
+    robot: {
+      name: 'RobotService',
+      path: '../services/robotService',
     },
   },
 };
