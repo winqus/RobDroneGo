@@ -3,6 +3,7 @@ import { Mapper } from '../core/infra/Mapper';
 import { Result } from '../core/logic/Result';
 import { Code as BuildingCode } from '../domain/Building/ValueObjects/code';
 import { Description } from '../domain/Building/ValueObjects/description';
+import { Map } from '../domain/Floor/ValueObject/map';
 import { Floor } from '../domain/Floor/floor';
 import IFloorDTO from '../dto/IFloorDTO';
 
@@ -14,6 +15,7 @@ export class FloorMap extends Mapper<Floor> {
       description: floor.description.value,
       servedByElevator: floor.servedByElevator,
       buildingCode: floor.buildingCode.value,
+      map: floor.map ? { size: { width: floor.map.width, height: floor.map.height }, map: floor.map.map } : null,
     } as IFloorDTO;
   }
 
@@ -27,12 +29,18 @@ export class FloorMap extends Mapper<Floor> {
     if (combinedResults.isFailure) {
       return Result.fail<Floor>(combinedResults.error);
     }
+    let map: Map | null = null;
+    if (raw?.map !== null && raw?.map !== undefined && raw?.map.map.length > 0) {
+      map = Map.create(raw?.map?.width as number, raw?.map?.height as number, raw?.map?.map as number[][]).getValue();
+    }
+
     const floorOrError = Floor.create(
       {
         floorNumber: floorNumber,
         description: description.getValue(),
         servedByElevator,
         buildingCode: buildingCode.getValue(),
+        map: map,
       },
       new UniqueEntityID(raw.id),
     );
@@ -49,6 +57,7 @@ export class FloorMap extends Mapper<Floor> {
       description: floor.description.value,
       servedByElevator: floor.servedByElevator,
       buildingCode: floor.buildingCode.value,
+      map: floor.map ? { size: { width: floor.map.width, height: floor.map.height }, map: floor.map.map } : null,
     };
   }
 }

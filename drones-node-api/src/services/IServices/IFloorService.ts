@@ -13,4 +13,10 @@ export default interface IFloorService {
   updateFloor(updatedFloorDTO: IFloorDTO): Promise<Result<IFloorDTO>>;
 
   partialUpdateFloor(updatedFloorDTO: Partial<IFloorDTO>): Promise<Result<IFloorDTO>>;
+
+  loadMap(
+    buildingCode: string,
+    floorNumber: number,
+    map: { size: { width: number; height: number }; map: number[][] },
+  ): Promise<Result<IFloorDTO>>;
 }

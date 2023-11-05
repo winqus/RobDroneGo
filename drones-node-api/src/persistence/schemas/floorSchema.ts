@@ -21,6 +21,11 @@ const Floor = new mongoose.Schema(
       type: String,
       required: [true, 'Please enter building code'],
     },
+    map: {
+      width: Number,
+      height: Number,
+      map: [[Number]],
+    },
   },
   { timestamps: true, autoIndex: true },
 );

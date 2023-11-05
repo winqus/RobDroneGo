@@ -4,4 +4,11 @@ export default interface IFloorDTO {
   description: string | null;
   servedByElevator: boolean;
   buildingCode: string;
+  map?: {
+    size: {
+      width: number;
+      height: number;
+    };
+    map: number[][];
+  };
 }

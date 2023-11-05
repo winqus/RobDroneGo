@@ -185,4 +185,98 @@ describe('FloorService', () => {
       expect(result.isFailure).toBe(true);
     });
   });
+
+  describe('loadMap', () => {
+    it('should successfully load a map for a floor', async () => {
+      const buildingCode = 'B1';
+      const floorNumber = 1;
+      const mapData = {
+        size: { width: 2, height: 2 },
+        map: [
+          [1, 2],
+          [3, 4],
+        ],
+      };
+
+      const buildingMock = {
+        code: { value: buildingCode },
+        floorSize: { value: { width: 2, height: 2 } },
+      };
+      const floorMock = {
+        id: new UniqueEntityID(),
+        buildingCode: { value: buildingCode },
+        floorNumber: 1,
+        description: { value: 'Test floor' },
+        servedByElevator: true,
+        map: {
+          size: { width: 2, height: 2 },
+          map: [
+            [0, 0],
+            [0, 0],
+          ],
+        },
+      };
+
+      buildingRepoMock.findByCode.mockResolvedValue(buildingMock as any);
+      floorRepoMock.findByCode.mockResolvedValue(floorMock as any);
+      floorRepoMock.save.mockResolvedValue(floorMock as any);
+
+      const result = await floorService.loadMap(buildingCode, floorNumber, mapData);
+
+      expect(result.isSuccess).toBe(true);
+      expect(buildingRepoMock.findByCode).toBeCalledWith(buildingCode);
+      expect(floorRepoMock.findByCode).toBeCalledWith(buildingCode, floorNumber);
+      expect(floorRepoMock.save).toBeCalledWith(expect.any(Object));
+    });
+
+    it('should fail to load a map when building with the provided code does not exist', async () => {
+      const buildingCode = 'B2';
+      const floorNumber = 1;
+      const mapData = {
+        size: { width: 2, height: 2 },
+        map: [
+          [1, 2],
+          [3, 4],
+        ],
+      };
+
+      buildingRepoMock.findByCode.mockResolvedValue(null as any);
+
+      const result = await floorService.loadMap(buildingCode, floorNumber, mapData);
+
+      expect(result.isFailure).toBe(true);
+      expect(result.error).toBe('Building with the provided code does not exist.');
+      expect(buildingRepoMock.findByCode).toBeCalledWith(buildingCode);
+      expect(floorRepoMock.findByCode).not.toBeCalled();
+      expect(floorRepoMock.save).not.toBeCalled();
+    });
+
+    it('should fail to load a map when map size is bigger than the maximum floor size of the building', async () => {
+      const buildingCode = 'B1';
+      const floorNumber = 1;
+      const mapData = {
+        size: { width: 3, height: 3 }, // Map size exceeds maximum floor size
+        map: [
+          [1, 2, 3],
+          [4, 5, 6],
+          [7, 8, 9],
+        ],
+      };
+
+      const buildingMock = {
+        code: { value: buildingCode },
+        floorSize: { value: { width: 2, height: 2 } },
+      };
+
+      buildingRepoMock.findByCode.mockResolvedValue(buildingMock as any);
+
+      const result = await floorService.loadMap(buildingCode, floorNumber, mapData);
+
+      expect(result.isFailure).toBe(true);
+      expect(result.error).toBe('Map size is bigger than the maximum floor size of the building.');
+      expect(buildingRepoMock.findByCode).toBeCalledWith(buildingCode);
+      expect(floorRepoMock.findByCode).not.toBeCalled();
+      expect(floorRepoMock.save).not.toBeCalled();
+    });
+  });
 });

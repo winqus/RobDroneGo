@@ -4,12 +4,14 @@ import { Guard } from '../../core/logic/Guard';
 import { Result } from '../../core/logic/Result';
 import { Code as BuildingCode } from '../Building/ValueObjects/code';
 import { Description } from '../Building/ValueObjects/description';
+import { Map } from './ValueObject/map';
 
 interface FloorProps {
   floorNumber: number;
   description: Description | null;
   servedByElevator: boolean;
   buildingCode: BuildingCode;
+  map?: Map;
 }
 
 export class Floor extends AggregateRoot<FloorProps> {
@@ -33,6 +35,10 @@ export class Floor extends AggregateRoot<FloorProps> {
     return this.props.servedByElevator;
   }
 
+  get map(): Map | undefined {
+    return this.props.map;
+  }
+
   set floorNumber(value: number) {
     this.props.floorNumber = value;
   }
@@ -43,6 +49,10 @@ export class Floor extends AggregateRoot<FloorProps> {
 
   set servedByElevator(value: boolean) {
     this.props.servedByElevator = value;
+  }
+
+  set map(value: Map | undefined) {
+    this.props.map = value;
   }
 
   private constructor(props: FloorProps, id?: UniqueEntityID) {

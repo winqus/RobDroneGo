@@ -79,4 +79,26 @@ export default (app: Router) => {
   route.get('', (req, res, next) => controller.listAllFloors(req, res, next));
 
   route.get('/:buildingCode', (req, res, next) => controller.getFloorsByBuildingCode(req, res, next));
+
+  route.patch(
+    '/:floorNumber/building/:buildingCode',
+    celebrate({
+      body: Joi.object({
+        map: Joi.object({
+          size: Joi.object({
+            width: Joi.number().required(),
+            height: Joi.number().required(),
+          }).required(),
+          map: Joi.array()
+            .items(Joi.array().items(Joi.number()))
+            .required(),
+        }).required(),
+      }),
+      params: Joi.object({
+        floorNumber: Joi.number().required(),
+        buildingCode: Joi.string().required(),
+      }),
+    }),
+    (req, res, next) => controller.loadMap(req, res, next),
+  );
 };

@@ -12,4 +12,6 @@ export default interface IFloorController {
   getFloorsByBuildingCode(req: Request, res: Response, next: NextFunction);
 
   getFloorsServedByElevator(req: Request, res: Response, next: NextFunction);
+
+  loadMap(req: Request, res: Response, next: NextFunction);
 }

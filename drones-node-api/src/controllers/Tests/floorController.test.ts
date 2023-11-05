@@ -215,4 +215,83 @@ describe('FloorController', () => {
       expect(resMock.json).toHaveBeenCalledWith({ message: 'Error getting floors served by elevator' });
     });
   });
+
+  describe('loadMap', () => {
+    it('should successfully load a map for a floor and return 200 status', async () => {
+      const buildingCode = 'B1';
+      const floorNumber = '1';
+      const mapData = {
+        size: { width: 2, height: 2 },
+        map: [
+          [1, 2],
+          [3, 4],
+        ],
+      };
+
+      const floorDTO = {
+        id: '00000000-0000-0000-0000-000000000000',
+        floorNumber: 1,
+        description: 'Test floor',
+        servedByElevator: true,
+        buildingCode: 'B1',
+      };
+
+      reqMock.params = { buildingCode, floorNumber };
+      reqMock.body = { map: mapData };
+
+      floorServiceMock.loadMap.mockResolvedValue(Result.ok(floorDTO) as any);
+
+      await floorController.loadMap(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(200);
+      expect(resMock.json).toHaveBeenCalledWith(floorDTO);
+    });
+
+    it('should return 404 status if there is a failure while loading the map', async () => {
+      const buildingCode = 'B1';
+      const floorNumber = '1';
+      const mapData = {
+        size: { width: 2, height: 2 },
+        map: [
+          [1, 2],
+          [3, 4],
+        ],
+      };
+
+      const error = 'Error loading map';
+
+      reqMock.params = { buildingCode, floorNumber };
+      reqMock.body = { map: mapData };
+
+      floorServiceMock.loadMap.mockResolvedValue(Result.fail(error) as any);
+
+      await floorController.loadMap(reqMock as Request, resMock as Response, nextMock);
+
+      expect(resMock.status).toHaveBeenCalledWith(404);
+      expect(resMock.json).toHaveBeenCalledWith({ message: error });
+    });
+
+    it('should pass the error to next if an exception occurs', async () => {
+      const buildingCode = 'B1';
+      const floorNumber = '1';
+      const mapData = {
+        size: { width: 2, height: 2 },
+        map: [
+          [1, 2],
+          [3, 4],
+        ],
+      };
+
+      const error = new Error('Unexpected error');
+
+      reqMock.params = { buildingCode, floorNumber };
+      reqMock.body = { map: mapData };
+
+      floorServiceMock.loadMap.mockRejectedValue(error);
+
+      await floorController.loadMap(reqMock as Request, resMock as Response, nextMock);
+
+      expect(nextMock).toHaveBeenCalledWith(error);
+    });
+  });
 });

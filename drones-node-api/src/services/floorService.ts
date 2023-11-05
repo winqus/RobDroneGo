@@ -1,6 +1,7 @@
 import { Inject, Service } from 'typedi';
 import config from '../../config';
 import { Result } from '../core/logic/Result';
+import { Map } from '../domain/Floor/ValueObject/map';
 import { Floor } from '../domain/Floor/floor';
 import IFloorDTO from '../dto/IFloorDTO';
 import { FloorMap } from '../mappers/FloorMap';
@@ -151,6 +152,41 @@ export default class FloorService implements IFloorService {
       return Result.ok<IFloorDTO[]>(floorDTOs);
     } catch (error) {
       return Result.fail<IFloorDTO[]>(error);
+    }
+  }
+
+  public async loadMap(
+    buildingCode: string,
+    floorNumber: number,
+    map: { size: { width: number; height: number }; map: number[][] },
+  ): Promise<Result<IFloorDTO>> {
+    try {
+      const building = await this.buildingRepo.findByCode(buildingCode);
+
+      if (building === null) {
+        return Result.fail<IFloorDTO>('Building with the provided code does not exist.');
+      }
+      if (building.floorSize.value.width < map.size.width || building.floorSize.value.length < map.size.height) {
+        return Result.fail<IFloorDTO>('Map size is bigger than the maximum floor size of the building.');
+      }
+
+      const floor = await this.floorRepo.findByCode(buildingCode, floorNumber);
+
+      const mapObject = Map.create(map.size.width, map.size.height, map.map);
+
+      if (mapObject.isFailure) {
+        return Result.fail<IFloorDTO>(mapObject.errorValue().toString());
+      }
+
+      floor.map = mapObject.getValue();
+
+      this.floorRepo.save(floor);
+
+      const floorDTOResult = FloorMap.toDTO(floor) as IFloorDTO;
+
+      return Result.ok<IFloorDTO>(floorDTOResult);
+    } catch (error) {
+      throw error;
     }
   }
 }

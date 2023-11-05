@@ -4,4 +4,9 @@ export interface IFloorPersistence {
   description: string | null;
   servedByElevator: boolean;
   buildingCode: string;
+  map?: null | {
+    width: number;
+    height: number;
+    map: number[][];
+  };
 }
