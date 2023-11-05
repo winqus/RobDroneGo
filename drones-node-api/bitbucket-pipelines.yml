@@ -2,16 +2,17 @@ image: node:18.18.0
 
 pipelines:
   pull-requests:
-    '**/develop': # this will run as a result of a PR that targets the develop branch
+    '**':
       - parallel:
           - step:
               name: Build and Test Node
               caches:
                 - node
               script:
+                - if [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "main" ] && [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "develop" ]; then echo 'Destination not main or develop branch.'; exit 0; fi
                 - apt-get update
-                - apt-get install -y python3.10
-                - python --version
+                - node -v
+                - python3 --version
                 - npm install
                 - npm run build
                 - npx jest
@@ -20,22 +21,24 @@ pipelines:
               caches:
                 - node
               script:
+                - if [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "main" ] && [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "develop" ]; then echo 'Destination not main or develop branch.'; exit 0; fi
                 - npm install
                 - npm run lint:js || true
+
   custom: 
     manual-trigger:
       - parallel:
           - step:
-              name: Manually Triggered Build and Test
+              name: Manually Triggered Build and Test Node
               script:
                 - apt-get update
-                - apt-get install -y python3.10
-                - python --version
+                - node -v
+                - python3 --version
                 - npm install
                 - npm run build
                 - npx jest
           - step:
-              name: Manually Triggered Code linting
+              name: Manually Triggered Node Code linting
               script:
                 - npm install
                 - npm run lint:js || true
