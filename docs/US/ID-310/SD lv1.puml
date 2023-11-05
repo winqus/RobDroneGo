@@ -1,6 +1,6 @@
 @startuml SD Lv1
 
-participant "Campus Management" as system
+participant "RobDroneGo" as system
 [o-> system : POST /room
 activate system
 

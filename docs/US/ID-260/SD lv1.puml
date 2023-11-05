@@ -1,6 +1,6 @@
 @startuml SD Lv1
 
-participant "Campus Management" as system
+participant "RobDroneGo" as system
 
 [o-> system : GET /passages?building1={code1}\n\t&building2={code2}
 activate system

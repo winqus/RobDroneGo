@@ -1,6 +1,6 @@
 @startuml SD Lv2
 
-box "Campus Management" #LightBlue
+box "RobDroneGo" #LightBlue
     participant "Campus Management" as Campus
     participant "DB" as DB
 end box

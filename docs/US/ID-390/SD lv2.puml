@@ -1,8 +1,8 @@
 @startuml SD Lv2
 
-box "Robot Management" #LightBlue
-    participant "Robot Service" as RobotService
-    participant "Database" as DB
+box "RobDroneGo" #LightBlue
+    participant "Fleet Management" as RobotService
+    participant "DB" as DB
 end box
 
 [o-> RobotService : GET /robot?query

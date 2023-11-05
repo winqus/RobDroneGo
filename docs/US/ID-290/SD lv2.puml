@@ -2,7 +2,7 @@
 
 box "RobDroneGo" #LightBlue
     participant "Campus Management" as Campus
-    participant "Database" as DB
+    participant "DB" as DB
 end box
 
 [o-> Campus : GET /building/:code/elevators

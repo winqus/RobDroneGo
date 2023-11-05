@@ -1,6 +1,6 @@
 @startuml SD Lv1
 
-participant "RobDroneGo System" as System
+participant "RobDroneGo" as System
 
 [o-> System : GET /building?minFloor={min}\n\t&maxFloor={max}
 activate System

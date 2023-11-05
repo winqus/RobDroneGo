@@ -1,5 +1,7 @@
 @startuml SD Lv1
 
+participant "RobDroneGo" as System
+
 [o-> System : GET /building/:code/elevators
 activate System
 

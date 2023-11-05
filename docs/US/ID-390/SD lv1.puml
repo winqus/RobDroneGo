@@ -1,6 +1,6 @@
 @startuml SD Lv1
 
-participant "Robot Management" as system
+participant "RobDroneGo" as system
 
 [o-> system : GET /robot?query
 activate system

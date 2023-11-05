@@ -2,7 +2,7 @@
 
 !pragma teoz true
 
-box "Robot Management" #LightBlue
+box "Fleet Management" #LightBlue
 
     box "Framework And Drivers Layer" #00ffff
         participant "Request Handling" as Routing
