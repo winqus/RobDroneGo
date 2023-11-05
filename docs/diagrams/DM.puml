@@ -227,5 +227,6 @@ DeliveryTask "*" --> "1" BaseUser : mentions (reciver)
 Room "1..*" --> "1" Floor : is on
 SurveillanceTask "1" --> "1" Task
 DeliveryTask "1" --> "1" Task
+Task "*" ---> "1" User  : requested by
 
 @enduml
