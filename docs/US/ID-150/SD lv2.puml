@@ -6,22 +6,30 @@ box "RobDroneGo" #LightBlue
     participant "DB" as DB
 end box
 
-[o-> campus : POST building
+[o-> campus : POST /building
 activate campus
 
-campus -> DB : check existing\nbuilding
+campus -> DB : check if building with code exists
 activate DB
-DB --> campus : result
+DB --> campus : building exists / does not exist
 deactivate DB
 
-campus -> campus : create building
+alt if building with code does not exist
 
-campus -> DB : save building
-activate DB
-DB --> campus : operation result
-deactivate DB
+    campus -> campus : create new building
 
-[o<--o campus : building result
+    campus -> DB : save new building
+    activate DB
+    DB --> campus : success
+    deactivate DB
+
+    [o<--o campus : building result
+
+else if building with code exists
+
+    [o<--o campus : error message
+
+end
 deactivate campus
 
 @enduml

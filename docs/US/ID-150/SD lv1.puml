@@ -1,12 +1,22 @@
 @startuml SD Lv1
 
 participant RobDroneGo as system
-[o-> system : POST building
+[o-> system : POST /building
 activate system
 
-system -> system : Save building
+system -> system : Check building already exists
 
-[o<--o system : building result
+alt same building does not exist
+
+    system -> system : Save new building
+
+    [o<--o system : building result
+    
+else if building with code exists
+
+    [o<--o system : error message
+
+end
 deactivate system
 
 @enduml
