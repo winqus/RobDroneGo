@@ -14,9 +14,9 @@
 
 The software architecture of a system is the structure or structures of that system, which includes software elements and their externally visible properties, as well as the relationships between them (Bass 2012).
 
-This SAD describes the software architecture of the system being developed at the request of the Intermunicipal Transport Authority (ITA) for the management and planning of public transportation. This system allows management and general public access to various transportation networks, routes, trips, as well as the planning of vehicle services and crew assignments for those routes.
+This SAD describes the software architecture of the system being developed at the request of the client for the management and planning of campus facilities and robots. This system allows management of buildings, floors, rooms, robots, tasks, users.
 
-This SAD is developed in an academic context of teaching and learning (in the 5th semester of the 2020-2021 academic year), where various competencies are being acquired throughout the semester by the students, while they simultaneously develop the system.
+This SAD is developed in an academic context of teaching and learning (in the 5th semester of the 2023-2024 academic year), where various competencies are being acquired throughout the semester by the students, while they simultaneously develop the system.
 
 As it aims to support the teaching and learning process, it is not intended to be comprehensive or describe the best possible architecture. Instead, it serves as a guide and example, aligned with the competencies to be acquired in each iteration/sprint of the project.
 
