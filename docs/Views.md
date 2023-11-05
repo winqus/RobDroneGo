@@ -1,44 +1,15 @@
 ## Contents
-- [Views](#views)
-    - [Introduction](#introduction)
-    - [Business Concepts](#business-concepts)
-    - [Domain Design](#domain-design)
-    - [Level 1](#level-1)
-        - [Logical View](#logical-view)
-        - [Process View](#process-view)
-            - [SSD US1](#ssd-us1)
-            - [SSD US2](#ssd-us2)
-            - [(other architecturally relevant SSDs)](#other-architecturally-relevant-ssds)
-    - [Level 2](#level-2)
-        - [Logical View](#logical-view-1)
-        - [Process View](#process-view-1)
-            - [SSD US13 (Why this US?)](#ssd-us13-why-this-us)
-            - [(other architecturally relevant SSDs)](#other-architecturally-relevant-ssds-1)
-        - [Implementation View](#implementation-view)
-        - [Physical View](#physical-view)
-    - [Level 3 (MDR)](#level-3-mdr)
-        - [Logical View](#logical-view-2)
-        - [Process View](#process-view-2)
-            - [SD US01](#sd-us01)
-            - [(other architecturally relevant SSDs)](#other-architecturally-relevant-ssds-2)
-        - [Implementation View](#implementation-view-1)
-        - [Physical View](#physical-view-1)
-    - [Level 3 (UI)](#level-3-ui)
-        - [Logical View](#logical-view-3)
-        - [Process View](#process-view-3)
-        - [Implementation View](#implementation-view-2)
-        - [Physical View](#physical-view-2)
-    - [Level 3 (MDV)](#level-3-mdv)
-        - [Logical View](#logical-view-4)
-        - [Process View](#process-view-4)
-        - [Implementation View](#implementation-view-3)
-        - [Physical View](#physical-view-3)
-    - [Level 3 (Planning)](#level-3-planning)
-        - [Logical View](#logical-view-5)
-        - [Process View](#process-view-5)
-        - [Implementation View](#implementation-view-4)
-        - [Physical View](#physical-view-4)
-    - [Scenario View (Use Cases)](#scenario-view-use-cases)
+- [Introduction](#introduction)
+- [Business Concepts](#business-concepts)
+- [Domain Design](#domain-design)
+- [Logical Views](#logical-views)
+    - [Logical View Lv1](#logical-view-lv1)
+    - [Logical View Lv2](#logical-view-lv2)
+    - [Logical View Lv3](#logical-view-lv3)
+- [Process Views](#process-views)
+    - [User Stories](#user-stories)
+- [Deployment View](#deployment-view)
+- [Scenario View (Use Cases)](#scenario-view-use-cases)
 
 # Views
 
@@ -69,133 +40,46 @@ For modeling/visually representing both what has been implemented and the consid
 ![BusinessConcepts](diagrams/BusinessConcepts.jpg)
 
 ## Domain Design
-![DomainDesign](diagrams/DomainDesign.png)
+![DomainDesign](diagrams/DM.svg)
 
-## Level 1
-### Logical View
-![L1-LV](diagrams/level1/L1-LV.png)
+### Logical View Lv1
+![LV Lv1](diagrams/level1/Logical%20View%20Lv1.svg)
 
-### Process View
-#### SSD US150
-![L1-PV-US150](diagrams/level1/L1-PV-US150.png)
+### Logical View Lv2
+![LV Lv2](diagrams/level2/Logical%20View%20Lv2.svg)
 
-#### SSD US160
-![L1-PV-US160](diagrams/level1/L1-PV-US160.png)
+### Logical View Lv3
+![LV Lv3](diagrams/level3/Logical%20View%20lv3%20(Campus%20Management).svg)
 
-#### SSD US170
-![L1-PV-US170](diagrams/level1/L1-PV-US170.png)
+## Process Views
 
-#### SSD US180
-![L1-PV-US180](diagrams/level1/L1-PV-US170.png)
+Proccess view is diagrams are described for each user story. Each user story is described in its own section.
 
-#### SSD US190
-![L1-PV-US190](diagrams/level1/L1-PV-US190.png)
+* [ID150 - Create building](./US/ID-150/README.md)
+* [ID160 - Edit building](./US/ID-160/README.md)
+* [ID170 - List all buildings](./US/ID-170/README.md)
+* [ID180 - List buildings with min and max floors](./US/ID-180/README.md)
+* [ID190 - Create building floor](./US/ID-190/README.md)
+* [ID200 - Edit building floor information](./US/ID-200/README.md)
+* [ID210 - List all floors in a building](./US/ID-210/README.md)
+* [ID220 - List building floors with passage to other buildings](./US/ID-220/README.md)
+* [ID230 - Upload floor map](./US/ID-230/README.md)
+* [ID240 - Create passage between buildings](./US/ID-240/README.md)
+* [ID250 - Edit passage between buildings](./US/ID-250/README.md)
+* [ID260 - List passages between 2 buildings](./US/ID-260/README.md)
+* [ID270 - Create an elevator in a building](./US/ID-270/README.md)
+* [ID280 - Edit elevator in building](./US/ID-280/README.md)
+* [ID290 - List elevators in building](./US/ID-290/README.md)
+* [ID300 - List building floors served by elevator](./US/ID-300/README.md)
+* [ID310 - Create building floor room](./US/ID-310/README.md)
+* [ID350 - Add new type of robot](./US/ID-350/README.md)
+* [ID360 - Add new robot to the fleet](./US/ID-360/README.md)
+* [ID370 - Inhibit a robot](./US/ID-370/README.md)
+* [ID380 - Consult all robots in fleet](./US/ID-380/README.md)
+* [ID390 - Search robots by designation or task](./US/ID-390/README.md)
 
-#### SSD US 200 to 340
-Similar to previous Level 1 diagrams and therefore seperate diagrams are not shown here.
-
-#### SSD US350
-![L1-PV-US350](diagrams/level1/L1-PV-US350.png)
-
-#### SSD US360
-![L1-PV-US360](diagrams/level1/L1-PV-US360.png)
-
-#### SSD US370
-![L1-PV-US370](diagrams/level1/L1-PV-US370.png)
-
-#### SSD US380
-![L1-PV-US380](diagrams/level1/L1-PV-US380.png)
-
-#### SSD US390
-![L1-PV-US390](diagrams/level1/L1-PV-US390.png)
-
-## Level 2
-### Logical View
-![L2-LV](diagrams/level2/L2-LV.png)
-
-### Process View
-
-#### SSD US150
-![L2-PV-US150](diagrams/level2/L2-PV-US150.png)
-
-#### (other SSDs)
-[...]
-
-#### SSD US 200 to 340
-Similar to previous Level 1 diagrams and therefore seperate diagrams are not shown here.
-
-### Implementation View (replace)
-![N2-VL](diagramas/nivel2/N2-VI.png)
-
-### Physical View (replace)
-
-A very simplified proposal. 
-![N2-VL](diagramas/nivel2/N2-VF.png)
-
-In fact, non-functional requirements ["Physical Contraints"](Background.md#Physical_Constraints) must be taken into consideration.
-
-## Level 3 (MDR)
-### Logical View
-![L3-LV](diagrams/level3/L3-LV.png)
-
-### Process View
-#### SSD US150
-![L3-PV-US150](diagrams/level3/L3-PV-US150.png)
-
-#### (other SSDs)
-[...]
-
-#### SSD US 200 to 340
-Similar to previous Level 1 diagrams and therefore seperate diagrams are not shown here.
-
-### Implementation View
-![N3-VI-MDR-alt2](diagramas/nivel3/MDR/N3-VI-MDR-alt2.png)
-
-Some more details:
-
-![N3.1-VI-MDR-alt2](diagramas/nivel3/MDR/N3.1-VI-MDR-alt2.png)
-
-### Physical View
-For now, there is no need to be represented.
-
-## Level 3 (UI)
-### Logical View
-TBD
-
-### Process View
-TBD
-
-### Implementation View
-TBD
-
-### Physical View
-TBD
-
-## Level 3 (MDV)
-### Logical View
-TBD
-
-### Process View
-TBD
-
-### Implementation View
-TBD
-
-### Physical View
-TBD
-
-## Level 3 (Planning)
-### Logical View
-TBD
-
-### Process View
-TBD
-
-### Implementation View
-TBD
-
-### Physical View
-TBD
+### Deployment View
+![DV Lv1](diagrams/Deployment%20View.svg)
 
 ## Scenario View (Use Cases)
 ![UseCase](diagrams/UseCase.jpg)
