@@ -1,0 +1,19 @@
+@startuml SD Lv2
+
+box "RobDroneGo" #LightBlue
+    participant "Campus Management" as Campus
+    participant "Database" as DB
+end box
+
+[o-> Campus : GET /building/:code/elevators
+activate Campus
+
+Campus -> DB : Query Elevators in Building
+activate DB
+DB --> Campus : Elevator Data
+deactivate DB
+
+[o<--o Campus : List of Elevators
+deactivate Campus
+
+@enduml

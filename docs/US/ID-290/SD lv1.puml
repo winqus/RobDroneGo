@@ -1,0 +1,11 @@
+@startuml SD Lv1
+
+[o-> System : GET /building/:code/elevators
+activate System
+
+System -> System : Retrieve Elevators in Building
+
+[o<--o System : List of Elevators
+deactivate System
+
+@enduml
