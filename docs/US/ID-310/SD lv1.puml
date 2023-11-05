@@ -1,0 +1,16 @@
+@startuml SD Lv1
+
+participant "Campus Management" as system
+[o-> system : POST /room
+activate system
+
+system -> system : Check room already exists
+alt room does not exist
+    system -> system : Create and save new room
+    [o<--o system : room result
+else
+    [o<--o system : error message
+end
+deactivate system
+
+@enduml
