@@ -49,7 +49,7 @@ For modeling/visually representing both what has been implemented and the consid
 ![LV Lv2](diagrams/level2/Logical%20View%20Lv2.svg)
 
 ### Logical View Lv3
-![LV Lv3](diagrams/level3/Logical%20View%20lv3%20(Campus%20Management).svg)
+![LV Lv3](diagrams/level3/Logical%20View%20Lv3%20(Campus%20Management).svg)
 
 ## Process Views
 
