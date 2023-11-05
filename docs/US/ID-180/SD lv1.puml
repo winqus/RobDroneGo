@@ -1,0 +1,13 @@
+@startuml SD Lv1
+
+participant "RobDroneGo System" as System
+
+[o-> System : GET /building?minFloor={min}\n\t&maxFloor={max}
+activate System
+
+System -> System : Search for buildings\n\t by floor range
+
+[o<--o System : Return list of buildings\n within floor range
+deactivate System
+
+@enduml
