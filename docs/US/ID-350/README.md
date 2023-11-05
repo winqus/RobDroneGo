@@ -58,19 +58,27 @@ As tarefas de "piclup & delivery" caracterizam-se por indicar qual a sala que se
 ## Diagramns
 
 ### Logical View Lv1
+![LV Lv1](../../diagrams/level1/Logical%20View%20Lv1.svg)
 
 ### Logical View Lv2
+![LV Lv2](../../diagrams/level2/Logical%20View%20Lv2.svg)
 
 ### Logical View Lv3
+![LV Lv3](../../diagrams/level3/Logical%20View%20Lv3%20(Fleet%20Management).svg)
 
 ### Deployment View
+![DV Lv1](../../diagrams/Deployment%20View.svg)
 
 ### Process Diagram Lv1
+![SD Lv1](./SD%20Lv1.svg)
 
 ### Process Diagram Lv2
+![SD Lv2](./SD%20Lv2.svg)
 
 ### Process Diagram Lv3
+![SD Lv3](./SD%20Lv3.svg)
 
 ### Domain Model
+![DM](../../diagrams/DM.png)
 
 ## Observations

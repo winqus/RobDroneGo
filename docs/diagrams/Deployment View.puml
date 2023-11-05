@@ -25,12 +25,13 @@ node server1{
 node server2{
     component "Fleet Management" as fleet
     component "Campus Management" as campus
+    component "Task Planning" as planning
 }
 
 database DB
 
 local --  server1 : http/s
-local -right- server2 : http/s
+local -- server2 : http/s
 server1 -- server2 : http/s
 server2 -- "db" DB
 
