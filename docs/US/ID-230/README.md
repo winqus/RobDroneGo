@@ -37,7 +37,7 @@ sim, é necessário que essa informação já esteja presente no sistema. quanto
 ![LV Lv2](../../diagrams/level2/Logical%20View%20Lv2.svg)
 
 ### Logical View Lv3
-![LV Lv3](../../diagrams/level3/Logical%20View%20lv3%20(Campus%20Management).svg)
+![LV Lv3](../../diagrams/level3/Logical%20View%20Lv3%20(Campus%20Management).svg)
 
 ### Deployment View
 ![DV Lv1](../../diagrams/Deployment%20View.svg)
