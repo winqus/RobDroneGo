@@ -18,8 +18,6 @@ box "Campus Management" #LightBlue
         participant "Building Repository" as BuildingRepo
     end box
 
-    participant "Map DTO" as MapDTO
-    participant "Map Mapper" as MapMapper
     participant "Floor DTO" as FloorDTO
     participant "Floor Mapper" as FloorMapper
     box "Application Business Rules" #ff6666
@@ -40,7 +38,7 @@ activate Routing
     Routing -> Controller : loadMap(req, res, next)
     activate Controller
 
-        Controller -> FloorService : loadMap(buildingCode, floorNumber, mapDTO)
+        Controller -> FloorService : loadMap(buildingCode, floorNumber, mapInfo)
         activate FloorService
 
             FloorService -> FloorRepo : findByCode(buildingCode)
@@ -55,7 +53,7 @@ activate Routing
             FloorRepo --> FloorService : building
             deactivate FloorRepo
 
-            FloorService -> FloorService : building.floorSize >= mapDTO.size
+            FloorService -> FloorService : building.floorSize >= mapInfo.size
 
             FloorService -> FloorRepo : findByCode(buildingCode, floorNumber)
             activate FloorRepo
@@ -69,17 +67,12 @@ activate Routing
             FloorRepo --> FloorService : floor
             deactivate FloorRepo
 
-            FloorService -> MapMapper : toDomain(mapDTO)
-            activate MapMapper
 
-                MapMapper -> Map : mapDTO as Map
-                activate Map
+            FloorService -> Map: create(mapInfo)
+            activate Map
 
-                Map --> MapMapper : map
-                deactivate Map
-            
-            MapMapper --> FloorService : map
-            deactivate MapMapper
+            Map --> FloorService : map
+            deactivate Map
 
             FloorService -> Floor : floor.map = map
             activate Floor
