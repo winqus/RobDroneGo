@@ -1,6 +1,6 @@
 @startuml SD Lv2
 
-box "Campus Management System" #LightBlue
+box "Campus Management" #LightBlue
     participant "Campus Management" as Campus
     participant "DB" as DB
 end box

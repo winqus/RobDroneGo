@@ -1,6 +1,6 @@
 @startuml SD Lv1
 
-participant "Campus Management System" as system
+participant "Campus Management" as system
 
 [o-> system : POST /passage
 activate system
