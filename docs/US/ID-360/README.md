@@ -41,16 +41,15 @@ Tendo em conta a US370 seria ativo por defeito certo?
 
 ### Logical View Lv1
 
-![LVL1](../../diagrams/level1/L1-LV.png)
+![LVL1](../../diagrams/level1/Logical View Lv1.svg)
 
 ### Logical View Lv2
 
-![LVL2](../../diagrams/level2/L2-LV.png)
+![LVL2](../../diagrams/level2/Logical View Lv2.svg)
 
 ### Logical View Lv3
 
-![LVL3](../../diagrams/level3/L3-LV.png)
-
+![LVL3](../../diagrams/level3/Logical%20View%20lv3%20(Fleet%20Management).svg)
 ### Deployment View
 
 ![DV](../../diagrams/Deployment View.png)
