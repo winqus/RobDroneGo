@@ -1,12 +1,11 @@
 @startuml SD Lv2
 
-participant "Client" as Client
 box "Campus Management System" #LightBlue
     participant "Campus Management" as Campus
     participant "DB" as DB
 end box
 
-Client -> Campus : GET /passages?building1={code1}\n\t&building2={code2}
+[o-> Campus : GET /passages?building1={code1}\n\t&building2={code2}
 activate Campus
 
 Campus -> DB : find passages between code1 and code2
@@ -15,9 +14,9 @@ DB --> Campus : list of passages / empty
 deactivate DB
 
 alt if passages exist
-    Client <-- Campus : passages list
+    [o<--o Campus : passages list
 else
-    Client <-- Campus : empty list
+    [o<--o Campus : empty list
 end
 
 deactivate Campus

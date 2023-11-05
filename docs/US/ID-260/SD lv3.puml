@@ -2,7 +2,6 @@
 
 !pragma teoz true
 
-participant "Client" as Client
 box "Campus Management" #LightBlue
 
     box "Framework And Drivers Layer" #00ffff
@@ -27,7 +26,7 @@ box "Campus Management" #LightBlue
     ' end box
 end box
 
-Client -> Routing : GET /passages?building1={code1}&building2={code2}
+[o-> Routing : GET /passages?building1={code1}&building2={code2}
 activate Routing
 
     Routing -> Controller : getPassagesBetweenBuildings(code1, code2)
@@ -66,7 +65,7 @@ activate Routing
     Controller --> Routing : passagesDTO[]
     deactivate Controller
 
-Client <-- Routing : passagesDTO[]
+[o<--o Routing : passagesDTO[]
 deactivate Routing
 
 @enduml
