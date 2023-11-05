@@ -1,0 +1,67 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Floor Persistence" as Persistence
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant FloorController as Controller
+        participant "Floor Repository" as Repository
+    end box
+
+    participant "Floor DTO" as FloorDTO
+    participant "Floor Mapper" as FloorMapper
+    box "Application Business Rules" #ff6666
+        participant "Floor Service" as FloorService
+    end box
+end box
+
+[o-> Routing : GET /floor/elevator\n\t?buildingCode={code}
+activate Routing
+
+    Routing -> Controller : getFloorsServedByElevator(buildingCode)
+    activate Controller
+
+        Controller -> FloorService : getFloorsServedByElevator(buildingCode)
+        activate FloorService
+        
+            FloorService -> Repository : findByBuildingCode(buildingCode)
+            activate Repository
+
+                Repository -> Persistence : query floors by building code
+                activate Persistence
+
+                Persistence --> Repository : floors[]
+                deactivate Persistence
+
+            Repository --> FloorService : floors[]
+            deactivate Repository
+
+            FloorService -> FloorMapper : toDTO(floors[])
+            activate FloorMapper
+            
+                FloorMapper -> FloorDTO : map domain to DTO
+                activate FloorDTO
+
+                FloorDTO --> FloorMapper : floorsDTO[]
+                deactivate FloorDTO
+
+            FloorMapper --> FloorService : floorsDTO[]
+            deactivate FloorMapper
+
+        FloorService --> Controller : floorsDTO[]
+        deactivate FloorService
+
+    Controller --> Routing : floorsDTO[]
+    deactivate Controller
+
+[o<--o Routing : floorsDTO[]
+deactivate Routing
+
+@enduml
