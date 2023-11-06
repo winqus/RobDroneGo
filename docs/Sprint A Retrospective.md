@@ -1,8 +1,4 @@
-# Sprint Retrospective #
-
-*Template with examples*
-
-Retrospective summaries are accessible in Microsoft Teams, SEM5 Group25 @-ISEP365Group Team > LARP5 file folder > "Sprint Retrospective.docx".
+# Sprint A Retrospective #
 
 A Sprint retrospective is done at the end of each sprint and should cover the following.
 
@@ -17,10 +13,5 @@ A Sprint retrospective is done at the end of each sprint and should cover the fo
 - **Communication**: While overall communication was good, there were instances where it could be improved for clearer understanding.
 
 ## Action Items for Next Sprint ##
-- **Improve Estimations**: Work on improving the estimation process to allocate tasks more accurately.
-- **Enhance Communication**: Foster an environment where team members feel comfortable sharing thoughts and asking questions.
-- **Prioritize Tasks**: Ensure that the team is working on high-priority tasks first to meet the sprint objectives.
-
-## Additional Comments ##
-- Let’s keep up the good work and continuously aim for improvement in areas where we lag.
-- Looking forward to another productive sprint ahead!
+- **Enhance Communication**: Communicate each decision to the team through WhatsApp group or Teams group.
+- **Prioritize Tasks**: Add a prioritization field in Jira to issues. Set dependencies of issues in Jira.
