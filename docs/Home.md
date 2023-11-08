@@ -23,5 +23,5 @@ The Scrum development process is described in the following sections:
 Other documentation:
 
 * [System Entity-Attribute Specification](System%20Entity-Attribute%20Specification.md)
-* [GDPR Report](GDPR%20Report.md)
+* [GDPR Report](GDPR%20Report.md) 
 * [All Wiki files](https://bitbucket.org/isep-2324-5sem-g025/lapr5-wiki-and-documentation/wiki/browse/)
