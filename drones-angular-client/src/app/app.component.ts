@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TEXT_TOKENS as CONTENT } from '../assets/i18n/_textTokens';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'dronesangularclient';
+  CONTENT = CONTENT;
   trackByTitle(index: number, item: any): any {
     return item.title;
   }
