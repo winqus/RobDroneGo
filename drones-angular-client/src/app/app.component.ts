@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'dronesangularclient';
+  trackByTitle(index: number, item: any): any {
+    return item.title;
+  }
 }
