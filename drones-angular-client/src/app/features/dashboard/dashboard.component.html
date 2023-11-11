@@ -1,0 +1,22 @@
+<div class="container mx-auto p-4">
+  <!-- Date field -->
+  <div class="col-span-12 text-center mb-4">
+    <p class="text-lg font-medium">{{ currentDate }}</p>
+  </div>
+  <div class="grid grid-cols-12 gap-4">
+    <!-- Left sidebar -->
+    <div *ngIf="props.leftSideBar" class="col-span-2 bg-base-300 p-4 rounded">
+      <p>{{ props.leftSideBar.text }}</p>
+    </div>
+
+    <!-- Main content -->
+    <div [ngClass]="getMainContentClasses()" class="bg-base-100 p-4 rounded shadow">
+      <p>{{ props.mainContent.text }}</p>
+    </div>
+
+    <!-- Right sidebar -->
+    <div *ngIf="props.rightSideBar" class="col-span-2 bg-base-300 p-4 rounded">
+      <p>{{ props.rightSideBar.text }}</p>
+    </div>
+  </div>
+</div>

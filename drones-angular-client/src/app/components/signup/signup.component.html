@@ -1,0 +1,37 @@
+<!-- Signup Form -->
+<form class="form-control">
+  <!-- Name Field -->
+  <label class="label">
+    <span class="label-text">{{ props.nameLabel }}</span>
+  </label>
+  <input type="text" placeholder="{{ props.namePlaceholder }}" class="input input-bordered" id="name">
+
+  <!-- Email Field -->
+  <label class="label">
+    <span class="label-text">{{ props.emailLabel }}</span>
+  </label>
+  <input type="email" placeholder="{{ props.emailPlaceholder }}" class="input input-bordered" id="email">
+
+  <!-- Password Field -->
+  <label class="label">
+    <span class="label-text">{{ props.passwordLabel }}</span>
+  </label>
+  <input type="password" placeholder="{{ props.passwordPlaceholder }}" class="input input-bordered" id="password">
+
+  <!-- Confirm Password Field -->
+  <label class="label">
+    <span class="label-text">{{ props.confirmPasswordLabel }}</span>
+  </label>
+  <input type="password" placeholder="{{ props.confirmPasswordPlaceholder }}" class="input input-bordered" id="confirmPassword">
+
+  <!-- GDPR Compliance Checkbox -->
+  <label class="label cursor-pointer mt-3 justify-start">
+    <input type="checkbox" class="checkbox checkbox-info mr-2" id="gdprCompliance">
+    <span class="label-text" [innerHtml]="sanitizedGdprLabel"></span>
+  </label>
+
+  <!-- Signup Button -->
+  <div class="form-control mt-6">
+    <button class="btn btn-primary" type="submit">{{ props.signupButtonLabel }}</button>
+  </div>
+</form>

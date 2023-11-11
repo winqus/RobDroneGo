@@ -1,0 +1,19 @@
+<!-- Login Form -->
+<form class="form-control">
+  <!-- Username Field -->
+  <label class="label" for="username">
+    <span class="label-text">{{ props.emailLabel }}</span>
+  </label>
+  <input type="text" placeholder="{{ props.emailPlaceholder }}" class="input input-bordered" id="username">
+
+  <!-- Password Field -->
+  <label class="label" for="password">
+    <span class="label-text">{{ props.passwordLabel }}</span>
+  </label>
+  <input type="password" placeholder="{{ props.passwordPlaceholder }}" class="input input-bordered" id="password">
+
+  <!-- Login Button -->
+  <div class="form-control mt-6">
+    <button class="btn btn-primary" type="submit">{{ props.loginButtonLabel }}</button>
+  </div>
+</form>

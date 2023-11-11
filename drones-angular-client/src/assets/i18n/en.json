@@ -1,35 +1,144 @@
 {
-  "APP_TITLE": "RobDroneGo Angular App",
-  "HOME": {
-    "TITLE": "Hello Angular!",
-    "DESCRIPTION": "Amazing text here!"
+  "app_title": "RobDroneGo Angular App",
+  "title": "RobDroneGo",
+  "home": {
+    "title": "Hello Angular!",
+    "description": "Amazing text here!"
   },
-  "ERRORS": {
+  "components": {
+    "navbar": {
+      "title": "RobDroneGo",
+      "links": [
+        {
+          "label": "Link 1",
+          "href": "#link1"
+        },
+        {
+          "label": "Link 2",
+          "href": "#link2"
+        },
+        {
+          "label": "Link 3",
+          "href": "#link3"
+        }
+      ],
+      "profileDropdown": {
+        "name": "Nameholder Surholder",
+        "links": [
+          {
+            "label": "Data",
+            "href": "#data"
+          },
+          {
+            "label": "Logout",
+            "href": "#logout"
+          }
+        ]
+      }
+    },
+    "footer": {
+      "text": "Copyright © 2023 - All right reserved by Company Ltd"
+    },
+    "error": {
+      "redirectingText": "Redirecting to the home page..."
+    },
+    "dashboard": {
+      "leftSideBar": {
+        "text": "Left sidebar content"
+      },
+      "mainContent": {
+        "text": "Main content Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, blanditiis? Sed rem voluptates molestiae, illum porro consequatur nam quos asperiores ad dignissimos id quas rerum tenetur nemo? Non, repudiandae numquam?"
+      },
+      "rightSideBar": {
+        "text": "Right sidebar content"
+      }
+    },
+    "auth": {
+      "loginFormButtonLabel": "Log In",
+      "signupFormButtonLabel": "Sign Up",
+      "login": {
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "emailPlaceholder": "Email",
+        "passwordPlaceholder": "Password",
+        "loginButtonLabel": "Log in"
+      },
+      "signup": {
+        "nameLabel": "Name",
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "confirmPasswordLabel": "Confirm Password",
+        "gdprLabel": "I agree to the <a class=\"link link-info\" href=\"/terms\" target=\"_blank\">Terms of Service</a> and <a class=\"link link-info\" href=\"/privacy\" target=\"_blank\">Privacy Policy</a>.",
+        "namePlaceholder": "Name",
+        "emailPlaceholder": "Email",
+        "passwordPlaceholder": "Password",
+        "confirmPasswordPlaceholder": "Confirm Password",
+        "signupButtonLabel": "Sign Up"
+      }
+    }
+  },
+  "validation_errors": {
     "requiredField": "This field is required.",
     "invalidEmail": "The email address entered is not valid.",
     "passwordMismatch": "The passwords do not match.",
-    "networkError": "There was a problem reaching the server. Please try again later.",
-    "unauthorized": "You are not authorized to perform this action.",
-    "forbidden": "Access to this resource is forbidden.",
-    "notFound": "The requested resource was not found.",
-    "serverError": "A server error occurred. Please contact support if the problem persists.",
-    "timeout": "The request timed out. Please check your internet connection and try again.",
-    "conflict": "The data you're trying to submit conflicts with an existing record.",
-    "unprocessableEntity": "The server cannot process the request. Please check the data and try again.",
-    "tooManyRequests": "You have made too many requests in a short period. Please try again later."
+    "stringempty": "The field cannot be empty.",
+    "stringminlength": "The field must be at least {min} characters long.",
+    "stringmaxlength": "The field must not exceed {max} characters long.",
+    "numbermin": "The number must be {min} or greater.",
+    "numbermax": "The number must be {max} or less.",
+    "invalidformat": "The input is not in the required format.",
+    "passwordstrength": "The password must contain at least 8 characters, including a number and a special character."
   },
-  "VALIDATION_ERRORS": {
-    "stringEmpty": "The field cannot be empty.",
-    "stringMinLength": "The field must be at least {min} characters long.",
-    "stringMaxLength": "The field must not exceed {max} characters long.",
-    "numberMin": "The number must be {min} or greater.",
-    "numberMax": "The number must be {max} or less.",
-    "invalidFormat": "The input is not in the required format.",
-    "passwordStrength": "The password must contain at least 8 characters, including a number and a special character."
+  "generic": {
+    "unknownerror": "An unknown error occurred. Please try again.",
+    "changessaved": "Your changes have been saved successfully.",
+    "actionfailed": "The action failed to complete. Please try again."
   },
-  "GENERIC": {
-    "unknownError": "An unknown error occurred. Please try again.",
-    "changesSaved": "Your changes have been saved successfully.",
-    "actionFailed": "The action failed to complete. Please try again."
+  "http": {
+    "error400BadRequest": {
+      "status": 400,
+      "shortMessage": "Bad Request",
+      "longMessage": "The server cannot process the request. Please check the data and try again."
+    },
+    "error401Unauthorized": {
+      "status": 401,
+      "shortMessage": "Unauthorized",
+      "longMessage": "You are not authorized to perform this action."
+    },
+    "error403Forbidden": {
+      "status": 403,
+      "shortMessage": "Forbidden",
+      "longMessage": "Access to this resource is forbidden."
+    },
+    "error404NotFound": {
+      "status": 404,
+      "shortMessage": "Not Found",
+      "longMessage": "The requested resource was not found."
+    },
+    "error408Timeout": {
+      "status": 408,
+      "shortMessage": "Request Timeout",
+      "longMessage": "The request timed out. Please check your internet connection and try again."
+    },
+    "error409Conflict": {
+      "status": 409,
+      "shortMessage": "Conflict",
+      "longMessage": "The data you're trying to submit conflicts with an existing record."
+    },
+    "error429TooManyRequests": {
+      "status": 429,
+      "shortMessage": "Too Many Requests",
+      "longMessage": "You have made too many requests in a short period. Please try again later."
+    },
+    "error500ServerError": {
+      "status": 500,
+      "shortMessage": "Internal Server Error",
+      "longMessage": "A server error occurred. Please contact support if the problem persists."
+    },
+    "error503ServiceUnavailable": {
+      "status": 503,
+      "shortMessage": "Service Unavailable",
+      "longMessage": "There was a problem reaching the server. Please try again later."
+    }
   }
 }

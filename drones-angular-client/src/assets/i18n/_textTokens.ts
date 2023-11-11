@@ -13,3 +13,5 @@ export const TEXT_TOKENS = en;
 //     DESCRIPTION: 'HOME.DESCRIPTION',
 //   },
 // };
+
+export default TEXT_TOKENS;

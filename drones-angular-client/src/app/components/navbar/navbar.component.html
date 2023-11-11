@@ -1,0 +1,30 @@
+<nav class="navbar bg-base-100 fixed w-full z-10 top-0">
+  <div class="container mx-auto flex flex-wrap items-center">
+    <!-- Title -->
+    <div class="flex-1">
+      <a href="/" class="btn btn-ghost normal-case text-2xl">{{ props.title }}</a>
+    </div>
+    <!-- Navbar links -->
+    <div class="flex-none">
+      <ul class="menu menu-horizontal p-0">
+        <!-- Links -->
+        <li class="mr-4" *ngFor="let link of props.links">
+          <a href="{{ link.href }}">{{ link.label }}</a>
+        </li>
+        <!-- User Dropdown -->
+        <li>
+          <details>
+            <summary>
+              {{ props.profileDropdown.name }}
+            </summary>
+            <ul class="p-2 bg-base-100">
+              <li *ngFor="let link of props.profileDropdown.links">
+                <a href="{{ link.href }}">{{ link.label }}</a>
+              </li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
