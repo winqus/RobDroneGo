@@ -1,6 +1,17 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import DashboardProps from 'src/app/core/models/features/dashboard.interface';
 import { DashboardService } from 'src/app/services/dashboard.service';
+
+export interface DashboardProps {
+  leftSideBar?: {
+    text: string;
+  };
+  mainContent: {
+    text: string;
+  };
+  rightSideBar?: {
+    text: string;
+  };
+}
 
 @Component({
   selector: 'app-dashboard',

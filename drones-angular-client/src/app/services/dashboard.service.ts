@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TEXT_TOKENS as content } from '../../assets/i18n/_textTokens';
-import DashboardProps from '../core/models/features/dashboard.interface';
+import { DashboardProps } from '../features/dashboard/dashboard.component';
 
 // Injectable service decorator
 @Injectable({
