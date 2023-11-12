@@ -9,16 +9,12 @@ pipelines:
             - node
           script:
             - npm install
+            #- npm run test
             - npm run build -- --configuration production
           artifacts:
             - dist/dronesangularclient/**
       - step:
           name: "Deploy to Azure Static Web Apps"
           script:
-            - pipe: microsoft/azure-static-web-apps-deploy:main
-              variables:
-                APP_LOCATION: '$BITBUCKET_CLONE_DIR'
-                OUTPUT_LOCATION: '$BITBUCKET_CLONE_DIR/dist/dronesangularclient'
-                #ARTIFACT_LOCATION: 'dist/dronesangularclient'
-                API_TOKEN: ef22040f662896b525659c6d1e5fc6752d631afc0172763b6ba97d179d2745af4-270374ce-b7be-4705-8bd6-d634d04d7c11003310767
-
+            - npm install -g @azure/static-web-apps-cli
+            - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN
