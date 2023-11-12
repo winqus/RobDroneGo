@@ -4,7 +4,7 @@ pipelines:
   branches:
     main:
       - step:
-          name: "Build and Test"
+          name: "Build for Production"
           caches:
             - node
           script:
@@ -14,7 +14,24 @@ pipelines:
           artifacts:
             - dist/dronesangularclient/**
       - step:
-          name: "Deploy to Azure Static Web Apps"
+          name: "Deploy to Production on Azure Static Web Apps"
           script:
             - npm install -g @azure/static-web-apps-cli
-            - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN
+            - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN --env production
+
+    develop:
+      - step:
+          name: "Build for Development"
+          caches:
+            - node
+          script:
+            - npm install
+            #- npm run test
+            - npm run build -- --configuration development
+          artifacts:
+            - dist/dronesangularclient/**
+      - step:
+          name: "Deploy to Preview on Azure Static Web Apps"
+          script:
+            - npm install -g @azure/static-web-apps-cli
+            - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN --env preview
