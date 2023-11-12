@@ -11,4 +11,4 @@ pipelines:
             variables:
                 APP_LOCATION: '$BITBUCKET_CLONE_DIR'
                 OUTPUT_LOCATION: '$BITBUCKET_CLONE_DIR/dist/dronesangularclient'
-                API_TOKEN: $deployment_token
+                API_TOKEN: '$deployment_token'
