@@ -1,0 +1,14 @@
+image: atlassian/default-image:3
+
+pipelines:
+  branches:
+   main:
+    - step: 
+        name: Deploy to test
+        deployment: test
+        script:
+          - pipe: microsoft/azure-static-web-apps-deploy:main
+            variables:
+                APP_LOCATION: '$BITBUCKET_CLONE_DIR'
+                OUTPUT_LOCATION: '$BITBUCKET_CLONE_DIR/dist/dronesangularclient'
+                API_TOKEN: '$deployment_token'
