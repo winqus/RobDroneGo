@@ -1,14 +1,26 @@
-image: atlassian/default-image:3
+image: node:18.18.0
 
 pipelines:
   branches:
-   main:
-    - step: 
-        name: Deploy to test
-        deployment: test
-        script:
-          - pipe: microsoft/azure-static-web-apps-deploy:main
-            variables:
-                APP_LOCATION: '$BITBUCKET_CLONE_DIR'
-                OUTPUT_LOCATION: '$BITBUCKET_CLONE_DIR/dist/dronesangularclient'
-                API_TOKEN: '$deployment_token'
+    main:
+      - step:
+          name: "Build and Test"
+          caches:
+            - node
+          script:
+            - npm install
+            - npm run test || true
+            - npm run build -- --configuration production
+            - echo DeploymentToken
+            - echo $deployment_token
+          artifacts:
+            - dist/dronesangularclient/**
+      - step:
+          name: "Deploy to Azure Static Web Apps"
+          script:
+            - pipe: microsoft/azure-static-web-apps-deploy:1.0.0
+              variables:
+                APP_LOCATION: '/'
+                OUTPUT_LOCATION: 'dist/dronesangularclient'
+                AZURE_STATIC_WEB_APPS_API_TOKEN: $deployment_token
+
