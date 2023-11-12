@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-
+import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
 
 export interface SignupProps {
   nameLabel: string;
@@ -23,7 +24,22 @@ export interface SignupProps {
 export class SignupComponent {
   @Input() props: SignupProps = this.getDefaultProps();
 
-  constructor(private sanitizer: DomSanitizer) { }
+  @Output() submitEvent = new EventEmitter<any>();
+
+  signupForm: FormGroup;
+  validationErrors = content.validation_errors;
+  nameArgs = { field: 'Name', min: 2, max: 50 };
+  passwordArgs = { field: 'Password', min: 8, max: 50 };
+
+  constructor(private sanitizer: DomSanitizer) {
+    this.signupForm = new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.minLength(this.nameArgs.min), Validators.maxLength(this.nameArgs.max)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(this.passwordArgs.min), Validators.maxLength(this.passwordArgs.max)]),
+      confirmPassword: new FormControl('', Validators.required),
+      gdprCompliance: new FormControl(false, Validators.requiredTrue)
+    }, { validators: this.passwordMatchValidator });
+  }
 
   getDefaultProps(): SignupProps {
     return {
@@ -40,7 +56,18 @@ export class SignupComponent {
     };
   }
 
+  passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+
+    return password && confirmPassword && password.value === confirmPassword.value ? null : { mismatch: true };
+  };
+
   get sanitizedGdprLabel(): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(this.props.gdprLabel);
+  }
+
+  onSubmit() {
+    this.submitEvent.emit(this.signupForm.value);
   }
 }

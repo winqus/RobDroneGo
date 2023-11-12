@@ -20,6 +20,10 @@
         {
           "label": "Link 3",
           "href": "#link3"
+        },
+        {
+          "label": "3D",
+          "href": "/3d"
         }
       ],
       "profileDropdown": {
@@ -31,7 +35,7 @@
           },
           {
             "label": "Logout",
-            "href": "#logout"
+            "href": "/auth/logout"
           }
         ]
       }
@@ -81,9 +85,12 @@
     "requiredField": "This field is required.",
     "invalidEmail": "The email address entered is not valid.",
     "passwordMismatch": "The passwords do not match.",
+    "passwordRange": "The password must be between {min} and {max} characters long.",
     "stringempty": "The field cannot be empty.",
     "stringminlength": "The field must be at least {min} characters long.",
     "stringmaxlength": "The field must not exceed {max} characters long.",
+    "fieldLengthRange": "{field} must be between {min} and {max} characters long.",
+    "stringLengthRange": "The field must be between {min} and {max} characters long.",
     "numbermin": "The number must be {min} or greater.",
     "numbermax": "The number must be {max} or less.",
     "invalidformat": "The input is not in the required format.",

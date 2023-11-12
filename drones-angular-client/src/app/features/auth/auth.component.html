@@ -12,10 +12,10 @@
 
       <!-- Conditional Content Rendering for Login and Signup Forms -->
       <ng-container *ngIf="formType === 'login'">
-        <app-login [props]="loginComponentData"></app-login>
+        <app-login [props]="loginComponentData" (submitEvent)="handleLogin($event)"></app-login>
       </ng-container>
       <ng-container *ngIf="formType === 'signup'">
-        <app-signup [props]="signupComponentData"></app-signup>
+        <app-signup [props]="signupComponentData" (submitEvent)="handleSignup($event)"></app-signup>
       </ng-container>
     </div>
   </div>
