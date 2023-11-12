@@ -18,7 +18,7 @@ pipelines:
       - step:
           name: "Deploy to Azure Static Web Apps"
           script:
-            - pipe: microsoft/azure-static-web-apps-deploy:1.0.0
+            - pipe: microsoft/azure-static-web-apps-deploy:main
               variables:
                 APP_LOCATION: '/'
                 OUTPUT_LOCATION: 'dist/dronesangularclient'
