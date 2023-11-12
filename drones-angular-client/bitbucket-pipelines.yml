@@ -9,7 +9,6 @@ pipelines:
             - node
           script:
             - npm install
-            - npm run test || true
             - npm run build -- --configuration production
             - echo DeploymentToken
             - echo $deployment_token
