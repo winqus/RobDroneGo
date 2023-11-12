@@ -21,5 +21,6 @@ pipelines:
               variables:
                 APP_LOCATION: '/'
                 OUTPUT_LOCATION: 'dist/dronesangularclient'
-                AZURE_STATIC_WEB_APPS_API_TOKEN: $deployment_token
+                #ARTIFACT_LOCATION: 'dist/dronesangularclient'
+                AZURE_STATIC_WEB_APPS_API_TOKEN: 'ef22040f662896b525659c6d1e5fc6752d631afc0172763b6ba97d179d2745af4-270374ce-b7be-4705-8bd6-d634d04d7c11003310767'
 
