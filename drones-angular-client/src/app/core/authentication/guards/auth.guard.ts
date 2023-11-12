@@ -21,7 +21,7 @@ export const canActivateWithAuth: CanActivateFn = (): Observable<boolean> | bool
       if (isAuth) {
         return true;
       } else {
-        router.navigate(['/auth/login']);
+        router.navigate(['/auth/signup']);
         return false;
       }
     })

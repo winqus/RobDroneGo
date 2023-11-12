@@ -68,12 +68,14 @@
         "loginButtonLabel": "Log in"
       },
       "signup": {
-        "nameLabel": "Name",
+        "firstNameLabel": "First Name",
+        "lastNameLabel": "Last Name",
         "emailLabel": "Email",
         "passwordLabel": "Password",
         "confirmPasswordLabel": "Confirm Password",
         "gdprLabel": "I agree to the <a class=\"link link-info\" href=\"/terms\" target=\"_blank\">Terms of Service</a> and <a class=\"link link-info\" href=\"/privacy\" target=\"_blank\">Privacy Policy</a>.",
-        "namePlaceholder": "Name",
+        "firstNamePlaceholder": "First Name",
+        "lastNamePlaceholder": "Last Name",
         "emailPlaceholder": "Email",
         "passwordPlaceholder": "Password",
         "confirmPasswordPlaceholder": "Confirm Password",

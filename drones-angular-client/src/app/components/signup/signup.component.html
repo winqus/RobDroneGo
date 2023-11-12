@@ -1,14 +1,26 @@
 <!-- Signup Form -->
 <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="form-control">
-  <!-- Name Field -->
-  <label class="label" for="name">
-    <span class="label-text">{{ props.nameLabel }}</span>
-  </label>
-  <input formControlName="name" type="text" placeholder="{{ props.namePlaceholder }}" class="input input-bordered" id="name">
-  <div *ngIf="signupForm.controls['name'].touched && signupForm.controls['name'].invalid" class="text-error">
-    <small *ngIf="signupForm.controls['name']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
-    <small *ngIf="signupForm.controls['name']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: nameArgs }}</small>
-  </div>
+  <!-- First Name Field -->
+<label class="label" for="firstName">
+  <span class="label-text">{{ props.firstNameLabel }}</span>
+</label>
+<input formControlName="firstName" type="text" placeholder="{{ props.firstNamePlaceholder }}" class="input input-bordered" id="firstName">
+<div *ngIf="signupForm.controls['firstName'].touched && signupForm.controls['firstName'].invalid" class="text-error">
+  <small *ngIf="signupForm.controls['firstName']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+  <small *ngIf="signupForm.controls['firstName']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: firstNameArgs }}</small>
+  <small *ngIf="signupForm.controls['firstName']?.errors?.['maxlength']">{{ validationErrors.fieldLengthRange | errorMessage: firstNameArgs }}</small>
+</div>
+
+<!-- Last Name Field -->
+<label class="label" for="lastName">
+  <span class="label-text">{{ props.lastNameLabel }}</span>
+</label>
+<input formControlName="lastName" type="text" placeholder="{{ props.lastNamePlaceholder }}" class="input input-bordered" id="lastName">
+<div *ngIf="signupForm.controls['lastName'].touched && signupForm.controls['lastName'].invalid" class="text-error">
+  <small *ngIf="signupForm.controls['lastName']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+  <small *ngIf="signupForm.controls['lastName']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: lastNameArgs }}</small>
+  <small *ngIf="signupForm.controls['lastName']?.errors?.['maxlength']">{{ validationErrors.fieldLengthRange | errorMessage: lastNameArgs }}</small>
+</div>
 
   <!-- Email Field -->
   <label class="label" for="email">

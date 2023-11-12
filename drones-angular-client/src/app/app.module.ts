@@ -16,6 +16,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { JwtService } from './core/authentication/services/jwt.service';
 import { UserService } from './core/authentication/services/user.service';
 import { jwtInterceptorProvider } from './core/interceptors/jwt.interceptor';
+import { loggingInterceptorProvider } from './core/interceptors/logging.interceptor';
 import { mockHttpInterceptorProvider } from './core/interceptors/mock-http.interceptor';
 import { EmptyLayoutComponent } from './core/layouts/empty-layout/empty-layout.component';
 import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.component';
@@ -59,6 +60,7 @@ export const initAuthorizationProvider = {
   providers: [
     initAuthorizationProvider,
     jwtInterceptorProvider,
+    loggingInterceptorProvider,
     // comment this line to use the real API
     mockHttpInterceptorProvider, 
   ],

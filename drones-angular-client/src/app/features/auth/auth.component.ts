@@ -55,7 +55,7 @@ export class AuthComponent implements OnInit {
   }
 
   handleSignup(formData: any) {
-    const credentials: RegisterCredentials = formData;
+    const credentials: RegisterCredentials = formData as RegisterCredentials;
     this.userService.register(credentials).subscribe({
       next: (authResponse) => {
         // Handle successful registration

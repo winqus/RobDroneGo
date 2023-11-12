@@ -4,12 +4,14 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
 
 export interface SignupProps {
-  nameLabel: string;
+  firstNameLabel: string;
+  lastNameLabel: string;
   emailLabel: string;
   passwordLabel: string;
   confirmPasswordLabel: string;
   gdprLabel: string;
-  namePlaceholder: string;
+  firstNamePlaceholder: string;
+  lastNamePlaceholder: string;
   emailPlaceholder: string;
   passwordPlaceholder: string;
   confirmPasswordPlaceholder: string;
@@ -28,12 +30,14 @@ export class SignupComponent {
 
   signupForm: FormGroup;
   validationErrors = content.validation_errors;
-  nameArgs = { field: 'Name', min: 2, max: 50 };
+  firstNameArgs = { field: 'First Name', min: 2, max: 50 };
+  lastNameArgs = { field: 'Last Name', min: 2, max: 50 };
   passwordArgs = { field: 'Password', min: 8, max: 50 };
 
   constructor(private sanitizer: DomSanitizer) {
     this.signupForm = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.minLength(this.nameArgs.min), Validators.maxLength(this.nameArgs.max)]),
+      firstName: new FormControl('', [Validators.required, Validators.minLength(this.firstNameArgs.min), Validators.maxLength(this.firstNameArgs.max)]),
+      lastName: new FormControl('', [Validators.required, Validators.minLength(this.lastNameArgs.min), Validators.maxLength(this.lastNameArgs.max)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(this.passwordArgs.min), Validators.maxLength(this.passwordArgs.max)]),
       confirmPassword: new FormControl('', Validators.required),
@@ -43,18 +47,21 @@ export class SignupComponent {
 
   getDefaultProps(): SignupProps {
     return {
-      nameLabel: 'No props',
+      firstNameLabel: 'No props',
+      lastNameLabel: 'No props',
       emailLabel: 'No props',
       passwordLabel: 'No props',
       confirmPasswordLabel: 'No props',
       gdprLabel: 'No props',
-      namePlaceholder: 'No props',
+      firstNamePlaceholder: 'No props',
+      lastNamePlaceholder: 'No props',
       emailPlaceholder: 'No props',
       passwordPlaceholder: 'No props',
       confirmPasswordPlaceholder: 'No props',
       signupButtonLabel: 'No props',
     };
   }
+
 
   passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const password = control.get('password');
