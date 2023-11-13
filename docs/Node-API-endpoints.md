@@ -3,14 +3,14 @@
 
 # Contents
 
-1. [Building Endpoints](#building-endpoints)
-2. [Floor Endpoints](#floor-endpoints)
-3. [Passage Endpoints](#passage-endpoints)
-4. [Robot Endpoints](#robot-endpoints)
-5. [RobotType Endpoint](#robottype-endpoint)
-6. [Roles Endpoints](#roles-endpoints)
-7. [Room Endpoint](#room-endpoint)
-8. [Auth and Users Endpoints](#auth-and-users-endpoints)
+1. [Building Endpoints](#markdown-header-building-endpoints)
+2. [Floor Endpoints](#markdown-header-floor-endpoints)
+3. [Passage Endpoints](#markdown-header-passage-endpoints)
+4. [Robot Endpoints](#markdown-header-robot-endpoints)
+5. [RobotType Endpoint](#markdown-header-robottype-endpoint)
+6. [Roles Endpoints](#markdown-header-roles-endpoints)
+7. [Room Endpoint](#markdown-header-room-endpoint)
+8. [Auth and Users Endpoints](#markdown-header-auth-and-users-endpoints)
 
 ## Building Endpoints
 
