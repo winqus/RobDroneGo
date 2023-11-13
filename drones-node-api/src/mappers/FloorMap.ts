@@ -30,7 +30,13 @@ export class FloorMap extends Mapper<Floor> {
       return Result.fail<Floor>(combinedResults.error);
     }
     let map: Map | null = null;
-    if (raw?.map !== null && raw?.map !== undefined && raw?.map.map.length > 0) {
+    if (
+      raw?.map !== null &&
+      raw?.map !== undefined &&
+      raw?.map.map !== null &&
+      raw?.map.map !== undefined &&
+      raw?.map.map.length > 0
+    ) {
       map = Map.create(raw?.map?.width as number, raw?.map?.height as number, raw?.map?.map as number[][]).getValue();
     }
 
