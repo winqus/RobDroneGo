@@ -32,6 +32,50 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
+  route.put(
+    '/:id',
+    celebrate({
+      body: Joi.object({
+        name: Joi.string()
+          .allow('')
+          .optional(),
+        description: Joi.string()
+          .allow('')
+          .optional(),
+        floorSizeLength: Joi.number().optional(),
+        floorSizeWidth: Joi.number().optional(),
+      }),
+      params: Joi.object({
+        id: Joi.string().required(),
+      }),
+    }),
+    (req, res, next) => controller.updateBuilding(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
+
+  route.patch(
+    '/:id',
+    celebrate({
+      body: Joi.object({
+        name: Joi.string()
+          .allow('')
+          .optional(),
+        description: Joi.string()
+          .allow('')
+          .optional(),
+        floorSizeLength: Joi.number().optional(),
+        floorSizeWidth: Joi.number().optional(),
+      }),
+      params: Joi.object({
+        id: Joi.string().required(),
+      }),
+    }),
+    (req, res, next) => controller.updateBuilding(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
+
   route.get(
     '',
     celebrate({

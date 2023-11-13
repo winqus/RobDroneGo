@@ -100,5 +100,7 @@ export default (app: Router) => {
       }),
     }),
     (req, res, next) => controller.loadMap(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
   );
 };
