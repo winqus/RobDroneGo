@@ -10,7 +10,7 @@
 5. [RobotType Endpoint](#markdown-header-robottype-endpoint)
 6. [Roles Endpoints](#markdown-header-roles-endpoints)
 7. [Room Endpoint](#markdown-header-room-endpoint)
-8. [Auth and Users Endpoints](#markdown-header-auth-and-users-endpoints)
+8. [Auth and Users Endpoints](#markdown-header-auth-endpoints)
 
 ## Building Endpoints
 
