@@ -1,9 +1,12 @@
-// const API_BASE = 'http://127.0.0.1/api';
-// const API_BASE = 'https://webhook.site/a8a47c5e-d6e8-4757-8167-93f042322b53/api';
-
 import { environment } from "./environments/environment";
 
 const API_BASE = environment.apiUrl;
+
+/* Usage example:
+    getBuildingByCode(id: number) {
+      return this.http.get<Building>(API_ROUTES.building.getByCode(id));
+    }
+*/
 
 export const API_ROUTES = {
   base: API_BASE,
@@ -14,19 +17,17 @@ export const API_ROUTES = {
     update: `${API_BASE}/auth/user`,
     logout: `${API_BASE}/auth/logout`,
   },
-  // Other Examples:
-  // users: {
-  //   base: 'https://your-api-url.com/users',
-  //   profile: (userId: number) => `https://your-api-url.com/users/${userId}`,
-  //   updateProfile: (userId: number) => `https://your-api-url.com/users/${userId}/update`,
-  // },
-  // products: {
-  //   base: 'https://your-api-url.com/products',
-  //   detail: (productId: number) => `https://your-api-url.com/products/${productId}`,
-  // },
+  building: {
+    getAll: `${API_BASE}/building/all`,
+    getByCode: (buildingCode: string) => `${API_BASE}/building/${buildingCode}`,
+    getByFloorRange: (minFloor: number, maxFloor: number) => `${API_BASE}/building?minFloor=${minFloor}&maxFloor=${maxFloor}`,
+    create: `${API_BASE}/building`,
+    update: (id: string) => `${API_BASE}/building/${id}`,
+  },
+  elevator: {
+    createElevator: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevator`,
+    updateElevator: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevator`,
+    listElevators: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevators`,
+  },
 };
 
-// Usage example:
-// getUserProfile(id: number) {
-//   return this.http.get<UserProfile>(API_ROUTES.users.profile(id));
-// }
