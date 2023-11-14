@@ -50,7 +50,7 @@ export default class FloorRepo implements IFloorRepo {
         floorDocument.description = floor.description.value;
         floorDocument.servedByElevator = floor.servedByElevator;
         floorDocument.buildingCode = floor.buildingCode.value;
-        floorDocument.map = floor.map;
+        floorDocument.map = FloorMap.toPersistence(floor).map;
 
         await floorDocument.save();
 

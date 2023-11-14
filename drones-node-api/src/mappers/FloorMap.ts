@@ -37,7 +37,11 @@ export class FloorMap extends Mapper<Floor> {
       raw?.map.map !== undefined &&
       raw?.map.map.length > 0
     ) {
-      map = Map.create(raw?.map?.width as number, raw?.map?.height as number, raw?.map?.map as number[][]).getValue();
+      map = Map.create(
+        raw?.map.size.width as number,
+        raw?.map.size.height as number,
+        raw?.map?.map as number[][],
+      ).getValue();
     }
 
     const floorOrError = Floor.create(
@@ -63,7 +67,15 @@ export class FloorMap extends Mapper<Floor> {
       description: floor.description.value,
       servedByElevator: floor.servedByElevator,
       buildingCode: floor.buildingCode.value,
-      map: floor.map ? { size: { width: floor.map.width, height: floor.map.height }, map: floor.map.map } : null,
+      map: floor.map
+        ? {
+            size: {
+              width: floor.map.width,
+              height: floor.map.height,
+            },
+            map: floor.map.map,
+          }
+        : null,
     };
   }
 }

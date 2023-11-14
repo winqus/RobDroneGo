@@ -1,5 +1,6 @@
 import { Result } from '../../core/logic/Result';
 import IFloorDTO from '../../dto/IFloorDTO';
+import IMapDTO from '../../dto/IMapDTO';
 
 export default interface IFloorService {
   createFloor(floorDTO: IFloorDTO): Promise<Result<IFloorDTO>>;
@@ -19,4 +20,6 @@ export default interface IFloorService {
     floorNumber: number,
     map: { size: { width: number; height: number }; map: number[][] },
   ): Promise<Result<IFloorDTO>>;
+
+  getMap(buildingCode: string, floorNumber: number): Promise<Result<IMapDTO>>;
 }

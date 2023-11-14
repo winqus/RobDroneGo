@@ -4,6 +4,7 @@ import { Result } from '../core/logic/Result';
 import { Map } from '../domain/Floor/ValueObject/map';
 import { Floor } from '../domain/Floor/floor';
 import IFloorDTO from '../dto/IFloorDTO';
+import IMapDTO from '../dto/IMapDTO';
 import { FloorMap } from '../mappers/FloorMap';
 import IBuildingService from '../services/IServices/IBuildingService';
 import IBuildingRepo from './IRepos/IBuildingRepo';
@@ -185,6 +186,38 @@ export default class FloorService implements IFloorService {
       const floorDTOResult = FloorMap.toDTO(floor) as IFloorDTO;
 
       return Result.ok<IFloorDTO>(floorDTOResult);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getMap(buildingCode: string, floorNumber: number): Promise<Result<IMapDTO>> {
+    try {
+      const building = await this.buildingRepo.findByCode(buildingCode);
+
+      if (building === null) {
+        return Result.fail<IMapDTO>('Building with the provided code does not exist.');
+      }
+
+      const floor = await this.floorRepo.findByCode(buildingCode, floorNumber);
+
+      if (floor === null) {
+        return Result.fail<IMapDTO>('Floor with the provided number does not exist.');
+      }
+
+      if (floor.map === null) {
+        return Result.fail<IMapDTO>('Floor map is not loaded.');
+      }
+
+      const mapDTO: IMapDTO = {
+        size: {
+          width: floor.map.width,
+          height: floor.map.height,
+        },
+        map: floor.map.map,
+      };
+
+      return Result.ok<IMapDTO>(mapDTO);
     } catch (error) {
       throw error;
     }

@@ -103,4 +103,6 @@ export default (app: Router) => {
     errors(),
     routeJoiErrorHandler,
   );
+
+  route.get('/:floorNumber/building/:buildingCode/map', (req, res, next) => controller.getMap(req, res, next));
 };

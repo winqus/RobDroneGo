@@ -155,4 +155,23 @@ export default class FloorController implements IFloorController {
       return next(error);
     }
   }
+
+  public async getMap(req: Request, res: Response, next: NextFunction) {
+    try {
+      const buildingCode: string = req.params.buildingCode;
+      const floorNumber: number = Number(req.params.floorNumber);
+
+      const mapResult = await this.floorService.getMap(buildingCode, floorNumber);
+
+      if (mapResult.isFailure) {
+        return res.status(404).json({ message: mapResult.error.toString() });
+      }
+
+      const mapDTO = mapResult.getValue();
+
+      return res.status(200).json(mapDTO);
+    } catch (error) {
+      return next(error);
+    }
+  }
 }
