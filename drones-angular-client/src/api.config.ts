@@ -55,6 +55,10 @@ export const API_ROUTES = {
   },
   room: {
     createRoom: `${API_BASE}/room`,
+  },
+  map: {
+    uploadMap: (buildingCode: string, floorNumber: number) => `${API_BASE}/floor/${floorNumber}/building/${buildingCode}/`,
+    getMap: (buildingCode: string, floorNumber: number) => `${API_BASE}/floor/${floorNumber}/building/${buildingCode}/map`,
   }
 };
 
