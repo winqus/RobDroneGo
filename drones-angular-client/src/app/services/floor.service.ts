@@ -10,7 +10,6 @@ import Floor from '../core/models/floor.model';
 export class FloorService {
 
   constructor(private http: HttpClient) { 
-    console.log('FloorService', this);
   }
 
   getFloorsByBuildingCode(buildingCode: string): Observable<Floor[]> {

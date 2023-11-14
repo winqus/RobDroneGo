@@ -52,6 +52,9 @@ export const API_ROUTES = {
     getByBuildingCode: (buildingCode: string) => `${API_BASE}/floor/${buildingCode}`,
     getAllFloors: `${API_BASE}/floor`,
     updateFloor: (id: string) => `${API_BASE}/floor/${id}`,
+  },
+  room: {
+    createRoom: `${API_BASE}/room`,
   }
 };
 
