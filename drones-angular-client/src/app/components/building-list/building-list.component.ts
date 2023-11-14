@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import Building from 'src/app/core/models/building.model';
+import Floor from 'src/app/core/models/floor.model';
 import { BuildingService } from 'src/app/services/building.service';
+import { FloorService } from 'src/app/services/floor.service';
 
 @Component({
   selector: 'app-building-list',
@@ -10,7 +14,7 @@ import { BuildingService } from 'src/app/services/building.service';
 export class BuildingListComponent implements OnInit {
   buildings: Building[] = [];
 
-  constructor(private buildingService: BuildingService) { }
+  constructor(private buildingService: BuildingService,private floorService: FloorService, private router: Router) { }
 
   ngOnInit(): void {
     this.buildingService.getAllBuildings().subscribe((buildings) => {
@@ -30,5 +34,9 @@ export class BuildingListComponent implements OnInit {
   editBuilding(buildingCode: string) {
     console.log('edit building for bCode:', buildingCode);
     // Call building service or redirect to page
+  }
+
+  getByBuildingCode(buildingCode: string){
+    this.router.navigate(['campus/building', buildingCode, 'floors']);
   }
 }
