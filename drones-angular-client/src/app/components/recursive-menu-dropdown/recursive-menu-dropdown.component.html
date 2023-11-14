@@ -1,0 +1,9 @@
+<li *ngFor="let link of links">
+  <a *ngIf="!isDropdownLink(link)" href="{{ link.href }}">{{ link.label }}</a>
+  <details *ngIf="isDropdownLink(link)">
+    <summary>{{ link.label }}</summary>
+    <ul class="p-2 bg-base-100">
+      <app-recursive-menu-dropdown [links]="link.dropdownLinks"></app-recursive-menu-dropdown>
+    </ul>
+  </details>
+</li>

@@ -4,7 +4,7 @@ import Passage from 'src/app/core/models/passage.model';
 import { PassageService } from 'src/app/services/passage.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
 
-export interface PassageProps {
+export interface CreatePassageProps {
   buildingCode1: string;
   buildingCode2: string;
   floorNumber1: string;
@@ -22,7 +22,7 @@ export interface PassageProps {
   styleUrls: ['./create-passage.component.css'],
 })
 export class CreatePassageComponent {
-  @Input() props: PassageProps = this.getDefaultProps();
+  @Input() props: CreatePassageProps = this.getDefaultProps();
 
   @Output() submitEvent = new EventEmitter<unknown>();
 
@@ -40,7 +40,7 @@ export class CreatePassageComponent {
     });
   }
 
-  getDefaultProps(): PassageProps {
+  getDefaultProps(): CreatePassageProps {
     return {
       buildingCode1: 'Building 1 Code',
       buildingCode2: 'Building 2 Code',

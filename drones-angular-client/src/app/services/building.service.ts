@@ -4,12 +4,26 @@ import { Observable } from 'rxjs';
 import { API_ROUTES } from 'src/api.config';
 import Building from '../core/models/building.model';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class BuildingService {
+export interface CreateBuildingData {
+  name?: string;
+  code: string;
+  description?: string;
+  floorSizeLength: number;
+  floorSizeWidth: number;
+}
 
-  constructor(private http: HttpClient) { }
+export interface UpdateBuildingData {
+  name?: string;
+  description?: string;
+  floorSizeLength?: number;
+  floorSizeWidth?: number;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export default class BuildingService {
+  constructor(private http: HttpClient) {}
 
   getAllBuildings(): Observable<Building[]> {
     const route = API_ROUTES.building.getAll;
@@ -26,7 +40,7 @@ export class BuildingService {
     return this.http.get<Building[]>(route);
   }
 
-  createBuilding(building: Building): Observable<Building> {
+  createBuilding(building: CreateBuildingData): Observable<Building> {
     const route = API_ROUTES.building.create;
     const postBuilding = {
       name: building.name,
@@ -38,7 +52,7 @@ export class BuildingService {
     return this.http.post<Building>(route, postBuilding);
   }
 
-  updateBuilding(id: string, building: Partial<Building>): Observable<Building> {
+  updateBuilding(id: string, building: UpdateBuildingData): Observable<Building> {
     const route = API_ROUTES.building.update(id);
     return this.http.put<Building>(route, building);
   }

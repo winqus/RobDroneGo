@@ -27,17 +27,23 @@ export class FormErrorListComponent {
     // Handling HTTP status 0
     if (this._errorResponse.status === 0) {
       errors['network'] = content.network.error;
-    } else if (this._errorResponse.message) {
-      // Simple error or HTTP error
-      errors['general'] = this._errorResponse.message;
+    } else if (this._errorResponse.error) {
+      if (typeof this._errorResponse.error === 'string') {
+        errors['error'] = this._errorResponse.error;
+      } else if (typeof this._errorResponse.error?.message === 'string') {
+        errors['error'] = this._errorResponse.error.message;
+      }
+    } else if (this._errorResponse.errors) {
+      // 404 Not found error
+      Object.assign(errors, this._errorResponse.errors);
     } else if (this._errorResponse.validation) {
       // Celebrate validation error
       this._errorResponse.validation.keys.forEach((key: string) => {
         errors[key] = this._errorResponse.message;
       });
-    } else if (this._errorResponse.errors) {
-      // 404 Not found error
-      Object.assign(errors, this._errorResponse.errors);
+    } else if (this._errorResponse.message) {
+      // Simple error or HTTP error
+      errors['general'] = this._errorResponse.message;
     }
 
     this.errorMessages = Object.values(errors);

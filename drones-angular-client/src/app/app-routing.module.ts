@@ -4,8 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { TEXT_TOKENS as content } from '../assets/i18n/_textTokens';
 import { BuildingListComponent } from './components/building-list/building-list.component';
 import { Campus3dComponent } from './components/campus3d/campus3d.component';
+import { CreateBuildingComponent } from './components/create-building/create-building.component';
 import { CreatePassageComponent } from './components/create-passage/create-passage.component';
 import { ErrorComponent } from './components/error/error.component';
+import { FloorListComponent } from './components/floor-list/floor-list.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -15,13 +17,12 @@ import { EmptyLayoutComponent } from './core/layouts/empty-layout/empty-layout.c
 import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.component';
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
-import { FloorListComponent } from './components/floor-list/floor-list.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: '/dashboard',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: '',
@@ -30,9 +31,31 @@ const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: '3d', component: Campus3dComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
-      { path: 'campus/building/list', component: BuildingListComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
-      { path: 'campus/building/:code/floors', component: FloorListComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
-      { path: 'campus/passage/create', component: CreatePassageComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])]}
+      {
+        path: 'campus',
+        children: [
+          { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+          {
+            path: 'building',
+            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
+            children: [
+              { path: '', redirectTo: 'list', pathMatch: 'full' },
+              { path: ':code/floors', component: FloorListComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
+              { path: 'create', component: CreateBuildingComponent },
+              { path: 'list', component: BuildingListComponent },
+            ],
+          },
+          {
+            path: 'passage',
+            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
+            children: [
+              { path: '', redirectTo: 'create', pathMatch: 'full' },
+              { path: 'create', component: CreatePassageComponent },
+            ],
+          },
+          // ... other campus-related routes here
+        ],
+      },
       // ... other routes here (that need the main layout)
     ],
   },
@@ -84,10 +107,7 @@ const routes: Routes = [
   { path: '**', redirectTo: '/error/404' }, // always last for handling invalid routes
 ];
 @NgModule({
-  
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-
-  
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

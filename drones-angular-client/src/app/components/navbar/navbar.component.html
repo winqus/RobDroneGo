@@ -3,13 +3,17 @@
     <!-- Dropdown for SmallScreen Links -->
     <div class="dropdown md:hidden">
       <label tabindex="0" class="btn btn-ghost btn-circle" for="linksDropdown">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
       </label>
-      <ul tabindex="0" id="linksDropdown" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-        <li *ngFor="let link of props.links">
-          <a href="{{ link.href }}">{{ link.label }}</a>
-        </li>
-      </ul>
+
+      <app-recursive-menu-dropdown
+        tabindex="0"
+        id="linksDropdown"
+        class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+        [links]="props.links"
+      ></app-recursive-menu-dropdown>
     </div>
 
     <!-- Title -->
@@ -17,15 +21,9 @@
       <a href="/" class="btn btn-ghost normal-case text-2xl">{{ props.title }}</a>
     </div>
 
-    
     <!-- Regular Navbar Links for Larger Screens -->
-    <div class="hidden md:flex flex-none">
-      <ul class="menu menu-horizontal p-0">
-        <!-- Links -->
-        <li class="mr-4" *ngFor="let link of props.links">
-          <a href="{{ link.href }}">{{ link.label }}</a>
-        </li>
-      </ul>
+    <div class="hidden md:flex flex-none mr-4">
+      <app-recursive-menu-dropdown class="menu menu-horizontal dropdown-content p-0" [links]="props.links"></app-recursive-menu-dropdown>
     </div>
 
     <!-- User Profile Dropdown -->

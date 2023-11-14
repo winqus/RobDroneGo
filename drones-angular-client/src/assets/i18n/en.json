@@ -10,8 +10,188 @@
       "title": "RobDroneGo",
       "links": [
         {
-          "label": "Link 1",
-          "href": "#link1"
+          "label": "Campus",
+          "href": "/campus",
+          "dropdownLinks": [
+            {
+              "label": "Building",
+              "href": "/campus/building",
+              "dropdownLinks": [
+                {
+                  "label": "Create",
+                  "href": "/campus/building/create"
+                },
+                {
+                  "label": "Edit",
+                  "href": "/campus/building/edit"
+                }
+              ]
+            },
+            {
+              "label": "Floor",
+              "href": "/campus/floor"
+            },
+            {
+              "label": "Room",
+              "href": "/campus/room"
+            },
+            {
+              "label": "Passage",
+              "href": "/campus/passage"
+            },
+            {
+              "label": "Elevator",
+              "href": "/campus/elevator"
+            },
+            {
+              "label": "Map",
+              "href": "/campus/map"
+            },
+            {
+              "label": "Don't look",
+              "href": "/nowhere",
+              "dropdownLinks": [
+                {
+                  "label": "Don't look 1",
+                  "href": "/nowhere",
+                  "dropdownLinks": [
+                    {
+                      "label": "Don't look 1.1",
+                      "href": "/nowhere",
+                      "dropdownLinks": [
+                        {
+                          "label": "Don't look 1.1.1",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 1.1.1.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 1.1.1.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        },
+                        {
+                          "label": "Don't look 1.1.2",
+                          "href": "/nowhere"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Don't look 1.2",
+                      "href": "/nowhere",
+                      "dropdownLinks": [
+                        {
+                          "label": "Don't look 1.2.1",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 1.2.1.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 1.2.1.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        },
+                        {
+                          "label": "Don't look 1.2.2",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 1.2.2.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 1.2.2.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "label": "Don't look 2",
+                  "href": "/nowhere",
+                  "dropdownLinks": [
+                    {
+                      "label": "Don't look 2.1",
+                      "href": "/nowhere",
+                      "dropdownLinks": [
+                        {
+                          "label": "Don't look 2.1.1",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 2.1.1.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 2.1.1.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        },
+                        {
+                          "label": "Don't look 2.1.2",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 2.1.2.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 2.1.2.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Don't look 2.2",
+                      "href": "/nowhere",
+                      "dropdownLinks": [
+                        {
+                          "label": "Don't look 2.2.1",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 2.2.1.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 2.2.1.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        },
+                        {
+                          "label": "Don't look 2.2.2",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 2.2.2.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 2.2.2.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "label": "Link 2",
@@ -95,22 +275,42 @@
         "floorNumberRequired": "Floor Number is required.",
         "buildingCodeRequired": "Building Code is required."
       }
+    },
+    "building": {
+      "buildingNameLabel": "Building Name",
+      "buildingNamePlaceholder": "Enter Building Name (optional)",
+      "buildingCodeLabel": "Building Code",
+      "buildingCodePlaceholder": "Enter Building Code",
+      "buildingCodeRequiredError": "Building Code is required",
+      "buildingDescriptionLabel": "Building Description",
+      "buildingDescriptionPlaceholder": "Enter Building Description (optional)",
+      "floorSizeLengthLabel": "Floor Size Length",
+      "floorSizeLengthPlaceholder": "Enter Floor Size Length",
+      "floorSizeLengthRequiredError": "Floor Size Length is required",
+      "floorSizeWidthLabel": "Floor Size Width",
+      "floorSizeWidthPlaceholder": "Enter Floor Size Width",
+      "floorSizeWidthRequiredError": "Floor Size Width is required",
+      "submitButtonLabel": "Create Building",
+      "buildingCreatedMessage": "Building created successfully"
     }
   },
   "validation_errors": {
+    "onlyAlphanumerics": "Only alphanumeric characters allowed",
+    "onlyAlphanumericsAndSpaces": "Only alphanumeric and space characters allowed",
     "requiredField": "This field is required.",
     "invalidEmail": "The email address entered is not valid.",
     "passwordMismatch": "The passwords do not match.",
     "passwordRange": "The password must be between {min} and {max} characters long.",
     "stringempty": "The field cannot be empty.",
     "stringminlength": "The field must be at least {min} characters long.",
-    "stringmaxlength": "The field must not exceed {max} characters long.",
+    "stringmaxlength": "Max {max} characters allowed.",
     "fieldLengthRange": "{field} must be between {min} and {max} characters long.",
     "stringLengthRange": "The field must be between {min} and {max} characters long.",
     "numbermin": "The number must be {min} or greater.",
     "numbermax": "The number must be {max} or less.",
     "invalidformat": "The input is not in the required format.",
-    "passwordstrength": "The password must contain at least 8 characters, including a number and a special character."
+    "passwordstrength": "The password must contain at least 8 characters, including a number and a special character.",
+    "invalidNumeric": "Invalid numeric value"
   },
   "generic": {
     "unknownerror": "An unknown error occurred. Please try again.",

@@ -3,21 +3,25 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import Building from 'src/app/core/models/building.model';
 import Floor from 'src/app/core/models/floor.model';
-import { BuildingService } from 'src/app/services/building.service';
+import BuildingService from 'src/app/services/building.service';
 import { FloorService } from 'src/app/services/floor.service';
 
 @Component({
   selector: 'app-building-list',
   templateUrl: './building-list.component.html',
-  styleUrls: ['./building-list.component.css']
+  styleUrls: ['./building-list.component.css'],
 })
 export class BuildingListComponent implements OnInit {
   buildings: Building[] = [];
 
-  constructor(private buildingService: BuildingService,private floorService: FloorService, private router: Router) { }
+  constructor(
+    private buildingService: BuildingService,
+    private floorService: FloorService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
-    this.buildingService.getAllBuildings().subscribe((buildings) => {
+    this.buildingService.getAllBuildings().subscribe((buildings: Building[]) => {
       this.buildings = buildings;
     });
   }
@@ -28,7 +32,6 @@ export class BuildingListComponent implements OnInit {
     //   console.log(building);
     // });
     // Call building service or redirect to page
-
   }
 
   editBuilding(buildingCode: string) {
@@ -36,7 +39,7 @@ export class BuildingListComponent implements OnInit {
     // Call building service or redirect to page
   }
 
-  getByBuildingCode(buildingCode: string){
+  getByBuildingCode(buildingCode: string) {
     this.router.navigate(['campus/building', buildingCode, 'floors']);
   }
 }
