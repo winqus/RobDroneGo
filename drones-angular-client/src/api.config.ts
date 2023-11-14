@@ -29,5 +29,17 @@ export const API_ROUTES = {
     updateElevator: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevator`,
     listElevators: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevators`,
   },
+ 
+
+  passage: {
+    createPassage: `${API_BASE}/passage`,
+    getPassages: `${API_BASE}/passage`,
+    getPassagesBetweenBuildings: (buildingCode1: string, buildingCode2: string) => 
+      `${API_BASE}/passage?buildingCode1=${buildingCode1}&buildingCode2=${buildingCode2}`,
+    listFloorsWithPassagesToDifferentBuilding: (buildingCode: string) => 
+      `${API_BASE}/passage/toDifferentBuildings?buildingCode=${buildingCode}`,
+    updatePassage: `${API_BASE}/passage`,
+  },
+
 };
 
