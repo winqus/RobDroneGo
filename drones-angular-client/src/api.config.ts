@@ -18,6 +18,7 @@ export const API_ROUTES = {
     update: `${API_BASE}/auth/user`,
     logout: `${API_BASE}/auth/logout`,
   },
+
   building: {
     getAll: `${API_BASE}/building/all`,
     getByCode: (buildingCode: string) => `${API_BASE}/building/${buildingCode}`,
@@ -25,6 +26,7 @@ export const API_ROUTES = {
     create: `${API_BASE}/building`,
    update: (id: string) => `${API_BASE}/building/${id}`,
   },
+  
   elevator: {
     createElevator: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevator`,
     updateElevator: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevator`,

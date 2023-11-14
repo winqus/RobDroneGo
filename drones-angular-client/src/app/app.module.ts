@@ -6,9 +6,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EMPTY } from 'rxjs';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BuildingListComponent } from './components/building-list/building-list.component';
 import { Campus3dComponent } from './components/campus3d/campus3d.component';
+import { CreatePassageComponent } from './components/create-passage/create-passage.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { FormErrorListComponent } from './components/form-error-list/form-error-list.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -23,7 +26,6 @@ import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.comp
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
-import { BuildingListComponent } from './components/building-list/building-list.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -52,6 +54,8 @@ export const initAuthorizationProvider = {
     LogoutComponent,
     ErrorMessagePipe,
     BuildingListComponent,
+    CreatePassageComponent,
+    FormErrorListComponent,
   ],
   imports: [
     BrowserModule,

@@ -81,6 +81,20 @@
         "confirmPasswordPlaceholder": "Confirm Password",
         "signupButtonLabel": "Sign Up"
       }
+    },
+    "passage": {
+      "floorNumberLabel": "Floor Number",
+      "descriptionLabel": "Description",
+      "servedByElevatorLabel": "Served by Elevator",
+      "buildingCodeLabel": "Building Code",
+      "floorNumberPlaceholder": "Enter Floor Number",
+      "descriptionPlaceholder": "Enter Description",
+      "buildingCodePlaceholder": "Enter Building Code",
+      "createPassageButtonLabel": "Create Passage",
+      "validationErrors": {
+        "floorNumberRequired": "Floor Number is required.",
+        "buildingCodeRequired": "Building Code is required."
+      }
     }
   },
   "validation_errors": {
@@ -102,6 +116,9 @@
     "unknownerror": "An unknown error occurred. Please try again.",
     "changessaved": "Your changes have been saved successfully.",
     "actionfailed": "The action failed to complete. Please try again."
+  },
+  "network": {
+    "error": "Oops! Something went wrong while processing your request."
   },
   "http": {
     "error400BadRequest": {

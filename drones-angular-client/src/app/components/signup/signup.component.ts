@@ -29,7 +29,7 @@ export class SignupComponent {
   @Output() submitEvent = new EventEmitter<any>();
 
   signupForm: FormGroup;
-  validationErrors = content.validation_errors;
+  validationErrors = content.validation_errors
   firstNameArgs = { field: 'First Name', min: 2, max: 50 };
   lastNameArgs = { field: 'Last Name', min: 2, max: 50 };
   passwordArgs = { field: 'Password', min: 8, max: 50 };
