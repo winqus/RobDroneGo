@@ -23,6 +23,7 @@ import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.comp
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
+import { BuildingListComponent } from './components/building-list/building-list.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -50,6 +51,7 @@ export const initAuthorizationProvider = {
     Campus3dComponent,
     LogoutComponent,
     ErrorMessagePipe,
+    BuildingListComponent,
   ],
   imports: [
     BrowserModule,

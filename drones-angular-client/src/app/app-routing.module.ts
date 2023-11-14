@@ -12,6 +12,7 @@ import { EmptyLayoutComponent } from './core/layouts/empty-layout/empty-layout.c
 import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.component';
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { BuildingListComponent } from './components/building-list/building-list.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: '3d', component: Campus3dComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
+      { path: 'campus/building/list', component: BuildingListComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
       // ... other routes here (that need the main layout)
     ],
   },
