@@ -1,3 +1,4 @@
+import { RobotFilters } from "./app/core/models/shared/robotFilters.type";
 import { environment } from "./environments/environment";
 
 const API_BASE = environment.apiUrl;
@@ -22,15 +23,13 @@ export const API_ROUTES = {
     getByCode: (buildingCode: string) => `${API_BASE}/building/${buildingCode}`,
     getByFloorRange: (minFloor: number, maxFloor: number) => `${API_BASE}/building?minFloor=${minFloor}&maxFloor=${maxFloor}`,
     create: `${API_BASE}/building`,
-    update: (id: string) => `${API_BASE}/building/${id}`,
+   update: (id: string) => `${API_BASE}/building/${id}`,
   },
   elevator: {
     createElevator: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevator`,
     updateElevator: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevator`,
     listElevators: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevators`,
   },
- 
-
   passage: {
     createPassage: `${API_BASE}/passage`,
     getPassages: `${API_BASE}/passage`,
@@ -40,7 +39,14 @@ export const API_ROUTES = {
       `${API_BASE}/passage/toDifferentBuildings?buildingCode=${buildingCode}`,
     updatePassage: `${API_BASE}/passage`,
   },
-
+  robot:{
+    getAll: `${API_BASE}/robot`,
+    getByFilter: (filters: RobotFilters) => `${API_BASE}/robot?${new URLSearchParams(filters as any).toString()}`,
+    //Example: const url = API_ROUTES.robot.getByFilter({ type: "service", brand: "AcmeRobotics", model:"X200"});
+    update: (robotCode: string) => `${API_BASE}/robot/${robotCode}/state`,
+    createRobot: `${API_BASE}/robot`,
+    createRobotType: `${API_BASE}/robotType`,
+  },
   floor: {
     createFloor: `${API_BASE}/floor`,
     getByBuildingCode: (buildingCode: string) => `${API_BASE}/floor/${buildingCode}`,
