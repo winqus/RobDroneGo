@@ -41,5 +41,11 @@ export const API_ROUTES = {
     updatePassage: `${API_BASE}/passage`,
   },
 
+  floor: {
+    createFloor: `${API_BASE}/floor`,
+    getByBuildingCode: (buildingCode: string) => `${API_BASE}/floor/${buildingCode}`,
+    getAllFloors: `${API_BASE}/floor`,
+    updateFloor: (id: string) => `${API_BASE}/floor/${id}`,
+  }
 };
 
