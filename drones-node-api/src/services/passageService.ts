@@ -21,7 +21,7 @@ export default class PassageService implements IPassageService {
     try {
       const passages = await this.passageRepo.getPassagesToDiferentBuildings(buildingCode);
 
-      const listFloorsDTO = await Promise.all(
+      let listFloorsDTO = await Promise.all(
         passages.map(async (passage) => {
           let floor;
           if (passage.buildingCode1.value === buildingCode) {
@@ -32,6 +32,10 @@ export default class PassageService implements IPassageService {
 
           return FloorMap.toDTO(floor);
         }),
+      );
+
+      listFloorsDTO = listFloorsDTO.filter(
+        (value, index, array) => index == array.findIndex((item) => item.id == value.id),
       );
 
       return Result.ok<IFloorDTO[]>(listFloorsDTO);
