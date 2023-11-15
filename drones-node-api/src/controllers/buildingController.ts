@@ -156,13 +156,19 @@ export default class BuildingController implements IBuildingController {
         return res.status(404).json({ message: buildingResult.error.toString() });
       }
 
-      const elevatorDTOs = await this.buildingService.listElevatorsInBuilding(buildingCode);
+      const elevatorsResult = await this.buildingService.listElevatorsInBuilding(buildingCode);
+
+      if (elevatorsResult.isFailure) {
+        return res.status(404).json({ message: elevatorsResult.error.toString() });
+      }
+
+      const elevatorDTOs = elevatorsResult.getValue();
 
       if (!elevatorDTOs) {
         return res.status(404).json({ message: 'No elevators found in building' });
       }
 
-      return res.status(200).json(elevatorDTOs.getValue());
+      return res.status(200).json(elevatorDTOs);
     } catch (error) {
       return next(error);
     }

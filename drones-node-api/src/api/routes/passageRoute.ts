@@ -83,5 +83,7 @@ export default (app: Router) => {
       }),
     }),
     (req, res, next) => controller.updatePassage(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
   );
 };
