@@ -24,12 +24,22 @@
                 {
                   "label": "Edit",
                   "href": "/campus/building/edit"
+                },
+                {
+                  "label": "List",
+                  "href": "/campus/building/list"
                 }
               ]
             },
             {
               "label": "Floor",
-              "href": "/campus/floor"
+              "href": "/campus/floor",
+              "dropdownLinks": [
+                {
+                  "label": "Create",
+                  "href": "/campus/building/create"
+                }
+              ]
             },
             {
               "label": "Room",
