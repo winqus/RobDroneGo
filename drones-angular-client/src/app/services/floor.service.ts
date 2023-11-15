@@ -5,12 +5,10 @@ import { API_ROUTES } from 'src/api.config';
 import Floor from '../core/models/floor.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FloorService {
-
-  constructor(private http: HttpClient) { 
-  }
+  constructor(private http: HttpClient) {}
 
   getFloorsByBuildingCode(buildingCode: string): Observable<Floor[]> {
     const route = API_ROUTES.floor.getByBuildingCode(buildingCode);
@@ -38,5 +36,4 @@ export class FloorService {
     const route = API_ROUTES.floor.getAllFloors;
     return this.http.get<Floor[]>(route);
   }
-
 }

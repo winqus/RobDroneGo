@@ -23,7 +23,7 @@ export class FloorListComponent implements OnInit {
     });
   }
 
-  editFloor(buildingCode: string, floorNumber: number) {
-    this.router.navigate(['campus/building', buildingCode, 'floors', floorNumber, 'edit']);
+  editFloor(floorData: Floor) {
+    this.router.navigate(['campus/building', floorData.buildingCode, 'floors', floorData.floorNumber, 'edit'], { state: { data: floorData } });
   }
 }

@@ -1,0 +1,35 @@
+<div class="container p-0 md:p-7 flex justify-center items-center">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
+      <h2 class="text-2xl font-semibold mb-6">Edit Floor</h2>
+
+      <form [formGroup]="floorForm" (ngSubmit)="onSubmit()" class="form-control">
+        <!-- Building Code -->
+        <div class="mb-4">
+          <label for="buildingCode">Building Code</label>
+          <input type="text" id="buildingCode" formControlName="buildingCode" class="mt-1 p-2 block w-full border rounded-md" />
+        </div>
+
+        <!-- Floor Number -->
+        <div class="mb-4">
+          <label for="floorNumber">Floor Number</label>
+          <input type="number" id="floorNumber" formControlName="floorNumber" class="mt-1 p-2 block w-full border rounded-md" />
+        </div>
+
+        <!-- Description -->
+        <div class="mb-4">
+          <label for="description">Description</label>
+          <textarea id="description" formControlName="description" class="mt-1 p-2 block w-full border rounded-md"></textarea>
+        </div>
+
+        <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
+        <app-success-form-message [message]="submitSuccessMessage"></app-success-form-message>
+
+        <!-- Signup Button -->
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit" [disabled]="floorForm.invalid">{{ props.editFloorButtonLabel }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

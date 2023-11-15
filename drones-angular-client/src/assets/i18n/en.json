@@ -302,8 +302,24 @@
       "floorSizeWidthRequiredError": "Floor Size Width is required",
       "submitButtonLabel": "Create Building",
       "buildingCreatedMessage": "Building created successfully"
+    },
+    "edit-floor": {
+      "floorNumber": "Floor Number",
+      "description": "Description",
+      "servedByElevator2": false,
+      "buildingCode": "Building",
+      "floorNumberPlaceholder": "Enter Floor Number",
+      "descriptionPlaceholder": "Add Optional Description",
+      "servedByElevatorPlaceholder": "false",
+      "buildingCodePlaceholder": "Enter Building Code",
+      "editFloorButtonLable": "Update Floor",
+      "validationErrors": {
+        "floorNumberRequired": "Floor Number is required.",
+        "servedByElevatorRequired": "Served By Elevator is required.",
+        "buildingCodeRequired": "Building Code is required."
     }
-  },
+    }
+},
   "validation_errors": {
     "onlyAlphanumerics": "Only alphanumeric characters allowed",
     "onlyAlphanumericsAndSpaces": "Only alphanumeric and space characters allowed",

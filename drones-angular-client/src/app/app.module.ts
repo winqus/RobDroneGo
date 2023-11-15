@@ -10,6 +10,7 @@ import { BuildingListComponent } from './components/building-list/building-list.
 import { Campus3dComponent } from './components/campus3d/campus3d.component';
 import { CreateBuildingComponent } from './components/create-building/create-building.component';
 import { CreatePassageComponent } from './components/create-passage/create-passage.component';
+import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -65,6 +66,7 @@ export const initAuthorizationProvider = {
     SuccessFormMessageComponent,
     RecursiveMenuDropdownComponent,
     FloorListComponent,
+    EditFloorComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [
