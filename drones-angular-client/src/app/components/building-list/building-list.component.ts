@@ -46,4 +46,8 @@ export class BuildingListComponent implements OnInit {
   listElevatorsInBuilding(buildingCode: string) {
     this.router.navigate(['campus/building', buildingCode, 'elevators']);
   }
+
+  listFloorsWithPassagesToOtherBuildings(buildingCode: string) {
+    this.router.navigate(['campus/building', buildingCode, 'floorsWithPassages']);
+  }
 }

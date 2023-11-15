@@ -11,6 +11,7 @@ import { EditFloorComponent } from './components/edit-floor/edit-floor.component
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
+import { FloorsToDifBuildsComponent } from './components/floors-to-dif-builds/floors-to-dif-builds.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -48,6 +49,7 @@ const routes: Routes = [
               { path: 'create', component: CreateBuildingComponent },
               { path: 'list', component: BuildingListComponent },
               { path: ':code/elevators', component: ElevatorListComponent },
+              { path: ':code/floorsWithPassages', component: FloorsToDifBuildsComponent },
             ],
           },
           {

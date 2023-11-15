@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_ROUTES } from 'src/api.config';
 import Passage from '../core/models/passage.model'; 
+import Floor from '../core/models/floor.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +26,9 @@ export class PassageService {
     return this.http.get<Passage[]>(route);
   }
 
-  listFloorsWithPassagesToDifferentBuilding(buildingCode: string): Observable<any> {
+  listFloorsWithPassagesToDifferentBuilding(buildingCode: string): Observable<Floor[]> {
     const route = API_ROUTES.passage.listFloorsWithPassagesToDifferentBuilding(buildingCode);
-    return this.http.get<any>(route);
+    return this.http.get<Floor[]>(route);
   }
 
   updatePassage(oldPassage: Partial<Passage>, newPassage: Partial<Passage>): Observable<Passage> {

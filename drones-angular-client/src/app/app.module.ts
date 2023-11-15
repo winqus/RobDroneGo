@@ -15,6 +15,7 @@ import { EditFloorComponent } from './components/edit-floor/edit-floor.component
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
+import { FloorsToDifBuildsComponent } from './components/floors-to-dif-builds/floors-to-dif-builds.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormErrorListComponent } from './components/form-error-list/form-error-list.component';
 import { LoginComponent } from './components/login/login.component';
@@ -71,6 +72,7 @@ export const initAuthorizationProvider = {
     EditFloorComponent,
     ElevatorListComponent,
     CreateFloorComponent,
+    FloorsToDifBuildsComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [
