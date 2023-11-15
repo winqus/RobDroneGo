@@ -1,0 +1,26 @@
+<div *ngIf="elevators.length; else loading" class="daisy-flex daisy-flex-col">
+  <div *ngFor="let elevator of elevators" class="collapse collapse-arrow bg-base-200 mb-2">
+    <input type="checkbox" />
+    <div class="collapse-title text-lg font-medium">
+      <span class="badge badge-lg mr-3">Elevator: {{ elevator.id }}</span>
+    </div>
+    <div class="collapse-content">
+      <p *ngIf="elevator.number" class="text-sm mb-1"><strong>Number:</strong> {{ elevator.number }}</p>
+      <p *ngIf="elevator.model" class="text-sm mb-1"><strong>Model:</strong> {{ elevator.model }}</p>
+      <p *ngIf="elevator.serialNumber" class="text-sm mb-1"><strong>Serial Number:</strong> {{ elevator.serialNumber }}</p>
+      <p *ngIf="elevator.description" class="text-sm mb-1"><strong>Description:</strong> {{ elevator.description }}</p>
+
+      <div class="flex space-x-1">
+        <!-- <button class="btn btn-xs btn-outline" (click)="editElevator(elevator)">Edit</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="flex items-center justify-center h-screen">
+    <div class="bg-gray-400 rounded-lg p-6 text-white text-center">
+      <p class="text-4xl font-bold mb-4">Building with this code doesn't exist or has no elevators yet</p>
+    </div>
+  </div>
+</ng-template>

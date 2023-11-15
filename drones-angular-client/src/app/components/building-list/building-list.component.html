@@ -13,8 +13,9 @@
 
         <div class="flex space-x-1">
           <button class="btn btn-xs btn-outline" (click)="editBuilding(building.code)">Edit</button>
-          <button class="btn btn-xs btn-accent" (click)="createFloor(building.code)">Create Floor</button>
+          <button class="btn btn-xs btn-info" (click)="createFloor(building.code)">Create Floor</button>
           <button class="btn btn-xs btn-accent" (click)="getByBuildingCode(building.code)">See Floors</button>
+          <button class="btn btn-xs btn-accent" (click)="listElevatorsInBuilding(building.code)">See Elevators</button>
         </div>
       </div>
     </div>
@@ -28,4 +29,3 @@
     </div>
   </ng-template>
 </div>
-

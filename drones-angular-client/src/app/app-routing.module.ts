@@ -7,6 +7,7 @@ import { Campus3dComponent } from './components/campus3d/campus3d.component';
 import { CreateBuildingComponent } from './components/create-building/create-building.component';
 import { CreatePassageComponent } from './components/create-passage/create-passage.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
+import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
 import { LoginComponent } from './components/login/login.component';
@@ -45,6 +46,7 @@ const routes: Routes = [
               { path: ':code/floors/:number/edit', component: EditFloorComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
               { path: 'create', component: CreateBuildingComponent },
               { path: 'list', component: BuildingListComponent },
+              { path: ':code/elevators', component: ElevatorListComponent },
             ],
           },
           {
