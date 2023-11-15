@@ -37,7 +37,7 @@
               "dropdownLinks": [
                 {
                   "label": "Create",
-                  "href": "/campus/building/create"
+                  "href": "/campus/floor/create"
                 }
               ]
             },
@@ -318,6 +318,15 @@
         "servedByElevatorRequired": "Served By Elevator is required.",
         "buildingCodeRequired": "Building Code is required."
     }
+    },
+    "floor":{
+      "floorNumberLabel": "Floor Number",
+      "floorNumberPlaceholder": "Enter Floor Number",
+      "floorNumberRequiredError": "Floor Number is required",
+      "floorDescriptionLabel": "Floor Description",
+      "floorDescriptionPlaceholder": "Enter Floor Description (optional)",
+      "submitButtonLabel": "Create Floor",
+      "floorCreatedMessage": "Floor created successfully"
     }
 },
   "validation_errors": {

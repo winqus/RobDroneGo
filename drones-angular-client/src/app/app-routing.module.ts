@@ -5,6 +5,7 @@ import { TEXT_TOKENS as content } from '../assets/i18n/_textTokens';
 import { BuildingListComponent } from './components/building-list/building-list.component';
 import { Campus3dComponent } from './components/campus3d/campus3d.component';
 import { CreateBuildingComponent } from './components/create-building/create-building.component';
+import { CreateFloorComponent } from './components/create-floor/create-floor.component';
 import { CreatePassageComponent } from './components/create-passage/create-passage.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
@@ -48,6 +49,11 @@ const routes: Routes = [
               { path: 'list', component: BuildingListComponent },
               { path: ':code/elevators', component: ElevatorListComponent },
             ],
+          },
+          {
+            path: 'floor',
+            //canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
+            children: [{ path: 'create', component: CreateFloorComponent }],
           },
           {
             path: 'passage',

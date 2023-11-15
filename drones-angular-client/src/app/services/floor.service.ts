@@ -4,6 +4,12 @@ import { Observable } from 'rxjs';
 import { API_ROUTES } from 'src/api.config';
 import Floor from '../core/models/floor.model';
 
+export interface CreateFloorData {
+  floorNumber: number;
+  description?: string;
+  buildingCode: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -15,14 +21,12 @@ export class FloorService {
     return this.http.get<Floor[]>(route);
   }
 
-  createFloor(floor: Floor): Observable<Floor> {
+  createFloor(floor: CreateFloorData): Observable<Floor> {
     const route = API_ROUTES.floor.createFloor;
     const postFloor = {
       floorNumber: floor.floorNumber,
       description: floor.description,
-      servedByElevator: floor.servedByElevator,
       buildingCode: floor.buildingCode,
-      map: floor.map,
     };
     return this.http.post<Floor>(route, postFloor);
   }

@@ -9,8 +9,10 @@ import { AppComponent } from './app.component';
 import { BuildingListComponent } from './components/building-list/building-list.component';
 import { Campus3dComponent } from './components/campus3d/campus3d.component';
 import { CreateBuildingComponent } from './components/create-building/create-building.component';
+import { CreateFloorComponent } from './components/create-floor/create-floor.component';
 import { CreatePassageComponent } from './components/create-passage/create-passage.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
+import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -31,7 +33,6 @@ import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.comp
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
-import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -69,6 +70,7 @@ export const initAuthorizationProvider = {
     FloorListComponent,
     EditFloorComponent,
     ElevatorListComponent,
+    CreateFloorComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [
