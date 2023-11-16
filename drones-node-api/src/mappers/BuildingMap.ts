@@ -1,5 +1,6 @@
 import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { Mapper } from '../core/infra/Mapper';
+import { IBuildingPersistence } from '../dataschema/IBuildingPersistence';
 import { Code } from '../domain/Building/ValueObjects/code';
 import { Description } from '../domain/Building/ValueObjects/description';
 import { FloorSize } from '../domain/Building/ValueObjects/floorSize';
@@ -45,7 +46,7 @@ export class BuildingMap extends Mapper<Building> {
     return buildingOrError.isSuccess ? buildingOrError.getValue() : null;
   }
 
-  public static toPersistence(building: Building): any {
+  public static toPersistence(building: Building): IBuildingPersistence {
     return {
       id: building.id.toString(),
       name: building.name.value,

@@ -3,8 +3,8 @@ import { Mapper } from '../core/infra/Mapper';
 import { Document, Model } from 'mongoose';
 import { IRolePersistence } from '../dataschema/IRolePersistence';
 
-import IRoleDTO from '../dto/IRoleDTO';
 import { Role } from '../domain/role';
+import IRoleDTO from '../dto/IRoleDTO';
 
 import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 
@@ -24,7 +24,7 @@ export class RoleMap extends Mapper<Role> {
     return roleOrError.isSuccess ? roleOrError.getValue() : null;
   }
 
-  public static toPersistence(role: Role): any {
+  public static toPersistence(role: Role): IRolePersistence {
     return {
       domainId: role.id.toString(),
       name: role.name,

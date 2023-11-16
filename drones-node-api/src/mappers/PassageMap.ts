@@ -1,6 +1,7 @@
 import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { Mapper } from '../core/infra/Mapper';
 import { Result } from '../core/logic/Result';
+import { IPassagePersistence } from '../dataschema/IPassagePersistence';
 import { Code as BuildingCode } from '../domain/Building/ValueObjects/code';
 import { Passage } from '../domain/Passage/passage';
 import IPassageDTO from '../dto/IPassageDTO';
@@ -42,7 +43,7 @@ export class PassageMap extends Mapper<Passage> {
     return passageOrError;
   }
 
-  public static toPersistence(passage: Passage): any {
+  public static toPersistence(passage: Passage): IPassagePersistence {
     return {
       id: passage.id.toString(),
       buildingCode1: passage.buildingCode1.value,
