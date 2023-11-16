@@ -1,10 +1,18 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_ROUTES } from 'src/api.config';
 import Robot from '../core/models/robot.model';
-import { RobotFilters } from '../core/models/shared/robotFilters.type';
 import RobotType from '../core/models/robotType.model';
+import { RobotFilters } from '../core/models/shared/robotFilters.type';
+
+export interface CreateRobotData {
+  code: string;
+  description?: string;
+  nickname: string;
+  serialNumber: string;
+  type: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +20,7 @@ import RobotType from '../core/models/robotType.model';
 export class RobotService {
   constructor(private http: HttpClient) {}
 
-  createRobot(robot: Robot): Observable<Robot> {
+  createRobot(robot: CreateRobotData): Observable<Robot> {
     const route = API_ROUTES.robot.createRobot;
     const postRobot = {
       code: robot.code,

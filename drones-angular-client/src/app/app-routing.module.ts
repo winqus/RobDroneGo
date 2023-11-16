@@ -8,6 +8,7 @@ import { Campus3dComponent } from './components/campus3d/campus3d.component';
 import { CreateBuildingComponent } from './components/create-building/create-building.component';
 import { CreateFloorComponent } from './components/create-floor/create-floor.component';
 import { CreatePassageComponent } from './components/create-passage/create-passage.component';
+import { CreateRobotComponent } from './components/create-robot/create-robot.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 import { ErrorComponent } from './components/error/error.component';
@@ -68,6 +69,13 @@ const routes: Routes = [
             ],
           },
           // ... other campus-related routes here
+        ],
+      },
+      {
+        path: 'fleet',
+        children: [
+          { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+          { path: 'robot', canActivate: [canActivateWithRole([UserRole.User, UserRole.FleetManager])], children: [{ path: 'create', component: CreateRobotComponent }] },
         ],
       },
       // ... other routes here (that need the main layout)

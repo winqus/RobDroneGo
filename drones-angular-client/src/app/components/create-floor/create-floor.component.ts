@@ -70,7 +70,6 @@ export class CreateFloorComponent implements OnInit {
     this.errorResponse = {};
     this.submitSuccessMessage = null;
     const createFloorData: CreateFloorData = this.floorForm.value;
-    console.log(createFloorData);
 
     this.floorService.createFloor(createFloorData).subscribe({
       next: () => {

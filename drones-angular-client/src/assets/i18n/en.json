@@ -208,6 +208,23 @@
           ]
         },
         {
+          "label": "Fleet",
+          "href": "/fleet",
+
+          "dropdownLinks": [
+            {
+              "label": "Robot",
+              "href": "/fleet/robot",
+              "dropdownLinks": [
+                {
+                  "label": "Create",
+                  "href": "/fleet/robot/create"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "label": "Link 2",
           "href": "#link2"
         },
@@ -331,6 +348,24 @@
       "floorDescriptionPlaceholder": "Enter Floor Description (optional)",
       "submitButtonLabel": "Create Floor",
       "floorCreatedMessage": "Floor created successfully"
+    },
+    "robot":{
+      "robotCodeLabel": "Robot Code",
+      "robotCodePlaceholder": "Enter Robot Code",
+      "robotCodeRequiredError": "Robot code is required",
+      "robotNicknameLabel": "Robot Nickname",
+      "robotNicknamePlaceholder": "Enter Robot Nickname",
+      "robotNicknameRequiredError": "Robot nickname is required",
+      "robotSerialNumberLabel": "Robot Serial Number",
+      "robotSerialNumberPlaceholder": "Enter Robot Serial Number",
+      "robotSerialNumberRequiredError": "Robot serial number is required",
+      "robotDescriptionLabel": "Robot Description",
+      "robotDescriptionPlaceholder": "Enter Robot Description (optional)",
+      "robotTypeLabel": "Robot Type Name",
+      "robotTypePlaceholder": "Enter Robot Type Name",
+      "robotTypeRequiredError": "Robot type is required",
+      "submitButtonLabel": "Create Robot",
+      "robotCreatedMessage": "Robot created successfully"
     }
   },
   "validation_errors": {
@@ -349,7 +384,8 @@
     "numbermax": "The number must be {max} or less.",
     "invalidformat": "The input is not in the required format.",
     "passwordstrength": "The password must contain at least 8 characters, including a number and a special character.",
-    "invalidNumeric": "Invalid numeric value"
+    "invalidNumeric": "Invalid numeric value",
+    "alphanumericWithSpaces": "Only alphanumeric characters and spaces allowed"
   },
   "generic": {
     "unknownerror": "An unknown error occurred. Please try again.",

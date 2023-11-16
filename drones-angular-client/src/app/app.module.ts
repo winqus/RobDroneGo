@@ -35,6 +35,7 @@ import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.comp
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
+import { CreateRobotComponent } from './components/create-robot/create-robot.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -75,6 +76,7 @@ export const initAuthorizationProvider = {
     CreateFloorComponent,
     FloorsToDifBuildsComponent,
     BuildingMinMaxListComponent,
+    CreateRobotComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [
