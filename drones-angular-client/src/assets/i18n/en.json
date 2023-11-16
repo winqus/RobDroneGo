@@ -28,6 +28,10 @@
                 {
                   "label": "List",
                   "href": "/campus/building/list"
+                },
+                {
+                  "label": "Search by Floors",
+                  "href": "/campus/building/:minFloor/:maxFloor"
                 }
               ]
             },
@@ -317,9 +321,9 @@
         "floorNumberRequired": "Floor Number is required.",
         "servedByElevatorRequired": "Served By Elevator is required.",
         "buildingCodeRequired": "Building Code is required."
-    }
+      }
     },
-    "floor":{
+    "floor": {
       "floorNumberLabel": "Floor Number",
       "floorNumberPlaceholder": "Enter Floor Number",
       "floorNumberRequiredError": "Floor Number is required",
@@ -328,7 +332,7 @@
       "submitButtonLabel": "Create Floor",
       "floorCreatedMessage": "Floor created successfully"
     }
-},
+  },
   "validation_errors": {
     "onlyAlphanumerics": "Only alphanumeric characters allowed",
     "onlyAlphanumericsAndSpaces": "Only alphanumeric and space characters allowed",

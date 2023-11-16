@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { TEXT_TOKENS as content } from '../assets/i18n/_textTokens';
 import { BuildingListComponent } from './components/building-list/building-list.component';
+import { BuildingMinMaxListComponent } from './components/building-min-max-list/building-min-max-list.component';
 import { Campus3dComponent } from './components/campus3d/campus3d.component';
 import { CreateBuildingComponent } from './components/create-building/create-building.component';
 import { CreateFloorComponent } from './components/create-floor/create-floor.component';
@@ -46,9 +47,10 @@ const routes: Routes = [
               { path: '', redirectTo: 'list', pathMatch: 'full' },
               { path: ':code/floors', component: FloorListComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
               { path: ':code/floors/:number/edit', component: EditFloorComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
-              { path: 'create', component: CreateBuildingComponent },
-              { path: 'list', component: BuildingListComponent },
-              { path: ':code/elevators', component: ElevatorListComponent },
+              { path: 'create', component: CreateBuildingComponent, canActivate: [canActivateWithRole([UserRole.User])] },
+              { path: 'list', component: BuildingListComponent, canActivate: [canActivateWithRole([UserRole.User])] },
+              { path: ':code/elevators', component: ElevatorListComponent, canActivate: [canActivateWithRole([UserRole.User])] },
+              { path: ':minFloor/:maxFloor', component: BuildingMinMaxListComponent, canActivate: [canActivateWithRole([UserRole.User])] },
               { path: ':code/floorsWithPassages', component: FloorsToDifBuildsComponent },
             ],
           },

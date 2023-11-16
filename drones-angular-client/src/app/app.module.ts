@@ -7,6 +7,7 @@ import { EMPTY } from 'rxjs';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BuildingListComponent } from './components/building-list/building-list.component';
+import { BuildingMinMaxListComponent } from './components/building-min-max-list/building-min-max-list.component';
 import { Campus3dComponent } from './components/campus3d/campus3d.component';
 import { CreateBuildingComponent } from './components/create-building/create-building.component';
 import { CreateFloorComponent } from './components/create-floor/create-floor.component';
@@ -73,6 +74,7 @@ export const initAuthorizationProvider = {
     ElevatorListComponent,
     CreateFloorComponent,
     FloorsToDifBuildsComponent,
+    BuildingMinMaxListComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [
