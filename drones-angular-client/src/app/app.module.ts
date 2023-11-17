@@ -13,7 +13,6 @@ import { CreateBuildingComponent } from './components/create-building/create-bui
 import { CreateFloorComponent } from './components/create-floor/create-floor.component';
 import { CreatePassageComponent } from './components/create-passage/create-passage.component';
 import { CreateRobotTypeComponent } from './components/create-robot-type/create-robot-type.component';
-import { CreateRobotComponent } from './components/create-robot/create-robot.component';
 import { CreateRoomComponent } from './components/create-room/create-room.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
 import { EditPassageComponent } from './components/edit-passage/edit-passage.component';
@@ -41,6 +40,8 @@ import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.comp
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
+import { ChangeRobotStateComponent } from './components/change-robot-state/change-robot-state.component';
+import { CreateRobotComponent } from './components/create-robot/create-robot.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -87,6 +88,7 @@ export const initAuthorizationProvider = {
     RobotListComponent,
     SearchRobotComponent,
     CreateRobotTypeComponent,
+    ChangeRobotStateComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [

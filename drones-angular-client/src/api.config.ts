@@ -44,6 +44,7 @@ export const API_ROUTES = {
     update: (robotCode: string) => `${API_BASE}/robot/${robotCode}/state`,
     createRobot: `${API_BASE}/robot`,
     createRobotType: `${API_BASE}/robotType`,
+    changeRobotState: (robotCode: string) => `${API_BASE}/robot/${robotCode}/state`,
   },
   floor: {
     createFloor: `${API_BASE}/floor`,

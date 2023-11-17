@@ -49,9 +49,9 @@ export class CreateRobotComponent {
     this.robotForm = new FormGroup({
       code: new FormControl('', [Validators.required, Validators.maxLength(30), Validators.pattern(/^[a-zA-Z0-9]+$/)]),
       nickname: new FormControl('', [Validators.required, Validators.maxLength(30), Validators.pattern(/^[a-zA-Z0-9]+$/)]),
-      serialNumber: new FormControl('', [Validators.required, Validators.maxLength(30), Validators.pattern(/^[a-zA-Z0-9\s]*$/)]),
+      serialNumber: new FormControl('', [Validators.required, Validators.maxLength(30), Validators.pattern(/^[a-zA-Z0-9\s]+$/)]),
       description: new FormControl('', [Validators.maxLength(250)]),
-      type: new FormControl('', [Validators.required, Validators.maxLength(25), Validators.pattern(/^[a-zA-Z0-9\s]*$/)]),
+      type: new FormControl('', [Validators.required, Validators.maxLength(25), Validators.pattern(/^[a-zA-Z0-9\s]+$/)]),
     });
   }
 

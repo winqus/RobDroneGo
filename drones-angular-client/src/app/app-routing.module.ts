@@ -28,6 +28,7 @@ import { EmptyLayoutComponent } from './core/layouts/empty-layout/empty-layout.c
 import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.component';
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { ChangeRobotStateComponent } from './components/change-robot-state/change-robot-state.component';
 
 const routes: Routes = [
   {
@@ -92,7 +93,8 @@ const routes: Routes = [
             children: [
               { path: 'create', component: CreateRobotComponent },
               { path: 'list', component: RobotListComponent },
-              { path: ':?', component: SearchRobotComponent },
+              { path: 'state', component: ChangeRobotStateComponent },
+              { path: ':?', component: SearchRobotComponent }
             ],
           },
           {

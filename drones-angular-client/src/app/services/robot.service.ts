@@ -58,4 +58,9 @@ export class RobotService {
     const route = API_ROUTES.robot.createRobotType;
     return this.http.post<RobotType>(route, robotType);
   }
+
+  changeRobotState(id: string, state: boolean): Observable<Robot> {
+    const route = API_ROUTES.robot.changeRobotState(id);
+    return this.http.patch<Robot>(route, {'available': state });
+  }
 }

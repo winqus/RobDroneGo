@@ -239,6 +239,10 @@
                 {
                   "label": "Search",
                   "href": "/fleet/robot/:?"
+                },
+                {
+                  "label": "Change state",
+                  "href": "/fleet/robot/state"
                 }
               ]
             },
@@ -415,7 +419,8 @@
     "invalidformat": "The input is not in the required format.",
     "passwordstrength": "The password must contain at least 8 characters, including a number and a special character.",
     "invalidNumeric": "Invalid numeric value",
-    "alphanumericWithSpaces": "Only alphanumeric characters and spaces allowed"
+    "alphanumericWithSpaces": "Only alphanumeric characters and spaces allowed",
+    "invalidBoolean": "You can introduce only true or false values"
   },
   "generic": {
     "unknownerror": "An unknown error occurred. Please try again.",
