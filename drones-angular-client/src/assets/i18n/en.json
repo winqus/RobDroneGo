@@ -231,6 +231,10 @@
                 {
                   "label": "Create",
                   "href": "/fleet/robot/create"
+                },
+                {
+                  "label": "List",
+                  "href": "/fleet/robot/list"
                 }
               ]
             }

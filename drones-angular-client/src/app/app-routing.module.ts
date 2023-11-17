@@ -18,6 +18,7 @@ import { FloorListComponent } from './components/floor-list/floor-list.component
 import { FloorsToDifBuildsComponent } from './components/floors-to-dif-builds/floors-to-dif-builds.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { RobotListComponent } from './components/robot-list/robot-list.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { canActivateChildWithAuth, canActivateWithAuth, canActivateWithRole } from './core/authentication/guards/auth.guard';
 import { UserRole } from './core/authentication/models/user-roles.enum';
@@ -83,7 +84,14 @@ const routes: Routes = [
         path: 'fleet',
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'robot', canActivate: [canActivateWithRole([UserRole.User, UserRole.FleetManager])], children: [{ path: 'create', component: CreateRobotComponent }] },
+          {
+            path: 'robot',
+            canActivate: [canActivateWithRole([UserRole.User, UserRole.FleetManager])],
+            children: [
+              { path: 'create', component: CreateRobotComponent },
+              { path: 'list', component: RobotListComponent },
+            ],
+          },
         ],
       },
       // ... other routes here (that need the main layout)
