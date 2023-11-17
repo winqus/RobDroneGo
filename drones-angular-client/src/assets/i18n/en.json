@@ -60,7 +60,7 @@
               "href": "/campus/passage",
               "dropdownLinks": [
                 {
-                  "label": "edit",
+                  "label": "Edit",
                   "href": "/campus/passage/edit"
                 }
               ]
@@ -235,6 +235,10 @@
                 {
                   "label": "List",
                   "href": "/fleet/robot/list"
+                },
+                {
+                  "label": "Search",
+                  "href": "/fleet/robot/:?"
                 }
               ]
             }
@@ -365,7 +369,7 @@
       "submitButtonLabel": "Create Floor",
       "floorCreatedMessage": "Floor created successfully"
     },
-    "robot":{
+    "robot": {
       "robotCodeLabel": "Robot Code",
       "robotCodePlaceholder": "Enter Robot Code",
       "robotCodeRequiredError": "Robot code is required",

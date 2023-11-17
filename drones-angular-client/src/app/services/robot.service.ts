@@ -53,7 +53,7 @@ export class RobotService {
       name: robotType.name,
       brand: robotType.brand,
       model: robotType.model,
-      tyoesOfTasks: robotType.typesOfTasks,
+      typesOfTasks: robotType.typesOfTasks,
     };
     return this.http.post<RobotType>(route, postRobotType);
   }

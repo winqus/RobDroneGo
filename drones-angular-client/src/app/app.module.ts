@@ -26,6 +26,8 @@ import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RecursiveMenuDropdownComponent } from './components/recursive-menu-dropdown/recursive-menu-dropdown.component';
+import { RobotListComponent } from './components/robot-list/robot-list.component';
+import { SearchRobotComponent } from './components/search-robot/search-robot.component';
 import { SuccessFormMessageComponent } from './components/shared/success-form-message/success-form-message.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { JwtService } from './core/authentication/services/jwt.service';
@@ -38,7 +40,6 @@ import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.comp
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
-import { RobotListComponent } from './components/robot-list/robot-list.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -83,6 +84,7 @@ export const initAuthorizationProvider = {
     EditPassageComponent,
     CreateRoomComponent,
     RobotListComponent,
+    SearchRobotComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [

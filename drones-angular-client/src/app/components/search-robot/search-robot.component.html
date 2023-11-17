@@ -1,0 +1,83 @@
+<div class="container p-0 md:p-7 flex justify-center items-center mx-auto">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8">
+      <form [formGroup]="searchRobotForm" (ngSubmit)="onSubmit()" class="form-control">
+        <!-- Enter code -->
+        <label for="code" class="label">
+          <span class="label-text">{{ props.codeLabel }}</span>
+        </label>
+        <input formControlName="code" type="text" placeholder="{{ props.codePlaceholder }}" class="input input-bordered" id="code" />
+
+        <!-- Enter nickname -->
+        <label for="nickname" class="label">
+          <span class="label-text">{{ props.nicknameLabel }}</span>
+        </label>
+        <input formControlName="nickname" type="text" placeholder="{{ props.nicknamePlaceholder }}" class="input input-bordered" id="nickname" />
+
+        <!-- Enter serialNumber -->
+        <label for="serialNumber" class="label">
+          <span class="label-text">{{ props.serialNumberLabel }}</span>
+        </label>
+        <input formControlName="serialNumber" type="text" placeholder="{{ props.serialNumberPlaceholder }}" class="input input-bordered" id="serialNumber" />
+
+        <!-- Enter description -->
+        <label for="description" class="label">
+          <span class="label-text">{{ props.descriptionLabel }}</span>
+        </label>
+        <input formControlName="description" type="text" placeholder="{{ props.descriptionPlaceholder }}" class="input input-bordered" id="description" />
+
+        <!-- Enter type -->
+        <label for="type" class="label">
+          <span class="label-text">{{ props.typeLabel }}</span>
+        </label>
+        <input formControlName="type" type="text" placeholder="{{ props.typePlaceholder }}" class="input input-bordered" id="type" />
+
+        <!-- Enter typesOfTasks -->
+        <label for="typesOfTasks" class="label">
+          <span class="label-text">{{ props.typesOfTasksLabel }}</span>
+        </label>
+        <input formControlName="typesOfTasks" type="text" placeholder="{{ props.typesOfTasksPlaceholder }}" class="input input-bordered" id="typesOfTasks" />
+
+        <div *ngIf="searchRobotForm.invalid && (searchRobotForm.dirty || searchRobotForm.touched)" class="text-error"></div>
+
+        <!-- Submit Button -->
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit" [disabled]="searchRobotForm.invalid || isLoading">
+            <span *ngIf="!isLoading">{{ props.listRobotsButtonLabel }}</span>
+            <span *ngIf="isLoading">
+              <span class="loading loading-dots"></span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- List of robots -->
+<div class="bg-base-300 px-1 xs:px-8 py-2">
+  <ng-container *ngIf="props.searchResults.length > 0; else noRobots">
+    <div *ngFor="let robot of props.searchResults" class="collapse collapse-arrow bg-base-200 mb-2">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">
+        <span class="badge badge-lg mr-3">{{ props.codeLabel }}: {{ robot.code }}</span>
+        <span class="badge badge-lg mr-3">{{ props.typeLabel }}: {{ robot.type }}</span>
+      </div>
+
+      <div class="collapse-content">
+        <p *ngIf="robot.nickname" class="text-sm mb-1">{{ props.nicknameLabel }}: {{ robot.nickname }}</p>
+        <p *ngIf="robot.serialNumber" class="text-sm mb-1">{{ props.serialNumberLabel }}: {{ robot.serialNumber }}</p>
+        <p *ngIf="robot.description" class="text-sm mb-1">{{ props.descriptionLabel }}: {{ robot.description }}</p>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Error message if there are no robots -->
+<ng-template #noRobots>
+  <div *ngIf="loadedOnce" class="flex items-center justify-center">
+    <div class="rounded-lg p-6 text-white text-center">
+      <p class="text-4xl font-bold mb-4">{{ noBuildingsFoundMessage }}</p>
+    </div>
+  </div>
+</ng-template>
