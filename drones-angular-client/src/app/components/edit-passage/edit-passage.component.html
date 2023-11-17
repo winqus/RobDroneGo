@@ -1,0 +1,70 @@
+<div class="p-0 md:p-7 flex justify-center items-center">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
+      <form [formGroup]="passageForm" (ngSubmit)="onSubmit()" class="form-control">
+        <!-- Old Passage Selection Dropdown -->
+        <label class="label" for="oldPassagePosition">
+          <span class="label-text">Select Old Passage</span>
+        </label>
+        <select formControlName="oldPassagePosition" class="select select-bordered w-full" id="oldPassagePosition">
+          <option *ngFor="let passage of passages; let i = index" [value]="i">
+            {{ passage.buildingCode1 }} - {{ passage.floorNumber1 }} -> {{ passage.buildingCode2 }} - {{ passage.floorNumber2 }}
+          </option>
+        </select>
+        <div *ngIf="passageForm.controls['oldPassagePosition'].touched && passageForm.controls['oldPassagePosition'].invalid" class="text-error">
+          <small *ngIf="passageForm.controls['oldPassagePosition'].errors?.['required']">{{ props.oldPassageSelectedRequiredError }}</small>
+        </div>
+
+        <!-- Building Code 1 Field -->
+        <label class="label" for="buildingCode1">
+          <span class="label-text">{{ props.buildingCode1 }}</span>
+        </label>
+        <input formControlName="buildingCode1" type="text" placeholder="{{ props.buildingCode1Placeholder }}" class="input input-bordered" id="buildingCode1" />
+        <div *ngIf="passageForm.controls['buildingCode1'].touched && passageForm.controls['buildingCode1'].invalid" class="text-error">
+          <small *ngIf="passageForm.controls['buildingCode1'].errors?.['required']">{{ props.buildingCode1RequiredError }}</small>
+        </div>
+
+        <!-- Building Code 2 Field -->
+        <label class="label" for="buildingCode2">
+          <span class="label-text">{{ props.buildingCode2 }}</span>
+        </label>
+        <input formControlName="buildingCode2" type="text" placeholder="{{ props.buildingCode2Placeholder }}" class="input input-bordered" id="buildingCode2" />
+        <div *ngIf="passageForm.controls['buildingCode2'].touched && passageForm.controls['buildingCode2'].invalid" class="text-error">
+          <small *ngIf="passageForm.controls['buildingCode2'].errors?.['required']">{{ props.buildingCode2RequiredError }}</small>
+        </div>
+
+        <!-- Floor Number 1 Field -->
+        <label class="label" for="floorNumber1">
+          <span class="label-text">{{ props.floorNumber1 }}</span>
+        </label>
+        <input formControlName="floorNumber1" type="number" placeholder="{{ props.floorNumber1Placeholder }}" class="input input-bordered" id="floorNumber1" />
+        <div *ngIf="passageForm.controls['floorNumber1'].touched && passageForm.controls['floorNumber1'].invalid" class="text-error">
+          <small *ngIf="passageForm.controls['floorNumber1'].errors?.['required']">{{ props.floorNumber1RequiredError }}</small>
+        </div>
+
+        <!-- Floor Number 2 Field -->
+        <label class="label" for="floorNumber2">
+          <span class="label-text">{{ props.floorNumber2 }}</span>
+        </label>
+        <input formControlName="floorNumber2" type="number" placeholder="{{ props.floorNumber2Placeholder }}" class="input input-bordered" id="floorNumber2" />
+        <div *ngIf="passageForm.controls['floorNumber2'].touched && passageForm.controls['floorNumber2'].invalid" class="text-error">
+          <small *ngIf="passageForm.controls['floorNumber2'].errors?.['required']">{{ props.floorNumber2RequiredError }}</small>
+        </div>
+
+        <!-- Error and Success Messages Components -->
+        <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
+        <app-success-form-message [message]="submitSuccessMessage"></app-success-form-message>
+
+        <!-- Submit Button -->
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit" [disabled]="passageForm.invalid || isLoading">
+            <span *ngIf="!isLoading">{{ props.updatePassageButtonLabel }}</span>
+            <span *ngIf="isLoading">
+              <span class="loading loading-dots"></span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

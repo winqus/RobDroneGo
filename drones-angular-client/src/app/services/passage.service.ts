@@ -2,14 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_ROUTES } from 'src/api.config';
-import Passage from '../core/models/passage.model'; 
 import Floor from '../core/models/floor.model';
+import Passage from '../core/models/passage.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PassageService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   createPassage(passage: Passage): Observable<Passage> {
     const route = API_ROUTES.passage.createPassage;
@@ -33,7 +33,6 @@ export class PassageService {
 
   updatePassage(oldPassage: Partial<Passage>, newPassage: Partial<Passage>): Observable<Passage> {
     const route = API_ROUTES.passage.updatePassage;
-    return this.http.put<Passage>(route, { oldPassage, newPassage });
+    return this.http.put<Passage>(route, { 'oldPassage': oldPassage, 'newPassage': newPassage });
   }
-  
 }

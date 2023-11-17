@@ -51,7 +51,13 @@
             },
             {
               "label": "Passage",
-              "href": "/campus/passage"
+              "href": "/campus/passage",
+              "dropdownLinks": [
+                {
+                  "label": "edit",
+                  "href": "/campus/passage/edit"
+                }
+              ]
             },
             {
               "label": "Elevator",

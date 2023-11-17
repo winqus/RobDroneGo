@@ -10,6 +10,7 @@ import { CreateFloorComponent } from './components/create-floor/create-floor.com
 import { CreatePassageComponent } from './components/create-passage/create-passage.component';
 import { CreateRobotComponent } from './components/create-robot/create-robot.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
+import { EditPassageComponent } from './components/edit-passage/edit-passage.component';
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
@@ -66,6 +67,7 @@ const routes: Routes = [
             children: [
               { path: '', redirectTo: 'create', pathMatch: 'full' },
               { path: 'create', component: CreatePassageComponent },
+              { path: 'edit', component: EditPassageComponent },
             ],
           },
           // ... other campus-related routes here
