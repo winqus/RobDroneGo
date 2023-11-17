@@ -1,0 +1,64 @@
+<div class="p-0 md:p-7 flex justify-center items-center">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
+      <form [formGroup]="robotTypeForm" (ngSubmit)="onSubmit()" class="form-control">
+        <!-- Robot Type Name Field -->
+        <label class="label" for="robotTypeName">
+          <span class="label-text">{{ props.nameLabel }}</span>
+        </label>
+        <input formControlName="name" type="text" placeholder="{{ props.nameLabelPlaceholder }}" class="input input-bordered" id="robotTypeName" />
+        <div *ngIf="robotTypeForm.controls['name'].touched && robotTypeForm.controls['name'].invalid" class="text-error">
+          <small *ngIf="robotTypeForm.controls['name'].errors?.['required']">{{ props.nameLabelRequiredError }}</small>
+        </div>
+
+        <!-- Brand Field -->
+        <label class="label" for="robotBrand">
+          <span class="label-text">{{ props.brandLabel }}</span>
+        </label>
+        <input formControlName="brand" type="text" placeholder="{{ props.brandLabelPlaceholder }}" class="input input-bordered" id="robotBrand" />
+        <div *ngIf="robotTypeForm.controls['brand'].touched && robotTypeForm.controls['brand'].invalid" class="text-error">
+          <small *ngIf="robotTypeForm.controls['brand'].errors?.['required']">{{ props.brandLabelRequiredError }}</small>
+        </div>
+
+        <!-- Model Field -->
+        <label class="label" for="robotModel">
+          <span class="label-text">{{ props.modelLabel }}</span>
+        </label>
+        <input formControlName="model" type="text" placeholder="{{ props.modelLabelPlaceholder }}" class="input input-bordered" id="robotModel" />
+        <div *ngIf="robotTypeForm.controls['model'].touched && robotTypeForm.controls['model'].invalid" class="text-error">
+          <small *ngIf="robotTypeForm.controls['model'].errors?.['required']">{{ props.modelLabelRequiredError }}</small>
+        </div>
+
+        <!-- Types of Tasks Field -->
+        <label class="label" for="robotTypeTasks">
+          <span class="label-text">{{ props.typesOfTasksLabel }}</span>
+        </label>
+        <div class="flex items-center space-x-2 mb-2">
+          <input formControlName="typesOfTasks" type="text" placeholder="{{ props.typesOfTasksPlaceholder }}" class="input input-bordered" id="robotTypeTasks" />
+          <button type="button" class="btn btn-outline btn-success" (click)="addTask()">Add</button>
+        </div>
+        <div *ngFor="let task of tasks; let i = index" class="flex items-center space-x-2 mb-2">
+          <span class="badge badge-outline">{{ task }}</span>
+          <button type="button" class="btn btn-outline btn-error btn-sm" (click)="removeTask(i)">Remove</button>
+        </div>
+        <div *ngIf="robotTypeForm.get('typesOfTasks')?.invalid && robotTypeForm.get('typesOfTasks')?.touched" class="text-error">
+          <small>{{ props.typesOfTasksRequiredError }}</small>
+        </div>
+
+        <!-- Error and Success Messages -->
+        <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
+        <app-success-form-message [message]="submitSuccessMessage"></app-success-form-message>
+
+        <!-- Submit Button -->
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit" [disabled]="robotTypeForm.invalid || isLoading">
+            <span *ngIf="!isLoading">{{ props.submitButtonLabel }}</span>
+            <span *ngIf="isLoading">
+              <span class="loading loading-dots"></span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

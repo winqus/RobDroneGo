@@ -14,6 +14,13 @@ export interface CreateRobotData {
   type: string;
 }
 
+export interface CreateRobotTypeData {
+  name: string;
+  brand: string;
+  model: string;
+  typesOfTasks: string[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -47,14 +54,8 @@ export class RobotService {
     return this.http.put<Robot>(route, robot);
   }
 
-  createRobotType(robotType: RobotType): Observable<RobotType> {
+  createRobotType(robotType: CreateRobotTypeData): Observable<RobotType> {
     const route = API_ROUTES.robot.createRobotType;
-    const postRobotType = {
-      name: robotType.name,
-      brand: robotType.brand,
-      model: robotType.model,
-      typesOfTasks: robotType.typesOfTasks,
-    };
-    return this.http.post<RobotType>(route, postRobotType);
+    return this.http.post<RobotType>(route, robotType);
   }
 }

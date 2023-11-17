@@ -12,6 +12,7 @@ import { Campus3dComponent } from './components/campus3d/campus3d.component';
 import { CreateBuildingComponent } from './components/create-building/create-building.component';
 import { CreateFloorComponent } from './components/create-floor/create-floor.component';
 import { CreatePassageComponent } from './components/create-passage/create-passage.component';
+import { CreateRobotTypeComponent } from './components/create-robot-type/create-robot-type.component';
 import { CreateRobotComponent } from './components/create-robot/create-robot.component';
 import { CreateRoomComponent } from './components/create-room/create-room.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
@@ -85,6 +86,7 @@ export const initAuthorizationProvider = {
     CreateRoomComponent,
     RobotListComponent,
     SearchRobotComponent,
+    CreateRobotTypeComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [

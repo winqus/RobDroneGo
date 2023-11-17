@@ -241,6 +241,16 @@
                   "href": "/fleet/robot/:?"
                 }
               ]
+            },
+            {
+              "label": "RobotType",
+              "href": "/fleet/robotType",
+              "dropdownLinks": [
+                {
+                  "label": "Create",
+                  "href": "/fleet/robotType/create"
+                }
+              ]
             }
           ]
         },
