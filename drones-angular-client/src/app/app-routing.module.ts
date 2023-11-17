@@ -9,6 +9,7 @@ import { CreateBuildingComponent } from './components/create-building/create-bui
 import { CreateFloorComponent } from './components/create-floor/create-floor.component';
 import { CreatePassageComponent } from './components/create-passage/create-passage.component';
 import { CreateRobotComponent } from './components/create-robot/create-robot.component';
+import { CreateRoomComponent } from './components/create-room/create-room.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
 import { EditPassageComponent } from './components/edit-passage/edit-passage.component';
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
@@ -69,6 +70,11 @@ const routes: Routes = [
               { path: 'create', component: CreatePassageComponent },
               { path: 'edit', component: EditPassageComponent },
             ],
+          },
+          {
+            path: 'room',
+            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
+            children: [{ path: 'create', component: CreateRoomComponent }],
           },
           // ... other campus-related routes here
         ],
