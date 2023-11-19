@@ -102,4 +102,8 @@ bfs2(Dest,[[Dest|T]|_],Path):- reverse([Dest|T],Path).
 
 bfs2(Dest,[LA|Outros],Path):- LA=[Act|_], findall([X|LA], (Dest\==Act,ligacel(Act,X),\+ member(X,LA)),Novos), append(Outros,Novos,Todos), bfs2(Dest,Todos,Path).
 
-shortest_bfs(Orig, Dest, ShortestPath) :- bfs(Orig, Dest, AllPaths), shortlist(AllPaths, ShortestPath, _).
+
+all_bfs(Orig,Dest,LPath):-findall(Path,bfs(Orig,Dest,Path),LPath).
+
+
+shortest_bfs(Orig, Dest, ShortestPath) :- all_bfs(Orig, Dest, AllPaths), shortlist(AllPaths, ShortestPath, _).
