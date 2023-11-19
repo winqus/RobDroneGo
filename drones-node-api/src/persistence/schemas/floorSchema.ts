@@ -27,6 +27,10 @@ const Floor = new mongoose.Schema(
         height: Number,
       },
       map: [[Number]],
+      exitLocations: {
+        passages: [{ cellPosition: [Number, Number], destination: { buildingCode: String, floorNumber: Number } }],
+        elevators: [{ cellPosition: [Number, Number] }],
+      },
     },
   },
   { timestamps: true, autoIndex: true },

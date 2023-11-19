@@ -92,6 +92,30 @@ export default (app: Router) => {
           map: Joi.array()
             .items(Joi.array().items(Joi.number()))
             .required(),
+          exitLocations: Joi.object({
+            passages: Joi.array()
+              .items(
+                Joi.object({
+                  cellPosition: Joi.array()
+                    .items(Joi.number())
+                    .required(),
+                  destination: Joi.object({
+                    buildingCode: Joi.string().required(),
+                    floorNumber: Joi.number().required(),
+                  }).required(),
+                }),
+              )
+              .required(),
+            elevators: Joi.array()
+              .items(
+                Joi.object({
+                  cellPosition: Joi.array()
+                    .items(Joi.number())
+                    .required(),
+                }),
+              )
+              .required(),
+          }).required(),
         }).required(),
       }),
       params: Joi.object({
