@@ -5,7 +5,7 @@ import { API_ROUTES } from 'src/api.config';
 import Building from '../core/models/building.model';
 import Elevator from '../core/models/elevator.model';
 
-interface CreateElevatorData {
+export interface CreateElevatorData {
   number: number;
   floors: number[];
   make?: string;

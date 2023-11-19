@@ -6,6 +6,7 @@ import { BuildingListComponent } from './components/building-list/building-list.
 import { BuildingMinMaxListComponent } from './components/building-min-max-list/building-min-max-list.component';
 import { Campus3dComponent } from './components/campus3d/campus3d.component';
 import { CreateBuildingComponent } from './components/create-building/create-building.component';
+import { CreateElevatorComponent } from './components/create-elevator/create-elevator.component';
 import { CreateFloorComponent } from './components/create-floor/create-floor.component';
 import { CreatePassageComponent } from './components/create-passage/create-passage.component';
 import { CreateRobotTypeComponent } from './components/create-robot-type/create-robot-type.component';
@@ -79,6 +80,11 @@ const routes: Routes = [
             path: 'room',
             canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
             children: [{ path: 'create', component: CreateRoomComponent }],
+          },
+          {
+            path: 'elevator',
+            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
+            children: [{ path: 'create', component: CreateElevatorComponent }],
           },
           // ... other campus-related routes here
         ],
