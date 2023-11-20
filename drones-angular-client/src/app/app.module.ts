@@ -18,6 +18,7 @@ import { CreatePassageComponent } from './components/create-passage/create-passa
 import { CreateRobotTypeComponent } from './components/create-robot-type/create-robot-type.component';
 import { CreateRobotComponent } from './components/create-robot/create-robot.component';
 import { CreateRoomComponent } from './components/create-room/create-room.component';
+import { EditBuildingComponent } from './components/edit-building/edit-building.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
 import { EditPassageComponent } from './components/edit-passage/edit-passage.component';
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
@@ -92,6 +93,7 @@ export const initAuthorizationProvider = {
     CreateRobotTypeComponent,
     ChangeRobotStateComponent,
     CreateElevatorComponent,
+    EditBuildingComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [

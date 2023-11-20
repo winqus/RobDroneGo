@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import Floor from 'src/app/core/models/floor.model';
 import { FloorService } from 'src/app/services/floor.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
-import { FloorListComponent } from '../floor-list/floor-list.component';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface EditFloorProps {
@@ -71,7 +69,6 @@ export class EditFloorComponent implements OnChanges {
 
       this.floorData = history.state.data as Floor;
 
-      // Set values in the form controls
       this.floorForm.patchValue({
         buildingCode: code,
         floorNumber: number,

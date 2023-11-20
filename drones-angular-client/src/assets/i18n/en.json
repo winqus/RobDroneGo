@@ -21,10 +21,7 @@
                   "label": "Create",
                   "href": "/campus/building/create"
                 },
-                {
-                  "label": "Edit",
-                  "href": "/campus/building/edit"
-                },
+
                 {
                   "label": "List",
                   "href": "/campus/building/list"

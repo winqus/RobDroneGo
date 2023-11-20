@@ -34,9 +34,8 @@ export class BuildingListComponent implements OnInit {
     // Call building service or redirect to page
   }
 
-  editBuilding(buildingCode: string) {
-    console.log('edit building for bCode:', buildingCode);
-    // Call building service or redirect to page
+  editBuilding(building: Building) {
+    this.router.navigate(['campus/building', building.code, 'edit'], { state: { data: building } });
   }
 
   getByBuildingCode(buildingCode: string) {
