@@ -1,5 +1,31 @@
-//Rules are here for testing purposes//
+% TRANSLATED EXAMPLE FROM MOODLE
 
+% floors(Building, FloorsList): Lists all floors available in each building.
+% Usage example: floors(a, Floors).
+
+% elevator(Building, FloorsList): Specifies the floors in a building that have elevator access.
+% Usage example: elevator(b, FloorsWithElevator).
+
+% corridor(Building1, Building2, Floor1, Floor2): Defines a corridor connecting a floor in one building to a floor in another.
+% Usage example: corridor(a, h, a1, h2).
+
+% connects(Building1, Building2): Indicates a general connection between two buildings.
+% Usage example: connects(a, h).
+
+% path_buildings(BuildingOrigin, BuildingDestination, BuildingsPath): Finds a path from one building to another.
+% Usage example: path_buildings(a, j, Path).
+
+% all_path_buildings(BuildingOrigin, BuildingDestination, AllPaths): Finds all possible building-level paths between two buildings.
+% Usage example: all_path_buildings(a, j, AllPaths).
+
+% path_floors(FloorOrigin, FloorDestination, BuildingsPath, ConnectionList): Finds a path from one floor to another, including the buildings path and the specific connections (elevators and corridors) used.
+% Usage example: path_floors(a1, j4, BuildingsPath, ConnectionList).
+
+% better_path_floors(FloorOrigin, FloorDestination, BestConnectionList): Determines the best path between two floors, minimizing elevator usage.
+% Usage example: better_path_floors(a1, j4, BestPath).
+
+
+% Rules are here for testing purposes
 floors(a,[a1]).
 floors(b,[b1,b2,b3,b4]).
 floors(g,[g2,g3,g4]).
@@ -20,18 +46,18 @@ corridor(h,i,h2,i2).
 corridor(i,j,i1,j1).
 corridor(i,j,i2,j2).
 corridor(i,j,i3,j3).
-liga(a,h).
-liga(b,g).
-liga(b,i).
-liga(g,h).
-liga(h,i).
-liga(i,j).
+connects(a,h).
+connects(b,g).
+connects(b,i).
+connects(g,h).
+connects(h,i).
+connects(i,j).
 
 path_buildings(BdOr,BdDest,LBdPath):-path_buildings2(BdOr,BdDest,[BdOr],LBdPath).
 
 path_buildings2(BdX,BdX,LBdInv,LBdPath):-!,reverse(LBdInv,LBdPath).
 
-path_buildings2(BdAct,BdDest,LBdPassed,LBdPath):-(liga(BdAct,BdInt);liga(BdInt,BdAct)), \+(member(BdInt,LBdPassed)), path_buildings2(BdInt,BdDest,[BdInt|LBdPassed],LBdPath).
+path_buildings2(BdAct,BdDest,LBdPassed,LBdPath):-(connects(BdAct,BdInt);connects(BdInt,BdAct)), \+(member(BdInt,LBdPassed)), path_buildings2(BdInt,BdDest,[BdInt|LBdPassed],LBdPath).
 
 
 

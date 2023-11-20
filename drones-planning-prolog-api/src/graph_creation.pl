@@ -1,22 +1,21 @@
-% TRANSLATED EXAMPLE FROM MOODLE
 
+:- module(graph_creation, [create_graph/2, connectCell/2]).
 % m/3 rules are used for testing purposes
-%coluna :1,2,3,4,5,6,7,8
-%linha 1:1,1,1,1,1,1,1,1
-%linha 2:0,0,0,0,0,0,0,1
-%linha 3:0,0,0,0,0,0,0,1
-%linha 4:0,0,0,0,0,0,0,1
-%linha 5:1,1,1,1,0,0,0,1
-%linha 6:1,1,1,1,0,0,0,1
-%linha 7:1,1,1,1,0,0,0,1
-%coluna :1,2,3,4,5,6,7,8
+%column :1,2,3,4,5,6,7,8
+%line  1:1,1,1,1,1,1,1,1
+%line  2:0,0,0,0,0,0,0,1
+%line  3:0,0,0,0,0,0,0,1
+%line  4:0,0,0,0,0,0,0,1
+%line  5:1,1,1,1,0,0,0,1
+%line  6:1,1,1,1,0,0,0,1
+%line  7:1,1,1,1,0,0,0,1
+%column :1,2,3,4,5,6,7,8
 
 % create_graph(numberOfCols,numberofRows).
 % create_graph(8,7).
-% better_dfs(cel(1,2), cel(7,7), Path), writeln(Path). % ok
-% bfs(cel(1,2), cel(7,7), Path), writeln(Path). % ok
 
-%m(col,row,value)
+% m(col, row, value)
+% m(Column, Row, 0) indicates a passable cell; 1 indicates an impassable cell
 m(1,1,1).
 m(2,1,1).
 m(3,1,1).
@@ -76,6 +75,7 @@ m(8,7,1).
 
 :-dynamic connectCell/2.
 
+
 create_graph(_,0):-!.
 
 create_graph(Col,Lin):-create_graph_lin(Col,Lin),Lin1 is Lin-1,create_graph(Col,Lin1).
@@ -90,37 +90,4 @@ assertz(connectCell(cel(Col,Lin),cel(ColS,Lin)));true)),
 Col1 is Col-1, create_graph_lin(Col1,Lin).
 
 create_graph_lin(Col,Lin):-Col1 is Col-1,create_graph_lin(Col1,Lin).
-
-
-dfs(Orig,Dest,Path):- dfs2(Orig,Dest,[Orig],Path).
-
-dfs2(Dest,Dest,LA,Path):- reverse(LA,Path).
-
-dfs2(Act,Dest,LA,Path):-connectCell(Act,X),\+ member(X,LA), dfs2(X,Dest,[X|LA],Path).
-
-
-
-all_dfs(Orig,Dest,LPath):-findall(Path,dfs(Orig,Dest,Path),LPath).
-
-
-
-better_dfs(Orig,Dest,Path):- all_dfs(Orig,Dest,LPath), shortlist(LPath,Path,_).
-
-shortlist([L],L,N):-!,length(L,N).
-
-shortlist([L|LL],Lm,Nm):-shortlist(LL,Lm1,Nm1), length(L,NL), ((NL<Nm1,!,Lm=L,Nm is NL);(Lm=Lm1,Nm is Nm1)).
-
-
-
-
-bfs(Orig,Dest,Path):-bfs2(Dest,[[Orig]],Path).
-
-bfs2(Dest,[[Dest|T]|_],Path):- reverse([Dest|T],Path).
-
-bfs2(Dest,[LA|Outros],Path):- LA=[Act|_], findall([X|LA], (Dest\==Act,connectCell(Act,X),\+ member(X,LA)),Novos), append(Outros,Novos,Todos), bfs2(Dest,Todos,Path).
-
-
-all_bfs(Orig,Dest,LPath):-findall(Path,bfs(Orig,Dest,Path),LPath).
-
-
-shortest_bfs(Orig, Dest, ShortestPath) :- all_bfs(Orig, Dest, AllPaths), shortlist(AllPaths, ShortestPath, _).
+	

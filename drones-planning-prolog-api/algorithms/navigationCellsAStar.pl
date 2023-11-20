@@ -1,4 +1,4 @@
-% TRANSLATED EXAMPLE FROM MOODLE
+% TRANSLATED AND MODIFIED EXAMPLE FROM MOODLE
 
 % m/3 rules are used for testing purposes
 %coluna :1,2,3,4,5,6,7,8
@@ -15,6 +15,7 @@
 % create_graph(8,7).
 % better_dfs(cel(1,2), cel(7,7), Path), writeln(Path). % ok
 % bfs(cel(1,2), cel(7,7), Path), writeln(Path). % ok
+% aStar(cel(1, 2), cel(7, 7), Path, Cost), writeln(Path). % ok
 
 %m(col,row,value)
 m(1,1,1).
@@ -76,6 +77,38 @@ m(8,7,1).
 
 :-dynamic connectCell/2.
 
+% Node definition (using cells in the maze)
+node(cel(Col, Row)) :-
+	m(Col, Row, 0).
+
+% Edge definition (using connectCell facts)
+edge(cel(Col1, Row1), cel(Col2, Row2), Cost) :-
+	connectCell(cel(Col1, Row1), cel(Col2, Row2)),
+	Cost = 1. % Assuming uniform cost for simplicity
+
+% Estimate function (Manhattan distance)
+estimate(cel(Col1, Row1), cel(Col2, Row2), Estimate) :-
+	Estimate is abs(Col1 - Col2) + abs(Row1 - Row2).
+
+% A* Algorithm Implementation
+aStar(Start, End, Path, Cost) :-
+	aStar2(End, [(_, 0, [Start])], Path, Cost).
+
+aStar2(End, [(_, Cost, [End | T]) | _], Path, Cost) :-
+	reverse([End | T], Path).
+
+aStar2(End, [(_, Ca, LA) | Others], Path, Cost) :-
+	LA = [Act | _],
+	findall((CEX, CaX, [X | LA]),
+			(End \== Act, edge(Act, X, CostX), \+ member(X, LA),
+			CaX is CostX + Ca, estimate(X, End, EstX),
+			CEX is CaX + EstX), New),
+	append(Others, New, All),
+	sort(All, AllOrd),
+	aStar2(End, AllOrd, Path, Cost).
+
+
+
 create_graph(_,0):-!.
 
 create_graph(Col,Lin):-create_graph_lin(Col,Lin),Lin1 is Lin-1,create_graph(Col,Lin1).
@@ -90,37 +123,16 @@ assertz(connectCell(cel(Col,Lin),cel(ColS,Lin)));true)),
 Col1 is Col-1, create_graph_lin(Col1,Lin).
 
 create_graph_lin(Col,Lin):-Col1 is Col-1,create_graph_lin(Col1,Lin).
+	
+
+% Old stuff
+
+% replace the call edge(Act,X,CostX)
+% with (edge(Act,X,CostX);edge(X,Act,CostX))
+% if you want bidirectional connections
 
 
-dfs(Orig,Dest,Path):- dfs2(Orig,Dest,[Orig],Path).
-
-dfs2(Dest,Dest,LA,Path):- reverse(LA,Path).
-
-dfs2(Act,Dest,LA,Path):-connectCell(Act,X),\+ member(X,LA), dfs2(X,Dest,[X|LA],Path).
-
-
-
-all_dfs(Orig,Dest,LPath):-findall(Path,dfs(Orig,Dest,Path),LPath).
-
-
-
-better_dfs(Orig,Dest,Path):- all_dfs(Orig,Dest,LPath), shortlist(LPath,Path,_).
-
-shortlist([L],L,N):-!,length(L,N).
-
-shortlist([L|LL],Lm,Nm):-shortlist(LL,Lm1,Nm1), length(L,NL), ((NL<Nm1,!,Lm=L,Nm is NL);(Lm=Lm1,Nm is Nm1)).
-
-
-
-
-bfs(Orig,Dest,Path):-bfs2(Dest,[[Orig]],Path).
-
-bfs2(Dest,[[Dest|T]|_],Path):- reverse([Dest|T],Path).
-
-bfs2(Dest,[LA|Outros],Path):- LA=[Act|_], findall([X|LA], (Dest\==Act,connectCell(Act,X),\+ member(X,LA)),Novos), append(Outros,Novos,Todos), bfs2(Dest,Todos,Path).
-
-
-all_bfs(Orig,Dest,LPath):-findall(Path,bfs(Orig,Dest,Path),LPath).
-
-
-shortest_bfs(Orig, Dest, ShortestPath) :- all_bfs(Orig, Dest, AllPaths), shortlist(AllPaths, ShortestPath, _).
+% estimate(Node1,Node2,Estimate):-
+% 	node(Node1,X1,Y1),
+% 	node(Node2,X2,Y2),
+% 	Estimate is sqrt((X1-X2)^2+(Y1-Y2)^2).
