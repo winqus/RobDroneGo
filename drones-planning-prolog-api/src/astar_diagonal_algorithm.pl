@@ -9,12 +9,25 @@
 
 % Node definition (using cells in the maze)
 node(cel(Col, Row)) :-
-	m(Col, Row, 0).
+	graph_creation_diagonal:m(Col, Row, 0).
 
 % Edge definition (using connectCell facts)
 edge(cel(Col1, Row1), cel(Col2, Row2), Cost) :-
 	connectCell(cel(Col1, Row1), cel(Col2, Row2)),
-	Cost = 1. % Assuming uniform cost for simplicity
+	(
+			% Horizontal or Vertical Movement
+			(Col1 == Col2; Row1 == Row2),
+			Cost = 1
+	;
+			% Diagonal Movement with the specified condition
+			DCol is abs(Col1 - Col2),
+			DRow is abs(Row1 - Row2),
+			DCol == 1, DRow == 1,
+			NextCol is (Col1 + Col2) // 2,
+			NextRow is (Row1 + Row2) // 2,
+			graph_creation_diagonal:m(Col1, NextRow, 0), graph_creation_diagonal:m(NextCol, Row1, 0),
+			Cost = 1.41  % Cost for diagonal movement set to sqrt(2)
+	).
 
 % Estimate function (Euclidean distance, supports diagonal)
 estimate(cel(Col1, Row1), cel(Col2, Row2), Estimate) :-
@@ -32,9 +45,9 @@ aStar2(End, [(_, Cost, [End | T]) | _], Path, Cost) :-
 aStar2(End, [(_, Ca, LA) | Others], Path, Cost) :-
 	LA = [Act | _],
 	findall((CEX, CaX, [X | LA]),
-			(End \== Act, edge(Act, X, CostX), \+ member(X, LA),
-			CaX is CostX + Ca, estimate(X, End, EstX),
-			CEX is CaX + EstX), New),
+					(End \== Act, edge(Act, X, CostX), \+ member(X, LA),
+					CaX is CostX + Ca, estimate(X, End, EstX),
+					CEX is CaX + EstX), New),
 	append(Others, New, All),
 	sort(All, AllOrd),
 	aStar2(End, AllOrd, Path, Cost).
