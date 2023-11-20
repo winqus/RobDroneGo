@@ -93,10 +93,10 @@ create_graph_lin(Col, Lin) :-
     (m(Col, LinS, 0), assertz(connectCell(cel(Col, Lin), cel(Col, LinS))); true),
     (m(Col, LinA, 0), assertz(connectCell(cel(Col, Lin), cel(Col, LinA))); true),
     % Diagonal connections
-    (m(ColS, LinS, 0), assertz(connectCell(cel(Col, Lin), cel(ColS, LinS))); true),
-    (m(ColA, LinS, 0), assertz(connectCell(cel(Col, Lin), cel(ColA, LinS))); true),
-    (m(ColS, LinA, 0), assertz(connectCell(cel(Col, Lin), cel(ColS, LinA))); true),
-    (m(ColA, LinA, 0), assertz(connectCell(cel(Col, Lin), cel(ColA, LinA))); true),
+    (m(ColS, LinS, 0), m(Col, LinS, 0), m(ColS, Lin, 0), assertz(connectCell(cel(Col, Lin), cel(ColS, LinS))); true),
+    (m(ColA, LinS, 0), m(Col, LinS, 0), m(ColA, Lin, 0), assertz(connectCell(cel(Col, Lin), cel(ColA, LinS))); true),
+    (m(ColS, LinA, 0), m(Col, LinA, 0), m(ColS, Lin, 0), assertz(connectCell(cel(Col, Lin), cel(ColS, LinA))); true),
+    (m(ColA, LinA, 0), m(Col, LinA, 0), m(ColA, Lin, 0), assertz(connectCell(cel(Col, Lin), cel(ColA, LinA))); true),
     Col1 is Col - 1,
     create_graph_lin(Col1, Lin).
 
