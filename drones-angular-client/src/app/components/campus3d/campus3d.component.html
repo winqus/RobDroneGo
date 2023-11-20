@@ -1,15 +1,9 @@
-<!-- Temporary example maze loading buttons that change the url -->
-<button class="btn btn-xs" (click)="changeMaze('B', 1)">Load Maze B1</button>
-<button class="btn btn-xs" (click)="changeMaze('B', 2)">Load Maze B2</button>
-<button class="btn btn-xs" (click)="changeMaze('B', 3)">Load Maze B3 (custom)</button>
-<button class="btn btn-xs" (click)="changeMaze('C', 2)">Load Maze C2</button>
-<button class="btn btn-xs" (click)="changeMaze('C', 3)">Load Maze C3 (custom)</button>
-<button class="btn btn-xs" (click)="changeMaze('C', 4)">Load Maze C4 (custom)</button>
-
 <!-- Content of the 3D campus -->
 <div class="grid grid-cols-12 gap-4 md:mt-2 mx-2">
-  <div class="md:col-span-1">
+  <div class="md:col-span-2">
     <!-- Possible sidebar -->
+    <!-- Add the dropdown list component -->
+    <app-building-floor-dropdown-list (onSelection)="handleBuildingFloorSelection($event)"></app-building-floor-dropdown-list>
   </div>
 
   <div #canvasContainer id="canvasContainer" class="relative col-span-full md:col-span-10 border flex justify-center h-[80vh]">

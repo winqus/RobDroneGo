@@ -3,8 +3,10 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FloorSelectorGUI } from 'src/app/ThreeDModule/floorSelectorGUI.js';
+import Building from 'src/app/core/models/building.model.js';
 import Map from 'src/app/core/models/map.model.js';
 import ThumbRaiser from '../../ThreeDModule/thumb_raiser.js';
+import { AppBuildingFloorDropdownListComponent } from '../app-building-floor-dropdown-list/app-building-floor-dropdown-list.component.js';
 import { CustomMazeLoaderParams } from './interfaces/customMazeLoaderParams.interface';
 import { MapCell } from './interfaces/mapCell.enum';
 import MazePartialConfig, { Destination, Elevator, ExitLocationEvent, MazeAndPlayerConfig, MazeFullConfig, Passage } from './interfaces/mazeData.interface.js';
@@ -368,6 +370,15 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     this.router.navigate(['/3d/building', buildingCode, 'floor', floorNumber], navigationExtras).then(() => {
       // handle something post navigation, if needed
     });
+  };
+
+  // Handle the building and floor selection from the dropdown list
+  handleBuildingFloorSelection = (selectedData: any): void => {
+    const building = selectedData.building as Building;
+    const floorNumber = selectedData.floorNumber as number;
+
+    // Call the changeMaze method with the selected building and floor
+    this.changeMaze(building.code, floorNumber);
   };
 
   // Triggered in thumbRaiser.js when player reaches an exitLocation (that's check in maze.js)
