@@ -12,29 +12,29 @@ or in Prolog:
 
 ### Example Request
 ```
-http://localhost:4400/planning-api/route?
-origin_building_code=B&
-origin_floor_number=1&
-origin_map_cell_x=1&
-origin_map_cell_y=1&
-destination_building_code=C&
-destination_floor_number=2&
-destination_map_cell_x=3&
-destination_map_cell_y=3&
-minimize_elevator_uses=true&
-minimize_building_count=true
+	http://localhost:4400/planning-api/route?
+									origin_building_code=B&
+									origin_floor_number=1&
+									origin_map_cell_x=1&
+									origin_map_cell_y=1&
+									destination_building_code=C&
+									destination_floor_number=2&
+									destination_map_cell_x=3&
+									destination_map_cell_y=3&
+									minimize_elevator_uses=true&
+									minimize_building_count=true
 ```
 
 ### Cell types
-NoNorthWallNoWestWall = 0,
-NoNorthWallYesWestWall = 1,
-YesNorthWallNoWestWall = 2,
-YesNorthWallYesWestWall = 3,
-DoorNorth = 4,
-DoorWest = 5,
-PassageNorth = 6,
-PassageWest = 7,
-ElevatorNorth = 8,
-ElevatorSouth = 9,
-ElevatorWest = 10,
-ElevatorEast = 11,
+* NoNorthWallNoWestWall = 0
+* NoNorthWallYesWestWall = 1
+* YesNorthWallNoWestWall = 2
+* YesNorthWallYesWestWall = 3
+* DoorNorth = 4
+* DoorWest = 5
+* PassageNorth = 6
+* PassageWest = 7
+* ElevatorNorth = 8
+* ElevatorSouth = 9
+* ElevatorWest = 10
+* ElevatorEast = 11
