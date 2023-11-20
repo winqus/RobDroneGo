@@ -1,10 +1,12 @@
-:- module(dfs_algorithm, [dfs/3, better_dfs/3, all_dfs/3]).
+:- module(dfs_diagonal_algorithm, [dfs/3, better_dfs/3, all_dfs/3]).
 
-:- use_module(graph_creation_for_maze).
+% ALGORITHM IS THE SAME AT STANDARD DFS ALGORITHM
+% THE ONLY DIFFERENCE HERE IS THAT THIS MODULE USES THE DIAGONAL GRAPH CREATION
+:- use_module(graph_creation_diagonal).
 
-% graph_creation_for_maze:create_graph(4,4).
-% dfs(cel(1,2), cel(4,4), Path), writeln(Path). % can take long time
-% better_dfs(cel(1,2), cel(4,4), Path), writeln(Path). % takes long time
+% graph_creation_diagonal:create_graph(8,7).
+% dfs(cel(1,2), cel(7,7), Path), writeln(Path).
+% better_dfs(cel(1,2), cel(7,7), Path), writeln(Path).
 
 
 dfs(Start, End, Path) :- dfs2(Start, End, [Start], Path).

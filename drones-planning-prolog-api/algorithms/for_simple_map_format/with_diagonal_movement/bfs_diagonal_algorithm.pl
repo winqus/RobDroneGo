@@ -1,10 +1,13 @@
-:- module(bfs_algorithm, [bfs/3, shortest_bfs/3, all_bfs/3]).
+:- module(bfs_diagonal_algorithm, [bfs/3, shortest_bfs/3, all_bfs/3]).
 
-:- use_module(graph_creation_for_maze).
+% ALGORITHM IS THE SAME AT STANDARD BFS ALGORITHM
+% THE ONLY DIFFERENCE HERE IS THAT THIS MODULE USES THE DIAGONAL GRAPH CREATION
+:- use_module(graph_creation_diagonal).
 
-% graph_creation_for_maze:create_graph(4,4).
-% bfs(cel(1,2), cel(4,4), Path), writeln(Path).
-% shortest_bfs(cel(1,2), cel(4,4), Path), writeln(Path). % takes long time
+% graph_creation_diagonal:create_graph(8,7).
+% bfs(cel(1,2), cel(7,7), Path), writeln(Path).
+% shortest_bfs(cel(1,2), cel(7,7), Path), writeln(Path).
+
 
 bfs(Start, End, Path) :- bfs2(End, [[Start]], Path).
 

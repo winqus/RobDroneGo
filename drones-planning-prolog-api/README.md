@@ -24,3 +24,17 @@ destination_map_cell_y=3&
 minimize_elevator_uses=true&
 minimize_building_count=true
 ```
+
+### Cell types
+NoNorthWallNoWestWall = 0,
+NoNorthWallYesWestWall = 1,
+YesNorthWallNoWestWall = 2,
+YesNorthWallYesWestWall = 3,
+DoorNorth = 4,
+DoorWest = 5,
+PassageNorth = 6,
+PassageWest = 7,
+ElevatorNorth = 8,
+ElevatorSouth = 9,
+ElevatorWest = 10,
+ElevatorEast = 11,
