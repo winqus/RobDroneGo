@@ -59,6 +59,10 @@
                 {
                   "label": "Edit",
                   "href": "/campus/passage/edit"
+                },
+                {
+                  "label": "List",
+                  "href": "/campus/passage/list"
                 }
               ]
             },

@@ -1,0 +1,63 @@
+<div class="container p-0 md:p-7 flex justify-center items-center mx-auto">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8">
+      <form [formGroup]="passageForm" (ngSubmit)="onSubmit()" class="form-control">
+        <!-- Enter building1 -->
+        <label class="label" for="building1">
+          <span class="label-text">Select Building Code</span>
+        </label>
+        <select formControlName="building1" class="select select-bordered w-full" id="building1">
+          <option *ngFor="let building of buildings" [value]="building.code">{{ building.code }}</option>
+        </select>
+        <div *ngIf="passageForm.controls['building1'].touched && passageForm.controls['building1'].invalid" class="text-error">
+          <small *ngIf="passageForm.controls['building1'].errors?.['required']">Building Code is required</small>
+        </div>
+        <!-- Enter building2 -->
+        <label class="label" for="building2">
+          <span class="label-text">Select Building Code</span>
+        </label>
+        <select formControlName="building2" class="select select-bordered w-full" id="building2">
+          <option *ngFor="let building of buildings" [value]="building.code">{{ building.code }}</option>
+        </select>
+        <div *ngIf="passageForm.controls['building2'].touched && passageForm.controls['building2'].invalid" class="text-error">
+          <small *ngIf="passageForm.controls['building2'].errors?.['required']">Building Code is required</small>
+        </div>
+
+        <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
+
+        <!-- Submit Button -->
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit" [disabled]="passageForm.invalid || isLoading">
+            <span *ngIf="!isLoading">{{ props.listPassagesButtonLabel }}</span>
+            <span *ngIf="isLoading">
+              <span class="loading loading-dots"></span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- List of passages -->
+
+<div class="collapse bg-base-200">
+  <input type="radio" name="my-accordion-1" checked="checked" />
+  <div class="collapse-title text-xl font-medium">Passages between {{ passageForm.value.building1 }} and {{ passageForm.value.building2 }}</div>
+  <div class="collapse-content">
+    <ng-container *ngIf="passages.length > 0; else noPassages">
+      <div *ngFor="let passage of passages" class="collapse collapse-arrow bg-base-200 mb-2">
+        <span class="badge badge-lg mr-3">Floor {{ passage.floorNumber1 }} to floor {{ passage.floorNumber2 }}</span>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- Error message if there are no buildings -->
+<ng-template #noPassages>
+  <div *ngIf="loadedOnce" class="flex items-center justify-center">
+    <div class="rounded-lg p-6 text-center">
+      <p class="text-4xl font-bold mb-4">{{ noPassagesFoundMessage }}</p>
+    </div>
+  </div>
+</ng-template>

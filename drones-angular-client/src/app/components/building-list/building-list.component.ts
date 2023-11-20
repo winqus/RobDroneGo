@@ -27,11 +27,7 @@ export class BuildingListComponent implements OnInit {
   }
 
   createFloor(buildingCode: string) {
-    console.log('create floor for bCode:', buildingCode);
-    // this.buildingService.createFloor(buildingCode).subscribe((building) => {
-    //   console.log(building);
-    // });
-    // Call building service or redirect to page
+    this.router.navigate(['campus/floor/create']);
   }
 
   editBuilding(building: Building) {

@@ -22,6 +22,7 @@ import { FloorListComponent } from './components/floor-list/floor-list.component
 import { FloorsToDifBuildsComponent } from './components/floors-to-dif-builds/floors-to-dif-builds.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { PassageListComponent } from './components/passage-list/passage-list.component';
 import { RobotListComponent } from './components/robot-list/robot-list.component';
 import { SearchRobotComponent } from './components/search-robot/search-robot.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -77,6 +78,7 @@ const routes: Routes = [
               { path: '', redirectTo: 'create', pathMatch: 'full' },
               { path: 'create', component: CreatePassageComponent },
               { path: 'edit', component: EditPassageComponent },
+              { path: 'list', component: PassageListComponent },
             ],
           },
           {
