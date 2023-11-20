@@ -5,6 +5,7 @@ import { TEXT_TOKENS as content } from '../assets/i18n/_textTokens';
 import { BuildingListComponent } from './components/building-list/building-list.component';
 import { BuildingMinMaxListComponent } from './components/building-min-max-list/building-min-max-list.component';
 import { Campus3dComponent } from './components/campus3d/campus3d.component';
+import { ChangeRobotStateComponent } from './components/change-robot-state/change-robot-state.component';
 import { CreateBuildingComponent } from './components/create-building/create-building.component';
 import { CreateElevatorComponent } from './components/create-elevator/create-elevator.component';
 import { CreateFloorComponent } from './components/create-floor/create-floor.component';
@@ -29,7 +30,6 @@ import { EmptyLayoutComponent } from './core/layouts/empty-layout/empty-layout.c
 import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.component';
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
-import { ChangeRobotStateComponent } from './components/change-robot-state/change-robot-state.component';
 
 const routes: Routes = [
   {
@@ -44,6 +44,7 @@ const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: '3d', component: Campus3dComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
+      { path: '3d/building/:buildingCode/floor/:floorNumber', component: Campus3dComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
       {
         path: 'campus',
         children: [
@@ -100,7 +101,7 @@ const routes: Routes = [
               { path: 'create', component: CreateRobotComponent },
               { path: 'list', component: RobotListComponent },
               { path: 'state', component: ChangeRobotStateComponent },
-              { path: ':?', component: SearchRobotComponent }
+              { path: ':?', component: SearchRobotComponent },
             ],
           },
           {

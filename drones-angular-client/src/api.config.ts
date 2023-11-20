@@ -11,6 +11,7 @@ const API_BASE = environment.apiUrl;
 
 export const API_ROUTES = {
   base: API_BASE,
+  threeDModuleAssetsBase: './assets',
   user: {
     me: `${API_BASE}/auth/me`,
     login: `${API_BASE}/auth/signin`,
@@ -21,14 +22,18 @@ export const API_ROUTES = {
   building: {
     getAll: `${API_BASE}/building/all`,
     getByCode: (buildingCode: string) => `${API_BASE}/building/${buildingCode}`,
-    getByFloorRange: (minFloor: number, maxFloor: number) => `${API_BASE}/building?minFloor=${minFloor}&maxFloor=${maxFloor}`,
+    getByFloorRange: (minFloor: number, maxFloor: number) =>
+      `${API_BASE}/building?minFloor=${minFloor}&maxFloor=${maxFloor}`,
     create: `${API_BASE}/building`,
     update: (id: string) => `${API_BASE}/building/${id}`,
   },
   elevator: {
-    createElevator: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevator`,
-    updateElevator: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevator`,
-    listElevators: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevators`,
+    createElevator: (buildingCode: string) =>
+      `${API_BASE}/building/${buildingCode}/elevator`,
+    updateElevator: (buildingCode: string) =>
+      `${API_BASE}/building/${buildingCode}/elevator`,
+    listElevators: (buildingCode: string) =>
+      `${API_BASE}/building/${buildingCode}/elevators`,
   },
   passage: {
     createPassage: `${API_BASE}/passage`,
@@ -48,7 +53,8 @@ export const API_ROUTES = {
   },
   floor: {
     createFloor: `${API_BASE}/floor`,
-    getByBuildingCode: (buildingCode: string) => `${API_BASE}/floor/${buildingCode}`,
+    getByBuildingCode: (buildingCode: string) =>
+      `${API_BASE}/floor/${buildingCode}`,
     getAllFloors: `${API_BASE}/floor`,
     updateFloor: (id: string) => `${API_BASE}/floor/${id}`,
   },

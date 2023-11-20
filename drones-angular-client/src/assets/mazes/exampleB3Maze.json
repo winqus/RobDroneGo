@@ -1,0 +1,30 @@
+{
+  "maze": {
+    "size": { "width": 9, "depth": 9 },
+    "buildingCode": "B",
+    "floorNumber": 3,
+    "map": [
+      [3, 2, 2, 2, 2, 2, 3, 6, 2, 1],
+      [1, 0, 0, 0, 0, 0, 2, 4, 2, 1],
+      [1, 0, 0, 0, 0, 0, 3, 1, 0, 1],
+      [1, 0, 0, 0, 0, 0, 1, 5, 0, 1],
+      [1, 0, 0, 0, 0, 0, 1, 1, 0, 1],
+      [1, 0, 0, 0, 0, 0, 1, 1, 0, 1],
+      [1, 0, 0, 0, 0, 0, 1, 3, 1, 1],
+      [1, 0, 0, 0, 0, 0, 1, 5, 2, 1],
+      [1, 0, 0, 0, 0, 0, 1, 1, 8, 1],
+      [2, 2, 2, 2, 2, 2, 6, 2, 2, 0]
+    ],
+    "exitLocations": {
+      "passages": [
+        { "cellPosition": [9, 6], "entracePositionOffset": [-0.5, 0.0], "destination": { "buildingCode": "C", "floorNumber": 3 } },
+        { "cellPosition": [0, 7], "entracePositionOffset": [-0.5, 0.0], "destination": { "buildingCode": "C", "floorNumber": 4 } }
+      ],
+      "elevators": [{ "cellPosition": [8, 8], "entracePositionOffset": [-0.5, 0.0], "connectedFloorNumbers": [1, 2, 3] }]
+    }
+  },
+  "player": {
+    "initialPosition": [7.0, 6.0],
+    "initialDirection": 0.0
+  }
+}
