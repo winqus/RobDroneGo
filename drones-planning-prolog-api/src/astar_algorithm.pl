@@ -4,7 +4,7 @@
 
 % graph_creation_for_maze:create_graph(4,4).
 % aStar(cel(1, 2), cel(4, 4), Path, Cost), writeln(Path). % quick
-% graph_creation_for_maze:create_graph(4,4).
+% aStar(cel(1, 1), cel(3, 3), Path, Cost), writeln(Path).
 
 
 % Node definition (using cells in the maze)
