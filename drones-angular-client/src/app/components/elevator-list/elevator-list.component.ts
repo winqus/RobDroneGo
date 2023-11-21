@@ -24,4 +24,9 @@ export class ElevatorListComponent implements OnInit {
       }
     });
   }
+  editElevator(elevator: Elevator) {
+    const code = this.route.snapshot.paramMap.get('code') as string;
+    elevator.buildingCode = code;
+    this.router.navigate(['campus/building', code, 'elevator', 1, 'edit'], { state: { data: elevator } });
+  }
 }

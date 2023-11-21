@@ -47,6 +47,7 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
 import { PassageListComponent } from './components/passage-list/passage-list.component';
 import { AppBuildingFloorDropdownListComponent } from './components/app-building-floor-dropdown-list/app-building-floor-dropdown-list.component';
+import { EditElevatorComponent } from './components/edit-elevator/edit-elevator.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -98,6 +99,7 @@ export const initAuthorizationProvider = {
     EditBuildingComponent,
     PassageListComponent,
     AppBuildingFloorDropdownListComponent,
+    EditElevatorComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [

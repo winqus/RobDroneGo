@@ -1,4 +1,5 @@
 export default interface Elevator {
+  buildingCode: any;
   id: string;
   number: number;
   make?: string;

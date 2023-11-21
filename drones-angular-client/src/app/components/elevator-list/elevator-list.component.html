@@ -2,7 +2,7 @@
   <div *ngFor="let elevator of elevators" class="collapse collapse-arrow bg-base-200 mb-2">
     <input type="checkbox" />
     <div class="collapse-title text-lg font-medium">
-      <span class="badge badge-lg mr-3">Elevator: {{ elevator.id }}</span>
+      <span class="badge badge-lg mr-3">Elevator: {{ elevator.number }}</span>
     </div>
     <div class="collapse-content">
       <p *ngIf="elevator.number" class="text-sm mb-1"><strong>Number:</strong> {{ elevator.number }}</p>
@@ -11,7 +11,7 @@
       <p *ngIf="elevator.description" class="text-sm mb-1"><strong>Description:</strong> {{ elevator.description }}</p>
 
       <div class="flex space-x-1">
-        <!-- <button class="btn btn-xs btn-outline" (click)="editElevator(elevator)">Edit</button>-->
+        <button class="btn btn-xs btn-outline" (click)="editElevator(elevator)">Edit</button>
       </div>
     </div>
   </div>
