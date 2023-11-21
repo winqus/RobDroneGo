@@ -1,3 +1,4 @@
+import { Document } from 'mongodb';
 import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { Mapper } from '../core/infra/Mapper';
 import { Result } from '../core/logic/Result';
@@ -53,7 +54,7 @@ export class FloorMap extends Mapper<Floor> {
     let passageExit: PassageExit[] | null = null;
     let elevatorExit: ElevatorExit[] | null = null;
 
-    if (raw?.map && raw.map?.exitLocations) {
+    if (raw.map && raw.map?.exitLocations) {
       passageExit = raw.map?.exitLocations?.passages.map((passage: any) => {
         return PassageExit.create([passage.cellPosition[0], passage.cellPosition[1]], {
           buildingCode: passage.destination.buildingCode as string,
@@ -71,18 +72,12 @@ export class FloorMap extends Mapper<Floor> {
       return Result.fail<Floor>(combinedResults.error);
     }
     let map: Map | null = null;
-    if (
-      raw?.map !== null &&
-      raw?.map !== undefined &&
-      raw?.map.map !== null &&
-      raw?.map.map !== undefined &&
-      raw?.map.map.length > 0
-    ) {
+    if (raw.map) {
       if (passageExit === null && elevatorExit === null) {
         map = Map.create(
-          raw?.map.size.width as number,
-          raw?.map.size.height as number,
-          raw?.map?.map as number[][],
+          raw.map.size.width as number,
+          raw.map.size.height as number,
+          raw.map?.map as number[][],
         ).getValue();
       } else {
         map = Map.create(raw?.map.size.width as number, raw?.map.size.height as number, raw?.map?.map as number[][], {

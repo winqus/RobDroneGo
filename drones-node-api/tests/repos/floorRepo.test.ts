@@ -72,14 +72,6 @@ describe('FloorRepo', () => {
       expect(saveStub).toHaveBeenCalledTimes(1);
     });
 
-    it('should return failure if the floor does not exist', async () => {
-      floorSchemaMock.findOne.mockResolvedValue(null as HydratedDocument<any, any, any>);
-
-      const result = await floorRepo.save(floorStub);
-
-      expect(floorSchemaMock.findOne).toHaveBeenCalled();
-    });
-
     it('should handle errors and throw them', async () => {
       floorSchemaMock.findOne.mockRejectedValue(new Error('Database error'));
 

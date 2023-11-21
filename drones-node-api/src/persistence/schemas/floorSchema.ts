@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { IFloorPersistence } from '../../dataschema/IFloorPersistence';
+import { mapSchema } from './mapSchema';
 
 const Floor = new mongoose.Schema(
   {
@@ -22,15 +23,7 @@ const Floor = new mongoose.Schema(
       required: [true, 'Please enter building code'],
     },
     map: {
-      size: {
-        width: Number,
-        height: Number,
-      },
-      map: [[Number]],
-      exitLocations: {
-        passages: [{ cellPosition: [Number, Number], destination: { buildingCode: String, floorNumber: Number } }],
-        elevators: [{ cellPosition: [Number, Number] }],
-      },
+      type: mapSchema,
     },
   },
   { timestamps: true, autoIndex: true },
