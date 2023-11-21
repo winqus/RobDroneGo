@@ -1,32 +1,35 @@
-:- module(bfs_diagonal_algorithm, [bfs/3, shortest_bfs/3, all_bfs/3]).
+:- module(bfs_diagonal_algorithm, [bfs/4, shortest_bfs/4, all_bfs/3]).
 
-% THE ONLY DIFFERENCE HERE IS THAT THIS MODULE USES THE DIAGONAL GRAPH CREATION, ALGORITHM IS THE SAME
-:- use_module(graph_creation_diagonal).
+% BFS algorithm with Cost for diagonal moves
+:- use_module(graph_creation_for_maze_diagonal).
 
-% graph_creation_diagonal:create_graph(8,7).
-% bfs(cel(1,2), cel(7,7), Path), writeln(Path).
-% shortest_bfs(cel(1,2), cel(7,7), Path), writeln(Path).
+% graph_creation_for_maze_diagonal:create_graph(4,4).
+% bfs(cel(1,1), cel(4,4), Path, Cost), writeln(Path).
+% shortest_bfs(cel(1,2), cel(4,4), Path, Cost), writeln(Path).
 
 
-bfs(Start, End, Path) :- bfs2(End, [[Start]], Path).
+bfs(Start, End, Path, Cost) :- bfs2(End, [([Start], 0)], Path, Cost).
 
-bfs2(End, [[End | T] | _], Path) :- reverse([End | T], Path).
+bfs2(End, [([End | T], Cost) | _], Path, Cost) :- reverse([End | T], Path).
 
-bfs2(End, [LA | Others], Path) :-
-    LA = [Act | _],
-    findall([X | LA], (End \== Act, connectCell(Act, X), \+ member(X, LA)), New),
+bfs2(End, [([Act | T], CostSoFar) | Others], Path, FinalCost) :-
+    findall(([X, Act | T], NewCost), (
+        End \== Act,
+        connectCell(Act, X, MoveCost),  % MoveCost is either 1 or 1.41
+        \+ member(X, [Act | T]),
+        NewCost is CostSoFar + MoveCost
+    ), New),
     append(Others, New, All),
-    bfs2(End, All, Path).
+    bfs2(End, All, Path, FinalCost).
 
-all_bfs(Start, End, LPath) :- findall(Path, bfs(Start, End, Path), LPath).
+all_bfs(Start, End, LPathCost) :- findall((Path, Cost), bfs(Start, End, Path, Cost), LPathCost).
 
-shortest_bfs(Start, End, ShortestPath) :-
-    all_bfs(Start, End, AllPaths),
-    shortlist(AllPaths, ShortestPath, _).
+shortest_bfs(Start, End, Path, Cost) :-
+    all_bfs(Start, End, LPathCost),
+    shortlist(LPathCost, Path, Cost).
 
-shortlist([L], L, N) :- !, length(L, N).
+shortlist([(L, N)], L, N) :- !.
 
-shortlist([L | LL], Lm, Nm) :-
+shortlist([(L, NL) | LL], Lm, Nm) :-
     shortlist(LL, Lm1, Nm1),
-    length(L, NL),
     ((NL < Nm1, !, Lm = L, Nm = NL); (Lm = Lm1, Nm = Nm1)).

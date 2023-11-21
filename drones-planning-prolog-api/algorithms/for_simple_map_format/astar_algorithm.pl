@@ -1,10 +1,9 @@
 :- module(astar_algorithm, [aStar/4]).
 
-:- use_module(graph_creation_for_maze).
+:- use_module(graph_creation).
 
-% graph_creation_for_maze:create_graph(4,4).
-% aStar(cel(1, 2), cel(4, 4), Path, Cost), writeln(Path). % quick
-% aStar(cel(1, 1), cel(3, 3), Path, Cost), writeln(Path).
+% graph_creation:create_graph(8,7).
+% aStar(cel(1, 2), cel(7, 7), Path, Cost), writeln(Path). % quick
 
 
 % Node definition (using cells in the maze)

@@ -1,10 +1,12 @@
 :- module(bfs_algorithm, [bfs/3, shortest_bfs/3, all_bfs/3]).
 
+% :- use_module(graph_creation).
 :- use_module(graph_creation_for_maze).
 
+% graph_creation:create_graph(8,7).
 % graph_creation_for_maze:create_graph(4,4).
-% bfs(cel(1,2), cel(4,4), Path), writeln(Path).
-% shortest_bfs(cel(1,2), cel(4,4), Path), writeln(Path). % takes long time
+% bfs(cel(1,2), cel(7,7), Path), writeln(Path).
+% shortest_bfs(cel(1,2), cel(7,7), Path), writeln(Path). % takes long time
 
 bfs(Start, End, Path) :- bfs2(End, [[Start]], Path).
 

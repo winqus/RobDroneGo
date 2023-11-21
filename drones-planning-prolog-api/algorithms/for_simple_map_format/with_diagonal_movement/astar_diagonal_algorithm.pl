@@ -1,6 +1,7 @@
 :- module(astar_diagonal_algorithm, [aStar/4]).
 
-% Uses graph_creation_diagonal and replaced estimate to support diagonal movement, other than that it's the same as astar_algorithm
+% Uses graph_creation_diagonal and replaced estimate to support diagonal movement, 
+% other than that it's the same as astar_algorithm
 :- use_module(graph_creation_diagonal).
 
 % graph_creation_diagonal:create_graph(8,7).
