@@ -266,16 +266,50 @@
           ]
         },
         {
-          "label": "Link 2",
-          "href": "#link2"
-        },
-        {
-          "label": "Link 3",
-          "href": "#link3"
+          "label": "Task",
+          "href": "/task",
+          "dropdownLinks": [
+            {
+              "label": "Find route",
+              "href": "task/route/:code1/:code2"
+            },
+            {
+              "label": "Complexity analysis",
+              "href": "task/analysis"
+            }
+          ]
         },
         {
           "label": "3D",
           "href": "/3d"
+        },
+        {
+          "label": "System",
+          "href": "/system",
+          "dropdownLinks": [
+            {
+              "label": "MBCO",
+              "href": "system/mbco"
+            },
+            {
+              "label": "Data and recovery strategy",
+              "href": "system/recovery-strategy"
+            }
+          ]
+        },
+        {
+          "label": "About us",
+          "href": "/about",
+          "dropdownLinks": [
+            {
+              "label": "Information",
+              "href": "about/info"
+            },
+            {
+              "label": "GDPR",
+              "href": "about/gdpr"
+            }
+          ]
         }
       ],
       "profileDropdown": {
@@ -293,7 +327,7 @@
       }
     },
     "footer": {
-      "text": "Copyright © 2023 - All right reserved by Company Ltd"
+      "text": "Copyright © 2023 - All right reserved by Group 025"
     },
     "error": {
       "redirectingText": "Redirecting to the home page..."

@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { TEXT_TOKENS as content } from '../assets/i18n/_textTokens';
+import { AboutUsComponent } from './components/about-us/about-us.component';
 import { BuildingListComponent } from './components/building-list/building-list.component';
 import { BuildingMinMaxListComponent } from './components/building-min-max-list/building-min-max-list.component';
 import { Campus3dComponent } from './components/campus3d/campus3d.component';
 import { ChangeRobotStateComponent } from './components/change-robot-state/change-robot-state.component';
+import { ComplexityAnalysisComponent } from './components/complexity-analysis/complexity-analysis.component';
 import { CreateBuildingComponent } from './components/create-building/create-building.component';
 import { CreateElevatorComponent } from './components/create-elevator/create-elevator.component';
 import { CreateFloorComponent } from './components/create-floor/create-floor.component';
@@ -21,9 +23,13 @@ import { ElevatorListComponent } from './components/elevator-list/elevator-list.
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
 import { FloorsToDifBuildsComponent } from './components/floors-to-dif-builds/floors-to-dif-builds.component';
+import { GdprComponent } from './components/gdpr/gdpr.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { MbcoComponent } from './components/mbco/mbco.component';
 import { PassageListComponent } from './components/passage-list/passage-list.component';
+import { PathsBetweenBuildingsComponent } from './components/paths-between-buildings/paths-between-buildings.component';
+import { RecoveryStrategyComponent } from './components/recovery-strategy/recovery-strategy.component';
 import { RobotListComponent } from './components/robot-list/robot-list.component';
 import { SearchRobotComponent } from './components/search-robot/search-robot.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -119,6 +125,31 @@ const routes: Routes = [
             canActivate: [canActivateWithRole([UserRole.User, UserRole.FleetManager])],
             children: [{ path: 'create', component: CreateRobotTypeComponent }],
           },
+        ],
+      },
+      {
+        path: 'task',
+        children: [
+          { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+          { path: 'route/:code1/:code2', canActivate: [canActivateWithRole([UserRole.User, UserRole.TaskManager])], component: PathsBetweenBuildingsComponent },
+          { path: 'analysis', canActivate: [canActivateWithRole([UserRole.User, UserRole.TaskManager])], component: ComplexityAnalysisComponent },
+        ],
+      },
+      {
+        path: 'system',
+        children: [
+          { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+          { path: 'mbco', canActivate: [canActivateWithRole([UserRole.User, UserRole.SystemAdministrator])], component: MbcoComponent },
+          { path: 'recovery-strategy', canActivate: [canActivateWithRole([UserRole.User, UserRole.SystemAdministrator])], component: RecoveryStrategyComponent },
+        ],
+      },
+      {
+        path: 'about',
+        children: [
+          { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+          { path: 'info', canActivate: [canActivateWithRole([UserRole.User])], component: AboutUsComponent },
+
+          { path: 'gdpr', canActivate: [canActivateWithRole([UserRole.User])], component: GdprComponent },
         ],
       },
       // ... other routes here (that need the main layout)

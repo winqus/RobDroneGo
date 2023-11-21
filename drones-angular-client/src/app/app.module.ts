@@ -48,6 +48,12 @@ import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
 import { PassageListComponent } from './components/passage-list/passage-list.component';
 import { AppBuildingFloorDropdownListComponent } from './components/app-building-floor-dropdown-list/app-building-floor-dropdown-list.component';
 import { EditElevatorComponent } from './components/edit-elevator/edit-elevator.component';
+import { AboutUsComponent } from './components/about-us/about-us.component';
+import { GdprComponent } from './components/gdpr/gdpr.component';
+import { ComplexityAnalysisComponent } from './components/complexity-analysis/complexity-analysis.component';
+import { MbcoComponent } from './components/mbco/mbco.component';
+import { RecoveryStrategyComponent } from './components/recovery-strategy/recovery-strategy.component';
+import { PathsBetweenBuildingsComponent } from './components/paths-between-buildings/paths-between-buildings.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -100,6 +106,12 @@ export const initAuthorizationProvider = {
     PassageListComponent,
     AppBuildingFloorDropdownListComponent,
     EditElevatorComponent,
+    AboutUsComponent,
+    GdprComponent,
+    ComplexityAnalysisComponent,
+    MbcoComponent,
+    RecoveryStrategyComponent,
+    PathsBetweenBuildingsComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [
