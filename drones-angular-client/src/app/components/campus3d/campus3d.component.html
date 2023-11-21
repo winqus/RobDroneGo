@@ -25,7 +25,7 @@
 </div>
 
 <!-- Panels for views, mouse help, keyboard help, credits and subwindows -->
-<div id="container">
+<div id="container" *ngIf="!renderLoadingScreenElement">
   <div id="views-panel">
     <table class="views">
       <tr>

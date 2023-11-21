@@ -114,8 +114,8 @@ const mazeExampleUrls: {
 export class Campus3dComponent implements OnInit, OnDestroy {
   @ViewChild('canvasContainer', { static: true }) canvasContainer!: ElementRef;
 
-  buildingCode: string = 'B';
-  floorNumber: number = 0;
+  buildingCode!: string;
+  floorNumber!: number;
   robotId: string | null = null;
   paramMapSubscription!: Subscription;
   queryParamsSubscription!: Subscription;

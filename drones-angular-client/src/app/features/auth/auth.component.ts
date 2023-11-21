@@ -5,6 +5,7 @@ import { SignupProps } from 'src/app/components/signup/signup.component';
 import LoginCredentials from 'src/app/core/authentication/models/loginCredentials.model';
 import RegisterCredentials from 'src/app/core/authentication/models/registerCredentials.model';
 import { UserService } from 'src/app/core/authentication/services/user.service';
+import { AuthMap } from 'src/app/core/mappers/auth.mapper';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
 
 export interface AuthProps {
@@ -17,7 +18,7 @@ export interface AuthProps {
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css']
+  styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent implements OnInit {
   formType!: 'login' | 'signup';
@@ -26,11 +27,15 @@ export class AuthComponent implements OnInit {
   loginFormButtonLabel = content.components.auth.loginFormButtonLabel;
   signupFormButtonLabel = content.components.auth.signupFormButtonLabel;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService) { }
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private userService: UserService,
+  ) {}
 
   ngOnInit(): void {
     // Listen to the route parameters or URL segments
-    this.activatedRoute.firstChild?.url.subscribe(urlSegment => {
+    this.activatedRoute.firstChild?.url.subscribe((urlSegment) => {
       this.formType = urlSegment[0]?.path === 'signup' ? 'signup' : 'login';
     });
   }
@@ -50,22 +55,21 @@ export class AuthComponent implements OnInit {
       error: (error) => {
         // Handle error
         console.error('login error', error);
-      }
+      },
     });
   }
 
   handleSignup(formData: any) {
-    const credentials: RegisterCredentials = formData as RegisterCredentials;
+    const credentials: RegisterCredentials = AuthMap.toRegisterCredentials(formData);
     this.userService.register(credentials).subscribe({
       next: (authResponse) => {
         // Handle successful registration
         this.router.navigate(['/dashboard']);
-
       },
       error: (error) => {
         // Handle error
         console.error('signup error', error);
-      }
+      },
     });
   }
 }

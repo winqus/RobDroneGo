@@ -33,7 +33,7 @@ import { RecoveryStrategyComponent } from './components/recovery-strategy/recove
 import { RobotListComponent } from './components/robot-list/robot-list.component';
 import { SearchRobotComponent } from './components/search-robot/search-robot.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { canActivateChildWithAuth, canActivateWithAuth, canActivateWithRole } from './core/authentication/guards/auth.guard';
+import { canActivateChildWithAuth, canActivateChildWithRole, canActivateWithAuth, canActivateWithRole } from './core/authentication/guards/auth.guard';
 import { UserRole } from './core/authentication/models/user-roles.enum';
 import { EmptyLayoutComponent } from './core/layouts/empty-layout/empty-layout.component';
 import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.component';
@@ -60,31 +60,33 @@ const routes: Routes = [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
           {
             path: 'building',
-            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
+            canActivate: [canActivateChildWithRole([UserRole.User, UserRole.CampusManager])],
             children: [
               { path: '', redirectTo: 'list', pathMatch: 'full' },
-              { path: ':code/floors', component: FloorListComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
-              { path: ':code/floors/:number/edit', component: EditFloorComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
-              { path: 'create', component: CreateBuildingComponent, canActivate: [canActivateWithRole([UserRole.User])] },
-              { path: 'list', component: BuildingListComponent, canActivate: [canActivateWithRole([UserRole.User])] },
-              { path: ':id/edit', component: EditBuildingComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
-              { path: ':code/elevators', component: ElevatorListComponent, canActivate: [canActivateWithRole([UserRole.User])] },
-              { path: ':code/elevator/:number/edit', component: EditElevatorComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
-
-              { path: ':minFloor/:maxFloor', component: BuildingMinMaxListComponent, canActivate: [canActivateWithRole([UserRole.User])] },
+              { path: ':code/floors', component: FloorListComponent },
+              { path: ':code/floors/:number/edit', component: EditFloorComponent },
+              { path: 'create', component: CreateBuildingComponent },
+              { path: 'list', component: BuildingListComponent },
+              { path: ':id/edit', component: EditBuildingComponent },
+              { path: ':code/elevators', component: ElevatorListComponent },
+              { path: ':code/elevator/:number/edit', component: EditElevatorComponent },
+              { path: ':minFloor/:maxFloor', component: BuildingMinMaxListComponent },
               { path: ':code/floorsWithPassages', component: FloorsToDifBuildsComponent },
             ],
           },
           {
             path: 'floor',
-            //canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
-            children: [{ path: 'create', component: CreateFloorComponent }],
+            canActivate: [canActivateChildWithRole([UserRole.User, UserRole.CampusManager])],
+            children: [
+              { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+              { path: 'create', component: CreateFloorComponent },
+            ],
           },
           {
             path: 'passage',
-            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
+            canActivate: [canActivateChildWithRole([UserRole.User, UserRole.CampusManager])],
             children: [
-              { path: '', redirectTo: 'create', pathMatch: 'full' },
+              { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
               { path: 'create', component: CreatePassageComponent },
               { path: 'edit', component: EditPassageComponent },
               { path: 'list', component: PassageListComponent },
@@ -92,13 +94,17 @@ const routes: Routes = [
           },
           {
             path: 'room',
-            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
-            children: [{ path: 'create', component: CreateRoomComponent }],
+            canActivate: [canActivateChildWithRole([UserRole.User, UserRole.CampusManager])],
+            children: [
+              { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+              { path: 'create', component: CreateRoomComponent },
+            ],
           },
           {
             path: 'elevator',
-            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
+            canActivate: [canActivateChildWithRole([UserRole.User, UserRole.CampusManager])],
             children: [
+              { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
               { path: 'create', component: CreateElevatorComponent },
               { path: 'edit', component: EditElevatorComponent },
             ],
@@ -108,12 +114,13 @@ const routes: Routes = [
       },
       {
         path: 'fleet',
+        canActivate: [canActivateChildWithRole([UserRole.User, UserRole.FleetManager])],
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
           {
             path: 'robot',
-            canActivate: [canActivateWithRole([UserRole.User, UserRole.FleetManager])],
             children: [
+              { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
               { path: 'create', component: CreateRobotComponent },
               { path: 'list', component: RobotListComponent },
               { path: 'state', component: ChangeRobotStateComponent },
@@ -122,34 +129,37 @@ const routes: Routes = [
           },
           {
             path: 'robotType',
-            canActivate: [canActivateWithRole([UserRole.User, UserRole.FleetManager])],
-            children: [{ path: 'create', component: CreateRobotTypeComponent }],
+            children: [
+              { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+              { path: 'create', component: CreateRobotTypeComponent },
+            ],
           },
         ],
       },
       {
         path: 'task',
+        canActivate: [canActivateChildWithRole([UserRole.User, UserRole.TaskManager])],
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'route/:code1/:code2', canActivate: [canActivateWithRole([UserRole.User, UserRole.TaskManager])], component: PathsBetweenBuildingsComponent },
-          { path: 'analysis', canActivate: [canActivateWithRole([UserRole.User, UserRole.TaskManager])], component: ComplexityAnalysisComponent },
+          { path: 'route/:code1/:code2', component: PathsBetweenBuildingsComponent },
+          { path: 'analysis', component: ComplexityAnalysisComponent },
         ],
       },
       {
         path: 'system',
+        canActivate: [canActivateChildWithRole([UserRole.User, UserRole.SystemAdministrator])],
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'mbco', canActivate: [canActivateWithRole([UserRole.User, UserRole.SystemAdministrator])], component: MbcoComponent },
-          { path: 'recovery-strategy', canActivate: [canActivateWithRole([UserRole.User, UserRole.SystemAdministrator])], component: RecoveryStrategyComponent },
+          { path: 'mbco', component: MbcoComponent },
+          { path: 'recovery-strategy', component: RecoveryStrategyComponent },
         ],
       },
       {
         path: 'about',
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'info', canActivate: [canActivateWithRole([UserRole.User])], component: AboutUsComponent },
-
-          { path: 'gdpr', canActivate: [canActivateWithRole([UserRole.User])], component: GdprComponent },
+          { path: 'info', component: AboutUsComponent },
+          { path: 'gdpr', component: GdprComponent },
         ],
       },
       // ... other routes here (that need the main layout)

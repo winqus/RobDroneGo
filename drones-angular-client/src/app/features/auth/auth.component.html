@@ -1,4 +1,4 @@
-<div class="container p-0 md:p-7 flex justify-center items-center ">
+<div class="container p-0 md:p-7 flex justify-center items-center">
   <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
     <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
       <!-- Title -->
@@ -6,8 +6,8 @@
 
       <!-- Tabbed links for Login and Sign Up -->
       <div class="tabs tabs-boxed mb-4 justify-start">
-        <button (click)="setFormType('signup')" [ngClass]="{'tab': true, 'tab-active': formType === 'signup'}">{{ signupFormButtonLabel }}</button>
-        <button (click)="setFormType('login')" [ngClass]="{'tab': true, 'tab-active': formType === 'login'}">{{ loginFormButtonLabel }}</button>
+        <button (click)="setFormType('signup')" [ngClass]="{ tab: true, 'tab-active': formType === 'signup' }">{{ signupFormButtonLabel }}</button>
+        <button (click)="setFormType('login')" [ngClass]="{ tab: true, 'tab-active': formType === 'login' }">{{ loginFormButtonLabel }}</button>
       </div>
 
       <!-- Conditional Content Rendering for Login and Signup Forms -->

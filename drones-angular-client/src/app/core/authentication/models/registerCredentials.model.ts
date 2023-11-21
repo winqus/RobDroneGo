@@ -3,4 +3,5 @@ export default interface RegisterCredentials {
   lastName: string;
   email: string;
   password: string;
+  role: string;
 }

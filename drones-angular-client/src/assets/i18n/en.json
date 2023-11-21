@@ -355,16 +355,24 @@
       },
       "signup": {
         "firstNameLabel": "First Name",
-        "lastNameLabel": "Last Name",
-        "emailLabel": "Email",
-        "passwordLabel": "Password",
-        "confirmPasswordLabel": "Confirm Password",
-        "gdprLabel": "I agree to the <a class=\"link link-info\" href=\"/terms\" target=\"_blank\">Terms of Service</a> and <a class=\"link link-info\" href=\"/privacy\" target=\"_blank\">Privacy Policy</a>.",
         "firstNamePlaceholder": "First Name",
+        "lastNameLabel": "Last Name",
         "lastNamePlaceholder": "Last Name",
+        "emailLabel": "Email",
         "emailPlaceholder": "Email",
+        "passwordLabel": "Password",
         "passwordPlaceholder": "Password",
+        "confirmPasswordLabel": "Confirm Password",
         "confirmPasswordPlaceholder": "Confirm Password",
+        "userRolesDropdownLabel": "Select Role",
+        "userRoles": [
+          { "label": "User", "role": "User" },
+          { "label": "Campus Manager", "role": "Campus Manager" },
+          { "label": "Fleet Manager", "role": "Fleet Manager" },
+          { "label": "System Administrator", "role": "System Administrator" },
+          { "label": "Task Manager", "role": "Task Manager" }
+        ],
+        "gdprLabel": "I agree to the <a class=\"link link-info\" href=\"/terms\" target=\"_blank\">Terms of Service</a> and <a class=\"link link-info\" href=\"/privacy\" target=\"_blank\">Privacy Policy</a>.",
         "signupButtonLabel": "Sign Up"
       }
     },
