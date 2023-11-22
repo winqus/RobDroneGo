@@ -124,7 +124,7 @@ const routes: Routes = [
               { path: 'create', component: CreateRobotComponent },
               { path: 'list', component: RobotListComponent },
               { path: 'state', component: ChangeRobotStateComponent },
-              { path: ':?', component: SearchRobotComponent },
+              { path: 'search', component: SearchRobotComponent },
             ],
           },
           {

@@ -1,6 +1,6 @@
 export type RobotFilters = {
   id?: string;
-  name?: string;
+  typeName?: string;
   type?: string;
   brand?: string;
   model?: string;

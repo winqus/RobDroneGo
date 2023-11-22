@@ -45,7 +45,8 @@ export class RobotService {
   }
 
   getRobotByFilter(filters: RobotFilters): Observable<Robot[]> {
-    const route = API_ROUTES.robot.getByFilter(filters);
+    const definedFilters = Object.fromEntries(Object.entries(filters).filter(([_, v]) => v !== undefined));
+    const route = API_ROUTES.robot.getByFilter(definedFilters);
     return this.http.get<Robot[]>(route);
   }
 
@@ -61,6 +62,6 @@ export class RobotService {
 
   changeRobotState(id: string, state: boolean): Observable<Robot> {
     const route = API_ROUTES.robot.changeRobotState(id);
-    return this.http.patch<Robot>(route, {'available': state });
+    return this.http.patch<Robot>(route, { available: state });
   }
 }

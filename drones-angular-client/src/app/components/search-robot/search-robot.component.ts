@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import Robot from 'src/app/core/models/robot.model';
+import { RobotFilters } from 'src/app/core/models/shared/robotFilters.type';
 import { RobotService } from 'src/app/services/robot.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
@@ -9,17 +11,14 @@ export interface SearchRobotProps {
   codeLabel: string;
   codePlaceholder: string;
 
-  nicknameLabel: string;
-  nicknamePlaceholder: string;
+  typeNameLabel: string;
+  typeNamePlaceholder: string;
 
-  serialNumberLabel: string;
-  serialNumberPlaceholder: string;
+  brandLabel: string;
+  brandPlaceholder: string;
 
-  descriptionLabel: string;
-  descriptionPlaceholder: string;
-
-  typeLabel: string;
-  typePlaceholder: string;
+  modelLabel: string;
+  modelPlaceholder: string;
 
   typesOfTasksLabel: string;
   typesOfTasksPlaceholder: string;
@@ -46,16 +45,16 @@ export class SearchRobotComponent {
   loadedOnce = false;
   searchRobotForm: FormGroup;
   validationErrors = content.validation_errors;
-  router: any;
-  activatedRoute: any;
 
-  constructor(private robotService: RobotService) {
+  constructor(
+    private robotService: RobotService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
     this.searchRobotForm = new FormGroup({
-      code: new FormControl(''),
-      nickname: new FormControl(''),
-      serialNumber: new FormControl(''),
-      description: new FormControl(''),
-      type: new FormControl(''),
+      typeName: new FormControl(''),
+      brand: new FormControl(''),
+      model: new FormControl(''),
       typesOfTasks: new FormControl(''),
       searchResults: new FormControl(''),
     });
@@ -66,20 +65,17 @@ export class SearchRobotComponent {
       codeLabel: 'Code',
       codePlaceholder: 'Enter robot code',
 
-      nicknameLabel: 'Nickname',
-      nicknamePlaceholder: 'Enter nickname',
+      typeNameLabel: 'Name of Robot Type ',
+      typeNamePlaceholder: 'Enter robot type name',
 
-      serialNumberLabel: 'Serial number',
-      serialNumberPlaceholder: 'Enter serial number',
+      brandLabel: 'Brand',
+      brandPlaceholder: 'Enter brand',
 
-      descriptionLabel: ' Description',
-      descriptionPlaceholder: 'Enter description',
+      modelLabel: 'Model',
+      modelPlaceholder: 'Enter model',
 
-      typeLabel: 'Type',
-      typePlaceholder: 'Enter type',
-
-      typesOfTasksLabel: 'Type of tasks',
-      typesOfTasksPlaceholder: 'Enter types of tasks',
+      typesOfTasksLabel: 'Type of task',
+      typesOfTasksPlaceholder: 'Enter one type of task',
 
       searchResults: [],
       searchResultsPlaceholder: 'Search results',
@@ -88,20 +84,23 @@ export class SearchRobotComponent {
     };
   }
 
-  getRobotByFilter(code?: string, nickname?: string, serialNumber?: string, description?: string, type?: string, typesOfTasks?: string) {
-    const queryParams = {
-      code,
-      nickname,
-      serialNumber,
-      description,
-      type,
-      typesOfTasks,
-    };
-
+  getRobotByFilter(queryParams: RobotFilters) {
     this.router.navigate([], {
-      relativeTo: this.activatedRoute,
+      relativeTo: this.route,
       queryParams,
       queryParamsHandling: 'merge',
+    });
+
+    this.robotService.getRobotByFilter(queryParams).subscribe({
+      next: (data) => {
+        this.props.searchResults = data;
+        this.loadedOnce = true;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.errorResponse = error;
+        this.isLoading = false;
+      },
     });
   }
 
@@ -110,8 +109,19 @@ export class SearchRobotComponent {
     this.errorResponse = {};
     this.submitSuccessMessage = null;
 
-    const { code, nickname, serialNumber, description, type, typesOfTasks } = this.searchRobotForm.value;
+    const { name: typeName, type, brand, model, typesOfTasks } = this.searchRobotForm.value;
 
-    this.getRobotByFilter(code, nickname, serialNumber, description, type, typesOfTasks);
+    const queryParams: RobotFilters = {
+      typeName: typeName || undefined,
+      brand: brand || undefined,
+      model: model || undefined,
+      typesOfTasks: typesOfTasks?.split(',') || undefined,
+    };
+
+    if (queryParams.typesOfTasks?.length === 1 && queryParams.typesOfTasks[0] === '') {
+      queryParams.typesOfTasks = undefined;
+    }
+
+    this.getRobotByFilter(queryParams);
   }
 }

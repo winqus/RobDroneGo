@@ -2,35 +2,23 @@
   <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
     <div class="card-body px-2 xs:px-8">
       <form [formGroup]="searchRobotForm" (ngSubmit)="onSubmit()" class="form-control">
-        <!-- Enter code -->
-        <label for="code" class="label">
-          <span class="label-text">{{ props.codeLabel }}</span>
+        <!-- Enter typeName -->
+        <label for="typeName" class="label">
+          <span class="label-text">{{ props.typeNameLabel }}</span>
         </label>
-        <input formControlName="code" type="text" placeholder="{{ props.codePlaceholder }}" class="input input-bordered" id="code" />
+        <input formControlName="typeName" type="text" placeholder="{{ props.typeNamePlaceholder }}" class="input input-bordered" id="typeName" />
 
-        <!-- Enter nickname -->
-        <label for="nickname" class="label">
-          <span class="label-text">{{ props.nicknameLabel }}</span>
+        <!-- Enter brand  -->
+        <label for="brand" class="label">
+          <span class="label-text">{{ props.brandLabel }}</span>
         </label>
-        <input formControlName="nickname" type="text" placeholder="{{ props.nicknamePlaceholder }}" class="input input-bordered" id="nickname" />
+        <input formControlName="brand" type="text" placeholder="{{ props.brandPlaceholder }}" class="input input-bordered" id="brand" />
 
-        <!-- Enter serialNumber -->
-        <label for="serialNumber" class="label">
-          <span class="label-text">{{ props.serialNumberLabel }}</span>
+        <!-- Enter model -->
+        <label for="model" class="label">
+          <span class="label-text">{{ props.modelLabel }}</span>
         </label>
-        <input formControlName="serialNumber" type="text" placeholder="{{ props.serialNumberPlaceholder }}" class="input input-bordered" id="serialNumber" />
-
-        <!-- Enter description -->
-        <label for="description" class="label">
-          <span class="label-text">{{ props.descriptionLabel }}</span>
-        </label>
-        <input formControlName="description" type="text" placeholder="{{ props.descriptionPlaceholder }}" class="input input-bordered" id="description" />
-
-        <!-- Enter type -->
-        <label for="type" class="label">
-          <span class="label-text">{{ props.typeLabel }}</span>
-        </label>
-        <input formControlName="type" type="text" placeholder="{{ props.typePlaceholder }}" class="input input-bordered" id="type" />
+        <input formControlName="model" type="text" placeholder="{{ props.modelPlaceholder }}" class="input input-bordered" id="model" />
 
         <!-- Enter typesOfTasks -->
         <label for="typesOfTasks" class="label">
@@ -60,14 +48,14 @@
     <div *ngFor="let robot of props.searchResults" class="collapse collapse-arrow bg-base-200 mb-2">
       <input type="checkbox" />
       <div class="collapse-title text-lg font-medium">
-        <span class="badge badge-lg mr-3">{{ props.codeLabel }}: {{ robot.code }}</span>
-        <span class="badge badge-lg mr-3">{{ props.typeLabel }}: {{ robot.type }}</span>
+        <span class="badge badge-lg mr-3">Code: {{ robot.code }}</span>
+        <span class="badge badge-lg mr-3">Type: {{ robot.type }}</span>
       </div>
 
       <div class="collapse-content">
-        <p *ngIf="robot.nickname" class="text-sm mb-1">{{ props.nicknameLabel }}: {{ robot.nickname }}</p>
-        <p *ngIf="robot.serialNumber" class="text-sm mb-1">{{ props.serialNumberLabel }}: {{ robot.serialNumber }}</p>
-        <p *ngIf="robot.description" class="text-sm mb-1">{{ props.descriptionLabel }}: {{ robot.description }}</p>
+        <p *ngIf="robot.nickname" class="text-sm mb-1">Nickname: {{ robot.nickname }}</p>
+        <p *ngIf="robot.serialNumber" class="text-sm mb-1">Serial number: {{ robot.serialNumber }}</p>
+        <p *ngIf="robot.description" class="text-sm mb-1">Description: {{ robot.description }}</p>
       </div>
     </div>
   </ng-container>

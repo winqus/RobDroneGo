@@ -249,7 +249,7 @@
                 },
                 {
                   "label": "Search",
-                  "href": "/fleet/robot/:?"
+                  "href": "/fleet/robot/search"
                 },
                 {
                   "label": "Change state",
