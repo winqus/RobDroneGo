@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Passage from 'src/app/core/models/passage.model';
 import { PassageService } from 'src/app/services/passage.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface CreatePassageProps {
   buildingCode1: string;
@@ -14,6 +15,7 @@ export interface CreatePassageProps {
   floorNumber1Placeholder: string;
   floorNumber2Placeholder: string;
   createPassageButtonLabel: string;
+  passageCreatedMessage: string;
 }
 
 @Component({
@@ -30,6 +32,7 @@ export class CreatePassageComponent {
   isLoading = false;
   passageForm: FormGroup;
   validationErrors = content.validation_errors;
+  submitSuccessMessage: SuccessMessage = null;
 
   constructor(private passageService: PassageService) {
     this.passageForm = new FormGroup({
@@ -51,17 +54,18 @@ export class CreatePassageComponent {
       floorNumber1Placeholder: 'Enter Floor 1 Number',
       floorNumber2Placeholder: 'Enter Floor 2 Number',
       createPassageButtonLabel: 'Create Passage',
+      passageCreatedMessage: 'Passage Created',
     };
   }
 
   onSubmit() {
     this.isLoading = true;
     const passageData: Passage = this.passageForm.value;
-    console.log(passageData);
 
     this.passageService.createPassage(passageData).subscribe({
       next: (passage) => {
-        console.log(passage);
+        this.submitSuccessMessage = this.props.passageCreatedMessage;
+
         this.isLoading = false;
       },
       error: (error) => {

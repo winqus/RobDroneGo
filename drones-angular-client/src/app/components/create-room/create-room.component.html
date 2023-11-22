@@ -73,7 +73,7 @@
               <div *ngIf="roomForm.get('size.length')?.touched && roomForm.get('size.length')?.invalid" class="text-error">
                 <small *ngIf="roomForm.get('size.length')?.errors?.['required']">{{ props.roomSizeRequiredError }}</small>
                 <small *ngIf="roomForm.get('size.length')?.errors?.['pattern']">{{ validationErrors.invalidNumeric }}</small>
-                <small *ngIf="roomForm.get('size.length')?.errors?.['min']">{{ validationErrors.numbermin | errorMessage: { min: 1 } }}</small>
+                <small *ngIf="roomForm.get('size.length')?.errors?.['min']">{{ validationErrors.numbermin | errorMessage: { min: 0 } }}</small>
               </div>
             </div>
           </div>

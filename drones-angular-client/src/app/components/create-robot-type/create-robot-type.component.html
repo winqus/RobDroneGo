@@ -31,19 +31,18 @@
 
         <!-- Types of Tasks Field -->
         <label class="label" for="robotTypeTasks">
-          <span class="label-text">{{ props.typesOfTasksLabel }}</span>
+          <span class="label-text">Select task type</span>
         </label>
-        <div class="flex items-center space-x-2 mb-2">
-          <input formControlName="typesOfTasks" type="text" placeholder="{{ props.typesOfTasksPlaceholder }}" class="input input-bordered" id="robotTypeTasks" />
-          <button type="button" class="btn btn-outline btn-success" (click)="addTask()">Add</button>
-        </div>
-        <div *ngFor="let task of tasks; let i = index" class="flex items-center space-x-2 mb-2">
-          <span class="badge badge-outline">{{ task }}</span>
-          <button type="button" class="btn btn-outline btn-error btn-sm" (click)="removeTask(i)">Remove</button>
-        </div>
-        <div *ngIf="robotTypeForm.get('typesOfTasks')?.invalid && robotTypeForm.get('typesOfTasks')?.touched" class="text-error">
-          <small>{{ props.typesOfTasksRequiredError }}</small>
-        </div>
+        <label class="label cursor-pointer justify-start" for="surveillanceTaskCheckbox">
+          <input formControlName="surveillanceTaskCheckbox" type="checkbox" class="checkbox checkbox-info mr-2" id="surveillanceTaskCheckbox" />
+          <span class="label-text">Surveillance</span>
+        </label>
+
+        <label class="label cursor-pointer justify-start" for="pickupDeliveryTaskCheckbox">
+          <input formControlName="pickupDeliveryTaskCheckbox" type="checkbox" class="checkbox checkbox-info mr-2" id="pickupDeliveryTaskCheckbox" />
+          <span class="label-text">Pick-up and Delivery</span>
+        </label>
+        <small *ngIf="robotTypeForm.hasError('atLeastOneTaskRequired')">Choose at least one task type</small>
 
         <!-- Error and Success Messages -->
         <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CreateRobotTypeData, RobotService } from 'src/app/services/robot.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
@@ -46,12 +46,16 @@ export class CreateRobotTypeComponent {
   robotTypeForm: FormGroup;
 
   constructor(private robotService: RobotService) {
-    this.robotTypeForm = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
-      brand: new FormControl('', [Validators.required, Validators.maxLength(30)]),
-      model: new FormControl('', [Validators.required, Validators.maxLength(30)]),
-      typesOfTasks: new FormControl('', [atLeastOneTaskValidator(this.tasks)]),
-    });
+    this.robotTypeForm = new FormGroup(
+      {
+        name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
+        brand: new FormControl('', [Validators.required, Validators.maxLength(30)]),
+        model: new FormControl('', [Validators.required, Validators.maxLength(30)]),
+        surveillanceTaskCheckbox: new FormControl(false),
+        pickupDeliveryTaskCheckbox: new FormControl(false),
+      },
+      { validators: this.checkboxValidator },
+    );
   }
 
   getDefaultProps(): CreateRobotTypeProps {
@@ -77,36 +81,42 @@ export class CreateRobotTypeComponent {
     };
   }
 
-  addTask() {
-    const taskFormControl = this.robotTypeForm.get('typesOfTasks');
-    if (taskFormControl && taskFormControl.value && typeof taskFormControl.value === 'string') {
-      this.tasks.push(taskFormControl.value.trim());
-      taskFormControl.setValue('');
-    }
-  }
+  checkboxValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const surveillanceTaskCheckbox = control.get('surveillanceTaskCheckbox');
+    const pickupDeliveryTaskCheckbox = control.get('pickupDeliveryTaskCheckbox');
 
-  removeTask(index: number) {
-    this.tasks.splice(index, 1);
-    const taskFormControl = this.robotTypeForm.get('typesOfTasks');
-    if (taskFormControl) {
-      taskFormControl.setErrors(atLeastOneTaskValidator(this.tasks)(taskFormControl));
-    }
-  }
+    return surveillanceTaskCheckbox && pickupDeliveryTaskCheckbox && surveillanceTaskCheckbox.value === false && pickupDeliveryTaskCheckbox.value === false ? { atLeastOneTaskRequired: true } : null;
+  };
 
   onSubmit() {
     this.isLoading = true;
     this.errorResponse = {};
     this.submitSuccessMessage = null;
-    const robotTypeData: CreateRobotTypeData = this.robotTypeForm.value;
-    robotTypeData.typesOfTasks = this.tasks;
-    console.log(robotTypeData);
+    const robotTypeData: CreateRobotTypeData = {
+      name: this.robotTypeForm.value.name,
+      brand: this.robotTypeForm.value.brand,
+      model: this.robotTypeForm.value.model,
+      typesOfTasks: [],
+    };
+    if (this.robotTypeForm.value.surveillanceTaskCheckbox) {
+      robotTypeData.typesOfTasks.push('Surveillance');
+    }
+    if (this.robotTypeForm.value.pickupDeliveryTaskCheckbox) {
+      robotTypeData.typesOfTasks.push('PickUpAndDelivery');
+    }
 
     this.robotService.createRobotType(robotTypeData).subscribe({
       next: () => {
         this.submitSuccessMessage = this.props.robotTypeCreatedMessage;
         this.isLoading = false;
-        this.robotTypeForm.reset();
-        this.tasks = [];
+        this.robotTypeForm.patchValue({
+          name: '',
+          brand: '',
+          model: '',
+          surveillanceTaskCheckbox: false,
+          pickupDeliveryTaskCheckbox: false,
+        });
+        this.robotTypeForm.markAsUntouched();
       },
       error: (error) => {
         console.error('Error creating robot type:', error);

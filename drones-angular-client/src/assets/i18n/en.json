@@ -63,6 +63,10 @@
                 {
                   "label": "List",
                   "href": "/campus/passage/list"
+                },
+                {
+                  "label": "Create",
+                  "href": "/campus/passage/create"
                 }
               ]
             },

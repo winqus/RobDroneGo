@@ -76,14 +76,14 @@ export class CreateRoomComponent {
       buildingCode: new FormControl('', [Validators.required]),
       floorNumber: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.pattern(/^-?\d+$/)]),
       name: new FormControl('', [Validators.required, Validators.maxLength(this.props.roomNameMaxLength)]),
-      description: new FormControl('', [Validators.maxLength(250)]),
+      description: null || new FormControl('', [Validators.maxLength(250)]),
       size: new FormGroup({
         width: new FormControl('', [Validators.required, Validators.pattern(/^\d+(\.\d+)?$/), Validators.min(1)]),
         length: new FormControl('', [Validators.required, Validators.pattern(/^\d+(\.\d+)?$/), Validators.min(1)]),
       }),
       position: new FormGroup({
-        x: new FormControl('', [Validators.required, Validators.pattern(/^\d+(\.\d+)?$/), Validators.min(1)]),
-        y: new FormControl('', [Validators.required, Validators.pattern(/^\d+(\.\d+)?$/), Validators.min(1)]),
+        x: new FormControl('', [Validators.required, Validators.pattern(/^\d+(\.\d+)?$/), Validators.min(0)]),
+        y: new FormControl('', [Validators.required, Validators.pattern(/^\d+(\.\d+)?$/), Validators.min(0)]),
       }),
       category: new FormControl('', Validators.required),
     });
