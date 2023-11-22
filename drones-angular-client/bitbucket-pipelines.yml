@@ -9,16 +9,19 @@ pipelines:
             - node
           script:
             - npm install
-            #- npm run test
             - npm run build -- --configuration production
           artifacts:
             - dist/dronesangularclient/**
       - step:
-          name: "Deploy to Production on Azure Static Web Apps"
+          name: Deploy to Production on DEI Cloud
           script:
-            - npm install -g @azure/static-web-apps-cli
-            - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN --env production
-
+            - echo "Copying artifacts to the production server"
+            - scp -r -P $UI_SERVER_SSH_PORT dist/dronesangularclient/** $UI_SERVER_USERNAME@$UI_SERVER_HOSTNAME:/home/www/angular-app/production/
+      # - step:
+      #     name: "Deploy to Production on Azure Static Web Apps"
+      #     script:
+      #       - npm install -g @azure/static-web-apps-cli
+      #       - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN --env production
     develop:
       - step:
           name: "Build for Development"
@@ -26,15 +29,19 @@ pipelines:
             - node
           script:
             - npm install
-            #- npm run test
             - npm run build -- --configuration development
           artifacts:
             - dist/dronesangularclient/**
       - step:
-          name: "Deploy to Preview on Azure Static Web Apps"
+          name: Deploy to Development on DEI Cloud
           script:
-            - npm install -g @azure/static-web-apps-cli
-            - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN --env preview
+            - echo "Copying artifacts to the development server"
+            - scp -r -P $UI_SERVER_SSH_PORT dist/dronesangularclient/** $UI_SERVER_USERNAME@$UI_SERVER_HOSTNAME:/home/www/angular-app/development/
+      # - step:
+      #     name: "Deploy to Preview on Azure Static Web Apps"
+      #     script:
+      #       - npm install -g @azure/static-web-apps-cli
+      #       - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN --env preview
   pull-requests:
     '**':
       - step:
