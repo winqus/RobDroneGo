@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import Building from 'src/app/core/models/building.model';
+import Floor from 'src/app/core/models/floor.model';
 import Room from 'src/app/core/models/room.model';
+import BuildingService from 'src/app/services/building.service';
+import { FloorService } from 'src/app/services/floor.service';
 import { RoomService } from 'src/app/services/room.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
@@ -52,6 +56,9 @@ export interface CreateRoomProps {
   styleUrls: ['./create-room.component.css'],
 })
 export class CreateRoomComponent {
+  floors: Floor[] = [];
+  buildings: Building[] = [];
+
   @Input() props: CreateRoomProps = this.getDefaultProps();
 
   errorResponse: any;
@@ -60,8 +67,14 @@ export class CreateRoomComponent {
   roomForm: FormGroup;
   validationErrors = content.validation_errors;
 
-  constructor(private roomService: RoomService) {
+  constructor(
+    private roomService: RoomService,
+    private floorService: FloorService,
+    private buildingService: BuildingService,
+  ) {
     this.roomForm = new FormGroup({
+      buildingCode: new FormControl('', [Validators.required]),
+      floorNumber: new FormControl({ value: '', disabled: true }, [Validators.required, Validators.pattern(/^-?\d+$/)]),
       name: new FormControl('', [Validators.required, Validators.maxLength(this.props.roomNameMaxLength)]),
       description: new FormControl('', [Validators.maxLength(250)]),
       size: new FormGroup({
@@ -69,10 +82,16 @@ export class CreateRoomComponent {
         length: new FormControl('', [Validators.required, Validators.pattern(/^\d+(\.\d+)?$/), Validators.min(1)]),
       }),
       position: new FormGroup({
-        x: new FormControl('', [Validators.required]),
-        y: new FormControl('', [Validators.required]),
+        x: new FormControl('', [Validators.required, Validators.pattern(/^\d+(\.\d+)?$/), Validators.min(1)]),
+        y: new FormControl('', [Validators.required, Validators.pattern(/^\d+(\.\d+)?$/), Validators.min(1)]),
       }),
       category: new FormControl('', Validators.required),
+    });
+  }
+
+  ngOnInit(): void {
+    this.buildingService.getAllBuildings().subscribe((buildings: Building[]) => {
+      this.buildings = buildings;
     });
   }
 
@@ -124,7 +143,8 @@ export class CreateRoomComponent {
     this.errorResponse = {};
     this.submitSuccessMessage = null;
     const createRoomData: Room = this.roomForm.value;
-
+    const floorId = this.floors.find((floor: Floor) => floor.floorNumber === +this.roomForm.value.floorNumber)?.id;
+    createRoomData.floorId = floorId!;
     this.roomService.createRoom(createRoomData).subscribe({
       next: () => {
         this.submitSuccessMessage = this.props.roomCreatedMessage;
@@ -136,5 +156,15 @@ export class CreateRoomComponent {
         this.isLoading = false;
       },
     });
+  }
+
+  updateFloorList() {
+    const buildingCode = this.roomForm.get('buildingCode')!.value;
+    this.floorService.getFloorsByBuildingCode(buildingCode).subscribe((floors: Floor[]) => {
+      this.floors = floors;
+    });
+    if (this.floors) {
+      this.roomForm.get('floorNumber')!.enable();
+    }
   }
 }

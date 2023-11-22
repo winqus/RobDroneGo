@@ -138,30 +138,30 @@ const routes: Routes = [
       },
       {
         path: 'task',
-        canActivate: [canActivateChildWithRole([UserRole.User, UserRole.TaskManager])],
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'route/:code1/:code2', component: PathsBetweenBuildingsComponent },
-          { path: 'analysis', component: ComplexityAnalysisComponent },
+          { path: 'route/:code1/:code2', canActivate: [canActivateWithRole([UserRole.User, UserRole.TaskManager])], component: PathsBetweenBuildingsComponent },
+          { path: 'analysis', canActivate: [canActivateWithRole([UserRole.User, UserRole.TaskManager])], component: ComplexityAnalysisComponent },
         ],
       },
       {
         path: 'system',
-        canActivate: [canActivateChildWithRole([UserRole.User, UserRole.SystemAdministrator])],
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'mbco', component: MbcoComponent },
-          { path: 'recovery-strategy', component: RecoveryStrategyComponent },
+          { path: 'mbco', canActivate: [canActivateWithRole([UserRole.User, UserRole.SystemAdministrator])], component: MbcoComponent },
+          { path: 'recovery-strategy', canActivate: [canActivateWithRole([UserRole.User, UserRole.SystemAdministrator])], component: RecoveryStrategyComponent },
         ],
       },
       {
         path: 'about',
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'info', component: AboutUsComponent },
-          { path: 'gdpr', component: GdprComponent },
+          { path: 'info', canActivate: [canActivateWithRole([UserRole.User])], component: AboutUsComponent },
+
+          { path: 'gdpr', canActivate: [canActivateWithRole([UserRole.User])], component: GdprComponent },
         ],
       },
+
       // ... other routes here (that need the main layout)
     ],
   },

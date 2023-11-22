@@ -3,6 +3,27 @@
     <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
       <!-- Room Creation Form -->
       <form [formGroup]="roomForm" (ngSubmit)="onSubmit()" class="form-control">
+        <!-- Building Code Dropdown Field -->
+        <label class="label" for="buildingCode">
+          <span class="label-text">Select Building Code</span>
+        </label>
+        <select formControlName="buildingCode" class="select select-bordered w-full" id="buildingCode" (change)="updateFloorList()">
+          <option *ngFor="let building of buildings" [value]="building.code">{{ building.code }}</option>
+        </select>
+        <div *ngIf="roomForm.controls['buildingCode'].touched && roomForm.controls['buildingCode'].invalid" class="text-error">
+          <small *ngIf="roomForm.controls['buildingCode'].errors?.['required']">Building Code is required</small>
+        </div>
+        <!-- Floor Number Dropdown Field -->
+        <label class="label" for="floorNumber">
+          <span class="label-text">Select Floor Number</span>
+        </label>
+        <select formControlName="floorNumber" class="select select-bordered w-full" id="floorNumber">
+          <option *ngFor="let floor of floors" [value]="floor.floorNumber">{{ floor.floorNumber }}</option>
+        </select>
+        <div *ngIf="roomForm.controls['floorNumber'].touched && roomForm.controls['floorNumber'].invalid" class="text-error">
+          <small *ngIf="roomForm.controls['floorNumber'].errors?.['required']">Floor Code is required</small>
+        </div>
+
         <!-- Room Name Field -->
         <label class="label" for="roomName">
           <span class="label-text">{{ props.roomNameLabel }}</span>
@@ -70,6 +91,7 @@
             <div *ngIf="roomForm.get('position.x')?.touched && roomForm.get('position.x')?.invalid" class="text-error">
               <small *ngIf="roomForm.get('position.x')?.errors?.['required']">{{ props.roomPositionRequiredError }}</small>
               <small *ngIf="roomForm.get('position.x')?.errors?.['pattern']">{{ validationErrors.invalidNumeric }}</small>
+              <small *ngIf="roomForm.get('position.x')?.errors?.['min']">{{ validationErrors.numbermin | errorMessage: { min: 1 } }}</small>
             </div>
           </div>
           <label class="label" for="roomPositionY">
@@ -81,6 +103,7 @@
             <div *ngIf="roomForm.get('position.y')?.touched && roomForm.get('position.y')?.invalid" class="text-error">
               <small *ngIf="roomForm.get('position.y')?.errors?.['required']">{{ props.roomPositionRequiredError }}</small>
               <small *ngIf="roomForm.get('position.y')?.errors?.['pattern']">{{ validationErrors.invalidNumeric }}</small>
+              <small *ngIf="roomForm.get('position.y')?.errors?.['min']">{{ validationErrors.numbermin | errorMessage: { min: 1 } }}</small>
             </div>
           </div>
         </div>
