@@ -48,6 +48,10 @@ export class FloorMap extends Mapper<Floor> {
   public static toDomain(raw: any): Result<Floor> {
     const floorNumber = raw?.floorNumber as number;
     const description = Description.create(raw?.description as string);
+
+    if (raw.servedByElevator === undefined || raw.servedByElevator === null) {
+      raw.servedByElevator = false;
+    }
     const servedByElevator = raw?.servedByElevator as boolean;
     const buildingCode = BuildingCode.create(raw?.buildingCode as string);
 

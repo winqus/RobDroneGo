@@ -21,7 +21,6 @@ export default (app: Router) => {
         description: Joi.string()
           .allow('')
           .optional(),
-        servedByElevator: Joi.boolean().required(),
         buildingCode: Joi.string().required(),
       }),
     }),
