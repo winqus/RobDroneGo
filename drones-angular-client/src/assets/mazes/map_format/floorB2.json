@@ -1,8 +1,6 @@
 {
-  "maze": {
-    "size": { "width": 26, "depth": 16 },
-    "buildingCode": "B",
-    "floorNumber": 2,
+  "map": {
+    "size": { "width": 26, "height": 16 },
     "map": [
       [3, 2, 2, 2, 2, 3, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 3, 2, 2, 2, 1],
       [1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
@@ -21,9 +19,15 @@
       [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7],
       [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 0]
     ],
-
     "exitLocations": {
-      "passages": [{ "cellPosition": [7, 0] }, { "cellPosition": [8, 0] }, { "cellPosition": [13, 25] }, { "cellPosition": [14, 25] }, { "cellPosition": [15, 23] }, { "cellPosition": [15, 24] }],
+      "passages": [
+        { "cellPosition": [7, 0], "destination": { "buildingCode": "A", "floorNumber": 2 } },
+        { "cellPosition": [8, 0], "destination": { "buildingCode": "A", "floorNumber": 2 } },
+        { "cellPosition": [13, 25], "destination": { "buildingCode": "C", "floorNumber": 3 } },
+        { "cellPosition": [14, 25], "destination": { "buildingCode": "C", "floorNumber": 3 } },
+        { "cellPosition": [15, 23], "destination": { "buildingCode": "D", "floorNumber": 3 } },
+        { "cellPosition": [15, 24], "destination": { "buildingCode": "D", "floorNumber": 3 } }
+      ],
       "elevators": [{ "cellPosition": [9, 24] }, { "cellPosition": [10, 24] }]
     }
   }

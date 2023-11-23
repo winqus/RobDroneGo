@@ -1,8 +1,6 @@
 {
-  "maze": {
-    "size": { "width": 26, "depth": 16 },
-    "buildingCode": "B",
-    "floorNumber": 3,
+  "map": {
+    "size": { "width": 26, "height": 16 },
     "map": [
       [3, 2, 2, 2, 2, 3, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1],
       [1, 0, 0, 0, 0, 5, 0, 0, 5, 0, 0, 0, 0, 0, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -21,9 +19,11 @@
       [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 7],
       [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0]
     ],
-
     "exitLocations": {
-      "passages": [{ "cellPosition": [13, 25] }, { "cellPosition": [14, 25] }],
+      "passages": [
+        { "cellPosition": [13, 25], "destination": { "buildingCode": "C", "floorNumber": 4 } },
+        { "cellPosition": [14, 25], "destination": { "buildingCode": "C", "floorNumber": 4 } }
+      ],
       "elevators": [{ "cellPosition": [9, 24] }, { "cellPosition": [10, 24] }]
     }
   }
