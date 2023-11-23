@@ -5,6 +5,9 @@
 :- use_module(library(http/json)).
 
 :- use_module(logic).
+:- use_module(navigationBuildingsFloors).
+:- use_module(graph_creation_for_maze_diagonal).
+:- use_module(astar_maze_diagonal_algorithm).
 
 
 :- http_handler('/planning-api/route', get_route_handler, []).
@@ -28,17 +31,14 @@ get_route_handler(Request) :-
       minimize_building_count(MinimizeBuildingCount, [])
     ]),
   logic:load_info(), % GETs building, floor, elevator, passage info from backend API
+  format(atom(Origin), '~w::~w', [OriginBuildingCode, OriginFloorNumber]),
+  format(atom(Destination), '~w::~w', [DestinationBuildingCode, DestinationFloorNumber]),
+  path_floors(Origin, Destination, Path, Con),
+  format_connections(Con, JsonConnections),
+  JsonResponse = json{floors_paths: JsonConnections},
   format('Content-type: application/json~n~n'),
-  format('{"origin_building_code": "~w",~n', [OriginBuildingCode]),
-  format('"origin_floor_number": "~w",~n', [OriginFloorNumber]),
-  format('"origin_map_cell_x": "~w",~n', [OriginMapCellX]),
-  format('"origin_map_cell_y": "~w",~n', [OriginMapCellY]),
-  format('"destination_building_code": "~w",~n', [DestinationBuildingCode]),
-  format('"destination_floor_number": "~w",~n', [DestinationFloorNumber]),
-  format('"destination_map_cell_x": "~w",~n', [DestinationMapCellX]),
-  format('"destination_map_cell_y": "~w",~n', [DestinationMapCellY]),
-  format('"minimize_elevator_uses": "~w",~n', [MinimizeElevatorUses]),
-  format('"minimize_building_count": "~w"~n', [MinimizeBuildingCount]).
+  json_write(current_output, JsonResponse),
+  write([OriginMapCellX,OriginMapCellY,DestinationMapCellX,DestinationMapCellY,MinimizeElevatorUses,MinimizeBuildingCount,Path]).
   % logic:remove_info(). % Removes building, floor, elevator, passage, connects info from backend API
 
 % Test route handler that returns a simple JSON response
@@ -71,3 +71,27 @@ get_route_test_handler(Request) :-
   format('Destination Map Cell Y: ~w~n', [DestinationMapCellY]),
   format('Minimize Elevator Uses: ~w~n', [MinimizeElevatorUses]),
   format('Minimize Building Count: ~w~n', [MinimizeBuildingCount]).
+
+
+% Helper predicate to format a single connection as a JSON-like term
+format_connection(elev(From, To), json{fromBuilding: FromBuilding, fromFloorNumber: FromFloor, toBuilding: ToBuilding, toFloorNumber: ToFloor, type:"elevator"}) :-
+  split_building_floor(From, FromBuilding, FromFloor),
+  split_building_floor(To, ToBuilding, ToFloor).
+
+format_connection(cor(From, To), json{fromBuilding: FromBuilding, fromFloorNumber: FromFloor, toBuilding: ToBuilding, toFloorNumber: ToFloor, type:"corridor"}) :-
+  split_building_floor(From, FromBuilding, FromFloor),
+  split_building_floor(To, ToBuilding, ToFloor).
+
+% Predicate to transform the entire connection list
+format_connections([], []).
+format_connections([H|T], [JsonH|JsonT]) :-
+    format_connection(H, JsonH),
+    format_connections(T, JsonT).
+
+
+% Splits a string of the form 'Building::Floor' into separate components
+split_building_floor(Compound, Building, Floor) :-
+  split_string(Compound, "::", "", [BuildingStr, FloorStr]),
+  atom_string(Building, BuildingStr),
+  atom_string(Floor, FloorStr).
+

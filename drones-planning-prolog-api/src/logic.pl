@@ -134,6 +134,7 @@ extract_info(JSON, Building1, Floor1, Building2, Floor2) :-
   atom_concat(Building2Prefix, RawFloor2, Floor2). % Concatenating Building2Prefix with RawFloor2 to form Floor2
 
 load_info():-
+  remove_info(),
   client_get_buildings(_),
   get_floors(),
   get_elevators(),
@@ -148,8 +149,9 @@ remove_info():-
 
 
 load_map(FloorNumber, BuildingCode):-
+  remove_map(),
   generate_url_map(FloorNumber, BuildingCode, URL),
-  write('map url: '), write(URL), nl,
+  % write('map url: '), write(URL), nl,
   get_json_array_data(URL, JsonData),
   % write('json data: '), write(JsonData), nl,
   assertz(JsonData),
@@ -160,7 +162,6 @@ load_map(FloorNumber, BuildingCode):-
   extract_exit_locations(Info, ExitLocations),
   extract_passages_elevators_exits(ExitLocations, Passages, Elevators),
   load_all_passage_exit(Passages),
-  write_ln('debug 8'),
   load_all_elevator_exit(Elevators).
 
 remove_map():-

@@ -1,4 +1,6 @@
-:- module(graph_creation_for_maze_diagonal, [create_graph/2, connectCell/3]).
+:- module(graph_creation_for_maze_diagonal, [create_graph/2, connectCell/3, remove_graph/0]).
+
+:- use_module(logic).
 /* 
   NoNorthWallNoWestWall = 0,
   NoNorthWallYesWestWall = 1,
@@ -23,25 +25,25 @@
 % aStar(cel(4, 3), cel(2, 4), Path, Cost), writeln(Path).
 
 % m(col, row, value)
-m(1,1,3).
-m(2,1,2).
-m(3,1,6).
-m(4,1,0).
+% m(1,1,3).
+% m(2,1,2).
+% m(3,1,6).
+% m(4,1,0).
 
-m(1,2,1).
-m(2,2,0).
-m(3,2,0).
-m(4,2,1).
+% m(1,2,1).
+% m(2,2,0).
+% m(3,2,0).
+% m(4,2,1).
 
-m(1,3,7).
-m(2,3,0).
-m(3,3,0).
-m(4,3,7).
+% m(1,3,7).
+% m(2,3,0).
+% m(3,3,0).
+% m(4,3,7).
 
-m(1,4,2).
-m(2,4,6).
-m(3,4,2).
-m(4,4,0).
+% m(1,4,2).
+% m(2,4,6).
+% m(3,4,2).
+% m(4,4,0).
 
 
 % create_graph(numberOfCols,numberofRows).
@@ -52,6 +54,9 @@ m(4,4,0).
 % connectCell(cel(4,4),X,_).
 % connectCell(cel(2,3),X,_).
 :-dynamic connectCell/3. % connectCell(cel(Col, Row), cel(Col, Row), Cost).
+
+remove_graph() :-
+  retractall(connectCell(_, _, _)).
 
 % Base case for recursion: do nothing when Row is 0
 create_graph(_, 0) :- !.
