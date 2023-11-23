@@ -3,6 +3,11 @@
 1. Install SWI-Prolog
 2. Run the following command in the terminal (adjust the port number if needed):
 `swipl -s src/server.pl -g "start_server(4400)"`
+stop with `halt.`
+
+or in PowerShell (opens new window):
+Start-Process swipl -ArgumentList "-s src/server.pl -g `"start_server(4400)`""
+
 or in Prolog:
 `?- start_server(4400).`
 3. The API should be running on port 4400.
