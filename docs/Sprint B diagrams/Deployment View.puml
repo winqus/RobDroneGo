@@ -1,0 +1,44 @@
+@startuml Physical View
+
+<style>
+node {
+    BackgroundColor #99ddff
+}
+component {
+    BackgroundColor #99ddff
+}
+database {
+    BackgroundColor #99ddff
+}
+</style>
+
+node "localhost:??" as local {
+    component Browser{
+        component UI as ui
+    }
+}
+
+node server1{
+    component UI
+}
+
+node server2{
+    component "Fleet Management" as fleet
+    component "Campus Management" as campus
+    component "Task Management" as task
+    component "User Management" as user
+}
+
+node server3{
+    component "Planning Module" as planning
+}
+
+database DB
+
+local --  server1 : http/s
+local -- server2 : http/s
+server1 -- server2 : http/s
+server2 -- "db" DB
+server3 -- server2
+
+@enduml

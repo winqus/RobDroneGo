@@ -1,0 +1,26 @@
+@startuml Logical View Lv1
+
+<style>
+component {
+    BackgroundColor #99ddff
+}
+</style>
+
+interface "Campus UI" as campus
+interface "Fleet UI" as fleet
+interface "Planning UI" as planning
+
+interface "Campus API" as campus_API
+interface "Fleet API" as fleet_API
+interface "Planning API" as planning_API
+
+[RobDroneGo] as system
+system -up- campus
+system -up- fleet
+system -up- planning
+
+system -up- campus_API
+system -up- fleet_API
+system -up- planning_API
+
+@enduml

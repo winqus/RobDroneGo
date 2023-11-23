@@ -1,0 +1,38 @@
+@startuml Logical View Lv2
+
+<style>
+component {
+    BackgroundColor #99ddff
+}
+</style>
+
+interface "Campus UI" as campus_ui
+interface "Fleet UI" as fleet_ui
+interface "Planning UI" as planning_ui
+
+interface "Campus API" as campus_API
+interface "Fleet API" as fleet_API
+interface "Task API" as tesk_API
+
+component RobDroneGo {
+    component "Campus Management" as campus
+    component "Fleet Management" as fleet
+    component "Task Management" as task
+    component "Planning Module" as planning
+
+    campus -0)- planning
+    fleet -0)- planning
+    task -(0- planning
+
+    component "User Management" as user
+}
+fleet -up- fleet_API
+campus -up- campus_API
+task -up- tesk_API
+
+campus -up- campus_ui
+fleet -up- fleet_ui
+task -up- planning_ui
+
+
+@enduml
