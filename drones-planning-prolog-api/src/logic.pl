@@ -1,4 +1,4 @@
-:- module(logic, [client_get_buildings/1, list_building_codes/0, get_floors/0, get_elevators/0, get_passages/0]).
+:- module(logic, [client_get_buildings/1, list_building_codes/0, get_floors/0, get_elevators/0, get_passages/0, load_info/0, remove_info/0]).
 
 :- use_module(library(http/http_client)).
 :- use_module(library(http/json)).
@@ -117,4 +117,17 @@ extract_info(JSON, Building1, Floor1, Building2, Floor2) :-
     member(buildingCode2=Building2, JSON),
     member(floorNumber1=Floor1, JSON),
     member(floorNumber2=Floor2, JSON).
+  
+load_info():-
+  client_get_buildings(_),
+  get_floors(),
+  get_elevators(),
+  get_passages().
+
+remove_info():-
+  retractall(building_code(_)),
+  retractall(floors(_,_)),
+  retractall(elevator(_,_)),
+  retractall(corridor(_,_,_,_)),
+  retractall(connects(_,_)).
 
