@@ -1,4 +1,8 @@
-:- module(logic, [client_get_buildings/1, list_building_codes/0, get_floors/0, get_elevators/0, get_passages/0, load_info/0, remove_info/0, load_map/2, remove_map/0]).
+:- module(logic, [
+    client_get_buildings/1, list_building_codes/0, get_floors/0, get_elevators/0, get_passages/0, 
+    load_info/0, remove_info/0, load_map/2, remove_map/0,
+    building_code/1, floors/2, elevator/2, corridor/4, connects/2, m/3, passage/4, elevator_pos/2
+  ]).
 
 :- use_module(library(http/http_client)).
 :- use_module(library(http/json)).
@@ -52,9 +56,6 @@ list_building_codes.
 extract_code(JSON, Code) :-
     member(code=Code, JSON).
 
-
-
-
 get_floors() :-
  BaseUrl = 'http://localhost:4000/api/floor/',
  findall(Code, building_code(Code), ListCodes),
@@ -70,18 +71,20 @@ get_floors_by_buildings([]).
 get_floors_by_buildings([[URL | Code] | ListUrl]) :-
   get_json_array_data(URL, JsonData),
   is_list(JsonData),
-  extract_all_floorNumber(JsonData, FloorNumbers),
-  assertz(floors(Code, FloorNumbers)),
+  extract_all_floorNumber(JsonData, Code, FloorNumbers), % Modified to pass Code to extract_all_floorNumber
+  assertz(floors(Code, FloorNumbers)), % FloorNumbers contains concatenated strings with format buildingCode::FloorNumber (e.g. 'B1::1')
   get_floors_by_buildings(ListUrl).
 
-
-extract_all_floorNumber([], []).
-extract_all_floorNumber([Json| ListJson] , [Number | FloorNumbers]) :-
+extract_all_floorNumber([], _, []). % Added Code as an additional argument
+extract_all_floorNumber([Json| ListJson], Code, [FloorCode | FloorNumbers]) :- % Modified to construct FloorCode using building Code
   assertz(Json),
   json(Info),
   extract_floorNumber(Info, Number),
   retract(Json),
-  extract_all_floorNumber(ListJson, FloorNumbers).
+  atom_concat(Code, "::", CodePrefix), % Concatenating Code with "::" to form CodePrefix
+  atom_concat(CodePrefix, Number, FloorCode), % Concatenating CodePrefix with Number to form FloorCode
+  extract_all_floorNumber(ListJson, Code, FloorNumbers). % Recursive call with the updated Code parameter
+
 
 extract_floorNumber(JSON, FloorNumber) :-
     member(floorNumber=FloorNumber, JSON).
@@ -97,7 +100,7 @@ get_elevators_by_buildings([]).
 get_elevators_by_buildings([[URL | Code] | ListUrl]) :-
   get_json_array_data(URL, JsonData),
   is_list(JsonData),
-  extract_all_floorNumber(JsonData, FloorNumbers),
+  extract_all_floorNumber(JsonData, Code, FloorNumbers),
   assertz(elevator(Code, FloorNumbers)),
   get_elevators_by_buildings(ListUrl).
 
@@ -121,11 +124,15 @@ assert_corridor_and_connects([Json| ListJson]) :-
   assert_corridor_and_connects(ListJson).
 
 extract_info(JSON, Building1, Floor1, Building2, Floor2) :-
-    member(buildingCode1=Building1, JSON),
-    member(buildingCode2=Building2, JSON),
-    member(floorNumber1=Floor1, JSON),
-    member(floorNumber2=Floor2, JSON).
-  
+  member(buildingCode1=Building1, JSON),
+  member(buildingCode2=Building2, JSON),
+  member(floorNumber1=RawFloor1, JSON),
+  member(floorNumber2=RawFloor2, JSON),
+  atom_concat(Building1, "::", Building1Prefix), % Concatenating Building1 with "::"
+  atom_concat(Building1Prefix, RawFloor1, Floor1), % Concatenating Building1Prefix with RawFloor1 to form Floor1
+  atom_concat(Building2, "::", Building2Prefix), % Concatenating Building2 with "::"
+  atom_concat(Building2Prefix, RawFloor2, Floor2). % Concatenating Building2Prefix with RawFloor2 to form Floor2
+
 load_info():-
   client_get_buildings(_),
   get_floors(),
@@ -142,7 +149,9 @@ remove_info():-
 
 load_map(FloorNumber, BuildingCode):-
   generate_url_map(FloorNumber, BuildingCode, URL),
+  write('map url: '), write(URL), nl,
   get_json_array_data(URL, JsonData),
+  % write('json data: '), write(JsonData), nl,
   assertz(JsonData),
   json(Info),
   extract_map(Info, Map),
@@ -151,6 +160,7 @@ load_map(FloorNumber, BuildingCode):-
   extract_exit_locations(Info, ExitLocations),
   extract_passages_elevators_exits(ExitLocations, Passages, Elevators),
   load_all_passage_exit(Passages),
+  write_ln('debug 8'),
   load_all_elevator_exit(Elevators).
 
 remove_map():-
@@ -159,8 +169,8 @@ remove_map():-
   retractall(elevator_pos(_,_)).
 
 generate_url_map(FloorNumber, BuildingCode, URL) :-
-  BaseUrl = 'http://localhost:4000/api/floor/',
-  MidleStr = '/building/',
+  BaseUrl = 'http://localhost:4000/api/floor/', % will have number appended
+  MidleStr = '/building/', % will have building code appended
   FinalStr = '/map',
   string_concat(BaseUrl, FloorNumber, URL_A),
   string_concat(URL_A, MidleStr, URL_B),
@@ -218,7 +228,7 @@ load_all_elevator_exit([Json|Elevators]):-
   json(Info),
   retract(Json),
   load_elevator_exit(Info),
-  load_all_passage_exit(Elevators).
+  load_all_elevator_exit(Elevators).
 
 load_elevator_exit(Info):-
   member(cellPosition=CellPosition, Info),
