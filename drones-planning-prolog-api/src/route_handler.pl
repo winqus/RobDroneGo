@@ -36,18 +36,18 @@ get_route_handler(Request) :-
   % path_floors(Origin, Destination, Path, Connections),
   better_path_floors(Origin, Destination, Connections),
   format_connections(Connections, JsonConnections),
-  find_map_paths(Connections, MapPaths),
+  find_map_paths(Connections, OriginMapCellX, OriginMapCellY, DestinationMapCellX, DestinationMapCellY, MapPaths),
   JsonResponse = json{floors_paths: JsonConnections, map_paths: MapPaths},
   format('Content-type: application/json~n~n'),
   json_write(current_output, JsonResponse),
   write([OriginMapCellX,OriginMapCellY,DestinationMapCellX,DestinationMapCellY,MinimizeElevatorUses,MinimizeBuildingCount]).
 
-find_map_paths([], []).
-find_map_paths([Connection|Rest], [MapPath|MapPathsRest]) :-
-    process_connection(Connection, MapPath),
-    find_map_paths(Rest, MapPathsRest).
+find_map_paths([], _, _, _, _, []).
+find_map_paths([Connection|Rest], OriginCol, OriginRow, DestCol, DestRow, [MapPath|MapPathsRest]) :-
+    process_connection(Connection, OriginCol, OriginRow, DestCol, DestRow, MapPath),
+    find_map_paths(Rest, OriginCol, OriginRow, DestCol, DestRow, MapPathsRest).
 
-process_connection(Connection, MapPathJson) :-
+process_connection(Connection, OriginCol, OriginRow, DestCol, DestRow, MapPathJson) :-
   connection_floor_building(Connection, FromFloor, FromBuilding, ToFloor, ToBuilding),
   logic:load_map(FromFloor, FromBuilding),
   graph_creation_for_maze_diagonal:create_graph(26, 16),
@@ -62,22 +62,15 @@ connection_floor_building(Connection, FromFloor, FromBuilding, ToFloor, ToBuildi
   split_building_floor(From, FromBuilding, FromFloor),
   split_building_floor(To, ToBuilding, ToFloor).
 
-find_start_end(FromFloor, FromBuilding, ToFloor, ToBuilding, Start, End) :-
-  % Define Start based on FromFloor and FromBuilding
-  % You need to determine how to convert these into cell coordinates
-  % For simplicity, let's assume there's a predicate start_cell that does this
-  start_cell(FromFloor, FromBuilding, Start),
-  end_cell(ToFloor, ToBuilding, End).
+find_start_end(OriginMapCellCol, OriginMapCellRow, DestinationMapCellCol, DestinationMapCellRow, Start, End) :-
+  Start = cel(OriginMapCellCol, OriginMapCellRow),
+  End = cel(DestinationMapCellCol, DestinationMapCellRow).
 
 cel_to_json(cel(Col, Row), json{col: Col, row: Row}).
 
 format_path_json(Path, Cost, MapPathJson) :-
   maplist(cel_to_json, Path, JsonPath),
   MapPathJson = json{path: JsonPath, cost: Cost}.
-
-% Dummy predicates for start_cell and end_cell. Replace with actual logic
-start_cell(_, _, cel(1,1)). % Replace with actual logic
-end_cell(_, _, cel(10,10)). % Replace with actual logic
 
 % Helper predicate to format a single connection as a JSON-like term
 format_connection(elev(From, To), json{fromBuilding: FromBuilding, fromFloorNumber: FromFloor, toBuilding: ToBuilding, toFloorNumber: ToFloor, type:"elevator"}) :-
