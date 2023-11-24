@@ -2,6 +2,9 @@
 # dependencies
 /node_modules
 
+# public folder
+/public_folder
+
 # misc
 .DS_Store
 .env*

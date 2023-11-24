@@ -57,6 +57,9 @@ export default {
     prefix: '/api',
   },
 
+  publicFolder: process.env.BASE_FOLDER || '/public_folder',
+  base_dir: process.env.BASE_DIR || __dirname,
+
   controllers: {
     role: {
       name: 'RoleController',
@@ -89,6 +92,10 @@ export default {
     robot: {
       name: 'RobotController',
       path: '../controllers/robotController',
+    },
+    file: {
+      name: 'FileController',
+      path: '../controllers/fileController',
     },
   },
 
@@ -129,6 +136,10 @@ export default {
       name: 'RobotRepo',
       path: '../repos/robotRepo',
     },
+    file: {
+      name: 'FileRepo',
+      path: '../repos/fileRepo',
+    },
   },
 
   services: {
@@ -167,6 +178,10 @@ export default {
     robot: {
       name: 'RobotService',
       path: '../services/robotService',
+    },
+    file: {
+      name: 'FileService',
+      path: '../services/fileService',
     },
   },
 };

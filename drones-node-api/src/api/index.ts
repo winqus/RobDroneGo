@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import building from './routes/buildingRoute';
+import files from './routes/fileRoute';
 import floor from './routes/floorRoute';
 import passage from './routes/passageRoute';
 import robot from './routes/robotRoute';
@@ -20,6 +21,7 @@ export default () => {
   passage(app);
   robotType(app);
   robot(app);
+  files(app);
 
   return app;
 };
