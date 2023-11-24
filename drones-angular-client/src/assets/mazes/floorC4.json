@@ -33,7 +33,7 @@
     ],
     "exitLocations": {
       "passages": [{ "cellPosition": [8, 0] }, { "cellPosition": [9, 0] }],
-      "elevators": [{ "cellPosition": [15, 0] }, { "cellPosition": [16, 0] }]
+      "elevators": [{ "cellPosition": [16, 0] }, { "cellPosition": [17, 0] }]
     }
   }
 }
