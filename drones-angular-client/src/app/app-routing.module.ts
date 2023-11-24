@@ -30,6 +30,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { MbcoComponent } from './components/mbco/mbco.component';
 import { PassageListComponent } from './components/passage-list/passage-list.component';
 import { PathsBetweenBuildingsComponent } from './components/paths-between-buildings/paths-between-buildings.component';
+import { PublicFolderComponent } from './components/public-folder/public-folder.component';
 import { RecoveryStrategyComponent } from './components/recovery-strategy/recovery-strategy.component';
 import { RobotListComponent } from './components/robot-list/robot-list.component';
 import { SearchRobotComponent } from './components/search-robot/search-robot.component';
@@ -161,6 +162,10 @@ const routes: Routes = [
           { path: 'info', canActivate: [canActivateWithRole([UserRole.User])], component: AboutUsComponent },
 
           { path: 'gdpr', canActivate: [canActivateWithRole([UserRole.User])], component: GdprComponent },
+          {
+            path: 'folder',
+            children: [{ path: '', component: PublicFolderComponent }],
+          },
         ],
       },
 

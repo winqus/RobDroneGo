@@ -28,6 +28,7 @@ import { EditPassageComponent } from './components/edit-passage/edit-passage.com
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
+import { FloorsServedByElevatorListComponent } from './components/floors-served-by-elevator-list/floors-served-by-elevator-list.component';
 import { FloorsToDifBuildsComponent } from './components/floors-to-dif-builds/floors-to-dif-builds.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormErrorListComponent } from './components/form-error-list/form-error-list.component';
@@ -38,6 +39,7 @@ import { MbcoComponent } from './components/mbco/mbco.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { PassageListComponent } from './components/passage-list/passage-list.component';
 import { PathsBetweenBuildingsComponent } from './components/paths-between-buildings/paths-between-buildings.component';
+import { PublicFolderComponent } from './components/public-folder/public-folder.component';
 import { RecoveryStrategyComponent } from './components/recovery-strategy/recovery-strategy.component';
 import { RecursiveMenuDropdownComponent } from './components/recursive-menu-dropdown/recursive-menu-dropdown.component';
 import { RobotListComponent } from './components/robot-list/robot-list.component';
@@ -54,7 +56,6 @@ import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.comp
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
-import { FloorsServedByElevatorListComponent } from './components/floors-served-by-elevator-list/floors-served-by-elevator-list.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -114,6 +115,7 @@ export const initAuthorizationProvider = {
     RecoveryStrategyComponent,
     PathsBetweenBuildingsComponent,
     FloorsServedByElevatorListComponent,
+    PublicFolderComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [

@@ -316,6 +316,10 @@
             {
               "label": "How we use your data",
               "href": "about/gdpr"
+            },
+            {
+              "label": "Public Folder",
+              "href": "about/folder"
             }
           ]
         }
