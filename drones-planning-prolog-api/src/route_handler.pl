@@ -104,13 +104,18 @@ printConnections([H|T]) :-
   format('~w~n', [H]),
   printConnections(T).
 
+
+
 find_map_paths([], _, _, _, _, []).
+% fails to process connection destination part (elevator or passage), e.g. elev('A::1', 'A::2') - fails to process (do path finding on) 'A::2'
+% Something like NextFloor should be added to process_connection predicate perhaps
 find_map_paths([Connection|Rest], OriginCol, OriginRow, DestCol, DestRow, [MapPath|MapPathsRest]) :-
       log_message('find_map_paths with data [Connection, Rest, OriginCol, OriginRow, DestCol, DestRow]:'),
       log_message_ln([Connection, Rest, OriginCol, OriginRow, DestCol, DestRow]),
       log_message_ln('calling process_connection'),
   process_connection(Connection, OriginCol, OriginRow, IntermediateCol, IntermediateRow, MapPath),
       log_message_ln('finished process_connection'),
+      % Check if there is a next segment in the path and set the next origin accordingly
   (Rest = [] -> 
       NextOriginCol = DestCol, NextOriginRow = DestRow,
           log_message_ln('Rest is empty')

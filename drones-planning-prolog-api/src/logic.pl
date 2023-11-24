@@ -221,7 +221,9 @@ load_passage_exit(Info):-
   member(buildingCode=BuildingCode, DestinationValue),
   member(floorNumber=FloorNumber, DestinationValue),
   [Row,Column] = CellPosition,
-  assertz(passage(Column,Row,BuildingCode,FloorNumber)).
+  NewRow is Row + 1, % algorithm is 1 based, but map is 0 based
+  NewColumn is Column + 1, % algorithm is 1 based, but map is 0 based
+  assertz(passage(NewColumn,NewRow,BuildingCode,FloorNumber)).
 
 load_all_elevator_exit([]).
 load_all_elevator_exit([Json|Elevators]):-
@@ -234,8 +236,8 @@ load_all_elevator_exit([Json|Elevators]):-
 load_elevator_exit(Info):-
   member(cellPosition=CellPosition, Info),
   [Row,Column] = CellPosition,
-  assertz(elevator_pos(Column,Row)).
-
-
+  NewRow is Row + 1, % algorithm is 1 based, but map is 0 based
+  NewColumn is Column + 1, % algorithm is 1 based, but map is 0 based
+  assertz(elevator_pos(NewColumn,NewRow)).
 
 
