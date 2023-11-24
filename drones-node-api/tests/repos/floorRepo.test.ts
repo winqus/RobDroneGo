@@ -16,7 +16,7 @@ describe('FloorRepo', () => {
     } as unknown) as jest.Mocked<Model<Document>>;
     Container.set('floorSchema', floorSchemaMock);
 
-    floorRepo = new FloorRepo(floorSchemaMock as any);
+    floorRepo = new FloorRepo(floorSchemaMock as any, null as any);
 
     floorStub = {
       id: new UniqueEntityID(),

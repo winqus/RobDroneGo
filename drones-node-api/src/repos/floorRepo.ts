@@ -5,12 +5,16 @@ import { FloorMap } from '../mappers/FloorMap';
 import { Document, FilterQuery, Model } from 'mongoose';
 import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { IFloorPersistence } from '../dataschema/IFloorPersistence';
+import { IRoomPersistence } from '../dataschema/IRoomPersistence';
 import { Floor } from '../domain/Floor/floor';
 import IFloorRepo from '../services/IRepos/IFloorRepo';
 
 @Service()
 export default class FloorRepo implements IFloorRepo {
-  constructor(@Inject('floorSchema') private floorSchema: Model<IFloorPersistence & Document>) {}
+  constructor(
+    @Inject('floorSchema') private floorSchema: Model<IFloorPersistence & Document>,
+    @Inject('roomSchema') private roomSchema: Model<IRoomPersistence & Document>,
+  ) {}
 
   public async exists(floor: Floor): Promise<boolean> {
     const idX = floor.id instanceof UniqueEntityID ? (<UniqueEntityID>floor.id).toValue() : floor.id;
@@ -103,5 +107,29 @@ export default class FloorRepo implements IFloorRepo {
     const floorRecords = await this.floorSchema.find({});
 
     return floorRecords.map((record) => FloorMap.toDomain(record).getValue());
+  }
+
+  public async getFloorOfRoom(roomName: string): Promise<Floor | null> {
+    try {
+      const roomQuery = { name: roomName };
+      const roomDocument = await this.roomSchema.findOne(roomQuery);
+
+      if (roomDocument) {
+        const floorID = roomDocument.floorId;
+
+        const floorQuery = { id: floorID };
+        const floorDocument = await this.floorSchema.findOne(floorQuery);
+
+        if (floorDocument) {
+          const floorResult = FloorMap.toDomain(floorDocument);
+
+          return floorResult.isSuccess ? floorResult.getValue() : null;
+        }
+      }
+    } catch (error) {
+      console.error(`Error in getFloorOfRoom: ${error.message}`);
+    }
+
+    return null;
   }
 }

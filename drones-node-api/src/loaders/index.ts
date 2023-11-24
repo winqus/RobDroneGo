@@ -196,6 +196,16 @@ export default async ({ expressApp }) => {
     path: config.repos.file.path,
   };
 
+  const planningService = {
+    name: config.services.planning.name,
+    path: config.services.planning.path,
+  };
+
+  const planningController = {
+    name: config.controllers.planning.name,
+    path: config.controllers.planning.path,
+  };
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
@@ -217,6 +227,7 @@ export default async ({ expressApp }) => {
       robotTypeController,
       robotController,
       roomController,
+      planningController,
       fileController,
     ],
     repos: [
@@ -241,6 +252,7 @@ export default async ({ expressApp }) => {
       elevatorService,
       roomService,
       robotService,
+      planningService,
       fileService,
     ],
   });
