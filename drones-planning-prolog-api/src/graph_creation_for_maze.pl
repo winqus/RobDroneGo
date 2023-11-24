@@ -1,4 +1,6 @@
-:- module(graph_creation_for_maze, [create_graph/2, connectCell/2]).
+:- module(graph_creation_for_maze, [create_graph/2, connectCell/2, remove_graph/0]).
+
+:- use_module(logic).
 /* 
 Cell value 0 means that cell is passable.
 Cell value 1 means there's a wall on the west side of that cell, meaning that one can move to that cell from 
@@ -46,29 +48,31 @@ Cell value 11 means there's an elevator entrance facing the east and is entered 
 % create_graph(4,4).
 
 % m(col, row, value)
-m(1,1,3).
-m(2,1,2).
-m(3,1,6).
-m(4,1,0).
+% m(1,1,3).
+% m(2,1,2).
+% m(3,1,6).
+% m(4,1,0).
 
-m(1,2,1).
-m(2,2,0).
-m(3,2,0).
-m(4,2,1).
+% m(1,2,1).
+% m(2,2,0).
+% m(3,2,0).
+% m(4,2,1).
 
-m(1,3,7).
-m(2,3,0).
-m(3,3,0).
-m(4,3,7).
+% m(1,3,7).
+% m(2,3,0).
+% m(3,3,0).
+% m(4,3,7).
 
-m(1,4,2).
-m(2,4,6).
-m(3,4,2).
-m(4,4,0).
+% m(1,4,2).
+% m(2,4,6).
+% m(3,4,2).
+% m(4,4,0).
 
 
 :-dynamic connectCell/2.
 
+remove_graph() :-
+  retractall(connectCell(_, _)).
 
 % Base case for recursion: do nothing when Row is 0
 create_graph(_, 0) :- !.

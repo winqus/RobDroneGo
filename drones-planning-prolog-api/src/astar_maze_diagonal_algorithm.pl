@@ -7,15 +7,26 @@
 % aStar(cel(1, 1), cel(4, 4), Path, Cost), writeln(Path). % quick
 % aStar(cel(3, 2), cel(2, 3), Path, Cost), writeln(Path).
 
+:- dynamic cached_estimate/3.
 
-% Estimate function (Euclidean distance, supports diagonal)
+clear_estimate_cache :-
+	retractall(cached_estimate(_, _, _)).
+
+% Estimate function (Euclidean distance, supports diagonal) with caching
 estimate(cel(Col1, Row1), cel(Col2, Row2), Estimate) :-
-	DCol is Col1 - Col2,
-	DRow is Row1 - Row2,
-	Estimate is sqrt(DCol * DCol + DRow * DRow).
+    % Check if the estimate is already cached
+    (  cached_estimate(cel(Col1, Row1), cel(Col2, Row2), CachedEstimate)
+    -> Estimate = CachedEstimate  % Use cached value
+    ;  % Else compute and cache the estimate
+       DCol is Col1 - Col2,
+       DRow is Row1 - Row2,
+       Estimate is sqrt(DCol * DCol + DRow * DRow),
+       assertz(cached_estimate(cel(Col1, Row1), cel(Col2, Row2), Estimate))
+    ).
 
 % A* Algorithm Implementation
 aStar(Start, End, Path, Cost) :-
+	clear_estimate_cache,
 	aStar2(End, [(_, 0, [Start])], Path, Cost).
 
 aStar2(End, [(_, Cost, [End | T]) | _], Path, Cost) :-
