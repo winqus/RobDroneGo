@@ -39,6 +39,10 @@
                 {
                   "label": "Create",
                   "href": "/campus/floor/create"
+                },
+                {
+                  "label": "Served by Elevator",
+                  "href": "/campus/floor/served-by-elevator"
                 }
               ]
             },

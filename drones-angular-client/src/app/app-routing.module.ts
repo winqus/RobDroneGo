@@ -22,6 +22,7 @@ import { EditPassageComponent } from './components/edit-passage/edit-passage.com
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
+import { FloorsServedByElevatorListComponent } from './components/floors-served-by-elevator-list/floors-served-by-elevator-list.component';
 import { FloorsToDifBuildsComponent } from './components/floors-to-dif-builds/floors-to-dif-builds.component';
 import { GdprComponent } from './components/gdpr/gdpr.component';
 import { LoginComponent } from './components/login/login.component';
@@ -80,6 +81,7 @@ const routes: Routes = [
             children: [
               { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
               { path: 'create', component: CreateFloorComponent },
+              { path: 'served-by-elevator', component: FloorsServedByElevatorListComponent },
             ],
           },
           {
