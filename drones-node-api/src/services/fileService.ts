@@ -31,7 +31,7 @@ export default class FileService implements IFileService {
     if (filesNames) {
       const files = [];
       filesNames.forEach((file) => {
-        files.push({ name: file, path: config.api.prefix + '/folder/download/' + file });
+        files.push({ name: file, path: '/folder/download/' + file });
       });
 
       return Result.ok<object[]>(files);
