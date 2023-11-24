@@ -12,7 +12,7 @@
 
 :- http_handler('/planning-api/route', get_route_handler, []).
 
-:- http_handler('/planning-api/test', get_route_test_handler, []).
+:- http_handler('/planning-api/test', get_test_handler, []).
 :- http_handler('/planning-api/', get_test_handler, []).
 :- http_handler('/', get_test_handler, []).
 
@@ -27,32 +27,68 @@ get_route_handler(Request) :-
       destination_floor_number(DestinationFloorNumber, []),
       destination_map_cell_x(DestinationMapCellX, []),
       destination_map_cell_y(DestinationMapCellY, []),
-      minimize_elevator_uses(MinimizeElevatorUses, []),
-      minimize_building_count(MinimizeBuildingCount, [])
+      minimize_elevator_uses(_, []), % MinimizeElevatorUses
+      minimize_building_count(_, []) % MinimizeBuildingCount
     ]),
   logic:load_info(), % GETs building, floor, elevator, passage info from backend API
-  format(atom(Origin), '~w::~w', [OriginBuildingCode, OriginFloorNumber]),
-  format(atom(Destination), '~w::~w', [DestinationBuildingCode, DestinationFloorNumber]),
-  % path_floors(Origin, Destination, Path, Connections),
-  better_path_floors(Origin, Destination, Connections),
-  format_connections(Connections, JsonConnections),
-  find_map_paths(Connections, OriginMapCellX, OriginMapCellY, DestinationMapCellX, DestinationMapCellY, MapPaths),
-  JsonResponse = json{floors_paths: JsonConnections, map_paths: MapPaths},
+  format(atom(Origin), '~w::~w', [OriginBuildingCode, OriginFloorNumber]), % Format origin as Building::FloorFloorNumber
+  format(atom(Destination), '~w::~w', [DestinationBuildingCode, DestinationFloorNumber]), % Format destination as Building::FloorNumber
+  % path_floors(Origin, Destination, Path, Connections),  
+  (OriginBuildingCode = DestinationBuildingCode, OriginFloorNumber = DestinationFloorNumber ->
+    % If origin and destination are on the same floor
+    same_floor_path(OriginFloorNumber, OriginBuildingCode, OriginMapCellX, OriginMapCellY, DestinationMapCellX, DestinationMapCellY, SameFloorPath),
+    JsonResponse = json{floors_paths: [], map_paths: [SameFloorPath]}
+    ;
+    % Different floors
+    better_path_floors(Origin, Destination, Connections),
+    format_connections(Connections, JsonConnections),
+    find_map_paths(Connections, OriginMapCellX, OriginMapCellY, DestinationMapCellX, DestinationMapCellY, MapPaths),
+    JsonResponse = json{floors_paths: JsonConnections, map_paths: MapPaths}
+  ),
   format('Content-type: application/json~n~n'),
-  json_write(current_output, JsonResponse),
-  write([OriginMapCellX,OriginMapCellY,DestinationMapCellX,DestinationMapCellY,MinimizeElevatorUses,MinimizeBuildingCount]).
+  json_write(current_output, JsonResponse).
+
+same_floor_path(OriginFloorNumber, OriginBuildingCode, OriginCol, OriginRow, DestCol, DestRow, MapPathJson) :-
+  logic:load_map(OriginFloorNumber, OriginBuildingCode),
+  graph_creation_for_maze_diagonal:create_graph(26, 16),
+  Start = cel(OriginCol, OriginRow),
+  End = cel(DestCol, DestRow),
+  astar_maze_diagonal_algorithm:aStar(Start, End, Path, Cost),
+  graph_creation_for_maze_diagonal:remove_graph(),
+  format_path_json(Path, Cost, MapPathJson).
+
+printConnections([]).
+printConnections([H|T]) :-
+  format('~w~n', [H]),
+  printConnections(T).
 
 find_map_paths([], _, _, _, _, []).
 find_map_paths([Connection|Rest], OriginCol, OriginRow, DestCol, DestRow, [MapPath|MapPathsRest]) :-
-    process_connection(Connection, OriginCol, OriginRow, DestCol, DestRow, MapPath),
-    find_map_paths(Rest, OriginCol, OriginRow, DestCol, DestRow, MapPathsRest).
+  process_connection(Connection, OriginCol, OriginRow, IntermediateCol, IntermediateRow, MapPath),
+  (Rest = [] -> 
+      NextOriginCol = DestCol, NextOriginRow = DestRow 
+  ; 
+      NextOriginCol = IntermediateCol, NextOriginRow = IntermediateRow
+  ),
+  find_map_paths(Rest, NextOriginCol, NextOriginRow, DestCol, DestRow, MapPathsRest).
 
 process_connection(Connection, OriginCol, OriginRow, DestCol, DestRow, MapPathJson) :-
   connection_floor_building(Connection, FromFloor, FromBuilding, ToFloor, ToBuilding),
   logic:load_map(FromFloor, FromBuilding),
   graph_creation_for_maze_diagonal:create_graph(26, 16),
-  find_start_end(FromFloor, FromBuilding, ToFloor, ToBuilding, Start, End),
-  astar_maze_diagonal_algorithm:aStar(Start, End, Path, Cost),
+
+  % Set StartCel based on the current connection type
+  (Connection = elev(_, _) ->
+      StartCel = cel(OriginCol, OriginRow),
+      logic:elevator_pos(DestCol, DestRow)
+  ; Connection = cor(_, _) ->
+      StartCel = cel(OriginCol, OriginRow),
+      logic:passage(DestCol, DestRow, ToBuilding, ToFloor)
+  ),
+
+  EndCel = cel(DestCol, DestRow),
+
+  astar_maze_diagonal_algorithm:aStar(StartCel, EndCel, Path, Cost),
   graph_creation_for_maze_diagonal:remove_graph(),
   format_path_json(Path, Cost, MapPathJson).
 
