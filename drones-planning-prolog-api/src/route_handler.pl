@@ -43,21 +43,25 @@ get_route_handler(Request) :-
   % Convert parameters to atoms
   atom_string(OriginBuildingCode, OriginBuildingCode_Raw),
   atom_number(OriginFloorNumber_Raw, OriginFloorNumber),
-  atom_number(OriginMapCellX_Raw, OriginMapCellX),
-  atom_number(OriginMapCellY_Raw, OriginMapCellY),
+  atom_number(OriginMapCellX_Raw, TempOriginMapCellX),
+  OriginMapCellX is TempOriginMapCellX + 1,
+  atom_number(OriginMapCellY_Raw, TempOriginMapCellY),
+  OriginMapCellY is TempOriginMapCellY + 1,
   atom_string(DestinationBuildingCode, DestinationBuildingCode_Raw),
   atom_number(DestinationFloorNumber_Raw, DestinationFloorNumber),
-  atom_number(DestinationMapCellX_Raw, DestinationMapCellX),
-  atom_number(DestinationMapCellY_Raw, DestinationMapCellY),
+  atom_number(DestinationMapCellX_Raw, TempDestinationMapCellX),
+  DestinationMapCellX is TempDestinationMapCellX + 1,
+  atom_number(DestinationMapCellY_Raw, TempDestinationMapCellY),
+  DestinationMapCellY is TempDestinationMapCellY + 1,
       log_message_ln([OriginBuildingCode, OriginFloorNumber, OriginMapCellX, OriginMapCellY, DestinationBuildingCode, DestinationFloorNumber, DestinationMapCellX, DestinationMapCellY]),
   logic:load_info(), % GETs building, floor, elevator, passage info from backend API
       log_message('loaded info;'),
   format(atom(Origin), '~w::~w', [OriginBuildingCode, OriginFloorNumber]), % Format origin as Building::FloorFloorNumber
   format(atom(Destination), '~w::~w', [DestinationBuildingCode, DestinationFloorNumber]), % Format destination as Building::FloorNumber
   
-  % This block of code is temporary until the path finding algorithms is fixed (either graph_creation_for_maze_diagonal or astar_maze_diagonal_algorithm)
-  % There are cases when aStar gets stuck and doesn't return anything, problem might be in graph creation (how Cost or perhaps other values are asigned, as it seems
-  % the algorithm struggles on walking on cells like '1') 
+  %%% This block of code is temporary until the path finding algorithms is fixed (either graph_creation_for_maze_diagonal or astar_maze_diagonal_algorithm)
+  %%% There are cases when aStar gets stuck and doesn't return anything, problem might be in graph creation (how Cost or perhaps other values are asigned, as it seems
+  %%% the algorithm struggles on walking on cells like '1') 
   better_path_floors(Origin, Destination, Connections), % temporary
   format_connections(Connections, JsonConnections), % temporary
   JsonResponse = json{floors_paths: JsonConnections, map_paths: []}, % temporary
@@ -65,7 +69,7 @@ get_route_handler(Request) :-
   json_write(current_output, JsonResponse),   % temporary
       log_message_ln('finished with JsonResponse'). % temporary
 
-  % UNCOMMENT WHEN PATH FINDING IS FIXED
+  %%% UNCOMMENT WHEN PATH FINDING IS FIXED
   % (OriginBuildingCode = DestinationBuildingCode, OriginFloorNumber = DestinationFloorNumber ->
   %   % If origin and destination are on the same floor
   %   same_floor_path(OriginFloorNumber, OriginBuildingCode, OriginMapCellX, OriginMapCellY, DestinationMapCellX, DestinationMapCellY, SameFloorPath),
