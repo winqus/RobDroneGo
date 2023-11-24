@@ -1,3 +1,5 @@
+:- include('../config.pl').
+
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_log)).
@@ -5,6 +7,11 @@
 :- use_module('route_handler').
 
 :- debug(http(request)).
+
+start :-
+    port(Port),
+    format('Starting server on port ~d~n', [Port]),
+    start_server(Port).
 
 start_server(Port) :-
     http_server(http_dispatch, [port(Port)]).
@@ -31,7 +38,3 @@ handle_message(stop_server, Port) :-
 handle_message(Message) :-
     % Add handling for other messages as needed
     writeln('Received unknown message: '), writeln(Message).
-
-start :-
-    start_server(4400),
-    write_ln('Starting server...').
