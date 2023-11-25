@@ -1,4 +1,5 @@
 # Planning Prolog API
+
 ### Running the API
 1. Install SWI-Prolog
 2. Run the following command in the terminal (adjust the port number if needed):
