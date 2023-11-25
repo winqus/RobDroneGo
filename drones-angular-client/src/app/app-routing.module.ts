@@ -35,6 +35,7 @@ import { RecoveryStrategyComponent } from './components/recovery-strategy/recove
 import { RobotListComponent } from './components/robot-list/robot-list.component';
 import { SearchRobotComponent } from './components/search-robot/search-robot.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { UploadMapComponent } from './components/upload-map/upload-map.component';
 import { canActivateChildWithAuth, canActivateChildWithRole, canActivateWithAuth, canActivateWithRole } from './core/authentication/guards/auth.guard';
 import { UserRole } from './core/authentication/models/user-roles.enum';
 import { EmptyLayoutComponent } from './core/layouts/empty-layout/empty-layout.component';
@@ -111,6 +112,16 @@ const routes: Routes = [
               { path: 'create', component: CreateElevatorComponent },
               { path: 'edit', component: EditElevatorComponent },
             ],
+          },
+          {
+            path: 'map',
+            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
+            children: [{ path: 'upload', component: UploadMapComponent }],
+          },
+          {
+            path: 'map',
+            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
+            children: [{ path: 'upload', component: UploadMapComponent }],
           },
           // ... other campus-related routes here
         ],

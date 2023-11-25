@@ -86,7 +86,13 @@
             },
             {
               "label": "Map",
-              "href": "/campus/map"
+              "href": "/campus/map",
+              "dropdownLinks": [
+                {
+                  "label": "Upload",
+                  "href": "/campus/map/upload"
+                }
+              ]
             },
             {
               "label": "Don't look",

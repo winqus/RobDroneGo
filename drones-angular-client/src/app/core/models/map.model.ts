@@ -4,13 +4,8 @@ export default interface Map {
     height: number;
   };
   map: number[][];
-  // passages: PassageCell[];
+  exitLocations?: {
+    passages: { cellPosition: [number, number]; destination: { buildingCode: string; floorNumber: number } }[];
+    elevators: { cellPosition: [number, number] }[];
+  };
 }
-
-// export interface PassageCell {
-//     cellPosition: [number, number];
-//     destination: {
-//         buildingCode: string;
-//         floorNumber: number;
-//     };
-// }

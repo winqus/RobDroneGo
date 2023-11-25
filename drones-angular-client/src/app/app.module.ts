@@ -46,6 +46,7 @@ import { RobotListComponent } from './components/robot-list/robot-list.component
 import { SearchRobotComponent } from './components/search-robot/search-robot.component';
 import { SuccessFormMessageComponent } from './components/shared/success-form-message/success-form-message.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { UploadMapComponent } from './components/upload-map/upload-map.component';
 import { JwtService } from './core/authentication/services/jwt.service';
 import { UserService } from './core/authentication/services/user.service';
 import { jwtInterceptorProvider } from './core/interceptors/jwt.interceptor';
@@ -116,6 +117,7 @@ export const initAuthorizationProvider = {
     PathsBetweenBuildingsComponent,
     FloorsServedByElevatorListComponent,
     PublicFolderComponent,
+    UploadMapComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [
