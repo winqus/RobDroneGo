@@ -13,7 +13,6 @@ or in Prolog:
 `?- start_server(4400).`
 3. The API should be running on port 4400.
 
-
 ### API Endpoints
 - GET /planning-api/route (with query parameters, see example below)
 
