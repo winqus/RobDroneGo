@@ -181,6 +181,31 @@ export default async ({ expressApp }) => {
     path: config.services.robot.path,
   };
 
+  const fileController = {
+    name: config.controllers.file.name,
+    path: config.controllers.file.path,
+  };
+
+  const fileService = {
+    name: config.services.file.name,
+    path: config.services.file.path,
+  };
+
+  const fileRepo = {
+    name: config.repos.file.name,
+    path: config.repos.file.path,
+  };
+
+  const planningService = {
+    name: config.services.planning.name,
+    path: config.services.planning.path,
+  };
+
+  const planningController = {
+    name: config.controllers.planning.name,
+    path: config.controllers.planning.path,
+  };
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
@@ -202,8 +227,21 @@ export default async ({ expressApp }) => {
       robotTypeController,
       robotController,
       roomController,
+      planningController,
+      fileController,
     ],
-    repos: [roleRepo, userRepo, buildingRepo, floorRepo, passageRepo, taskTypeRepo, robotTypeRepo, robotRepo, roomRepo],
+    repos: [
+      roleRepo,
+      userRepo,
+      buildingRepo,
+      floorRepo,
+      passageRepo,
+      taskTypeRepo,
+      robotTypeRepo,
+      robotRepo,
+      roomRepo,
+      fileRepo,
+    ],
     services: [
       roleService,
       buildingService,
@@ -214,6 +252,8 @@ export default async ({ expressApp }) => {
       elevatorService,
       roomService,
       robotService,
+      planningService,
+      fileService,
     ],
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

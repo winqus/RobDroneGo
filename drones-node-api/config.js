@@ -1,9 +1,9 @@
 import dotenv from 'dotenv';
 
 // Set the NODE_ENV to 'development' by default
+const envFound = dotenv.config();
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-const envFound = dotenv.config();
 if (!envFound /* || envFound?.error */) {
   // This error should crash whole process (should uncomment envFound?.error), disabled for pipelines for now
   throw new Error("⚠️  Couldn't find .env file  ⚠️");
@@ -57,6 +57,15 @@ export default {
     prefix: '/api',
   },
 
+  publicFolder: process.env.BASE_FOLDER || '/public_folder',
+  base_dir: process.env.BASE_DIR || __dirname,
+
+  planningAPI: {
+    hostname: process.env.PLANNING_API_HOSTNAME || '127.0.0.1',
+    port: process.env.PLANNING_API_PORT || 4400,
+    basePath: process.env.PLANNING_API_BASE_PATH || '/planning-api',
+  },
+
   controllers: {
     role: {
       name: 'RoleController',
@@ -89,6 +98,14 @@ export default {
     robot: {
       name: 'RobotController',
       path: '../controllers/robotController',
+    },
+    file: {
+      name: 'FileController',
+      path: '../controllers/fileController',
+    },
+    planning: {
+      name: 'PlanningController',
+      path: '../controllers/planningController',
     },
   },
 
@@ -129,6 +146,10 @@ export default {
       name: 'RobotRepo',
       path: '../repos/robotRepo',
     },
+    file: {
+      name: 'FileRepo',
+      path: '../repos/fileRepo',
+    },
   },
 
   services: {
@@ -167,6 +188,14 @@ export default {
     robot: {
       name: 'RobotService',
       path: '../services/robotService',
+    },
+    file: {
+      name: 'FileService',
+      path: '../services/fileService',
+    },
+    planning: {
+      name: 'PlanningService',
+      path: '../services/planningService',
     },
   },
 };

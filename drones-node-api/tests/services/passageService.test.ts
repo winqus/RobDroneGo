@@ -201,14 +201,15 @@ describe('PassageService', () => {
     });
 
     it('should successfully update a passage', async () => {
-      passageRepoMock.findByCodes.mockResolvedValue(oldPassageStub as any);
+      passageRepoMock.findByCodes.mockResolvedValueOnce(oldPassageStub as any);
+      passageRepoMock.findByCodes.mockResolvedValueOnce(null as any);
       floorRepoMock.findByCode.mockResolvedValue({} as any);
       passageRepoMock.save.mockResolvedValue(oldPassageStub as any);
 
       const result = await passageService.updatePassage(oldPassageDTO, newPassageDTO);
 
       expect(result.isSuccess).toBe(true);
-      expect(passageRepoMock.findByCodes).toHaveBeenCalledTimes(1);
+      expect(passageRepoMock.findByCodes).toHaveBeenCalledTimes(2);
       expect(floorRepoMock.findByCode).toHaveBeenCalledWith('BC', 3);
       expect(floorRepoMock.findByCode).toHaveBeenCalledWith('BD', 3);
       expect(passageRepoMock.save).toHaveBeenCalledWith(newPassageStub);

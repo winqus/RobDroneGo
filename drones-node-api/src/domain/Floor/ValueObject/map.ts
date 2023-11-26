@@ -2,10 +2,16 @@ import { ValueObject } from '../../../core/domain/ValueObject';
 
 import { Guard } from '../../../core/logic/Guard';
 import { Result } from '../../../core/logic/Result';
+import { ElevatorExit } from './elevatorExit';
+import { PassageExit } from './passageExit';
 
 interface MapProps {
   size: { width: number; height: number };
   map: number[][];
+  exitLocations?: {
+    passages: PassageExit[];
+    elevators: ElevatorExit[];
+  };
 }
 
 export class Map extends ValueObject<MapProps> {
@@ -21,11 +27,23 @@ export class Map extends ValueObject<MapProps> {
     return this.props.map;
   }
 
+  get exitLocations(): { passages: PassageExit[]; elevators: ElevatorExit[] } | undefined {
+    return this.props.exitLocations;
+  }
+
   private constructor(props: MapProps) {
     super(props);
   }
 
-  public static create(width: number, height: number, map: number[][]): Result<Map> {
+  public static create(
+    width: number,
+    height: number,
+    map: number[][],
+    exitLocations?: {
+      passages: PassageExit[];
+      elevators: ElevatorExit[];
+    },
+  ): Result<Map> {
     const guardResult = Guard.combine([
       Guard.isInteger(width, 'width'),
       Guard.isInteger(height, 'height'),
@@ -38,7 +56,7 @@ export class Map extends ValueObject<MapProps> {
     if (!guardResult.succeeded) {
       return Result.fail<Map>(guardResult.message);
     } else {
-      return Result.ok<Map>(new Map({ size: { width, height }, map }));
+      return Result.ok<Map>(new Map({ size: { width, height }, map, exitLocations }));
     }
   }
 }

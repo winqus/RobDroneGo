@@ -7,6 +7,10 @@ import IFloorRepo from '../../services/IRepos/IFloorRepo';
 
 @Service()
 export default class FakeFloorRepo implements IFloorRepo {
+  getFloorOfRoom(roomName: string): Promise<Floor> {
+    throw new Error('Method not implemented.');
+  }
+
   public async findAllFloors(): Promise<Floor[]> {
     return this._items;
   }

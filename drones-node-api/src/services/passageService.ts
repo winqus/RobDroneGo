@@ -144,6 +144,11 @@ export default class PassageService implements IPassageService {
         return Result.fail<IPassageDTO>('Passage does not exist');
       }
 
+      const newPassage = await this.passageRepo.findByCodes(PassageMap.toDomain(newPassageDTO).getValue());
+      if (newPassage !== null) {
+        return Result.fail<IPassageDTO>('Passage already exist');
+      }
+
       passage.buildingCode1 = Code.create(newPassageDTO.buildingCode1).getValue();
       passage.buildingCode2 = Code.create(newPassageDTO.buildingCode2).getValue();
       passage.floorNumber1 = newPassageDTO.floorNumber1;

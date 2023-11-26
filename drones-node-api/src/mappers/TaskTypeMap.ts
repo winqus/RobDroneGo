@@ -1,5 +1,6 @@
 import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { Mapper } from '../core/infra/Mapper';
+import { ITaskTypePersistence } from '../dataschema/ITaskTypePersistence';
 import { TaskType } from '../domain/TaskType/taskType';
 import { Types } from '../domain/TaskType/type';
 import ITaskTypeDTO from '../dto/ITaskTypeDTO';
@@ -28,7 +29,7 @@ export class TaskTypeMap extends Mapper<TaskType> {
     return taskTypeOrError.isSuccess ? taskTypeOrError.getValue() : null;
   }
 
-  public static toPersistence(taskType: TaskType): any {
+  public static toPersistence(taskType: TaskType): ITaskTypePersistence {
     const typeString: string = Types[taskType.type];
 
     return {

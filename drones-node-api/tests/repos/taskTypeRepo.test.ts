@@ -1,6 +1,7 @@
 import { mock, MockProxy } from 'jest-mock-extended';
 import { Document, Model } from 'mongoose';
 import { UniqueEntityID } from '../../src/core/domain/UniqueEntityID';
+import { ITaskTypePersistence } from '../../src/dataschema/ITaskTypePersistence';
 import { TaskType } from '../../src/domain/TaskType/taskType';
 import { Types } from '../../src/domain/TaskType/type';
 import { TaskTypeMap } from '../../src/mappers/TaskTypeMap';
@@ -8,10 +9,11 @@ import TaskTypeRepo from '../../src/repos/taskTypeRepo';
 
 describe('TaskTypeRepo', () => {
   let taskTypeRepo: TaskTypeRepo;
-  let taskTypeSchemaMock: MockProxy<Model<any & Document>> & Model<any & Document>;
+  type TaskTypeDocument = ITaskTypePersistence & Document;
+  let taskTypeSchemaMock: MockProxy<Model<TaskTypeDocument>> & Model<TaskTypeDocument>;
 
   beforeEach(() => {
-    taskTypeSchemaMock = mock<Model<any & Document>>();
+    taskTypeSchemaMock = mock<Model<TaskTypeDocument>>();
     taskTypeSchemaMock.findOne.mockResolvedValue(null as any);
     taskTypeRepo = new TaskTypeRepo(taskTypeSchemaMock);
   });
@@ -34,11 +36,10 @@ describe('TaskTypeRepo', () => {
   it('should update a task type', async () => {
     // Arrange
     const taskType = TaskType.create({ type: Types.PickUpAndDelivery }).getValue();
-    const taskTypePersistence = TaskTypeMap.toPersistence(taskType);
+    const taskTypePersistence = TaskTypeMap.toPersistence(taskType) as TaskTypeDocument;
 
     taskTypeSchemaMock.findOne.mockResolvedValueOnce(taskTypePersistence as any);
-    const saveMock = jest.fn().mockResolvedValueOnce({ nModified: 1 });
-    taskTypePersistence.save = saveMock;
+    taskTypePersistence.save = jest.fn().mockResolvedValueOnce({ nModified: 1 });
 
     // Act
     const result = await taskTypeRepo.save(taskType);
@@ -46,7 +47,7 @@ describe('TaskTypeRepo', () => {
     // Assert
     expect(result).toEqual(taskType);
     expect(taskTypeSchemaMock.findOne).toBeCalledWith({ id: taskType.id.toString() });
-    expect(saveMock).toBeCalled();
+    expect(taskTypePersistence.save).toBeCalled();
   });
 
   it('should find a task type by id', async () => {

@@ -2,6 +2,7 @@ import { Container } from 'typedi';
 import config from '../../config';
 import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { Mapper } from '../core/infra/Mapper';
+import { IRobotTypePersistence } from '../dataschema/IRobotTypePersistence';
 import { Brand } from '../domain/RobotType/ValueObjects/brand';
 import { Model } from '../domain/RobotType/ValueObjects/model';
 import { Name } from '../domain/RobotType/ValueObjects/name';
@@ -42,7 +43,7 @@ export class RobotTypeMap extends Mapper<RobotType> {
     return robotTypeOrError.isSuccess ? robotTypeOrError.getValue() : null;
   }
 
-  public static toPersistence(robotType: RobotType): any {
+  public static toPersistence(robotType: RobotType): IRobotTypePersistence {
     return {
       id: robotType.id.toString(),
       name: robotType.name.value,

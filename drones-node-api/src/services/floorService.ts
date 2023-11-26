@@ -1,7 +1,9 @@
 import { Inject, Service } from 'typedi';
 import config from '../../config';
 import { Result } from '../core/logic/Result';
+import { ElevatorExit } from '../domain/Floor/ValueObject/elevatorExit';
 import { Map } from '../domain/Floor/ValueObject/map';
+import { PassageExit } from '../domain/Floor/ValueObject/passageExit';
 import { Floor } from '../domain/Floor/floor';
 import IFloorDTO from '../dto/IFloorDTO';
 import IMapDTO from '../dto/IMapDTO';
@@ -159,7 +161,14 @@ export default class FloorService implements IFloorService {
   public async loadMap(
     buildingCode: string,
     floorNumber: number,
-    map: { size: { width: number; height: number }; map: number[][] },
+    map: {
+      size: { width: number; height: number };
+      map: number[][];
+      exitLocations?: {
+        passages: { cellPosition: [number, number]; destination: { buildingCode: string; floorNumber: number } }[];
+        elevators: { cellPosition: [number, number] }[];
+      };
+    },
   ): Promise<Result<IFloorDTO>> {
     try {
       const building = await this.buildingRepo.findByCode(buildingCode);
@@ -172,11 +181,33 @@ export default class FloorService implements IFloorService {
       }
 
       const floor = await this.floorRepo.findByCode(buildingCode, floorNumber);
+      let mapObject: Result<Map>;
+      if (map.exitLocations) {
+        const passagesExits = map.exitLocations.passages.map((passage) => {
+          return PassageExit.create(passage.cellPosition, {
+            buildingCode: passage.destination.buildingCode,
+            floorNumber: passage.destination.floorNumber,
+          }).getValue();
+        });
 
-      const mapObject = Map.create(map.size.width, map.size.height, map.map);
+        const elevatorsExits = map.exitLocations.elevators.map((elevator) => {
+          return ElevatorExit.create(elevator.cellPosition).getValue();
+        });
 
-      if (mapObject.isFailure) {
-        return Result.fail<IFloorDTO>(mapObject.errorValue().toString());
+        mapObject = Map.create(map.size.width, map.size.height, map.map, {
+          passages: passagesExits,
+          elevators: elevatorsExits,
+        });
+
+        if (mapObject.isFailure) {
+          return Result.fail<IFloorDTO>(mapObject.errorValue().toString());
+        }
+      } else {
+        mapObject = Map.create(map.size.width, map.size.height, map.map);
+
+        if (mapObject.isFailure) {
+          return Result.fail<IFloorDTO>(mapObject.errorValue().toString());
+        }
       }
 
       floor.map = mapObject.getValue();
@@ -209,13 +240,7 @@ export default class FloorService implements IFloorService {
         return Result.fail<IMapDTO>('Floor map is not loaded.');
       }
 
-      const mapDTO: IMapDTO = {
-        size: {
-          width: floor.map.width,
-          height: floor.map.height,
-        },
-        map: floor.map.map,
-      };
+      const mapDTO: IMapDTO = FloorMap.toDTO(floor).map as IMapDTO;
 
       return Result.ok<IMapDTO>(mapDTO);
     } catch (error) {

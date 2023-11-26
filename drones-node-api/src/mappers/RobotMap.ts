@@ -1,6 +1,7 @@
 import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { Mapper } from '../core/infra/Mapper';
 import { Result } from '../core/logic/Result';
+import IRobotPersistence from '../dataschema/IRobotPersistence';
 import { Code } from '../domain/Robot/ValueObjects/code';
 import { Description } from '../domain/Robot/ValueObjects/description';
 import { Nickname } from '../domain/Robot/ValueObjects/nickname';
@@ -53,7 +54,7 @@ export class RobotMap extends Mapper<Robot> {
     return robotOrError;
   }
 
-  public static toPersistence(robot: Robot): any {
+  public static toPersistence(robot: Robot): IRobotPersistence {
     return {
       id: robot.id.toString(),
       code: robot.code.value,

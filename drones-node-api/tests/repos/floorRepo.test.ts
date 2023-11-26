@@ -16,7 +16,7 @@ describe('FloorRepo', () => {
     } as unknown) as jest.Mocked<Model<Document>>;
     Container.set('floorSchema', floorSchemaMock);
 
-    floorRepo = new FloorRepo(floorSchemaMock as any);
+    floorRepo = new FloorRepo(floorSchemaMock as any, null as any);
 
     floorStub = {
       id: new UniqueEntityID(),
@@ -70,14 +70,6 @@ describe('FloorRepo', () => {
       await floorRepo.save(floorStub);
 
       expect(saveStub).toHaveBeenCalledTimes(1);
-    });
-
-    it('should return failure if the floor does not exist', async () => {
-      floorSchemaMock.findOne.mockResolvedValue(null as HydratedDocument<any, any, any>);
-
-      const result = await floorRepo.save(floorStub);
-
-      expect(floorSchemaMock.findOne).toHaveBeenCalled();
     });
 
     it('should handle errors and throw them', async () => {

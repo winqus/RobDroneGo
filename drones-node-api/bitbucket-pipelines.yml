@@ -25,7 +25,13 @@ pipelines:
                 - npm install
                 - npm run lint:js || true
 
-  custom: 
+  custom:
+    ssh-test:
+      - step:
+          name: Test SSH Connection
+          script:
+            - echo "Testing SSH connection to the server"
+            - ssh -p $SERVER_SSH_PORT $SERVER_USERNAME@$SERVER_HOSTNAME "echo 'SSH connection successful'; ls"
     manual-trigger:
       - parallel:
           - step:
@@ -42,3 +48,77 @@ pipelines:
               script:
                 - npm install
                 - npm run lint:js || true
+    deploy-main:
+      - step:
+          name: Build and Test
+          caches:
+            - node
+          script:
+            - npm install
+            - npm run build
+            - npx jest
+          artifacts:
+            - build/**
+      - step:
+          name: Deploy to Production
+          script:
+            - echo "Deploying to Production Server"
+            # Creating .env file for development
+            - echo "Creating .env file for production"
+            - echo "MONGODB_URI=$MONGO_DB_URI" > .env
+            - echo "JWT_SECRET=$JWT_SECRET" >> .env
+            - echo "PLANNING_API_HOSTNAME=$PLANNING_API_HOSTNAME" >> .env
+            - echo "PLANNING_API_PORT=$PLANNING_API_PORT" >> .env
+            - echo "PLANNING_API_BASE_PATH=$PLANNING_API_BASE_PATH" >> .env
+            - echo "NODE_ENV=production" >> .env
+            - echo "PORT=4000" >> .env
+            - echo ".env file created for production"
+            # Copy project files to the remote server
+            - echo "Copying files to the production server"
+            - scp -r -P $SERVER_SSH_PORT . $SERVER_USERNAME@$SERVER_HOSTNAME:/home/www/node-app/production/
+            # SSH into the server and execute deployment commands
+            - echo "Executing remote commands on production server"
+            - ssh -p $SERVER_SSH_PORT $SERVER_USERNAME@$SERVER_HOSTNAME << 'EOF'
+                set -e
+                cd /home/www/node-app/production/
+                npm install
+                npm run restart:prod
+                echo "Deployment to production completed"
+              EOF
+    deploy-develop:
+      - step:
+          name: Build and Test
+          caches:
+            - node
+          script:
+            - npm install
+            - npm run build
+            - npx jest
+          artifacts:
+            - build/**
+      - step:
+          name: Deploy to Development
+          script:
+            - echo "Deploying to Development Server"
+            # Creating .env file for development
+            - echo "Creating .env file for development"
+            - echo "MONGODB_URI=$MONGO_DB_URI" > .env
+            - echo "JWT_SECRET=$JWT_SECRET" >> .env
+            - echo "PLANNING_API_HOSTNAME=$PLANNING_API_HOSTNAME" >> .env
+            - echo "PLANNING_API_PORT=$PLANNING_API_PORT" >> .env
+            - echo "PLANNING_API_BASE_PATH=$PLANNING_API_BASE_PATH" >> .env
+            - echo "NODE_ENV=development" >> .env
+            - echo "PORT=4001" >> .env
+            - echo ".env file created for development"
+            # Copy project files to the remote server
+            - echo "Copying files to the development server"
+            - scp -r -P $SERVER_SSH_PORT . $SERVER_USERNAME@$SERVER_HOSTNAME:/home/www/node-app/development/
+            # SSH into the server and execute deployment commands
+            - echo "Executing remote commands on development server"
+            - ssh -p $SERVER_SSH_PORT $SERVER_USERNAME@$SERVER_HOSTNAME << 'EOF'
+                set -e
+                cd /home/www/node-app/development/
+                npm install
+                npm run restart:dev
+                echo "Deployment to development completed"
+              EOF

@@ -1,5 +1,6 @@
 import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { Mapper } from '../core/infra/Mapper';
+import { IElevatorPersistence } from '../dataschema/IElevatorPersistence';
 import { IDNumber } from '../domain/Building/Entities/ValueObjects/idNumber';
 import { MakeModel } from '../domain/Building/Entities/ValueObjects/makeModel';
 import { SerialNumber } from '../domain/Building/Entities/ValueObjects/serialNumber';
@@ -40,7 +41,7 @@ export class ElevatorMap extends Mapper<Elevator> {
     return elevatorOrError.isSuccess ? elevatorOrError.getValue() : null;
   }
 
-  public static toPersistence(elevator: Elevator): IElevatorDTO {
+  public static toPersistence(elevator: Elevator): IElevatorPersistence {
     return {
       id: elevator.id.toString(),
       number: elevator.number.value,

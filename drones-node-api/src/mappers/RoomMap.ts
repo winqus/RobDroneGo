@@ -1,6 +1,7 @@
 import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { Mapper } from '../core/infra/Mapper';
 import { Result } from '../core/logic/Result';
+import { IRoomPersistence } from '../dataschema/IRoomPersistence';
 import { Description } from '../domain/Building/ValueObjects/description';
 import { FloorSize as Size } from '../domain/Building/ValueObjects/floorSize';
 import { RoomCategory } from '../domain/Room/ValueObjects/category';
@@ -52,7 +53,7 @@ export class RoomMap extends Mapper<Room> {
     return passageOrError;
   }
 
-  public static toPersistence(room: Room): any {
+  public static toPersistence(room: Room): IRoomPersistence {
     return {
       id: room.id.toString(),
       name: room.name.value,
