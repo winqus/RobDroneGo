@@ -1,0 +1,28 @@
+@startuml SD Lv1
+
+participant "Campus Manager" as campusManager
+participant RobDroneGo as system
+campusManager -> system : open route
+activate system
+
+system -> system : get list of all buildings
+
+campusManager <--o system : show list of all buildings
+
+campusManager -> system : select building
+
+system -> system : get list of all floors\nof that buildings
+
+campusManager <--o system : show list of all floors
+
+campusManager -> system : select floor
+
+campusManager -> system : upload map
+
+system -> system : floor.map = map
+
+campusManager <--o system : upload map successfully
+
+deactivate system
+
+@enduml
