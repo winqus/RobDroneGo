@@ -1,0 +1,61 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant " "
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Building Persistence" as Schema
+    end box
+
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Building Repository" as Repository
+    end box
+
+    participant DTO
+    participant BuildingMap as Map
+    box "Application Business Rules" #ff6666
+        participant "Building Service" as Service
+    end box
+
+end box
+
+
+[o-> Routing : Get
+activate Routing
+
+    Routing -> Controller : create()
+    activate Controller
+    Routing -> Controller : getAllBuildings()
+
+        Controller -> Service : getAllBuildings()
+        activate Service
+            Service -> Repository : findAllBuildings()
+            activate Repository
+                Repository -> Schema : find()
+                Schema --> Repository : buildings
+
+                    Repository -> Map : toDomain(buildings)
+                    activate Map
+                        Map --> Repository : buildingRecords
+                    deactivate Map
+                Repository --> Service : buildingRecords
+            deactivate Repository
+            loop for each building
+                Service -> Map : toDTO(building)
+                Map --> Service : buildingDTO
+            end
+            Service --> Controller :  Result.ok<IBuildingDTO[]>(buildingDTOs)
+        deactivate Service
+
+    Controller --> Routing : res.status(200).json(buildingDTOs)
+    deactivate Controller
+
+[o<--o Routing : List of buildings
+deactivate Routing
+
+
+@enduml

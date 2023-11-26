@@ -1,0 +1,15 @@
+@startuml SD Lv1
+
+actor "Campus Manager" as user
+participant RobDroneGo as system
+
+user -> system : enter URL
+activate system
+system --> user : display form
+user -> system : fill in and submit\n the form
+system -> system : Create and Save\nrobot
+
+user <-- system : Success
+deactivate system
+
+@enduml
