@@ -11,7 +11,7 @@ link fleet to system--><g id="link_fleet_system"><path d="M506.75,21.02 C483.17,
 link planning to system--><g id="link_planning_system"><path d="M401.54,23.05 C392.32,39.71 370.87,78.47 356.92,103.67 " fill="none" id="planning-system" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[b38c364514537faa9e8905973af14083]
 link campus_API to system--><g id="link_campus_API_system"><path d="M286.46,23.05 C295.68,39.71 317.13,78.47 331.08,103.67 " fill="none" id="campus_API-system" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[748a8622691d31f9055a89c458263239]
 link fleet_API to system--><g id="link_fleet_API_system"><path d="M174.12,20.71 C198.27,35.82 264.92,77.52 307.19,103.97 " fill="none" id="fleet_API-system" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[44a17b2d346fe996f8b196c24d057c93]
-link planning_API to system--><g id="link_planning_API_system"><path d="M55.16,19.36 C67.66,25.24 90.81,35.91 111,44 C168.2,66.91 234.49,90.22 281.7,106.27 " fill="none" id="planning_API-system" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[ea415a1dd9065dae81209c463e972445]
+link planning_API to system--><g id="link_planning_API_system"><path d="M55.16,19.36 C67.66,25.24 90.81,35.91 111,44 C168.2,66.91 234.49,90.22 281.7,106.27 " fill="none" id="planning_API-system" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[934aadd3823ecfd37ba14183d40aab47]
 @startuml Logical View Lv1
 
 <style>
@@ -39,11 +39,11 @@ system -up- planning_API
 
 @enduml
 
-PlantUML version 1.2022.7(Mon Aug 22 18:01:30 WEST 2022)
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 BST 2022)
 (GPL source distribution)
 Java Runtime: Java(TM) SE Runtime Environment
 JVM: Java HotSpot(TM) 64-Bit Server VM
-Default Encoding: UTF-8
+Default Encoding: Cp1252
 Language: pt
 Country: PT
 --></g></svg>

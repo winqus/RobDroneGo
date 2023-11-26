@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="332px" preserveAspectRatio="none" style="width:421px;height:332px;background:#FFFFFF;" version="1.1" viewBox="0 0 421 332" width="421px" zoomAndPan="magnify"><defs/><g><rect fill="#FFFFFF" height="208.1094" style="stroke:#181818;stroke-width:1.0;" width="10" x="267" y="69.9609"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="68" x2="68" y1="37.6094" y2="296.0703"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="272" x2="272" y1="37.6094" y2="296.0703"/><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="126" x="5" y="5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="12" y="26.5332">Campus Manager</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="126" x="5" y="295.0703"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="12" y="316.6035">Campus Manager</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="98" x="223" y="5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84" x="230" y="26.5332">RobDroneGo</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="98" x="223" y="295.0703"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84" x="230" y="316.6035">RobDroneGo</text><rect fill="#FFFFFF" height="208.1094" style="stroke:#181818;stroke-width:1.0;" width="10" x="267" y="69.9609"/><polygon fill="#181818" points="255,65.9609,265,69.9609,255,73.9609,259,69.9609" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="68" x2="261" y1="69.9609" y2="69.9609"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="61" x="75" y="65.1045">open route</text><line style="stroke:#181818;stroke-width:1.0;" x1="277" x2="319" y1="100.3125" y2="100.3125"/><line style="stroke:#181818;stroke-width:1.0;" x1="319" x2="319" y1="100.3125" y2="113.3125"/><line style="stroke:#181818;stroke-width:1.0;" x1="278" x2="319" y1="113.3125" y2="113.3125"/><polygon fill="#181818" points="288,109.3125,278,113.3125,288,117.3125,284,113.3125" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="130" x="284" y="95.4561">get list of all passages</text><polygon fill="#181818" points="79,139.6641,69,143.6641,79,147.6641,75,143.6641" style="stroke:#181818;stroke-width:1.0;"/><ellipse cx="266.5" cy="142.9141" fill="none" rx="4" ry="4" style="stroke:#181818;stroke-width:1.5;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="73" x2="262" y1="143.6641" y2="143.6641"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="142" x="85" y="138.8076">show list of all passages</text><polygon fill="#181818" points="255,170.0156,265,174.0156,255,178.0156,259,174.0156" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="68" x2="261" y1="174.0156" y2="174.0156"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="88" x="75" y="169.1592">select passage</text><polygon fill="#181818" points="255,200.3672,265,204.3672,255,208.3672,259,204.3672" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="68" x2="261" y1="204.3672" y2="204.3672"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="154" x="75" y="199.5107">input the new passage info</text><line style="stroke:#181818;stroke-width:1.0;" x1="277" x2="319" y1="234.7188" y2="234.7188"/><line style="stroke:#181818;stroke-width:1.0;" x1="319" x2="319" y1="234.7188" y2="247.7188"/><line style="stroke:#181818;stroke-width:1.0;" x1="278" x2="319" y1="247.7188" y2="247.7188"/><polygon fill="#181818" points="288,243.7188,278,247.7188,288,251.7188,284,247.7188" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92" x="284" y="229.8623">update passage</text><polygon fill="#181818" points="79,274.0703,69,278.0703,79,282.0703,75,278.0703" style="stroke:#181818;stroke-width:1.0;"/><ellipse cx="271.5" cy="277.3203" fill="none" rx="4" ry="4" style="stroke:#181818;stroke-width:1.5;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="73" x2="267" y1="278.0703" y2="278.0703"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="175" x="85" y="273.2139">passage updated successfully</text><!--MD5=[9f0438acee68ebf6544ec5c1781b9876]
+@startuml SD Lv1
+
+participant "Campus Manager" as campusManager
+participant RobDroneGo as system
+campusManager -> system : open route
+activate system
+
+system -> system : get list of all passages
+
+campusManager <- -o system : show list of all passages
+
+campusManager -> system : select passage
+
+campusManager -> system : input the new passage info
+
+system -> system : update passage
+
+campusManager <- -o system : passage updated successfully
+
+deactivate system
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 BST 2022)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: Cp1252
+Language: pt
+Country: PT
+--></g></svg>
