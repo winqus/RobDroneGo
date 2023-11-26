@@ -27,17 +27,16 @@ Sendo que este requisito corresponde a us 230 do sprintA, as observações de ca
 
 ## Diagramns
 
-### Logical View Lv1
-![LV Lv1](../../diagrams/level1/Logical%20View%20Lv1.svg)
+![LV Lv1](../../Sprint%20B%20diagrams/level_1/Logical%20View%20Lv1.svg)
 
 ### Logical View Lv2
-![LV Lv2](../../diagrams/level2/Logical%20View%20Lv2.svg)
+![LV Lv2](../../Sprint%20B%20diagrams/level_2/Logical%20View%20Lv2.svg)
 
 ### Logical View Lv3
-![LV Lv3](../../diagrams/level3/Logical%20View%20Lv3%20(Campus%20Management).svg)
+![LV Lv3](../../Sprint%20B%20diagrams/level_3/Logical%20View%20lv3.svg)
 
 ### Deployment View
-![DV Lv1](../../diagrams/Deployment%20View.svg)
+![DV Lv1](../../Sprint%20B%20diagrams/Physical%20View.svg)
 
 ### Process Diagram Lv1
 ![SD Lv1](./SD%20Lv1.svg)

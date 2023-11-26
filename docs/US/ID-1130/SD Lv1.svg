@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="453px" preserveAspectRatio="none" style="width:408px;height:453px;background:#FFFFFF;" version="1.1" viewBox="0 0 408 453" width="408px" zoomAndPan="magnify"><defs/><g><rect fill="#FFFFFF" height="328.5156" style="stroke:#181818;stroke-width:1.0;" width="10" x="259" y="69.9609"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="68" x2="68" y1="37.6094" y2="416.4766"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="264" x2="264" y1="37.6094" y2="416.4766"/><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="126" x="5" y="5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="12" y="26.5332">Campus Manager</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="126" x="5" y="415.4766"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="12" y="437.0098">Campus Manager</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="98" x="215" y="5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84" x="222" y="26.5332">RobDroneGo</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="98" x="215" y="415.4766"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84" x="222" y="437.0098">RobDroneGo</text><rect fill="#FFFFFF" height="328.5156" style="stroke:#181818;stroke-width:1.0;" width="10" x="259" y="69.9609"/><polygon fill="#181818" points="247,65.9609,257,69.9609,247,73.9609,251,69.9609" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="68" x2="253" y1="69.9609" y2="69.9609"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="61" x="75" y="65.1045">open route</text><line style="stroke:#181818;stroke-width:1.0;" x1="269" x2="311" y1="100.3125" y2="100.3125"/><line style="stroke:#181818;stroke-width:1.0;" x1="311" x2="311" y1="100.3125" y2="113.3125"/><line style="stroke:#181818;stroke-width:1.0;" x1="270" x2="311" y1="113.3125" y2="113.3125"/><polygon fill="#181818" points="280,109.3125,270,113.3125,280,117.3125,276,113.3125" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="125" x="276" y="95.4561">get list of all buildings</text><polygon fill="#181818" points="79,139.6641,69,143.6641,79,147.6641,75,143.6641" style="stroke:#181818;stroke-width:1.0;"/><ellipse cx="258.5" cy="142.9141" fill="none" rx="4" ry="4" style="stroke:#181818;stroke-width:1.5;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="73" x2="254" y1="143.6641" y2="143.6641"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="137" x="85" y="138.8076">show list of all buildings</text><polygon fill="#181818" points="247,170.0156,257,174.0156,247,178.0156,251,174.0156" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="68" x2="253" y1="174.0156" y2="174.0156"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="83" x="75" y="169.1592">select building</text><line style="stroke:#181818;stroke-width:1.0;" x1="269" x2="311" y1="220.7188" y2="220.7188"/><line style="stroke:#181818;stroke-width:1.0;" x1="311" x2="311" y1="220.7188" y2="233.7188"/><line style="stroke:#181818;stroke-width:1.0;" x1="270" x2="311" y1="233.7188" y2="233.7188"/><polygon fill="#181818" points="280,229.7188,270,233.7188,280,237.7188,276,233.7188" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="105" x="276" y="199.5107">get list of all floors</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="91" x="276" y="215.8623">of that buildings</text><polygon fill="#181818" points="79,260.0703,69,264.0703,79,268.0703,75,264.0703" style="stroke:#181818;stroke-width:1.0;"/><ellipse cx="258.5" cy="263.3203" fill="none" rx="4" ry="4" style="stroke:#181818;stroke-width:1.5;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="73" x2="254" y1="264.0703" y2="264.0703"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="117" x="85" y="259.2139">show list of all floors</text><polygon fill="#181818" points="247,290.4219,257,294.4219,247,298.4219,251,294.4219" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="68" x2="253" y1="294.4219" y2="294.4219"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="70" x="75" y="289.5654">select floors</text><polygon fill="#181818" points="247,320.7734,257,324.7734,247,328.7734,251,324.7734" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="68" x2="253" y1="324.7734" y2="324.7734"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="143" x="75" y="319.917">input elevator information</text><line style="stroke:#181818;stroke-width:1.0;" x1="269" x2="311" y1="355.125" y2="355.125"/><line style="stroke:#181818;stroke-width:1.0;" x1="311" x2="311" y1="355.125" y2="368.125"/><line style="stroke:#181818;stroke-width:1.0;" x1="270" x2="311" y1="368.125" y2="368.125"/><polygon fill="#181818" points="280,364.125,270,368.125,280,372.125,276,368.125" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="84" x="276" y="350.2686">create elevator</text><polygon fill="#181818" points="79,394.4766,69,398.4766,79,402.4766,75,398.4766" style="stroke:#181818;stroke-width:1.0;"/><ellipse cx="263.5" cy="397.7266" fill="none" rx="4" ry="4" style="stroke:#181818;stroke-width:1.5;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="73" x2="259" y1="398.4766" y2="398.4766"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="167" x="85" y="393.6201">elevator created successfully</text><!--MD5=[d3fcde198eaf98c197bc4b081be3c09e]
+@startuml SD Lv1
+
+participant "Campus Manager" as campusManager
+participant RobDroneGo as system
+campusManager -> system : open route
+activate system
+
+system -> system : get list of all buildings
+
+campusManager <- -o system : show list of all buildings
+
+campusManager -> system : select building
+
+system -> system : get list of all floors\nof that buildings
+
+campusManager <- -o system : show list of all floors
+
+campusManager -> system : select floors
+
+campusManager -> system : input elevator information
+
+system -> system : create elevator
+
+campusManager <- -o system : elevator created successfully
+
+deactivate system
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 BST 2022)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: Cp1252
+Language: pt
+Country: PT
+--></g></svg>

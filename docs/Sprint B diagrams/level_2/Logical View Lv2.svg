@@ -19,7 +19,7 @@ link campus_API to campus--><g id="link_campus_API_campus"><path d="M792.87,23.0
 link tesk_API to task--><g id="link_tesk_API_task"><path d="M301.28,23.05 C299.79,39.71 296.33,78.47 294.08,103.67 " fill="none" id="tesk_API-task" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[b1f2c696f368fab16633ae9a09d36b92]
 link campus_ui to campus--><g id="link_campus_ui_campus"><path d="M678.72,23.05 C680.21,39.71 683.67,78.47 685.92,103.67 " fill="none" id="campus_ui-campus" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[2406bc84ea37b49a37697d3913862aed]
 link fleet_ui to fleet--><g id="link_fleet_ui_fleet"><path d="M446.02,23.05 C452.27,39.71 466.8,78.47 476.25,103.67 " fill="none" id="fleet_ui-fleet" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[0775cb62f843832b5b6daed365fbe057]
-link planning_ui to task--><g id="link_planning_ui_task"><path d="M195.48,23.05 C210.94,39.71 246.94,78.47 270.33,103.67 " fill="none" id="planning_ui-task" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[4e93750c6def82364fe58efb9137ab6a]
+link planning_ui to task--><g id="link_planning_ui_task"><path d="M195.48,23.05 C210.94,39.71 246.94,78.47 270.33,103.67 " fill="none" id="planning_ui-task" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[437eb546629274d38cfb4461577f7a43]
 @startuml Logical View Lv2
 
 <style>
@@ -59,11 +59,11 @@ task -up- planning_ui
 
 @enduml
 
-PlantUML version 1.2022.7(Mon Aug 22 18:01:30 WEST 2022)
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 BST 2022)
 (GPL source distribution)
 Java Runtime: Java(TM) SE Runtime Environment
 JVM: Java HotSpot(TM) 64-Bit Server VM
-Default Encoding: UTF-8
+Default Encoding: Cp1252
 Language: pt
 Country: PT
 --></g></svg>

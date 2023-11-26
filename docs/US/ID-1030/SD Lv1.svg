@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="198px" preserveAspectRatio="none" style="width:338px;height:198px;background:#FFFFFF;" version="1.1" viewBox="0 0 338 198" width="338px" zoomAndPan="magnify"><defs/><g><rect fill="#FFFFFF" height="73.7031" style="stroke:#181818;stroke-width:1.0;" width="10" x="204" y="69.9609"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="58" x2="58" y1="37.6094" y2="161.6641"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="209" x2="209" y1="37.6094" y2="161.6641"/><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="106" x="5" y="5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="92" x="12" y="26.5332">Fleet Manager</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="106" x="5" y="160.6641"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="92" x="12" y="182.1973">Fleet Manager</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="98" x="160" y="5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84" x="167" y="26.5332">RobDroneGo</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="98" x="160" y="160.6641"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84" x="167" y="182.1973">RobDroneGo</text><rect fill="#FFFFFF" height="73.7031" style="stroke:#181818;stroke-width:1.0;" width="10" x="204" y="69.9609"/><polygon fill="#181818" points="192,65.9609,202,69.9609,192,73.9609,196,69.9609" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="58" x2="198" y1="69.9609" y2="69.9609"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="61" x="65" y="65.1045">open route</text><line style="stroke:#181818;stroke-width:1.0;" x1="214" x2="256" y1="100.3125" y2="100.3125"/><line style="stroke:#181818;stroke-width:1.0;" x1="256" x2="256" y1="100.3125" y2="113.3125"/><line style="stroke:#181818;stroke-width:1.0;" x1="215" x2="256" y1="113.3125" y2="113.3125"/><polygon fill="#181818" points="225,109.3125,215,113.3125,225,117.3125,221,113.3125" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="110" x="221" y="95.4561">get list of all robots</text><polygon fill="#181818" points="69,139.6641,59,143.6641,69,147.6641,65,143.6641" style="stroke:#181818;stroke-width:1.0;"/><ellipse cx="208.5" cy="142.9141" fill="none" rx="4" ry="4" style="stroke:#181818;stroke-width:1.5;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="63" x2="204" y1="143.6641" y2="143.6641"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="122" x="75" y="138.8076">show list of all robots</text><!--MD5=[f8a0f44564e5bd245c6b1828ec6c6c2d]
+@startuml SD Lv1
+
+participant "Fleet Manager" as fleetManager
+participant RobDroneGo as system
+fleetManager -> system : open route
+activate system
+
+system -> system : get list of all robots
+
+fleetManager <- -o system : show list of all robots
+deactivate system
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 BST 2022)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: Cp1252
+Language: pt
+Country: PT
+--></g></svg>
