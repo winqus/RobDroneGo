@@ -1,0 +1,14 @@
+@startuml SD Lv1
+
+participant "Campus Manager" as campusManager
+participant RobDroneGo as system
+campusManager -> system : open route (buildingCode)
+activate system
+
+system -> system : get list of all floors with passages\nto diferent buildings
+
+campusManager <--o system : show list of all floors
+
+deactivate system
+
+@enduml

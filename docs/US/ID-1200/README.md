@@ -1,0 +1,43 @@
+# ID 1200 - As a Campus Manager, I intend to list Building Floors with Passages to other Buildings
+
+## Description
+As a Campus Manager, I intend to list Building Floors with Passages to other Buildings
+
+## Acceptance Criteria
+
+* Implement Angular component for listing all floors (of some building) with passages to other buildings.
+* Utilize Passage Service to make request to node API with appropriate route.
+* Route is: /campus/building/{code}/floorsWithPassages
+* Route can be accessed by authorized users.
+
+## Questions from the forum
+
+* Not found any question to the client
+
+## Diagramns
+
+### Logical View Lv1
+![LV Lv1](../../diagrams/level1/Logical%20View%20Lv1.svg)
+
+### Logical View Lv2
+![LV Lv2](../../diagrams/level2/Logical%20View%20Lv2.svg)
+
+### Logical View Lv3
+![LV Lv3](../../diagrams/level3/Logical%20View%20Lv3%20(Campus%20Management).svg)
+
+### Deployment View
+![DV Lv1](../../diagrams/Deployment%20View.svg)
+
+### Process Diagram Lv1
+![SD Lv1](./SD%20Lv1.svg)
+
+### Process Diagram Lv2
+![SD Lv2](./SD%20Lv2.svg)
+
+### Process Diagram Lv3
+![SD Lv3](./SD%20Lv3.svg)
+
+### Domain Model
+![DM](../../diagrams/DM.png)
+
+## Observations
