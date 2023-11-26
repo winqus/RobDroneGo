@@ -60,4 +60,8 @@ export const API_ROUTES = {
     uploadMap: (buildingCode: string, floorNumber: number) => `${API_BASE}/floor/${floorNumber}/building/${buildingCode}/`,
     getMap: (buildingCode: string, floorNumber: number) => `${API_BASE}/floor/${floorNumber}/building/${buildingCode}/map`,
   },
+  folder: {
+    upload: `${API_BASE}/folder/upload?file`,
+    list: `${API_BASE}/folder/`,
+  },
 };

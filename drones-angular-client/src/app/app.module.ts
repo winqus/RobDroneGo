@@ -28,6 +28,7 @@ import { EditPassageComponent } from './components/edit-passage/edit-passage.com
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
+import { FloorsServedByElevatorListComponent } from './components/floors-served-by-elevator-list/floors-served-by-elevator-list.component';
 import { FloorsToDifBuildsComponent } from './components/floors-to-dif-builds/floors-to-dif-builds.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormErrorListComponent } from './components/form-error-list/form-error-list.component';
@@ -38,12 +39,14 @@ import { MbcoComponent } from './components/mbco/mbco.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { PassageListComponent } from './components/passage-list/passage-list.component';
 import { PathsBetweenBuildingsComponent } from './components/paths-between-buildings/paths-between-buildings.component';
+import { PublicFolderComponent } from './components/public-folder/public-folder.component';
 import { RecoveryStrategyComponent } from './components/recovery-strategy/recovery-strategy.component';
 import { RecursiveMenuDropdownComponent } from './components/recursive-menu-dropdown/recursive-menu-dropdown.component';
 import { RobotListComponent } from './components/robot-list/robot-list.component';
 import { SearchRobotComponent } from './components/search-robot/search-robot.component';
 import { SuccessFormMessageComponent } from './components/shared/success-form-message/success-form-message.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { UploadMapComponent } from './components/upload-map/upload-map.component';
 import { JwtService } from './core/authentication/services/jwt.service';
 import { UserService } from './core/authentication/services/user.service';
 import { jwtInterceptorProvider } from './core/interceptors/jwt.interceptor';
@@ -112,6 +115,9 @@ export const initAuthorizationProvider = {
     MbcoComponent,
     RecoveryStrategyComponent,
     PathsBetweenBuildingsComponent,
+    FloorsServedByElevatorListComponent,
+    PublicFolderComponent,
+    UploadMapComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [

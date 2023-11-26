@@ -39,6 +39,10 @@
                 {
                   "label": "Create",
                   "href": "/campus/floor/create"
+                },
+                {
+                  "label": "Served by Elevator",
+                  "href": "/campus/floor/served-by-elevator"
                 }
               ]
             },
@@ -82,7 +86,13 @@
             },
             {
               "label": "Map",
-              "href": "/campus/map"
+              "href": "/campus/map",
+              "dropdownLinks": [
+                {
+                  "label": "Upload",
+                  "href": "/campus/map/upload"
+                }
+              ]
             },
             {
               "label": "Don't look",
@@ -310,8 +320,12 @@
               "href": "about/info"
             },
             {
-              "label": "GDPR",
+              "label": "How we use your data",
               "href": "about/gdpr"
+            },
+            {
+              "label": "Public Folder",
+              "href": "about/folder"
             }
           ]
         }
