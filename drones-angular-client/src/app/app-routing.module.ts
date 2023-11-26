@@ -63,7 +63,7 @@ const routes: Routes = [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
           {
             path: 'building',
-            canActivate: [canActivateChildWithRole([UserRole.User, UserRole.CampusManager])],
+            canActivate: [canActivateChildWithRole([UserRole.CampusManager])],
             children: [
               { path: '', redirectTo: 'list', pathMatch: 'full' },
               { path: ':code/floors', component: FloorListComponent },
@@ -79,7 +79,7 @@ const routes: Routes = [
           },
           {
             path: 'floor',
-            canActivate: [canActivateChildWithRole([UserRole.User, UserRole.CampusManager])],
+            canActivate: [canActivateChildWithRole([UserRole.CampusManager])],
             children: [
               { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
               { path: 'create', component: CreateFloorComponent },
@@ -88,7 +88,7 @@ const routes: Routes = [
           },
           {
             path: 'passage',
-            canActivate: [canActivateChildWithRole([UserRole.User, UserRole.CampusManager])],
+            canActivate: [canActivateChildWithRole([UserRole.CampusManager])],
             children: [
               { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
               { path: 'create', component: CreatePassageComponent },
@@ -98,7 +98,7 @@ const routes: Routes = [
           },
           {
             path: 'room',
-            canActivate: [canActivateChildWithRole([UserRole.User, UserRole.CampusManager])],
+            canActivate: [canActivateChildWithRole([UserRole.CampusManager])],
             children: [
               { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
               { path: 'create', component: CreateRoomComponent },
@@ -106,7 +106,7 @@ const routes: Routes = [
           },
           {
             path: 'elevator',
-            canActivate: [canActivateChildWithRole([UserRole.User, UserRole.CampusManager])],
+            canActivate: [canActivateChildWithRole([UserRole.CampusManager])],
             children: [
               { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
               { path: 'create', component: CreateElevatorComponent },
@@ -115,12 +115,12 @@ const routes: Routes = [
           },
           {
             path: 'map',
-            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
+            canActivate: [canActivateWithRole([UserRole.CampusManager])],
             children: [{ path: 'upload', component: UploadMapComponent }],
           },
           {
             path: 'map',
-            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])],
+            canActivate: [canActivateWithRole([UserRole.CampusManager])],
             children: [{ path: 'upload', component: UploadMapComponent }],
           },
           // ... other campus-related routes here
@@ -128,7 +128,7 @@ const routes: Routes = [
       },
       {
         path: 'fleet',
-        canActivate: [canActivateChildWithRole([UserRole.User, UserRole.FleetManager])],
+        canActivate: [canActivateChildWithRole([UserRole.FleetManager])],
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
           {
@@ -154,16 +154,16 @@ const routes: Routes = [
         path: 'task',
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'route/:code1/:code2', canActivate: [canActivateWithRole([UserRole.User, UserRole.TaskManager])], component: PathsBetweenBuildingsComponent },
-          { path: 'analysis', canActivate: [canActivateWithRole([UserRole.User, UserRole.TaskManager])], component: ComplexityAnalysisComponent },
+          { path: 'route/:code1/:code2', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: PathsBetweenBuildingsComponent },
+          { path: 'analysis', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: ComplexityAnalysisComponent },
         ],
       },
       {
         path: 'system',
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'mbco', canActivate: [canActivateWithRole([UserRole.User, UserRole.SystemAdministrator])], component: MbcoComponent },
-          { path: 'recovery-strategy', canActivate: [canActivateWithRole([UserRole.User, UserRole.SystemAdministrator])], component: RecoveryStrategyComponent },
+          { path: 'mbco', canActivate: [canActivateWithRole([UserRole.SystemAdministrator])], component: MbcoComponent },
+          { path: 'recovery-strategy', canActivate: [canActivateWithRole([UserRole.SystemAdministrator])], component: RecoveryStrategyComponent },
         ],
       },
       {
