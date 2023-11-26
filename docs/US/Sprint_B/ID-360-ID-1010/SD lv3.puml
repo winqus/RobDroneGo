@@ -1,84 +1,61 @@
 @startuml SD Lv3
 
+
 !pragma teoz true
 
-participant " "
-box "Fleet Management" #LightBlue
+actor "Fleet manager" as fleet
+box "Fleet Management UI" #LightBlue
 
-    box "Framework And Drivers Layer" #00ffff
-        participant Routing
-        participant "Robot Persistence" as Schema
+    box "View"
+        participant "HTML + CSS + JS" as html
+        participant "Component" as component
     end box
+    participant "Service" as service
+    participant "API Routes" as API_ROUTES
+    participant "Http driver" as http
 
-    box "Interface Adapters Layer" #77ffaa
-        participant Controller
-        participant "Robot Repository" as Repository
-        participant "Robor Type Repository" as RTRepository
-    end box
-
-    participant DTO
-    participant RobotMap as Map
-    box "Application Business Rules" #ff6666
-        participant "Robot Service" as RobotS
-    end box
-
-    box "Enterprise Business Rules" #eeddaa
-        participant Floor
-    end box
 end box
+participant "Fleet Management API" as fleetAPI
 
+fleet -> html : enter URL
+activate html
+fleet -> html : input robot info
+fleet -> html : submit the form
 
-[o-> Routing : Post
-activate Routing
+    html -> component : create robot
+    activate component
 
-    Routing -> Controller : create()
-    activate Controller
-    Routing -> Controller : createRobot()
-        Controller -> RobotS : create()
-        activate RobotS
-            Controller -> RobotS : createRobot(IRobotDTO)
-            RobotS -> Map : toDomain(robotDTO)
+        component -> service : create robot
+        activate service
 
-            activate Map
-                Map -> Robot ** : create(...)
-                Map --> RobotS : RobotOrError
-            deactivate Map
-            RobotS -> RTRepository : findByName\n(robotResult.type.value)
-            note right: check if robot type\n exists
+            service -> API_ROUTES : robot.createRobot()
+            activate API_ROUTES
 
-            activate RTRepository
-                RTRepository --> RobotS : robotTypeResult
-            deactivate RTRepository
+            API_ROUTES --> service : api route
+            deactivate API_ROUTES
 
-            RobotS -> Repository : save(robotResult)
-            activate Repository
+            service -> http : POST(api route, robot info)
+            activate http
 
-                Repository -> Map : toPersistence(robot)
-                activate Map
-                    Map --> Repository : rawRobot
-                deactivate Map
+                http -> fleetAPI : send request
+                activate fleetAPI
 
-                Repository -> Schema : create(rawRobot)
-                activate Schema
-                    Schema --> Repository : robotCreated
-                deactivate Schema
+                    fleetAPI -> fleetAPI : create robot
+                    
+                fleetAPI --> http : return response
+                deactivate fleetAPI
 
-                Repository --> RobotS : RobotMap.toDomain(robotCreated) ? \nRobotMap.toDomain(robotCreated).getValue() : \nnull
+            http --> service : return response
+            deactivate http
 
-            deactivate Repository
+        service --> component : return response
+        deactivate service
 
-            RobotS -> Map : toDTO(robotResult))
-            activate Map
-                Map --> RobotS : RobotDTOResult
-            deactivate Map
-            RobotS --> Controller : Result.ok<IRobotDTO>(robotDTOResult)
-        deactivate RobotS
+    component --> html : robot created
+    deactivate component
 
-    Controller --> Routing : res.status(201).json(robotDTO)
-    deactivate Controller
-
-[o<--o Routing : Success
-deactivate Routing
+html --> fleet : robot created\nsuccessfully
+deactivate html
 
 
 @enduml

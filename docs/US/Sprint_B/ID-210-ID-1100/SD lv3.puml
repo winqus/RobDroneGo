@@ -2,60 +2,58 @@
 
 !pragma teoz true
 
-participant " "
-box "Campus Management" #LightBlue
+actor "Campus manager" as user
+box "Campus Management UI" #LightBlue
 
-    box "Framework And Drivers Layer" #00ffff
-        participant Routing
-        participant "Floor Persistence" as Schema
+    box "View"
+        participant "HTML + CSS + JS" as html
+        participant "Component" as component
     end box
-
-    box "Interface Adapters Layer" #77ffaa
-        participant Controller
-        participant "Floor Repository" as Repository
-    end box
-
-    participant DTO
-    participant "Floor Mapper" as Map
-    box "Application Business Rules" #ff6666
-        participant "Floor Service" as Service
-    end box
+    participant "Service" as service
+    participant "API Routes" as API_ROUTES
+    participant "Http driver" as http
 
 end box
+participant "Campus Management" as campus
 
+user -> html : choose a building
+activate html
+user -> html : click list all floors\n of the building
 
-[o-> Routing : Get
-activate Routing
+    html -> component : list all floors
+    activate component
 
-    Routing -> Controller : create()
-    activate Controller
-    Routing -> Controller : getFloorByBuildingCode(buildingCode))
+        component -> service : list all floors
+        activate service
 
-        Controller -> Service : getFloorByBuildingCode(buildingCode))
-        activate Service
-            Service -> Repository : findByBuildingCode(buildingCode)
-            activate Repository
-                Repository -> Schema : find(query)
-                Schema --> Repository : floors
+            service -> API_ROUTES : floor.getByBuildingCode()
+            activate API_ROUTES
 
-                    Repository -> Map : toDomain(floors)
-                    activate Map
-                        Map --> Repository : floorRecords
-                    deactivate Map
-                Repository --> Service : floorRecords
-            deactivate Repository
-            loop for each floor
-                Service -> Map : toDTO(floor)
-                Map --> Service : floorDTO
-            end
-            Service --> Controller :  Result.ok<IFloorDTO[]>(floorDTOs)
-        deactivate Service
+            API_ROUTES --> service : api route
+            deactivate API_ROUTES
 
-    Controller --> Routing : res.status(200).json(floorDTOs)
-    deactivate Controller
+            service -> http : GET(api route, building code)
+            activate http
 
-[o<--o Routing : List of floors
-deactivate Routing
+                http -> campus : send request
+                activate campus
+
+                    campus -> campus : list floors
+                    
+                campus --> http : return list of floors
+                deactivate campus
+
+            http --> service : return list of floors
+            deactivate http
+
+        service --> component : return list of floors
+        deactivate service
+
+    component --> html : return list of floors
+    deactivate component
+
+html --> user : show floors
+deactivate html
 
 
 @enduml
