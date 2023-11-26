@@ -17,35 +17,35 @@ No questions about this US were asked on forum
 
 ### Logical View Lv1
 
-![LVL1](../../diagrams/level1/Logical View Lv1.svg)
+![LVL1](../../../out/Sprint%20B%20diagrams/level_1/Logical%20View%20lv1/Logical%20View%20Lv1.svg)
 
 ### Logical View Lv2
 
-![LVL2](../../diagrams/level2/Logical View Lv2.svg)
+![LVL2](../../../out/Sprint%20B%20diagrams/level_2/Logical%20View%20lv2/Logical%20View%20Lv2.svg)
 
 ### Logical View Lv3
 
-![LVL3](../../diagrams/level3/Logical%20View%20lv3%20(Campus%20Management).svg)
+![LVL3](../../../out/Sprint%20B%20diagrams/level_3/Logival%20View%20lv3/UI_LV_lvl3.svg)
 
 ### Deployment View
 
-![DV](../../diagrams/Deployment View.png)
+![DV](../../../out/Sprint%20B%20diagrams/Deployment%20View/Physical%20View.svg)
 
 ### Process Diagram Lv1
 
-![PVL1](PV_lv1.png)
+![PVL1](../../../out/US/Sprint_B/ID-170-ID-1060/PV_lv1/SD%20Lv1.png)
 
 ### Process Diagram Lv2
 
-![PVL2](PV_lv2.png)
+![PVL2](../../../out/US/Sprint_B/ID-170-ID-1060/PV_lv2/SD%20Lv2.png)
 
 ### Process Diagram Lv3
 
-![PVL3](PV_lv3.png)
+![PVL3](../../../out/US/Sprint_B/ID-170-ID-1060/PV_lv3/SD%20Lv3.png)
 
 ### Domain Model
 
-![DV](../../diagrams/DM.png)
+![DV](../../../diagrams/DomainDesign.png)
 
 
 ## Observations
