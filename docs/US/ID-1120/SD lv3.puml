@@ -110,7 +110,7 @@ Campus -> html : upload map
             API_ROUTES --> mapService : api route
             deactivate API_ROUTES
 
-            mapService -> http : post(api route, map)
+            mapService -> http : patch(api route, map)
             activate http
 
                 http -> CampusAPI : send request
