@@ -39,19 +39,19 @@ Tendo em conta a US370 seria ativo por defeito certo?
 > 
 ## Diagramns
 
-![LVL1](../../../out/Sprint%20B%20diagrams/level_1/Logical%20View%20lv1/Logical%20View%20Lv1.svg)
+![LVL1](../../../Sprint%20B%20diagrams/level_1/Logical%20View%20Lv1.svg)
 
 ### Logical View Lv2
 
-![LVL2](../../../out/Sprint%20B%20diagrams/level_2/Logical%20View%20lv2/Logical%20View%20Lv2.svg)
+![LVL2](../../../Sprint%20B%20diagrams/level_2/Implementation%20View%20Lv2.svg)
 
 ### Logical View Lv3
 
-![LVL3](../../../out/Sprint%20B%20diagrams/level_3/Logival%20View%20lv3/UI_LV_lvl3.svg)
+![LVL3](../../../Sprint%20B%20diagrams/level_3/Logical%20View%20lv3.svg)
 
 ### Deployment View
 
-![DV](../../../out/Sprint%20B%20diagrams/Deployment%20View/Physical%20View.svg)
+![DV](../../../Sprint%20B%20diagrams/Physical%20View.svg)
 
 
 ### Process Diagram Lv1
