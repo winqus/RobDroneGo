@@ -1,0 +1,13 @@
+@startuml SD Lv1
+
+participant "Fleet Manager" as fleetManager
+participant RobDroneGo as system
+fleetManager -> system : open route
+activate system
+
+system -> system : get list of all robots
+
+fleetManager <--o system : show list of all robots
+deactivate system
+
+@enduml
