@@ -18,18 +18,18 @@ node "localhost:??" as local {
     }
 }
 
-node server1{
+node "server1:4200" as server1{
     component UI
 }
 
-node server2{
+node "server2:4000" as server2{
     component "Fleet Management" as fleet
     component "Campus Management" as campus
     component "Task Management" as task
     component "User Management" as user
 }
 
-node server3{
+node "server3:4400" as server3{
     component "Planning Module" as planning
 }
 

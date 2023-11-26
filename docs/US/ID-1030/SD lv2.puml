@@ -1,0 +1,27 @@
+@startuml SD Lv2
+
+participant "Fleet Management" as fleetManager
+box "RobDroneGo" #LightBlue
+    participant "Fleet Management UI" as fleetUI
+    participant "Fleet Management API" as fleetAPI
+    participant "DB" as DB
+end box
+
+fleetManager -> fleetUI : open route
+activate fleetUI
+
+    fleetUI -> fleetAPI : load all robots
+    activate fleetAPI
+
+    fleetAPI -> DB : get all robots
+    activate DB
+    DB --> fleetAPI : list of robots
+    deactivate DB
+
+    fleetAPI --> fleetUI : list of robots
+    deactivate fleetAPI
+
+fleetManager <-- fleetUI : show list of all robots
+deactivate fleetUI
+
+@enduml

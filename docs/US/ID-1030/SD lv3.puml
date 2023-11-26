@@ -1,0 +1,60 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant "Fleet manager" as fleet
+box "Fleet Management UI" #LightBlue
+
+    box "View"
+        participant "HTML + CSS + JS" as html
+        participant "Component" as component
+    end box
+    participant "Service" as service
+    participant "API Routes" as API_ROUTES
+    participant "Http driver" as http
+
+end box
+participant "Fleet Management API" as fleetAPI
+
+
+fleet -> html : load route
+activate html
+
+    html -> component : load all robots
+    activate component
+
+        component -> service : get all robots
+        activate service
+
+            service -> API_ROUTES : robot.getAll
+            activate API_ROUTES
+
+            API_ROUTES --> service : api route
+            deactivate API_ROUTES
+
+            service -> http : get(api route)
+            activate http
+
+                http -> fleetAPI : send request
+                activate fleetAPI
+
+                    fleetAPI -> fleetAPI : list all robots
+                    note right : procedures in the\nuser story ID380
+                    
+                fleetAPI --> http : return list
+                deactivate fleetAPI
+
+            http --> service : return list
+            deactivate http
+
+        service --> component : return list
+        deactivate service
+
+    component --> html : return robots
+    deactivate component
+
+html --> fleet : robot type created\nsuccessfully
+deactivate html
+
+
+@enduml
