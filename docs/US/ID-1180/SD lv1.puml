@@ -1,0 +1,22 @@
+@startuml SD Lv1
+
+participant "Campus Manager" as campusManager
+participant RobDroneGo as system
+campusManager -> system : open route
+activate system
+
+system -> system : get list of all passages
+
+campusManager <--o system : show list of all passages
+
+campusManager -> system : select passage
+
+campusManager -> system : input the new passage info
+
+system -> system : update passage
+
+campusManager <--o system : passage updated successfully
+
+deactivate system
+
+@enduml

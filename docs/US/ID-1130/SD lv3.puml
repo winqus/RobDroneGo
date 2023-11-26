@@ -11,7 +11,7 @@ box "Campus Management UI" #LightBlue
     end box
     participant "Building Service" as buildingService
     participant "Floor Service" as floorService
-    participant "Map Service" as mapService
+    participant "Elevator Service" as elevatorService
     participant "API Routes" as API_ROUTES
     participant "Http driver" as http
 
@@ -94,44 +94,44 @@ Campus --> html : select building
 
 html --> Campus : show list floors
 
-Campus --> html : select floor
+Campus --> html : select floors
 
-Campus -> html : upload map
+Campus -> html : input elevator information
 
-    html -> component : upload map
+    html -> component : elevator information
     activate component
 
-        component -> mapService : uploadMap(map)
-        activate mapService
+        component -> elevatorService : uploadelevator(elevator)
+        activate elevatorService
 
-            mapService -> API_ROUTES : map.uploadMap(buildingCode, floorNumber)
+            elevatorService -> API_ROUTES : elevator.createElevator(buildingCode)
             activate API_ROUTES
 
-            API_ROUTES --> mapService : api route
+            API_ROUTES --> elevatorService : api route
             deactivate API_ROUTES
 
-            mapService -> http : patch(api route, map)
+            elevatorService -> http : post(api route, elevator)
             activate http
 
                 http -> CampusAPI : send request
                 activate CampusAPI
 
-                    CampusAPI -> CampusAPI : get map
-                    note right : procedures in the\nuser story ID230
+                    CampusAPI -> CampusAPI : create elevator
+                    note right : procedures in the\nuser story ID270
                     
-                CampusAPI --> http : return map
+                CampusAPI --> http : return elevator
                 deactivate CampusAPI
 
-            http --> mapService : return map
+            http --> elevatorService : return elevator
             deactivate http
 
-        mapService --> component : return map
-        deactivate mapService
+        elevatorService --> component : return elevator
+        deactivate elevatorService
 
-    component --> html : return uploaded map successfully
+    component --> html : return created elevator successfully
     deactivate component
 
-html --> Campus : show uploaded map successfully
+html --> Campus : show created elevator successfully
 deactivate html
 
 

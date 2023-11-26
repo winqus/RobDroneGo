@@ -1,0 +1,60 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant "Campus manager" as Campus
+box "Campus Management UI" #LightBlue
+
+    box "View"
+        participant "HTML + CSS + JS" as html
+        participant "Component" as component
+    end box
+    participant "Passage Service" as passageService
+    participant "API Routes" as API_ROUTES
+    participant "Http driver" as http
+
+end box
+participant "Campus Management API" as CampusAPI
+
+
+Campus -> html : load route (buildingCode)
+activate html
+
+    html -> component : load floors with passages\nto diferent buildings
+    activate component
+
+        component -> passageService : listFloorsWithPassagesToDifferentBuilding(buildingCode)
+        activate passageService
+
+            passageService -> API_ROUTES : passage.listFloorsWithPassagesToDifferentBuilding(buildingCode)
+            activate API_ROUTES
+
+            API_ROUTES --> passageService : api route
+            deactivate API_ROUTES
+
+            passageService -> http : get(api route)
+            activate http
+
+                http -> CampusAPI : send request
+                activate CampusAPI
+
+                    CampusAPI -> CampusAPI : list floors
+                    note right : procedures in the\nuser story ID220
+                    
+                CampusAPI --> http : return list of floors
+                deactivate CampusAPI
+
+            http --> passageService : return list of floors
+            deactivate http
+
+        passageService --> component : return list of floors
+        deactivate passageService
+
+    component --> html : list of floors
+    deactivate component
+
+html --> Campus : show list of floors
+deactivate html
+
+
+@enduml
