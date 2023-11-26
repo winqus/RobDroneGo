@@ -1,61 +1,57 @@
 @startuml SD Lv3
-
 !pragma teoz true
 
-participant " "
-box "Campus Management" #LightBlue
+actor "Campus manager" as user
+box "Campus Management UI" #LightBlue
 
-    box "Framework And Drivers Layer" #00ffff
-        participant Routing
-        participant "Building Persistence" as Schema
+    box "View"
+        participant "HTML + CSS + JS" as html
+        participant "Component" as component
     end box
-
-    box "Interface Adapters Layer" #77ffaa
-        participant Controller
-        participant "Building Repository" as Repository
-    end box
-
-    participant DTO
-    participant BuildingMap as Map
-    box "Application Business Rules" #ff6666
-        participant "Building Service" as Service
-    end box
+    participant "Service" as service
+    participant "API Routes" as API_ROUTES
+    participant "Http driver" as http
 
 end box
+participant "Campus Management" as campus
 
+user -> html : click list all buildings
+activate html
 
-[o-> Routing : Get
-activate Routing
+    html -> component : list all buildings
+    activate component
 
-    Routing -> Controller : create()
-    activate Controller
-    Routing -> Controller : getAllBuildings()
+        component -> service : list all buildings
+        activate service
 
-        Controller -> Service : getAllBuildings()
-        activate Service
-            Service -> Repository : findAllBuildings()
-            activate Repository
-                Repository -> Schema : find()
-                Schema --> Repository : buildings
+            service -> API_ROUTES : building.getAll()
+            activate API_ROUTES
 
-                    Repository -> Map : toDomain(buildings)
-                    activate Map
-                        Map --> Repository : buildingRecords
-                    deactivate Map
-                Repository --> Service : buildingRecords
-            deactivate Repository
-            loop for each building
-                Service -> Map : toDTO(building)
-                Map --> Service : buildingDTO
-            end
-            Service --> Controller :  Result.ok<IBuildingDTO[]>(buildingDTOs)
-        deactivate Service
+            API_ROUTES --> service : api route
+            deactivate API_ROUTES
 
-    Controller --> Routing : res.status(200).json(buildingDTOs)
-    deactivate Controller
+            service -> http : GET(api route)
+            activate http
 
-[o<--o Routing : List of buildings
-deactivate Routing
+                http -> campus : send request
+                activate campus
+
+                    campus -> campus : list buildings
+                    
+                campus --> http : return list of buildings
+                deactivate campus
+
+            http --> service : return list of buildings
+            deactivate http
+
+        service --> component : return list of buildings
+        deactivate service
+
+    component --> html : return list of buildings
+    deactivate component
+
+html --> user : show buildings
+deactivate html
 
 
 @enduml

@@ -2,83 +2,58 @@
 
 !pragma teoz true
 
-participant " "
-box "Campus Management" #LightBlue
+actor "Campus manager" as campus
+box "Campus Management UI" #LightBlue
 
-    box "Framework And Drivers Layer" #00ffff
-        participant Routing
-        participant "Floor Persistence" as Schema
+    box "View"
+        participant "HTML + CSS + JS" as html
+        participant "Component" as component
     end box
+    participant "Service" as service
+    participant "API Routes" as API_ROUTES
+    participant "Http driver" as http
 
-    box "Interface Adapters Layer" #77ffaa
-        participant Controller
-        participant "Floor Repository" as Repository
-    end box
-
-    participant DTO
-    participant FloorMap as Map
-    box "Application Business Rules" #ff6666
-        participant "Floor Service" as FloorS
-        participant "Building Service" as BuildingS
-    end box
-
-    box "Enterprise Business Rules" #eeddaa
-        participant Floor
-    end box
 end box
+participant "Campus Management API" as campusAPI
 
+campus -> html : input floor info
+activate html
+campus -> html : submit the form
 
-[o-> Routing : Post
-activate Routing
+    html -> component : create floor
+    activate component
 
-    Routing -> Controller : create()
-    activate Controller
-    Routing -> Controller : createFloor()
-        Controller -> FloorS : create()
-        activate FloorS
-            Controller -> FloorS : createFloor(IFloorDTO)
-            FloorS -> Map : toDomain(floorDTO)
+        component -> service : create floor
+        activate service
 
-            activate Map
-                Map -> Floor ** : create(...)
-                Map --> FloorS : FloorOrError
-            deactivate Map
-            FloorS -> BuildingS : getBuildingByCode\n(floorResult.buildingCode.\nvalue)
-            note right: check if building\n exists
+            service -> API_ROUTES : floor.createFloor()
+            activate API_ROUTES
 
-            activate BuildingS
-                BuildingS --> FloorS : buildingResult
-            deactivate BuildingS
+            API_ROUTES --> service : api route
+            deactivate API_ROUTES
 
-            FloorS -> Repository : save(floorResult)
-            activate Repository
+            service -> http : POST(api route, floor info)
+            activate http
 
-                Repository -> Map : toPersistence(floor)
-                activate Map
-                    Map --> Repository : rawFloor
-                deactivate Map
+                http -> campusAPI : send request
+                activate campusAPI
 
-                Repository -> Schema : create(rawFloor)
-                activate Schema
-                    Schema --> Repository : floorCreated
-                deactivate Schema
+                    campusAPI -> campusAPI : create floor
+                    
+                campusAPI --> http : return response
+                deactivate campusAPI
 
-                Repository --> FloorS : FloorMap.toDomain(floorCreated) ? \nFloorMap.toDomain(floorCreated).getValue() : \nnull
+            http --> service : return response
+            deactivate http
 
-            deactivate Repository
+        service --> component : return response
+        deactivate service
 
-            FloorS -> Map : toDTO(floorResult))
-            activate Map
-                Map --> FloorS : FloorDTOResult
-            deactivate Map
-            FloorS --> Controller : Result.ok<IFloorDTO>(floorDTOResult)
-        deactivate FloorS
+    component --> html : floor created
+    deactivate component
 
-    Controller --> Routing : res.status(201).json(floorDTO)
-    deactivate Controller
-
-[o<--o Routing : Success
-deactivate Routing
+html --> campus : floor created\nsuccessfully
+deactivate html
 
 
 @enduml
