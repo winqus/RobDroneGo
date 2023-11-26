@@ -1,0 +1,16 @@
+@startuml SD Lv1
+
+participant "Fleet Manager" as fleetManager
+participant RobDroneGo as system
+fleetManager -> system : open route
+activate system
+system --> fleetManager : show form
+fleetManager -> system : input robot type info
+fleetManager -> system : submit form
+
+system -> system : create and save\nnew type of robot
+
+fleetManager <--o system : added new type of robot
+deactivate system
+
+@enduml
