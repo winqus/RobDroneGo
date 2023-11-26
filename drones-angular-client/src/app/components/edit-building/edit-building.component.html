@@ -1,0 +1,57 @@
+<div class="container p-0 md:p-7 flex justify-center items-center">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
+      <h2 class="text-2xl font-semibold mb-6">Edit Building</h2>
+
+      <form [formGroup]="buildingForm" (ngSubmit)="onSubmit()" class="form-control">
+        <!-- Building Name -->
+        <div class="mb-4">
+          <label for="name">Building Name</label>
+          <input type="text" id="name" formControlName="name" class="mt-1 p-2 block w-full border rounded-md" />
+          <div *ngIf="buildingForm.controls['name'].touched && buildingForm.controls['name'].invalid" class="text-error">
+            <small *ngIf="buildingForm.controls['name'].errors?.['maxlength']">{{ validationErrors.stringmaxlength | errorMessage: { max: 50 } }}</small>
+            <small *ngIf="buildingForm.controls['name'].errors?.['pattern']">{{ validationErrors.onlyAlphanumerics }}</small>
+          </div>
+        </div>
+
+        <!-- Building Description -->
+        <div class="mb-4">
+          <label for="description">Building Description</label>
+          <textarea id="description" formControlName="description" class="mt-1 p-2 block w-full border rounded-md"></textarea>
+          <div *ngIf="buildingForm.controls['description'].touched && buildingForm.controls['description'].invalid" class="text-error">
+            <small *ngIf="buildingForm.controls['description'].errors?.['maxlength']">{{ validationErrors.stringmaxlength | errorMessage: { max: 255 } }}</small>
+          </div>
+        </div>
+
+        <!-- Floor Size Length -->
+        <div class="mb-4">
+          <label for="floorSizeLength">Floor Size Length</label>
+          <input type="number" id="floorSizeLength" formControlName="floorSizeLength" class="mt-1 p-2 block w-full border rounded-md" />
+          <div *ngIf="buildingForm.controls['floorSizeLength'].touched && buildingForm.controls['floorSizeLength'].invalid" class="text-error">
+            <small *ngIf="buildingForm.controls['floorSizeLength'].errors?.['required']">{{ validationErrors.requiredField }}</small>
+            <small *ngIf="buildingForm.controls['floorSizeLength'].errors?.['pattern']">{{ validationErrors.invalidNumeric }}</small>
+            <small *ngIf="buildingForm.controls['floorSizeLength'].errors?.['min']">{{ validationErrors.numbermin | errorMessage: { min: 1 } }}</small>
+          </div>
+        </div>
+
+        <!-- Floor Size Width -->
+        <div class="mb-4">
+          <label for="floorSizeWidth">Floor Size Width</label>
+          <input type="number" id="floorSizeWidth" formControlName="floorSizeWidth" class="mt-1 p-2 block w-full border rounded-md" />
+          <div *ngIf="buildingForm.controls['floorSizeWidth'].touched && buildingForm.controls['floorSizeWidth'].invalid" class="text-error">
+            <small *ngIf="buildingForm.controls['floorSizeWidth'].errors?.['required']">{{ validationErrors.requiredField }}</small>
+            <small *ngIf="buildingForm.controls['floorSizeWidth'].errors?.['pattern']">{{ validationErrors.numbermin | errorMessage: { min: 1 } }}</small>
+          </div>
+        </div>
+
+        <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
+        <app-success-form-message [message]="submitSuccessMessage"></app-success-form-message>
+
+        <!-- Update Building Button -->
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit" [disabled]="buildingForm.invalid">{{ props.editBuildingButtonLabel }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

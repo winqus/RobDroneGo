@@ -1,0 +1,71 @@
+<div class="container p-0 md:p-7 flex justify-center items-center mx-auto">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8">
+      <form [formGroup]="searchRobotForm" (ngSubmit)="onSubmit()" class="form-control">
+        <!-- Enter typeName -->
+        <label for="typeName" class="label">
+          <span class="label-text">{{ props.typeNameLabel }}</span>
+        </label>
+        <input formControlName="typeName" type="text" placeholder="{{ props.typeNamePlaceholder }}" class="input input-bordered" id="typeName" />
+
+        <!-- Enter brand  -->
+        <label for="brand" class="label">
+          <span class="label-text">{{ props.brandLabel }}</span>
+        </label>
+        <input formControlName="brand" type="text" placeholder="{{ props.brandPlaceholder }}" class="input input-bordered" id="brand" />
+
+        <!-- Enter model -->
+        <label for="model" class="label">
+          <span class="label-text">{{ props.modelLabel }}</span>
+        </label>
+        <input formControlName="model" type="text" placeholder="{{ props.modelPlaceholder }}" class="input input-bordered" id="model" />
+
+        <!-- Enter typesOfTasks -->
+        <label for="typesOfTasks" class="label">
+          <span class="label-text">{{ props.typesOfTasksLabel }}</span>
+        </label>
+        <input formControlName="typesOfTasks" type="text" placeholder="{{ props.typesOfTasksPlaceholder }}" class="input input-bordered" id="typesOfTasks" />
+
+        <div *ngIf="searchRobotForm.invalid && (searchRobotForm.dirty || searchRobotForm.touched)" class="text-error"></div>
+
+        <!-- Submit Button -->
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit" [disabled]="searchRobotForm.invalid || isLoading">
+            <span *ngIf="!isLoading">{{ props.listRobotsButtonLabel }}</span>
+            <span *ngIf="isLoading">
+              <span class="loading loading-dots"></span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- List of robots -->
+<div class="bg-base-300 px-1 xs:px-8 py-2">
+  <ng-container *ngIf="props.searchResults.length > 0; else noRobots">
+    <div *ngFor="let robot of props.searchResults" class="collapse collapse-arrow bg-base-200 mb-2">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">
+        <span class="badge badge-lg mr-3">Code: {{ robot.code }}</span>
+        <span class="badge badge-lg mr-3">Type: {{ robot.type }}</span>
+      </div>
+
+      <div class="collapse-content">
+        <p *ngIf="robot.nickname" class="text-sm mb-1">Nickname: {{ robot.nickname }}</p>
+        <p *ngIf="robot.serialNumber" class="text-sm mb-1">Serial number: {{ robot.serialNumber }}</p>
+        <p *ngIf="robot.description" class="text-sm mb-1">Description: {{ robot.description }}</p>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Error message if there are no robots -->
+<ng-template #noRobots>
+  <div *ngIf="loadedOnce" class="flex items-center justify-center">
+    <div class="rounded-lg p-6 text-white text-center">
+      <p class="text-4xl font-bold mb-4">{{ noBuildingsFoundMessage }}</p>
+    </div>
+  </div>
+</ng-template>

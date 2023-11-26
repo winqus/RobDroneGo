@@ -1,0 +1,24 @@
+<div class="bg-base-300 px-3 py-2 min-h-screen">
+  <ng-container *ngIf="buildings.length; else noBuildings">
+    <div *ngFor="let building of buildings" class="collapse collapse-arrow bg-base-200 mb-2">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">
+        <span class="btn btn-s"> {{ building.code }}</span>
+      </div>
+      <div class="collapse-content">
+        <!-- Display floors for the selected building in order -->
+        <div *ngFor="let floor of getFloorsByBuilding(building.code)" class="btn btn-xs" (click)="onFloorSelection(building, floor.floorNumber)">
+          Load Maze {{ building.code }}{{ floor.floorNumber }}
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noBuildings>
+    <div class="flex items-center justify-center h-screen">
+      <div class="bg-gray-400 rounded-lg p-6 text-white text-center">
+        <p class="text-4xl font-bold mb-4">No buildings were created yet.</p>
+        <!-- You can add additional styling or elements here -->
+      </div>
+    </div>
+  </ng-template>
+</div>

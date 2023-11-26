@@ -1,32 +1,32 @@
 <!-- Signup Form -->
 <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="form-control">
   <!-- First Name Field -->
-<label class="label" for="firstName">
-  <span class="label-text">{{ props.firstNameLabel }}</span>
-</label>
-<input formControlName="firstName" type="text" placeholder="{{ props.firstNamePlaceholder }}" class="input input-bordered" id="firstName">
-<div *ngIf="signupForm.controls['firstName'].touched && signupForm.controls['firstName'].invalid" class="text-error">
-  <small *ngIf="signupForm.controls['firstName']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
-  <small *ngIf="signupForm.controls['firstName']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: firstNameArgs }}</small>
-  <small *ngIf="signupForm.controls['firstName']?.errors?.['maxlength']">{{ validationErrors.fieldLengthRange | errorMessage: firstNameArgs }}</small>
-</div>
+  <label class="label" for="firstName">
+    <span class="label-text">{{ props.firstNameLabel }}</span>
+  </label>
+  <input formControlName="firstName" type="text" placeholder="{{ props.firstNamePlaceholder }}" class="input input-bordered" id="firstName" />
+  <div *ngIf="signupForm.controls['firstName'].touched && signupForm.controls['firstName'].invalid" class="text-error">
+    <small *ngIf="signupForm.controls['firstName']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+    <small *ngIf="signupForm.controls['firstName']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: firstNameArgs }}</small>
+    <small *ngIf="signupForm.controls['firstName']?.errors?.['maxlength']">{{ validationErrors.fieldLengthRange | errorMessage: firstNameArgs }}</small>
+  </div>
 
-<!-- Last Name Field -->
-<label class="label" for="lastName">
-  <span class="label-text">{{ props.lastNameLabel }}</span>
-</label>
-<input formControlName="lastName" type="text" placeholder="{{ props.lastNamePlaceholder }}" class="input input-bordered" id="lastName">
-<div *ngIf="signupForm.controls['lastName'].touched && signupForm.controls['lastName'].invalid" class="text-error">
-  <small *ngIf="signupForm.controls['lastName']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
-  <small *ngIf="signupForm.controls['lastName']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: lastNameArgs }}</small>
-  <small *ngIf="signupForm.controls['lastName']?.errors?.['maxlength']">{{ validationErrors.fieldLengthRange | errorMessage: lastNameArgs }}</small>
-</div>
+  <!-- Last Name Field -->
+  <label class="label" for="lastName">
+    <span class="label-text">{{ props.lastNameLabel }}</span>
+  </label>
+  <input formControlName="lastName" type="text" placeholder="{{ props.lastNamePlaceholder }}" class="input input-bordered" id="lastName" />
+  <div *ngIf="signupForm.controls['lastName'].touched && signupForm.controls['lastName'].invalid" class="text-error">
+    <small *ngIf="signupForm.controls['lastName']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+    <small *ngIf="signupForm.controls['lastName']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: lastNameArgs }}</small>
+    <small *ngIf="signupForm.controls['lastName']?.errors?.['maxlength']">{{ validationErrors.fieldLengthRange | errorMessage: lastNameArgs }}</small>
+  </div>
 
   <!-- Email Field -->
   <label class="label" for="email">
     <span class="label-text">{{ props.emailLabel }}</span>
   </label>
-  <input formControlName="email" type="email" placeholder="{{ props.emailPlaceholder }}" class="input input-bordered" id="email">
+  <input formControlName="email" type="email" placeholder="{{ props.emailPlaceholder }}" class="input input-bordered" id="email" />
   <div *ngIf="signupForm.controls['email']?.touched && signupForm.controls['email']?.invalid" class="text-error">
     <small *ngIf="signupForm.controls['email']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
     <small *ngIf="signupForm.controls['email']?.errors?.['email']">{{ validationErrors.invalidEmail }}</small>
@@ -36,7 +36,7 @@
   <label class="label" for="password">
     <span class="label-text">{{ props.passwordLabel }}</span>
   </label>
-  <input formControlName="password" type="password" placeholder="{{ props.passwordPlaceholder }}" class="input input-bordered" id="password">
+  <input formControlName="password" type="password" placeholder="{{ props.passwordPlaceholder }}" class="input input-bordered" id="password" />
   <div *ngIf="signupForm.controls['password']?.touched && signupForm.controls['password']?.invalid" class="text-error">
     <small *ngIf="signupForm.controls['password']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
     <small *ngIf="signupForm.controls['password']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: passwordArgs }}</small>
@@ -46,7 +46,7 @@
   <label class="label" for="confirmPassword">
     <span class="label-text">{{ props.confirmPasswordLabel }}</span>
   </label>
-  <input formControlName="confirmPassword" type="password" placeholder="{{ props.confirmPasswordPlaceholder }}" class="input input-bordered" id="confirmPassword">
+  <input formControlName="confirmPassword" type="password" placeholder="{{ props.confirmPasswordPlaceholder }}" class="input input-bordered" id="confirmPassword" />
   <div *ngIf="signupForm.controls['confirmPassword']?.touched && signupForm.controls['confirmPassword']?.invalid" class="text-error">
     <small *ngIf="signupForm.controls['confirmPassword']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
   </div>
@@ -54,11 +54,25 @@
     <small *ngIf="signupForm.hasError('mismatch')">{{ validationErrors.passwordMismatch }}</small>
   </div>
 
+  <!-- User Role Dropdown -->
+  <label class="label" for="role">
+    <span class="label-text">{{ props.userRolesDropdownLabel }}</span>
+  </label>
+  <select formControlName="role" class="select select-bordered" id="role">
+    <option *ngFor="let userRole of props.userRoles" [ngValue]="userRole.role">{{ userRole.label }}</option>
+  </select>
+
   <!-- GDPR Compliance Checkbox -->
-<label class="label cursor-pointer mt-3 justify-start" for="gdprCompliance">
-  <input formControlName="gdprCompliance" type="checkbox" [class.checkbox-error]="signupForm.controls['gdprCompliance'].invalid && signupForm.controls['gdprCompliance'].touched" class="checkbox checkbox-info mr-2" id="gdprCompliance">
-  <span class="label-text" [innerHtml]="sanitizedGdprLabel"></span>
-</label>
+  <label class="label cursor-pointer mt-3 justify-start" for="gdprCompliance">
+    <input
+      formControlName="gdprCompliance"
+      type="checkbox"
+      [class.checkbox-error]="signupForm.controls['gdprCompliance'].invalid && signupForm.controls['gdprCompliance'].touched"
+      class="checkbox checkbox-info mr-2"
+      id="gdprCompliance"
+    />
+    <span class="label-text" [innerHtml]="sanitizedGdprLabel"></span>
+  </label>
 
   <!-- Signup Button -->
   <div class="form-control mt-6">

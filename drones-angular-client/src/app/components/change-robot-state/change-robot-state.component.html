@@ -1,0 +1,46 @@
+<div class="p-0 md:p-7 flex justify-center items-center">
+    <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+      <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
+        <!-- Change Robot State Form -->
+        <form [formGroup]="robotForm" (ngSubmit)="onSubmit()" class="form-control">
+          <!-- Robot Code Field -->
+          <label class="label" for="robotCode">
+            <span class="label-text">{{ props.robotCodeLabel }}</span>
+          </label>
+          <input formControlName="robotCode" type="text" placeholder="{{ props.robotCodePlaceholder }}" class="input input-bordered" id="robotCode" />
+          <div *ngIf="robotForm.controls['robotCode'].touched && robotForm.controls['robotCode'].invalid" class="text-error">
+            <small *ngIf="robotForm.controls['robotCode'].errors?.['required']">{{ props.robotCodeRequiredError }}</small>
+            <small *ngIf="robotForm.controls['robotCode'].errors?.['maxlength']">{{ validationErrors.stringmaxlength | errorMessage: { max: 30 } }}</small>
+            <small *ngIf="robotForm.controls['robotCode'].errors?.['pattern']">{{ validationErrors.onlyAlphanumerics }}</small>
+          </div>
+  
+          <!-- Available Field -->
+          <label class="label" for="available">
+            <span class="label-text">{{ props.availableLabel }}</span>
+          </label>
+          <select formControlName="available" class="select select-bordered" id="available">
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+          <div *ngIf="robotForm.controls['available'].touched && robotForm.controls['available'].invalid" class="text-error">
+            <small *ngIf="robotForm.controls['available'].errors?.['required']">{{ props.availableRequiredError }}</small>
+            <small *ngIf="robotForm.controls['available'].errors?.['pattern']">{{ validationErrors.invalidBoolean }}</small>
+          </div>
+  
+          <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
+          <app-success-form-message [message]="submitSuccessMessage"></app-success-form-message>
+  
+          <!-- Submit Button -->
+          <div class="form-control mt-6">
+            <button class="btn btn-primary" type="submit" [disabled]="robotForm.invalid || isLoading">
+              <span *ngIf="!isLoading">{{ props.changeStateButtonLabel }}</span>
+              <span *ngIf="isLoading">
+                <span class="loading loading-dots"></span>
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

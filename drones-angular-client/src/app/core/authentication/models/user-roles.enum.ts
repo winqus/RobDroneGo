@@ -1,7 +1,7 @@
 export enum UserRole {
-  SystemAdministrator = 'System Administrator',
-  FleetManager = 'Fleet Manager',
-  CampusManager = 'Campus Manager',
   User = 'User',
-  TaskManager = 'Task Manager'
+  CampusManager = 'Campus Manager',
+  FleetManager = 'Fleet Manager',
+  SystemAdministrator = 'System Administrator',
+  TaskManager = 'Task Manager',
 }

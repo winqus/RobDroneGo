@@ -14,13 +14,15 @@ import { JwtService } from './jwt.service';
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
-  public currentUser = this.currentUserSubject
-    .asObservable()
-    .pipe(distinctUntilChanged());
+  public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
 
-  public isAuthenticated: Observable<boolean> = this.currentUser.pipe(map(user => Boolean(user)));
+  public isAuthenticated: Observable<boolean> = this.currentUser.pipe(map((user) => Boolean(user)));
 
-  constructor(private http: HttpClient, private jwtService: JwtService, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private jwtService: JwtService,
+    private router: Router,
+  ) {}
 
   getCurrentUser(): Observable<{ user: User }> {
     const route = API_ROUTES.user.me;
@@ -29,22 +31,18 @@ export class UserService {
         next: ({ user }) => this.currentUserSubject.next(user),
         error: () => this.purgeAuthentication(),
       }),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 
   login(credentials: LoginCredentials): Observable<AuthResponse> {
     const route = API_ROUTES.user.login;
-    return this.http
-      .post<AuthResponse>(route, { user: credentials })
-      .pipe(tap(({ user, token }) => this.setAuthentication(user, token)));
+    return this.http.post<AuthResponse>(route, { user: credentials }).pipe(tap(({ user, token }) => this.setAuthentication(user, token)));
   }
 
   register(credentials: RegisterCredentials): Observable<AuthResponse> {
     const route = API_ROUTES.user.register;
-    return this.http
-      .post<AuthResponse>(route, { user: credentials })
-      .pipe(tap(({ user, token }) => this.setAuthentication(user, token)));
+    return this.http.post<AuthResponse>(route, { user: credentials }).pipe(tap(({ user, token }) => this.setAuthentication(user, token)));
   }
 
   update(user: Partial<User>): Observable<{ user: User }> {
@@ -52,7 +50,7 @@ export class UserService {
     return this.http.put<{ user: User }>(route, { user }).pipe(
       tap(({ user }) => {
         this.currentUserSubject.next(user);
-      })
+      }),
     );
   }
 

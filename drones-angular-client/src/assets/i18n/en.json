@@ -10,20 +10,324 @@
       "title": "RobDroneGo",
       "links": [
         {
-          "label": "Link 1",
-          "href": "#link1"
+          "label": "Campus",
+          "href": "/campus",
+          "dropdownLinks": [
+            {
+              "label": "Building",
+              "href": "/campus/building",
+              "dropdownLinks": [
+                {
+                  "label": "Create",
+                  "href": "/campus/building/create"
+                },
+
+                {
+                  "label": "List",
+                  "href": "/campus/building/list"
+                },
+                {
+                  "label": "Search by Floors",
+                  "href": "/campus/building/:minFloor/:maxFloor"
+                }
+              ]
+            },
+            {
+              "label": "Floor",
+              "href": "/campus/floor",
+              "dropdownLinks": [
+                {
+                  "label": "Create",
+                  "href": "/campus/floor/create"
+                },
+                {
+                  "label": "Served by Elevator",
+                  "href": "/campus/floor/served-by-elevator"
+                }
+              ]
+            },
+            {
+              "label": "Room",
+              "href": "/campus/room",
+              "dropdownLinks": [
+                {
+                  "label": "Create",
+                  "href": "/campus/room/create"
+                }
+              ]
+            },
+            {
+              "label": "Passage",
+              "href": "/campus/passage",
+              "dropdownLinks": [
+                {
+                  "label": "Edit",
+                  "href": "/campus/passage/edit"
+                },
+                {
+                  "label": "List",
+                  "href": "/campus/passage/list"
+                },
+                {
+                  "label": "Create",
+                  "href": "/campus/passage/create"
+                }
+              ]
+            },
+            {
+              "label": "Elevator",
+              "href": "/campus/elevator",
+              "dropdownLinks": [
+                {
+                  "label": "Create",
+                  "href": "/campus/elevator/create"
+                }
+              ]
+            },
+            {
+              "label": "Map",
+              "href": "/campus/map",
+              "dropdownLinks": [
+                {
+                  "label": "Upload",
+                  "href": "/campus/map/upload"
+                }
+              ]
+            },
+            {
+              "label": "Don't look",
+              "href": "/nowhere",
+              "dropdownLinks": [
+                {
+                  "label": "Don't look 1",
+                  "href": "/nowhere",
+                  "dropdownLinks": [
+                    {
+                      "label": "Don't look 1.1",
+                      "href": "/nowhere",
+                      "dropdownLinks": [
+                        {
+                          "label": "Don't look 1.1.1",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 1.1.1.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 1.1.1.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        },
+                        {
+                          "label": "Don't look 1.1.2",
+                          "href": "/nowhere"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Don't look 1.2",
+                      "href": "/nowhere",
+                      "dropdownLinks": [
+                        {
+                          "label": "Don't look 1.2.1",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 1.2.1.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 1.2.1.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        },
+                        {
+                          "label": "Don't look 1.2.2",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 1.2.2.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 1.2.2.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "label": "Don't look 2",
+                  "href": "/nowhere",
+                  "dropdownLinks": [
+                    {
+                      "label": "Don't look 2.1",
+                      "href": "/nowhere",
+                      "dropdownLinks": [
+                        {
+                          "label": "Don't look 2.1.1",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 2.1.1.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 2.1.1.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        },
+                        {
+                          "label": "Don't look 2.1.2",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 2.1.2.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 2.1.2.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Don't look 2.2",
+                      "href": "/nowhere",
+                      "dropdownLinks": [
+                        {
+                          "label": "Don't look 2.2.1",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 2.2.1.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 2.2.1.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        },
+                        {
+                          "label": "Don't look 2.2.2",
+                          "href": "/nowhere",
+                          "dropdownLinks": [
+                            {
+                              "label": "Don't look 2.2.2.1",
+                              "href": "/nowhere"
+                            },
+                            {
+                              "label": "Don't look 2.2.2.2",
+                              "href": "/nowhere"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
-          "label": "Link 2",
-          "href": "#link2"
+          "label": "Fleet",
+          "href": "/fleet",
+
+          "dropdownLinks": [
+            {
+              "label": "Robot",
+              "href": "/fleet/robot",
+              "dropdownLinks": [
+                {
+                  "label": "Create",
+                  "href": "/fleet/robot/create"
+                },
+                {
+                  "label": "List",
+                  "href": "/fleet/robot/list"
+                },
+                {
+                  "label": "Search",
+                  "href": "/fleet/robot/search"
+                },
+                {
+                  "label": "Change state",
+                  "href": "/fleet/robot/state"
+                }
+              ]
+            },
+            {
+              "label": "RobotType",
+              "href": "/fleet/robotType",
+              "dropdownLinks": [
+                {
+                  "label": "Create",
+                  "href": "/fleet/robotType/create"
+                }
+              ]
+            }
+          ]
         },
         {
-          "label": "Link 3",
-          "href": "#link3"
+          "label": "Task",
+          "href": "/task",
+          "dropdownLinks": [
+            {
+              "label": "Find route",
+              "href": "task/route/:code1/:code2"
+            },
+            {
+              "label": "Complexity analysis",
+              "href": "task/analysis"
+            }
+          ]
         },
         {
           "label": "3D",
           "href": "/3d"
+        },
+        {
+          "label": "System",
+          "href": "/system",
+          "dropdownLinks": [
+            {
+              "label": "MBCO",
+              "href": "system/mbco"
+            },
+            {
+              "label": "Data and recovery strategy",
+              "href": "system/recovery-strategy"
+            }
+          ]
+        },
+        {
+          "label": "About us",
+          "href": "/about",
+          "dropdownLinks": [
+            {
+              "label": "Information",
+              "href": "about/info"
+            },
+            {
+              "label": "How we use your data",
+              "href": "about/gdpr"
+            },
+            {
+              "label": "Public Folder",
+              "href": "about/folder"
+            }
+          ]
         }
       ],
       "profileDropdown": {
@@ -41,7 +345,7 @@
       }
     },
     "footer": {
-      "text": "Copyright © 2023 - All right reserved by Company Ltd"
+      "text": "Copyright © 2023 - All right reserved by Group 025"
     },
     "error": {
       "redirectingText": "Redirecting to the home page..."
@@ -69,39 +373,129 @@
       },
       "signup": {
         "firstNameLabel": "First Name",
-        "lastNameLabel": "Last Name",
-        "emailLabel": "Email",
-        "passwordLabel": "Password",
-        "confirmPasswordLabel": "Confirm Password",
-        "gdprLabel": "I agree to the <a class=\"link link-info\" href=\"/terms\" target=\"_blank\">Terms of Service</a> and <a class=\"link link-info\" href=\"/privacy\" target=\"_blank\">Privacy Policy</a>.",
         "firstNamePlaceholder": "First Name",
+        "lastNameLabel": "Last Name",
         "lastNamePlaceholder": "Last Name",
+        "emailLabel": "Email",
         "emailPlaceholder": "Email",
+        "passwordLabel": "Password",
         "passwordPlaceholder": "Password",
+        "confirmPasswordLabel": "Confirm Password",
         "confirmPasswordPlaceholder": "Confirm Password",
+        "userRolesDropdownLabel": "Select Role",
+        "userRoles": [
+          { "label": "User", "role": "User" },
+          { "label": "Campus Manager", "role": "Campus Manager" },
+          { "label": "Fleet Manager", "role": "Fleet Manager" },
+          { "label": "System Administrator", "role": "System Administrator" },
+          { "label": "Task Manager", "role": "Task Manager" }
+        ],
+        "gdprLabel": "I agree to the <a class=\"link link-info\" href=\"/terms\" target=\"_blank\">Terms of Service</a> and <a class=\"link link-info\" href=\"/privacy\" target=\"_blank\">Privacy Policy</a>.",
         "signupButtonLabel": "Sign Up"
       }
+    },
+    "passage": {
+      "floorNumberLabel": "Floor Number",
+      "descriptionLabel": "Description",
+      "servedByElevatorLabel": "Served by Elevator",
+      "buildingCodeLabel": "Building Code",
+      "floorNumberPlaceholder": "Enter Floor Number",
+      "descriptionPlaceholder": "Enter Description",
+      "buildingCodePlaceholder": "Enter Building Code",
+      "createPassageButtonLabel": "Create Passage",
+      "validationErrors": {
+        "floorNumberRequired": "Floor Number is required.",
+        "buildingCodeRequired": "Building Code is required."
+      }
+    },
+    "building": {
+      "buildingNameLabel": "Building Name",
+      "buildingNamePlaceholder": "Enter Building Name (optional)",
+      "buildingCodeLabel": "Building Code",
+      "buildingCodePlaceholder": "Enter Building Code",
+      "buildingCodeRequiredError": "Building Code is required",
+      "buildingDescriptionLabel": "Building Description",
+      "buildingDescriptionPlaceholder": "Enter Building Description (optional)",
+      "floorSizeLengthLabel": "Floor Size Length",
+      "floorSizeLengthPlaceholder": "Enter Floor Size Length",
+      "floorSizeLengthRequiredError": "Floor Size Length is required",
+      "floorSizeWidthLabel": "Floor Size Width",
+      "floorSizeWidthPlaceholder": "Enter Floor Size Width",
+      "floorSizeWidthRequiredError": "Floor Size Width is required",
+      "submitButtonLabel": "Create Building",
+      "buildingCreatedMessage": "Building created successfully"
+    },
+    "edit-floor": {
+      "floorNumber": "Floor Number",
+      "description": "Description",
+      "servedByElevator2": false,
+      "buildingCode": "Building",
+      "floorNumberPlaceholder": "Enter Floor Number",
+      "descriptionPlaceholder": "Add Optional Description",
+      "servedByElevatorPlaceholder": "false",
+      "buildingCodePlaceholder": "Enter Building Code",
+      "editFloorButtonLable": "Update Floor",
+      "validationErrors": {
+        "floorNumberRequired": "Floor Number is required.",
+        "servedByElevatorRequired": "Served By Elevator is required.",
+        "buildingCodeRequired": "Building Code is required."
+      }
+    },
+    "floor": {
+      "floorNumberLabel": "Floor Number",
+      "floorNumberPlaceholder": "Enter Floor Number",
+      "floorNumberRequiredError": "Floor Number is required",
+      "floorDescriptionLabel": "Floor Description",
+      "floorDescriptionPlaceholder": "Enter Floor Description (optional)",
+      "submitButtonLabel": "Create Floor",
+      "floorCreatedMessage": "Floor created successfully"
+    },
+    "robot": {
+      "robotCodeLabel": "Robot Code",
+      "robotCodePlaceholder": "Enter Robot Code",
+      "robotCodeRequiredError": "Robot code is required",
+      "robotNicknameLabel": "Robot Nickname",
+      "robotNicknamePlaceholder": "Enter Robot Nickname",
+      "robotNicknameRequiredError": "Robot nickname is required",
+      "robotSerialNumberLabel": "Robot Serial Number",
+      "robotSerialNumberPlaceholder": "Enter Robot Serial Number",
+      "robotSerialNumberRequiredError": "Robot serial number is required",
+      "robotDescriptionLabel": "Robot Description",
+      "robotDescriptionPlaceholder": "Enter Robot Description (optional)",
+      "robotTypeLabel": "Robot Type Name",
+      "robotTypePlaceholder": "Enter Robot Type Name",
+      "robotTypeRequiredError": "Robot type is required",
+      "submitButtonLabel": "Create Robot",
+      "robotCreatedMessage": "Robot created successfully"
     }
   },
   "validation_errors": {
+    "onlyAlphanumerics": "Only alphanumeric characters allowed",
+    "onlyAlphanumericsAndSpaces": "Only alphanumeric and space characters allowed",
     "requiredField": "This field is required.",
     "invalidEmail": "The email address entered is not valid.",
     "passwordMismatch": "The passwords do not match.",
     "passwordRange": "The password must be between {min} and {max} characters long.",
     "stringempty": "The field cannot be empty.",
     "stringminlength": "The field must be at least {min} characters long.",
-    "stringmaxlength": "The field must not exceed {max} characters long.",
+    "stringmaxlength": "Max {max} characters allowed.",
     "fieldLengthRange": "{field} must be between {min} and {max} characters long.",
     "stringLengthRange": "The field must be between {min} and {max} characters long.",
     "numbermin": "The number must be {min} or greater.",
     "numbermax": "The number must be {max} or less.",
     "invalidformat": "The input is not in the required format.",
-    "passwordstrength": "The password must contain at least 8 characters, including a number and a special character."
+    "passwordstrength": "The password must contain at least 8 characters, including a number and a special character.",
+    "invalidNumeric": "Invalid numeric value",
+    "alphanumericWithSpaces": "Only alphanumeric characters and spaces allowed",
+    "invalidBoolean": "You can introduce only true or false values"
   },
   "generic": {
     "unknownerror": "An unknown error occurred. Please try again.",
     "changessaved": "Your changes have been saved successfully.",
     "actionfailed": "The action failed to complete. Please try again."
+  },
+  "network": {
+    "error": "Oops! Something went wrong while processing your request."
   },
   "http": {
     "error400BadRequest": {

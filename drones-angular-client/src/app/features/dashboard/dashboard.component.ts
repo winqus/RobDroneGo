@@ -1,4 +1,7 @@
+import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import * as marked from 'marked';
 import { DashboardService } from 'src/app/services/dashboard.service';
 
 export interface DashboardProps {
@@ -19,6 +22,8 @@ export interface DashboardProps {
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  convertedHtml: SafeHtml = '';
+
   // To make props passable from parent to child component, use @Input() decorator
   @Input() props!: DashboardProps;
 
@@ -27,7 +32,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private timerId!: number;
 
   // Inject DashboardService
-  constructor(private dashboardService: DashboardService) { }
+  constructor(
+    private dashboardService: DashboardService,
+    private http: HttpClient,
+    private sanitizer: DomSanitizer,
+  ) {}
 
   // On initialization lifecycle hook
   ngOnInit(): void {
@@ -36,6 +45,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.timerId = window.setInterval(() => {
       this.updateDateTime();
     }, 1000);
+
+    const url = './assets/info/info.md'; // Updated path to info.md
+    const req = new HttpRequest('GET', url, {
+      responseType: 'text',
+    });
+
+    this.http.request(req).subscribe({
+      next: (event) => {
+        if (event instanceof HttpResponse) {
+          const markdownContent = event.body;
+
+          this.convertedHtml = this.sanitizer.bypassSecurityTrustHtml(this.markdownToHtml(markdownContent));
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching info text:', error);
+      },
+    });
+  }
+
+  markdownToHtml(markdown: any) {
+    return marked.parse(markdown);
   }
 
   // At the end of the component lifecycle, clean up

@@ -1,0 +1,28 @@
+<div class="bg-base-300 px-3 py-2 min-h-screen">
+  <ng-container *ngIf="robots.length; else noRobots">
+    <div *ngFor="let robot of robots" class="collapse collapse-arrow bg-base-200 mb-2">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">
+        <span class="badge badge-lg mr-3">Robot Code: {{ robot.code }}</span>
+      </div>
+      <div class="collapse-content">
+        <p class="text-sm mb-1">Nickname: {{ robot.nickname }}</p>
+        <p *ngIf="robot.description" class="text-sm mb-1">Description: {{ robot.description }}</p>
+        <p class="text-sm mb-1">Serial Number: {{ robot.serialNumber }}</p>
+        <p class="text-sm mb-1">Type: {{ robot.type }}</p>
+        <p class="text-sm mb-2">Availability: {{ robot.available ? 'Available' : 'Not Available' }}</p>
+
+        <div class="flex space-x-1">
+          <!-- bottuns -->
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noRobots>
+    <div class="flex items-center justify-center h-screen">
+      <div class="bg-gray-400 rounded-lg p-6 text-white text-center">
+        <p class="text-4xl font-bold mb-4">No robots found.</p>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,12 +1,17 @@
-// const API_BASE = 'http://127.0.0.1/api';
-// const API_BASE = 'https://webhook.site/a8a47c5e-d6e8-4757-8167-93f042322b53/api';
-
-import { environment } from "./environments/environment";
+import { RobotFilters } from './app/core/models/shared/robotFilters.type';
+import { environment } from './environments/environment';
 
 const API_BASE = environment.apiUrl;
 
+/* Usage example:
+    getBuildingByCode(id: number) {
+      return this.http.get<Building>(API_ROUTES.building.getByCode(id));
+    }
+*/
+
 export const API_ROUTES = {
   base: API_BASE,
+  threeDModuleAssetsBase: './assets',
   user: {
     me: `${API_BASE}/auth/me`,
     login: `${API_BASE}/auth/signin`,
@@ -14,19 +19,49 @@ export const API_ROUTES = {
     update: `${API_BASE}/auth/user`,
     logout: `${API_BASE}/auth/logout`,
   },
-  // Other Examples:
-  // users: {
-  //   base: 'https://your-api-url.com/users',
-  //   profile: (userId: number) => `https://your-api-url.com/users/${userId}`,
-  //   updateProfile: (userId: number) => `https://your-api-url.com/users/${userId}/update`,
-  // },
-  // products: {
-  //   base: 'https://your-api-url.com/products',
-  //   detail: (productId: number) => `https://your-api-url.com/products/${productId}`,
-  // },
+  building: {
+    getAll: `${API_BASE}/building/all`,
+    getByCode: (buildingCode: string) => `${API_BASE}/building/${buildingCode}`,
+    getByFloorRange: (minFloor: number, maxFloor: number) => `${API_BASE}/building?minFloor=${minFloor}&maxFloor=${maxFloor}`,
+    create: `${API_BASE}/building`,
+    update: (id: string) => `${API_BASE}/building/${id}`,
+  },
+  elevator: {
+    createElevator: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevator`,
+    updateElevator: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevator`,
+    listElevators: (buildingCode: string) => `${API_BASE}/building/${buildingCode}/elevators`,
+  },
+  passage: {
+    createPassage: `${API_BASE}/passage`,
+    getPassages: `${API_BASE}/passage`,
+    getPassagesBetweenBuildings: (buildingCode1: string, buildingCode2: string) => `${API_BASE}/passage?buildingCode1=${buildingCode1}&buildingCode2=${buildingCode2}`,
+    listFloorsWithPassagesToDifferentBuilding: (buildingCode: string) => `${API_BASE}/passage/toDifferentBuildings?buildingCode=${buildingCode}`,
+    updatePassage: `${API_BASE}/passage`,
+  },
+  robot: {
+    getAll: `${API_BASE}/robot`,
+    getByFilter: (filters: any) => `${API_BASE}/robot?${new URLSearchParams(filters as any).toString()}`,
+    //Example: const url = API_ROUTES.robot.getByFilter({ type: "service", brand: "AcmeRobotics", model:"X200"});
+    update: (robotCode: string) => `${API_BASE}/robot/${robotCode}/state`,
+    createRobot: `${API_BASE}/robot`,
+    createRobotType: `${API_BASE}/robotType`,
+    changeRobotState: (robotCode: string) => `${API_BASE}/robot/${robotCode}/state`,
+  },
+  floor: {
+    createFloor: `${API_BASE}/floor`,
+    getByBuildingCode: (buildingCode: string) => `${API_BASE}/floor/${buildingCode}`,
+    getAllFloors: `${API_BASE}/floor`,
+    updateFloor: (id: string) => `${API_BASE}/floor/${id}`,
+  },
+  room: {
+    createRoom: `${API_BASE}/room`,
+  },
+  map: {
+    uploadMap: (buildingCode: string, floorNumber: number) => `${API_BASE}/floor/${floorNumber}/building/${buildingCode}/`,
+    getMap: (buildingCode: string, floorNumber: number) => `${API_BASE}/floor/${floorNumber}/building/${buildingCode}/map`,
+  },
+  folder: {
+    upload: `${API_BASE}/folder/upload?file`,
+    list: `${API_BASE}/folder/`,
+  },
 };
-
-// Usage example:
-// getUserProfile(id: number) {
-//   return this.http.get<UserProfile>(API_ROUTES.users.profile(id));
-// }

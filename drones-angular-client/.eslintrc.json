@@ -1,18 +1,21 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020, // Allows for the parsing of modern ECMAScript features
+    "sourceType": "module" // Allows for the use of imports
+  },
+  "ignorePatterns": ["projects/**/*", "src/app/ThreeDModule/**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "prettier/@typescript-eslint",
+        "plugin:prettier/recommended"
       ],
       "rules": {
         "@angular-eslint/directive-selector": [
@@ -30,7 +33,22 @@
             "prefix": "app",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+        "padding-line-between-statements": ["error", { "blankLine": "always", "prev": "*", "next": "return" }],
+        "dot-location": ["error", "property"],
+        "lines-between-class-members": [
+          "error",
+          {
+            "enforce": [{ "blankLine": "always", "prev": "method", "next": "method" }]
+          }
+        ],
+        "arrow-parens": ["error", "always"],
+        "curly": ["error", "all"],
+        "no-multi-spaces": "error",
+        "object-curly-newline": ["error", { "multiline": true }],
+        "object-curly-spacing": ["error", "always"],
+        "function-paren-newline": ["error", { "minItems": 4 }]
       }
     },
     {
@@ -41,7 +59,9 @@
         "plugin:@angular-eslint/template/recommended",
         "plugin:@angular-eslint/template/accessibility"
       ],
-      "rules": {}
+      "rules": {
+        "no-duplicate-attributes": "error"
+      }
     }
   ]
 }

@@ -1,0 +1,73 @@
+<div class="container p-0 md:p-7 flex justify-center items-center mx-auto">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8">
+      <form [formGroup]="buildingMinMaxForm" (ngSubmit)="onSubmit()" class="form-control">
+        <!-- Enter minFloor -->
+        <label class="label" for="minFloor">
+          <span class="label-text">{{ props.minFloorLabel }}</span>
+        </label>
+        <input formControlName="minFloor" type="number" placeholder="{{ props.minFloorPlaceholder }}" class="input input-bordered" id="minFloor" />
+        <div *ngIf="buildingMinMaxForm.controls['minFloor'].touched && buildingMinMaxForm.controls['minFloor'].invalid" class="text-error">
+          <small *ngIf="buildingMinMaxForm.controls['minFloor'].errors?.['required']">{{ props.minFloorRequiredError }}</small>
+          <small *ngIf="buildingMinMaxForm.controls['minFloor'].errors?.['min']">Minimum floor must be 0 or more.</small>
+        </div>
+
+        <!-- Enter maxFloor -->
+        <label class="label" for="maxFloor">
+          <span class="label-text">{{ props.maxFloorLabel }}</span>
+        </label>
+        <input formControlName="maxFloor" type="number" placeholder="{{ props.maxFloorPlaceholder }}" class="input input-bordered" id="maxFloor" />
+        <div *ngIf="buildingMinMaxForm.controls['maxFloor'].touched && buildingMinMaxForm.controls['maxFloor'].invalid" class="text-error">
+          <small *ngIf="buildingMinMaxForm.controls['maxFloor'].errors?.['required']">{{ props.maxFloorRequiredError }}</small>
+        </div>
+
+        <!-- Validation Error for minMax -->
+        <div *ngIf="buildingMinMaxForm.errors?.['minMax']" class="text-error">
+          <small>Max floor must be greater than or equal to min floor.</small>
+        </div>
+
+        <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
+        <!-- <app-success-form-message [message]="submitSuccessMessage"></app-success-form-message> -->
+
+        <!-- Submit Button -->
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit" [disabled]="buildingMinMaxForm.invalid || isLoading">
+            <span *ngIf="!isLoading">{{ props.listBuildingsButtonLabel }}</span>
+            <span *ngIf="isLoading">
+              <span class="loading loading-dots"></span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- List of buildings -->
+<div class="bg-base-300 px-1 xs:px-8 py-2">
+  <ng-container *ngIf="buildings.length > 0; else noBuildings">
+    <div *ngFor="let building of buildings" class="collapse collapse-arrow bg-base-200 mb-2">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">
+        <span class="badge badge-lg mr-3">Building Code: {{ building.code }}</span>
+        <span class="badge badge-lg mr-3">Number of Floors: {{ getNumberOfFloors(building.code, floors) }}</span>
+      </div>
+
+      <div class="collapse-content">
+        <p *ngIf="building.name" class="text-sm mb-1">Name: {{ building.name }}</p>
+        <p *ngIf="building.description" class="text-sm mb-1">Description: {{ building.description }}</p>
+        <p class="text-sm mb-2">Floor Size: {{ building.floorSizeLength }} x {{ building.floorSizeWidth }}</p>
+        <p *ngIf="building.elevator !== null" class="text-sm mb-2">Has an elevator</p>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Error message if there are no buildings -->
+<ng-template #noBuildings>
+  <div *ngIf="loadedOnce" class="flex items-center justify-center">
+    <div class="rounded-lg p-6 text-white text-center">
+      <p class="text-4xl font-bold mb-4">{{ noBuildingsFoundMessage }}</p>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,62 @@
+<div class="container p-0 md:p-7 flex justify-center items-center">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
+      <h2 class="text-2xl font-semibold mb-6">Edit Elevator</h2>
+
+      <form [formGroup]="elevatorForm" (ngSubmit)="onSubmit()" class="form-control">
+        <!-- Building Code -->
+        <div class="mb-4">
+          <label for="buildingCode">Building Code</label>
+          <input type="text" id="buildingCode" formControlName="buildingCode" class="mt-1 p-2 block w-full border rounded-md" [value]="props.elevator.buildingCode" readonly />
+        </div>
+
+        <!-- Elevator Make -->
+        <div class="mb-4">
+          <label for="make">Elevator Make</label>
+          <input type="text" id="make" formControlName="make" class="mt-1 p-2 block w-full border rounded-md" />
+          <div *ngIf="elevatorForm.controls['make'].touched && elevatorForm.controls['make'].invalid" class="text-error">
+            <small *ngIf="elevatorForm.controls['make'].errors?.['maxlength']">{{ validationErrors.stringmaxlength | errorMessage: { max: 50 } }}</small>
+            <small *ngIf="elevatorForm.controls['make'].errors?.['pattern']">{{ validationErrors.onlyAlphanumerics }}</small>
+          </div>
+        </div>
+
+        <!-- Elevator Model -->
+        <div class="mb-4">
+          <label for="model">Elevator Model</label>
+          <input type="text" id="model" formControlName="model" class="mt-1 p-2 block w-full border rounded-md" />
+          <div *ngIf="elevatorForm.controls['model'].touched && elevatorForm.controls['model'].invalid" class="text-error">
+            <small *ngIf="elevatorForm.controls['model'].errors?.['maxlength']">{{ validationErrors.stringmaxlength | errorMessage: { max: 50 } }}</small>
+            <small *ngIf="elevatorForm.controls['model'].errors?.['pattern']">{{ validationErrors.onlyAlphanumerics }}</small>
+          </div>
+        </div>
+
+        <!-- Elevator Serial Number -->
+        <div class="mb-4">
+          <label for="serialNumber">Elevator Serial Number</label>
+          <input type="text" id="serialNumber" formControlName="serialNumber" class="mt-1 p-2 block w-full border rounded-md" />
+          <div *ngIf="elevatorForm.controls['serialNumber'].touched && elevatorForm.controls['serialNumber'].invalid" class="text-error">
+            <small *ngIf="elevatorForm.controls['serialNumber'].errors?.['maxlength']">{{ validationErrors.stringmaxlength | errorMessage: { max: 50 } }}</small>
+            <small *ngIf="elevatorForm.controls['serialNumber'].errors?.['pattern']">{{ validationErrors.onlyAlphanumerics }}</small>
+          </div>
+        </div>
+
+        <!-- Elevator Description -->
+        <div class="mb-4">
+          <label for="description">Elevator Description</label>
+          <textarea id="description" formControlName="description" class="mt-1 p-2 block w-full border rounded-md"></textarea>
+          <div *ngIf="elevatorForm.controls['description'].touched && elevatorForm.controls['description'].invalid" class="text-error">
+            <small *ngIf="elevatorForm.controls['description'].errors?.['maxlength']">{{ validationErrors.stringmaxlength | errorMessage: { max: 250 } }}</small>
+          </div>
+        </div>
+
+        <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
+        <app-success-form-message [message]="submitSuccessMessage"></app-success-form-message>
+
+        <!-- Update Elevator Button -->
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit" [disabled]="elevatorForm.invalid">{{ props.editElevatorButtonLabel }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

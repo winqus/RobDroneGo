@@ -1,0 +1,32 @@
+<div class="bg-base-300 px-3 py-2 min-h-screen">
+  <ng-container *ngIf="buildings.length; else noBuildings">
+    <div *ngFor="let building of buildings" class="collapse collapse-arrow bg-base-200 mb-2">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">
+        <span class="badge badge-lg mr-3">Code: {{ building.code }}</span>
+      </div>
+      <div class="collapse-content">
+        <p *ngIf="building.name" class="text-sm mb-1">Name: {{ building.name }}</p>
+        <p *ngIf="building.description" class="text-sm mb-1">Description: {{ building.description }}</p>
+        <p class="text-sm mb-2">Floor Size: {{ building.floorSizeLength }} x {{ building.floorSizeWidth }}</p>
+        <p *ngIf="building.elevator !== null" class="text-sm mb-2">Has an elevator</p>
+
+        <div class="flex space-x-1">
+          <button class="btn btn-xs btn-outline" (click)="editBuilding(building)">Edit</button>
+          <button class="btn btn-xs btn-info" (click)="createFloor(building.code)">Create Floor</button>
+          <button class="btn btn-xs btn-accent" (click)="getByBuildingCode(building.code)">See Floors</button>
+          <button class="btn btn-xs btn-accent" (click)="listElevatorsInBuilding(building.code)">See Elevators</button>
+          <!-- <button class="btn btn-xs btn-accent" (click)="listFloorsWithPassagesToOtherBuildings(building.code)">See Floors with Passages to Other buildings</button>-->
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noBuildings>
+    <div class="flex items-center justify-center h-screen">
+      <div class="bg-gray-400 rounded-lg p-6 text-white text-center">
+        <p class="text-4xl font-bold mb-4">No buildings were created yet.</p>
+        <!-- You can add additional styling or elements here -->
+      </div>
+    </div>
+  </ng-template>
+</div>

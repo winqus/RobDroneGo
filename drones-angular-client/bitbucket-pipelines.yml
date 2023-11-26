@@ -1,6 +1,16 @@
 image: node:18.18.0
 
 pipelines:
+  pull-requests:
+    '**':
+      - step:
+          name: "Build Angular App"
+          caches:
+            - node
+          script:
+            - if [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "main" ] && [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "develop" ]; then echo 'Destination not main or develop branch.'; exit 0; fi
+            - npm install
+            - npm run build
   branches:
     main:
       - step:
@@ -9,16 +19,19 @@ pipelines:
             - node
           script:
             - npm install
-            #- npm run test
             - npm run build -- --configuration production
           artifacts:
             - dist/dronesangularclient/**
       - step:
-          name: "Deploy to Production on Azure Static Web Apps"
+          name: Deploy to Production on DEI Cloud
           script:
-            - npm install -g @azure/static-web-apps-cli
-            - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN --env production
-
+            - echo "Copying artifacts to the production server"
+            - scp -r -P $UI_SERVER_SSH_PORT dist/dronesangularclient/** $UI_SERVER_USERNAME@$UI_SERVER_HOSTNAME:/home/www/angular-app/production/
+      # - step:
+      #     name: "Deploy to Production on Azure Static Web Apps"
+      #     script:
+      #       - npm install -g @azure/static-web-apps-cli
+      #       - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN --env production
     develop:
       - step:
           name: "Build for Development"
@@ -26,12 +39,17 @@ pipelines:
             - node
           script:
             - npm install
-            #- npm run test
-            - npm run build -- --configuration development
+            - npm run build -- --configuration development --base-href /development/
           artifacts:
             - dist/dronesangularclient/**
       - step:
-          name: "Deploy to Preview on Azure Static Web Apps"
+          name: Deploy to Development on DEI Cloud
           script:
-            - npm install -g @azure/static-web-apps-cli
-            - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN --env preview
+            - echo "Copying artifacts to the development server"
+            - scp -r -P $UI_SERVER_SSH_PORT dist/dronesangularclient/** $UI_SERVER_USERNAME@$UI_SERVER_HOSTNAME:/home/www/angular-app/development/
+      # - step:
+      #     name: "Deploy to Preview on Azure Static Web Apps"
+      #     script:
+      #       - npm install -g @azure/static-web-apps-cli
+      #       - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN --env preview
+  
