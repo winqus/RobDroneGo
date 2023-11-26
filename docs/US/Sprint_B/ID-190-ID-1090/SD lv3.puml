@@ -1,0 +1,84 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant " "
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Floor Persistence" as Schema
+    end box
+
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Floor Repository" as Repository
+    end box
+
+    participant DTO
+    participant FloorMap as Map
+    box "Application Business Rules" #ff6666
+        participant "Floor Service" as FloorS
+        participant "Building Service" as BuildingS
+    end box
+
+    box "Enterprise Business Rules" #eeddaa
+        participant Floor
+    end box
+end box
+
+
+[o-> Routing : Post
+activate Routing
+
+    Routing -> Controller : create()
+    activate Controller
+    Routing -> Controller : createFloor()
+        Controller -> FloorS : create()
+        activate FloorS
+            Controller -> FloorS : createFloor(IFloorDTO)
+            FloorS -> Map : toDomain(floorDTO)
+
+            activate Map
+                Map -> Floor ** : create(...)
+                Map --> FloorS : FloorOrError
+            deactivate Map
+            FloorS -> BuildingS : getBuildingByCode\n(floorResult.buildingCode.\nvalue)
+            note right: check if building\n exists
+
+            activate BuildingS
+                BuildingS --> FloorS : buildingResult
+            deactivate BuildingS
+
+            FloorS -> Repository : save(floorResult)
+            activate Repository
+
+                Repository -> Map : toPersistence(floor)
+                activate Map
+                    Map --> Repository : rawFloor
+                deactivate Map
+
+                Repository -> Schema : create(rawFloor)
+                activate Schema
+                    Schema --> Repository : floorCreated
+                deactivate Schema
+
+                Repository --> FloorS : FloorMap.toDomain(floorCreated) ? \nFloorMap.toDomain(floorCreated).getValue() : \nnull
+
+            deactivate Repository
+
+            FloorS -> Map : toDTO(floorResult))
+            activate Map
+                Map --> FloorS : FloorDTOResult
+            deactivate Map
+            FloorS --> Controller : Result.ok<IFloorDTO>(floorDTOResult)
+        deactivate FloorS
+
+    Controller --> Routing : res.status(201).json(floorDTO)
+    deactivate Controller
+
+[o<--o Routing : Success
+deactivate Routing
+
+
+@enduml

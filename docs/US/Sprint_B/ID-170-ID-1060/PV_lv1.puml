@@ -1,0 +1,14 @@
+@startuml SD Lv1
+
+actor "Campus Manager" as user
+participant RobDroneGo as system
+
+user -> system : enter URL
+activate system
+
+system -> system : Retrieve buildings info
+
+user <-- system : Show all buildings
+deactivate system
+
+@enduml

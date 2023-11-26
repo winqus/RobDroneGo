@@ -1,0 +1,30 @@
+@startuml SD Lv2
+
+actor "Campus Manager" as user
+box "RobDroneGo" #LightBlue
+    participant "Campus Management" as campus
+    participant "DB" as DB
+end box
+
+user -> campus : enter URL
+activate campus
+
+campus --> user : display the form
+user -> campus : fill in and submit\n the form
+
+campus -> DB : find building
+activate DB
+DB --> campus : building
+deactivate DB
+
+campus -> campus : create floor
+
+campus -> DB : save floor
+activate DB
+DB --> campus : Success
+deactivate DB
+
+user <-- campus : Success
+deactivate campus
+
+@enduml
