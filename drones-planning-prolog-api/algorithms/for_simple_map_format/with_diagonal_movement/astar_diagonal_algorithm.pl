@@ -14,21 +14,7 @@ node(cel(Col, Row)) :-
 
 % Edge definition (using connectCell facts)
 edge(cel(Col1, Row1), cel(Col2, Row2), Cost) :-
-	connectCell(cel(Col1, Row1), cel(Col2, Row2)),
-	(
-			% Horizontal or Vertical Movement
-			(Col1 == Col2; Row1 == Row2),
-			Cost = 1
-	;
-			% Diagonal Movement with the specified condition
-			DCol is abs(Col1 - Col2),
-			DRow is abs(Row1 - Row2),
-			DCol == 1, DRow == 1,
-			NextCol is (Col1 + Col2) // 2,
-			NextRow is (Row1 + Row2) // 2,
-			graph_creation_diagonal:m(Col1, NextRow, 0), graph_creation_diagonal:m(NextCol, Row1, 0),
-			Cost = 1.41  % Cost for diagonal movement set to sqrt(2)
-	).
+	connectCell(cel(Col1, Row1), cel(Col2, Row2),Cost).
 
 % Estimate function (Euclidean distance, supports diagonal)
 estimate(cel(Col1, Row1), cel(Col2, Row2), Estimate) :-
@@ -52,3 +38,9 @@ aStar2(End, [(_, Ca, LA) | Others], Path, Cost) :-
 	append(Others, New, All),
 	sort(All, AllOrd),
 	aStar2(End, AllOrd, Path, Cost).
+
+time_aStar(Start, End, Path, Cost, T) :-
+	get_time(Ti),
+	aStar(Start, End, Path, Cost),
+	get_time(Tf),
+	T is Tf - Ti.
