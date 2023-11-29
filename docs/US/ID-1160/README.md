@@ -1,15 +1,12 @@
-# ID1050 - As a Campus manager, I intend to create a Building indicating [...]
+# ID1160 - As a Campus manager, I intend to list Building Floors served by Elevator
 
 ## Description
-Implement Angular component for creating a building. It should form with input fields and submit button (check login/signup forms for examples).
+Create component that shows floors served by elevator.
 
-Utilize the Building Service to make request to node API with appropriate route.
-
-Route is: /campus/building/create
-
-Route can be accessed by authorized and by campus manager role.
+Route: /campus/floor/served-by-elevator
 
 ## Acceptance Criteria
+* Can display a list of floors served by elevator.
 * Approved & merged into develop branch through a PR.
 
 ## Questions from the forum

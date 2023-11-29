@@ -77,6 +77,8 @@ Proccess view is diagrams are described for each user story. Each user story is 
 * [ID370 - Inhibit a robot](./US/ID-370/README.md)
 * [ID380 - Consult all robots in fleet](./US/ID-380/README.md)
 * [ID390 - Search robots by designation or task](./US/ID-390/README.md)
+* [ID1050 - As a Campus manager, I intend to create a Building indicating](./US/ID-1050/README.md)
+* [ID1160 - As a Campus manager, I intend to list Building Floors served by Elevator](./US/ID-1160/README.md)
 
 ### Deployment View
 ![DV Lv1](diagrams/Deployment%20View.svg)
