@@ -62,43 +62,44 @@ get_route_handler(Request) :-
   %%% This block of code is temporary until the path finding algorithms is fixed (either graph_creation_for_maze_diagonal or astar_maze_diagonal_algorithm)
   %%% There are cases when aStar gets stuck and doesn't return anything, problem might be in graph creation (how Cost or perhaps other values are asigned, as it seems
   %%% the algorithm struggles on walking on cells like '1') 
-  better_path_floors(Origin, Destination, Connections), % temporary
-  format_connections(Connections, JsonConnections), % temporary
-  JsonResponse = json{floors_paths: JsonConnections, map_paths: []}, % temporary
-  format('Content-type: application/json~n~n'), % temporary
-  json_write(current_output, JsonResponse),   % temporary
-      log_message_ln('finished with JsonResponse'). % temporary
+  % better_path_floors(Origin, Destination, Connections), % temporary
+  % format_connections(Connections, JsonConnections), % temporary
+  % JsonResponse = json{floors_paths: JsonConnections, map_paths: []}, % temporary
+  % format('Content-type: application/json~n~n'), % temporary
+  % json_write(current_output, JsonResponse),   % temporary
+  %     log_message_ln('finished with JsonResponse'). % temporary
 
   %%% UNCOMMENT WHEN PATH FINDING IS FIXED
-  % (OriginBuildingCode = DestinationBuildingCode, OriginFloorNumber = DestinationFloorNumber ->
-  %   % If origin and destination are on the same floor
-  %   same_floor_path(OriginFloorNumber, OriginBuildingCode, OriginMapCellX, OriginMapCellY, DestinationMapCellX, DestinationMapCellY, SameFloorPath),
-  %         log_message('found same floor path;'),
-  %   JsonResponse = json{floors_paths: [], map_paths: [SameFloorPath]}
-  %   ;
-  %   % Different floors
-  %         log_message('finding better path floors...;'),
-  %   better_path_floors(Origin, Destination, Connections),
-  %         log_message_ln('found better path floors'),
-  %   format_connections(Connections, JsonConnections),
-  %   find_map_paths(Connections, OriginMapCellX, OriginMapCellY, DestinationMapCellX, DestinationMapCellY, MapPaths),
-  %         log_message_ln('found map paths'),
-  %   JsonResponse = json{floors_paths: JsonConnections, map_paths: MapPaths}
-  % ),
-  %     log_message('finished paths finding;'),
-  % format('Content-type: application/json~n~n'),
-  % json_write(current_output, JsonResponse),
-  %     log_message_ln('finished with JsonResponse').
+  (OriginBuildingCode = DestinationBuildingCode, OriginFloorNumber = DestinationFloorNumber ->
+    % If origin and destination are on the same floor
+    same_floor_path(OriginFloorNumber, OriginBuildingCode, OriginMapCellX, OriginMapCellY, DestinationMapCellX, DestinationMapCellY, SameFloorPath),
+          log_message('found same floor path;'),
+    JsonResponse = json{floors_paths: [], map_paths: [SameFloorPath]}
+    ;
+    % Different floors
+          log_message('finding better path floors...;'),
+    better_path_floors(Origin, Destination, Connections),
+          log_message_ln('found better path floors'),
+    format_connections(Connections, JsonConnections),
+    find_map_paths(Connections, OriginMapCellX, OriginMapCellY, DestinationMapCellX, DestinationMapCellY, MapPaths),
+          log_message_ln('found map paths'),
+    JsonResponse = json{floors_paths: JsonConnections, map_paths: MapPaths}
+  ),
+      log_message('finished paths finding;'),
+  format('Content-type: application/json~n~n'),
+  json_write(current_output, JsonResponse),
+      log_message_ln('finished with JsonResponse').
 
 
 same_floor_path(OriginFloorNumber, OriginBuildingCode, OriginCol, OriginRow, DestCol, DestRow, MapPathJson) :-
-  logic:load_map(OriginFloorNumber, OriginBuildingCode),
+  logic:load_map(OriginFloorNumber, OriginBuildingCode, MapWidth, MapHeight),
   % graph_creation_for_maze_diagonal:create_graph(26, 16),
-  create_graph(26, 16),
+  create_graph(MapWidth, MapHeight),
   Start = cel(OriginCol, OriginRow),
   End = cel(DestCol, DestRow),
   % astar_maze_diagonal_algorithm:aStar(Start, End, Path, Cost),
-  aStar(Start, End, Path, Cost),
+  % aStar(Start, End, Path, Cost),
+  bestFirst(Start, End, Path, Cost),
   % graph_creation_for_maze_diagonal:remove_graph(),
   remove_graph(),
   format_path_json(Path, Cost, MapPathJson).
@@ -135,10 +136,10 @@ process_connection(Connection, OriginCol, OriginRow, DestCol, DestRow, MapPathJs
       log_message('started process_connection;'),
   connection_floor_building(Connection, FromFloor, FromBuilding, ToFloor, ToBuilding),
       log_message('finished connection_floor_building;'),
-  logic:load_map(FromFloor, FromBuilding),
+  logic:load_map(FromFloor, FromBuilding, MapWidth, MapHeight),
       log_message('finished load_map;'),
   % graph_creation_for_maze_diagonal:create_graph(26, 16),
-  create_graph(26, 16),
+  create_graph(MapWidth, MapHeight),
       log_message('finished create_graph;'),
 
   % Set StartCel based on the current connection type
@@ -155,8 +156,9 @@ process_connection(Connection, OriginCol, OriginRow, DestCol, DestRow, MapPathJs
       log_message('StartCel='), log_message(StartCel), log_message('EndCel='), log_message(EndCel),
 
   % astar_maze_diagonal_algorithm:aStar(StartCel, EndCel, Path, Cost),
-  aStar(StartCel, EndCel, Path, Cost),
-      log_message('finished aStar;'),
+  % aStar(StartCel, EndCel, Path, Cost),
+  bestFirst(StartCel, EndCel, Path, Cost),
+      log_message('finished bestFirst aStar;'),
   % graph_creation_for_maze_diagonal:remove_graph(),
   remove_graph(),
       log_message('finished remove_graph;'),
