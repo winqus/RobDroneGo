@@ -20,13 +20,13 @@ No questions about this US were asked on forum
 
 ## Diagrams
 ### Logical View Lv1
-![LV Lv1](../../Sprint%20B%20diagrams/level_1/Logical%20View%20Lv1.svg)
+![LV Lv1](../../../Sprint%20B%20diagrams/level_1/Logical%20View%20Lv1.svg)
 
 ### Logical View Lv2
-![LV Lv2](../../Sprint%20B%20diagrams/level_2/Logical%20View%20Lv2.svg)
+![LV Lv2](../../../Sprint%20B%20diagrams/level_2/Logical%20View%20Lv2.svg)
 
 ### Logical View Lv3
-![LV Lv3](../../Sprint%20B%20diagrams/level_3/Logical%20View%20lv3.svg)
+![LV Lv3](../../../Sprint%20B%20diagrams/level_3/Logical%20View%20lv3.svg)
 
 ### Deployment View
 ![DV Lv1](../../Sprint%20B%20diagrams/Physical%20View.svg)
