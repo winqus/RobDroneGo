@@ -1,0 +1,73 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+actor "Campus Manager" as user
+box "RobDroneGo UI" #LightBlue
+
+    box "View"
+        participant "HTML + CSS + JS" as FrontEnd
+        participant "Form Component" as Form
+    end box
+    participant "UI Service" as UIService
+    participant "API Routes" as API_ROUTES
+    participant "HTTP Client" as HttpClient
+
+end box
+box "RobDroneGo Backend"
+    participant "Authentication API" as AuthAPI
+    participant "Building Management API" as CampusAPI
+end box
+
+
+user -> FrontEnd : Request Create Building Page
+activate FrontEnd
+
+    FrontEnd -> Form : Load Building Creation Form
+    activate Form
+
+        Form -> UIService : Submit Building Creation Request
+        activate UIService
+
+            UIService -> API_ROUTES : Fetch Auth and Building Creation APIs
+            activate API_ROUTES
+
+            API_ROUTES --> UIService : API Endpoints
+            deactivate API_ROUTES
+
+            UIService -> HttpClient : POST /api/building/create (Auth & Building Info)
+            activate HttpClient
+
+                HttpClient -> AuthAPI : Validate User Permissions
+                activate AuthAPI
+
+                    AuthAPI -> AuthAPI : Check User Role and Permissions
+
+                AuthAPI --> HttpClient : Permission Validation Result
+                deactivate AuthAPI
+
+                HttpClient -> CampusAPI : Create Building Request
+                activate CampusAPI
+
+                CampusAPI -> CampusAPI : Create and store building
+                note right
+                    Building Creation process
+                    is detailed in US ID150
+                end note
+
+                CampusAPI --> HttpClient : Building Creation Response
+                deactivate CampusAPI
+
+            HttpClient --> UIService : Building Creation Status
+            deactivate HttpClient
+
+        UIService --> Form : Display Status to User
+        deactivate UIService
+
+    Form --> FrontEnd : Show Building Creation Status Message
+    deactivate Form
+
+FrontEnd --> user : Display Building Creation Status
+deactivate FrontEnd
+
+@enduml

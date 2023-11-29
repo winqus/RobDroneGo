@@ -1,0 +1,36 @@
+@startuml SD Lv2
+
+actor "Campus Manager" as user
+box "RobDroneGo System" #LightBlue
+    participant "UI" as UI
+    participant "Auth Service" as Auth
+    participant "Campus Management" as CampusMgmt
+    participant "DB" as DB
+end box
+
+user -> UI : GET /campus/building/create
+
+activate UI
+UI -> Auth : Verify user's role and permissions
+activate Auth
+Auth --> UI : Permissions validated
+deactivate Auth
+
+UI --> user : Show building creation menu
+
+user -> UI : Submit building creation form
+activate CampusMgmt
+UI -> CampusMgmt : Create building request
+
+CampusMgmt -> DB : Insert building data
+activate DB
+DB --> CampusMgmt : Building created
+deactivate DB
+
+CampusMgmt --> UI : Building creation status
+deactivate CampusMgmt
+
+UI --> user : Show building creation status message
+deactivate UI
+
+@enduml
