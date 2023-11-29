@@ -19,6 +19,7 @@ import { EditBuildingComponent } from './components/edit-building/edit-building.
 import { EditElevatorComponent } from './components/edit-elevator/edit-elevator.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
 import { EditPassageComponent } from './components/edit-passage/edit-passage.component';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
@@ -195,6 +196,11 @@ const routes: Routes = [
           { path: 'login', component: LoginComponent },
           { path: '', redirectTo: 'signup', pathMatch: 'full' },
         ],
+      },
+      {
+        path: '',
+        component: MainLayoutComponent,
+        children: [{ path: 'user', component: EditUserComponent }],
       },
       { path: 'logout', component: LogoutComponent },
     ],

@@ -340,6 +340,10 @@
           {
             "label": "Logout",
             "href": "/auth/logout"
+          },
+          {
+            "label": "Edit",
+            "href": "/auth/user"
           }
         ]
       }
