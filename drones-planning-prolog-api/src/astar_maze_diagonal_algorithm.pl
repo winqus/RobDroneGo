@@ -1,4 +1,4 @@
-:- module(astar_maze_diagonal_algorithm, [aStar/4]).
+:- module(astar_maze_diagonal_algorithm, [aStar/4, bestFirst/4]).
 
 % Uses graph_creation_diagonal and replaced estimate to support diagonal movement, other than that it's the same as astar_algorithm
 :- use_module(graph_creation_for_maze_diagonal).
@@ -23,6 +23,24 @@ estimate(cel(Col1, Row1), cel(Col2, Row2), Estimate) :-
        Estimate is sqrt(DCol * DCol + DRow * DRow),
        assertz(cached_estimate(cel(Col1, Row1), cel(Col2, Row2), Estimate))
     ).
+
+%% Similar to aStar but keeping only the most promisable partial path
+bestFirst(Start, End, Path, Cost) :-
+	clear_estimate_cache,
+	bestFirst2(End, (_, 0, [Start]), Path, Cost).
+
+bestFirst2(End, (_, Cost, [End | T]), Path, Cost) :-
+		reverse([End | T], Path).
+
+bestFirst2(End, (_, Ca, LA), Path, Cost) :-
+		LA = [Act | _],
+		findall((CEX, CaX, [X | LA]),
+						(End \== Act, connectCell(Act, X, CostX), \+ member(X, LA),
+						CaX is CostX + Ca, estimate(X, End, EstX),
+						CEX is CaX + EstX), New),
+		sort(New, [B | _]),
+		bestFirst2(End, B, Path, Cost).
+
 
 % A* Algorithm Implementation
 aStar(Start, End, Path, Cost) :-
