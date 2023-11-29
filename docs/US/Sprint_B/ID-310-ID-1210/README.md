@@ -32,11 +32,11 @@ No questions about this US were asked on forum
 ![DV Lv1](../../Sprint%20B%20diagrams/Physical%20View.svg)
 
 ### Process Diagram Lv1
-![PVL3](../../Sprint_B/ID-310-ID-1210/ID1210-Process%20Diagram-Lv1.puml)
+![PVL3](../../Sprint_B/ID-310-ID-1210/out/ID1210-Process%20Diagram-Lv1/SD%20Lv1.svg)
 ### Process Diagram Lv2
-![PVL3](../../Sprint_B/ID-310-ID-1210/ID1210-Process%20Diagram-Lv2.puml)
+![PVL3](../../Sprint_B/ID-310-ID-1210/out/ID1210-Process%20diagram-Lv2/SD%20Lv2.svg)
 ### Process Diagram Lv3
-![PVL3](../../Sprint_B/ID-310-ID-1210/ID1210-Process%20Diagram-Lv3.puml)
+![PVL3](../../Sprint_B/ID-310-ID-1210/out/ID1210-Process%20Diagram-Lv3/SD%20Lv3.svg)
 
 ### Domain Model
 ![DM](../../diagrams/DM.png)
