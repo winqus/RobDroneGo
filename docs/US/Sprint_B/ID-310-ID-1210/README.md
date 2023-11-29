@@ -29,7 +29,7 @@ No questions about this US were asked on forum
 ![LV Lv3](../../../Sprint%20B%20diagrams/level_3/Logical%20View%20lv3.svg)
 
 ### Deployment View
-![DV Lv1](../../Sprint%20B%20diagrams/Physical%20View.svg)
+![DV Lv1](../../../Sprint%20B%20diagrams/Physical%20View.svg)
 
 ### Process Diagram Lv1
 ![PVL3](../../Sprint_B/ID-310-ID-1210/out/ID1210-Process%20Diagram-Lv1/SD%20Lv1.svg)
@@ -39,4 +39,4 @@ No questions about this US were asked on forum
 ![PVL3](../../Sprint_B/ID-310-ID-1210/out/ID1210-Process%20Diagram-Lv3/SD%20Lv3.svg)
 
 ### Domain Model
-![DM](../../diagrams/DM.png)
+![DM](../../../diagrams/DM.png)
