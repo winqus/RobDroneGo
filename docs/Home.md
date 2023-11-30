@@ -19,6 +19,7 @@ The Scrum development process is described in the following sections:
 * [Version Control Strategy](Version%20Control%20Strategy.md)
 * [Testing Strategy](Testing%20Strategy.md)
 * [Sprint A Retrospective](Sprint%20A%20Retrospective.md)
+* [Sprint B Retrospective](Sprint%20B%20Retrospective.md)
 
 Other documentation:
 
