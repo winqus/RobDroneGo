@@ -171,9 +171,17 @@ const routes: Routes = [
         path: 'about',
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'info', canActivate: [canActivateWithRole([UserRole.User])], component: AboutUsComponent },
+          {
+            path: 'info',
+            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager, UserRole.FleetManager, UserRole.SystemAdministrator, UserRole.TaskManager])],
+            component: AboutUsComponent,
+          },
 
-          { path: 'gdpr', canActivate: [canActivateWithRole([UserRole.User])], component: GdprComponent },
+          {
+            path: 'gdpr',
+            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager, UserRole.FleetManager, UserRole.SystemAdministrator, UserRole.TaskManager])],
+            component: GdprComponent,
+          },
           {
             path: 'folder',
             children: [{ path: '', component: PublicFolderComponent }],
