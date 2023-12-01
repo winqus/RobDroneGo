@@ -16,7 +16,7 @@
 :- dynamic connects/2. % corridor (BuildingCode1, BuildingCode2)
 
 :- dynamic m/3. % m (column, row, value)
-:- dynamic passage/4. % passage (column, row, buildingCode, floorNumber)
+:- dynamic passage/4. % passage (column, row, toBuildingCode, toFloorNumber)
 :- dynamic elevator_pos/2. % elevator_pos (column, row)
 
 get_json_array_data(URL, JsonData) :-
