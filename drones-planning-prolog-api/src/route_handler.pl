@@ -73,7 +73,7 @@ get_route_handler(Request) :-
     better_path_floors(OriginBuildingFloor, DestinationBuildingFloor, Connections),
           log_message_ln('found better path floors'),
     format_connections(Connections, JsonConnections),
-    find_map_paths(0, Connections, OriginBuildingCode, OriginFloorNumber, OriginCell, DestinationCell, [MapPaths | _]),
+    find_map_paths(0, Connections, OriginBuildingCode, OriginFloorNumber, OriginCell, DestinationCell, MapPaths),
           log_message_ln('found floor map path(s)'),
     JsonResponse = json{floors_paths: JsonConnections, map_paths: MapPaths}
   ),
@@ -92,7 +92,7 @@ same_floor_path(OriginFloorNumber, OriginBuildingCode, OriginCell, DestinationCe
   bestFirst(OriginCell, DestinationCell, Path, Cost),
   % graph_creation_for_maze_diagonal:remove_graph(),
   remove_graph(),
-  format_path_json(Path, Cost, MapPathJson).
+  format_path_json(Path, Cost, OriginBuildingCode, OriginFloorNumber, MapPathJson).
 
 printConnections([]).
 printConnections([H|T]) :-
@@ -102,8 +102,11 @@ printConnections([H|T]) :-
 
 
 % find_map_paths(_, [], _, _, _, _, []).
-find_map_paths(_, [], _, _, _, _, _).
-find_map_paths(EntranceConnection, [ExitConnection|RemainingConnections], BuildingCode, FloorNumber, OriginCell, DestinationCell, [MapPath|MapPathsRest]) :-
+% find_map_paths(_, [], _, _, _, _).
+% find_map_paths(_, [], _, _, _, _, []) :- log_message_ln('find_map_paths with data [_, [], _, _, _, _, []]'), !.
+
+find_map_paths(Connection, [], _, _, _, _, _) :- \+ isConnection(Connection).
+find_map_paths(EntranceConnection, [ExitConnection|RemainingConnections], BuildingCode, FloorNumber, OriginCell, DestinationCell, MapPaths) :-
   log_message('find_map_paths with data [EntranceConnection, ExitConnection, RemainingConnections, BuildingCode, FloorNumber, OriginCell, DestinationCell]:'),
   log_message_ln([EntranceConnection, ExitConnection, RemainingConnections, BuildingCode, FloorNumber, OriginCell, DestinationCell]),
 
@@ -115,7 +118,7 @@ find_map_paths(EntranceConnection, [ExitConnection|RemainingConnections], Buildi
   %% Set Intermediate Origin (the starting cell of the current floor map)
   (isConnection(EntranceConnection) ->
       %% EntranceConnection is not empty
-      log_message('EntranceConnection is not empty; '),
+      log_message('EntranceConnection is not empty; '),!,
       connection_floor_building(EntranceConnection, PreviousFloorNumber, PreviousBuildingCode, CurrentFloorNumber, CurrentBuildingCode),
       IntermediateBuildingCode = CurrentBuildingCode,
       IntermediateFloorNumber = CurrentFloorNumber,
@@ -136,7 +139,7 @@ find_map_paths(EntranceConnection, [ExitConnection|RemainingConnections], Buildi
 %% Set Intermediate Destination (the ending cell of the current floor map)
   (isConnection(ExitConnection) ->
       %% ExitConnection is not empty
-      log_message('ExitConnection is not empty; '),
+      log_message('ExitConnection is not empty; '),!,
       connection_floor_building(ExitConnection, CurrentFloorNumber, CurrentBuildingCode, NextFloorNumber, NextBuildingCode),
       IntermediateBuildingCode = CurrentBuildingCode,
       IntermediateFloorNumber = CurrentFloorNumber,
@@ -157,15 +160,21 @@ find_map_paths(EntranceConnection, [ExitConnection|RemainingConnections], Buildi
   log_message('IntermediateOrigin: '), log_message(IntermediateOrigin), log_message('IntermediateDestination: '), log_message_ln(IntermediateDestination),
   % find_floor_map_path(IntermediateBuildingCode, IntermediateFloorNumber, IntermediateOrigin, IntermediateDestination, MapPath),
   
-  bestFirst(IntermediateOrigin, IntermediateDestination, Path, Cost),
+  bestFirst(IntermediateOrigin, IntermediateDestination, Path, Cost),!,
     log_message('found floor map path with bestFirst aStar;'),
   remove_graph(),
     log_message('removed floor map graph;'),
-  format_path_json(Path, Cost, MapPath),
-    log_message_ln('finished format_path_json'),
+  format_path_json(Path, Cost, BuildingCode, FloorNumber, MapPath),
+  log_message_ln('finished format_path_json'),
+  append([MapPath], [], NewMapPaths),
   
   log_message('MapPath: '), log_message_ln(MapPath),
-  find_map_paths(ExitConnection, RemainingConnections, NextBuildingCode, NextFloorNumber, OriginCell, DestinationCell, MapPathsRest).
+  log_message('NewMapPaths: '), log_message_ln(NewMapPaths),
+  find_map_paths(ExitConnection, RemainingConnections, NextBuildingCode, NextFloorNumber, OriginCell, DestinationCell, NewMapPaths),
+  log_message('after aaaaaa'), log_message_ln(''),
+  MapPaths = NewMapPaths,
+  log_message('MapPaths: '), log_message_ln(MapPaths).
+
 
 isConnection(Connection) :- (Connection = elev(_, _) ; Connection = cor(_, _)).
 
@@ -184,33 +193,33 @@ isConnection(Connection) :- (Connection = elev(_, _) ; Connection = cor(_, _)).
 %     log_message_ln('finished format_path_json').
     
 
-process_connection(Connection, OriginCol, OriginRow, DestCol, DestRow, MapPathJson) :-
-      log_message('started process_connection='), log_message(Connection), log_message('; '),
-  connection_floor_building(Connection, FromFloor, FromBuilding, ToFloor, ToBuilding),
-      log_message('finished connection_floor_building;'),
-  logic:load_map(FromFloor, FromBuilding, MapWidth, MapHeight),
-      log_message('finished load_map;'),
-  create_graph(MapWidth, MapHeight),
-      log_message('finished create_graph;'),
+% process_connection(Connection, OriginCol, OriginRow, DestCol, DestRow, MapPathJson) :-
+%       log_message('started process_connection='), log_message(Connection), log_message('; '),
+%   connection_floor_building(Connection, FromFloor, FromBuilding, ToFloor, ToBuilding),
+%       log_message('finished connection_floor_building;'),
+%   logic:load_map(FromFloor, FromBuilding, MapWidth, MapHeight),
+%       log_message('finished load_map;'),
+%   create_graph(MapWidth, MapHeight),
+%       log_message('finished create_graph;'),
 
-  % Set StartCel based on the current connection type
-  (Connection = elev(_, _) ->
-      log_message('Connection is elev;'),
-      StartCel = cel(OriginCol, OriginRow),
-      logic:elevator_pos(DestCol, DestRow)
-  ; Connection = cor(_, _) ->
-      StartCel = cel(OriginCol, OriginRow),
-      logic:passage(DestCol, DestRow, ToBuilding, ToFloor)
-  ),
+%   % Set StartCel based on the current connection type
+%   (Connection = elev(_, _) ->
+%       log_message('Connection is elev;'),
+%       StartCel = cel(OriginCol, OriginRow),
+%       logic:elevator_pos(DestCol, DestRow)
+%   ; Connection = cor(_, _) ->
+%       StartCel = cel(OriginCol, OriginRow),
+%       logic:passage(DestCol, DestRow, ToBuilding, ToFloor)
+%   ),
 
-  EndCel = cel(DestCol, DestRow),
-      log_message('StartCel='), log_message(StartCel), log_message('EndCel='), log_message(EndCel),
-  bestFirst(StartCel, EndCel, Path, Cost),
-      log_message('finished bestFirst aStar;'),
-  remove_graph(),
-      log_message('finished remove_graph;'),
-  format_path_json(Path, Cost, MapPathJson),
-      log_message_ln('finished format_path_json').
+%   EndCel = cel(DestCol, DestRow),
+%       log_message('StartCel='), log_message(StartCel), log_message('EndCel='), log_message(EndCel),
+%   bestFirst(StartCel, EndCel, Path, Cost),
+%       log_message('finished bestFirst aStar;'),
+%   remove_graph(),
+%       log_message('finished remove_graph;'),
+%   format_path_json(Path, Cost, MapPathJson),
+%       log_message_ln('finished format_path_json').
 
 connection_floor_building(Connection, FromFloor, FromBuilding, ToFloor, ToBuilding) :-
   % Split the 'From' and 'To' parts of the connection
@@ -224,9 +233,9 @@ find_start_end(OriginMapCellCol, OriginMapCellRow, DestinationMapCellCol, Destin
 
 cel_to_json(cel(Col, Row), json{col: Col, row: Row}).
 
-format_path_json(Path, Cost, MapPathJson) :-
+format_path_json(Path, Cost, BuildingCode, FloorNumber, MapPathJson) :-
   maplist(cel_to_json, Path, JsonPath),
-  MapPathJson = json{path: JsonPath, cost: Cost}.
+  MapPathJson = json{path: JsonPath, cost: Cost, buildingCode: BuildingCode, floorNumber: FloorNumber}.
 
 % Helper predicate to format a single connection as a JSON-like term
 format_connection(elev(From, To), json{fromBuilding: FromBuilding, fromFloorNumber: FromFloor, toBuilding: ToBuilding, toFloorNumber: ToFloor, type:"elevator"}) :-
