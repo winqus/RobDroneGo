@@ -75,7 +75,8 @@ get_route_handler(Request) :-
     format_connections(Connections, JsonConnections),
     find_map_paths(0, Connections, OriginBuildingCode, OriginFloorNumber, OriginCell, DestinationCell, MapPaths),
           log_message_ln('found floor map path(s)'),
-    JsonResponse = json{floors_paths: JsonConnections, map_paths: MapPaths}
+    length(MapPaths, MapPathsCount),
+    JsonResponse = json{floorsPaths: JsonConnections, mapPathCount: MapPathsCount, mapPaths: MapPaths}
   ),
       log_message('finished paths finding;'),
   format('Content-type: application/json~n~n'),
@@ -101,82 +102,138 @@ printConnections([H|T]) :-
 
 
 
-% find_map_paths(_, [], _, _, _, _, []).
-% find_map_paths(_, [], _, _, _, _).
-% find_map_paths(_, [], _, _, _, _, []) :- log_message_ln('find_map_paths with data [_, [], _, _, _, _, []]'), !.
+% find_map_paths(EntranceConnection, [], _, _, _, _, _) :- log_message('END EntranceConnection: '), log_message_ln(EntranceConnection), \+ isConnection(EntranceConnection), !.
+find_map_paths(EntranceConnection, [], _, _, MainOriginCell, MainDestinationCell, [MapPath]) :-
+  isConnection(EntranceConnection),
+  set_intermediate_building_floor(EntranceConnection, [], IntermediateBuildingCode, IntermediateFloorNumber),
+  log_message_ln(''),log_message('FIND1 find_map_paths with data [EntranceConnection, IntermediateBuildingCode, IntermediateFloorNumber, MainOriginCell, MainDestinationCell]:'),
+  log_message_ln([EntranceConnection, IntermediateBuildingCode, IntermediateFloorNumber, MainOriginCell, MainDestinationCell]),
+  load_map_for_floor(IntermediateBuildingCode, IntermediateFloorNumber, _, _),
+  set_intermediate_points(EntranceConnection, [], MainOriginCell, MainDestinationCell, IntermediateOrigin, IntermediateDestination),
+  log_message('IntermediateOrigin: '), log_message(IntermediateOrigin), log_message('IntermediateDestination: '), log_message_ln(IntermediateDestination),
+  find_and_format_best_path(IntermediateOrigin, IntermediateDestination, IntermediateBuildingCode, IntermediateFloorNumber, MapPath),
+  log_message('LAST MapPath: '), log_message_ln(MapPath).
+  % append([MapPath], [], NewMapPaths),
+  % MapPaths = NewMapPaths,
+  % log_message('LAST1 MapPath: '), log_message_ln(MapPath).
 
-find_map_paths(Connection, [], _, _, _, _, _) :- \+ isConnection(Connection).
-find_map_paths(EntranceConnection, [ExitConnection|RemainingConnections], BuildingCode, FloorNumber, OriginCell, DestinationCell, MapPaths) :-
-  log_message('find_map_paths with data [EntranceConnection, ExitConnection, RemainingConnections, BuildingCode, FloorNumber, OriginCell, DestinationCell]:'),
-  log_message_ln([EntranceConnection, ExitConnection, RemainingConnections, BuildingCode, FloorNumber, OriginCell, DestinationCell]),
 
+find_map_paths(EntranceConnection, [ExitConnection|RemainingConnections], BuildingCode, FloorNumber, MainOriginCell, MainDestinationCell, MapPaths) :-
+  log_message_ln(''),log_message('FIND2'),
+  log_message('find_map_paths with data [EntranceConnection, ExitConnection, RemainingConnections, BuildingCode, FloorNumber, MainOriginCell, MainDestinationCell]:'),
+  log_message_ln([EntranceConnection, ExitConnection, RemainingConnections, BuildingCode, FloorNumber, MainOriginCell, MainDestinationCell]),
+
+  set_intermediate_building_floor(EntranceConnection, ExitConnection, IntermediateBuildingCode, IntermediateFloorNumber),
+  load_map_for_floor(IntermediateBuildingCode, IntermediateFloorNumber, _, _),
+  set_intermediate_points(EntranceConnection, ExitConnection, MainOriginCell, MainDestinationCell, IntermediateOrigin, IntermediateDestination),
+    log_message('IntermediateOrigin: '), log_message(IntermediateOrigin), log_message('IntermediateDestination: '), log_message_ln(IntermediateDestination),
+  
+  find_and_format_best_path(IntermediateOrigin, IntermediateDestination, IntermediateBuildingCode, IntermediateFloorNumber, MapPath),
+  append([MapPath], [], NewMapPaths),
+  log_message('MapPath: '), log_message_ln(MapPath),
+  log_message('NewMapPaths: '), log_message_ln(NewMapPaths),
+
+  find_map_paths(ExitConnection, RemainingConnections, BuildingCode, FloorNumber, MainOriginCell, MainDestinationCell, RecursedMapPaths),
+  append([MapPath], RecursedMapPaths, MapPaths),
+  log_message('MapPaths: '), log_message_ln(MapPaths).
+
+find_map_paths(EntranceConnection, [], _, _, _, _, _) :- log_message_ln(''),log_message('FIND3 OF find_map_paths'), log_message('EntranceConnection: '), log_message_ln(EntranceConnection), !.
+
+isConnection(Connection) :- (Connection = elev(_, _) ; Connection = cor(_, _)).
+
+load_map_for_floor(BuildingCode, FloorNumber, MapWidth, MapHeight) :-
   logic:load_map(FloorNumber, BuildingCode, MapWidth, MapHeight),
     log_message('loaded floor map of size'), log_message(MapWidth), log_message('x'), log_message(MapHeight), log_message(';'),
   create_graph(MapWidth, MapHeight),
-    log_message('created floor map graph;'),
+    log_message('created floor map graph;'), !.
 
-  %% Set Intermediate Origin (the starting cell of the current floor map)
-  (isConnection(EntranceConnection) ->
-      %% EntranceConnection is not empty
-      log_message('EntranceConnection is not empty; '),!,
-      connection_floor_building(EntranceConnection, PreviousFloorNumber, PreviousBuildingCode, CurrentFloorNumber, CurrentBuildingCode),
-      IntermediateBuildingCode = CurrentBuildingCode,
-      IntermediateFloorNumber = CurrentFloorNumber,
-      (EntranceConnection = elev(_, _) -> %% EntranceConnection is elevator
-        log_message_ln('EntranceConnection is elev'),
-        logic:elevator_pos(IntermediateCol, IntermediateRow),
-        IntermediateOrigin = cel(IntermediateCol, IntermediateRow)
-      ;
-      EntranceConnection = cor(_, _) -> %% EntranceConnection is passage
-        log_message_ln('EntranceConnection is passage'),
-        logic:passage(IntermediateCol, IntermediateRow, PreviousBuildingCode, PreviousFloorNumber),
-        IntermediateOrigin = cel(IntermediateCol, IntermediateRow)
-      )
-    ; %% EntranceConnection is empty
-      log_message_ln('EntranceConnection is empty'),
-      IntermediateOrigin = OriginCell
-  ),
-%% Set Intermediate Destination (the ending cell of the current floor map)
-  (isConnection(ExitConnection) ->
-      %% ExitConnection is not empty
-      log_message('ExitConnection is not empty; '),!,
-      connection_floor_building(ExitConnection, CurrentFloorNumber, CurrentBuildingCode, NextFloorNumber, NextBuildingCode),
-      IntermediateBuildingCode = CurrentBuildingCode,
-      IntermediateFloorNumber = CurrentFloorNumber,
-      (ExitConnection = elev(_, _) -> %% ExitConnection is elevator
-        log_message_ln('ExitConnection is elev'),
-        logic:elevator_pos(DestCol, DestRow),
-        IntermediateDestination = cel(DestCol, DestRow)
-      ; 
-      ExitConnection = cor(_, _) -> %% ExitConnection is passage
-        log_message_ln('ExitConnection is passage'),
-        logic:passage(DestCol, DestRow, NextBuildingCode, NextFloorNumber),
-        IntermediateDestination = cel(DestCol, DestRow)
-      )
-    ; %% ExitConnection is empty
-      log_message_ln('ExitConnection is empty'),
-      IntermediateDestination = DestinationCell
-  ),
-  log_message('IntermediateOrigin: '), log_message(IntermediateOrigin), log_message('IntermediateDestination: '), log_message_ln(IntermediateDestination),
-  % find_floor_map_path(IntermediateBuildingCode, IntermediateFloorNumber, IntermediateOrigin, IntermediateDestination, MapPath),
-  
-  bestFirst(IntermediateOrigin, IntermediateDestination, Path, Cost),!,
-    log_message('found floor map path with bestFirst aStar;'),
+find_and_format_best_path(IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber, MapPath) :-
+  log_message('Finding best path with data [IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber]:'),
+  log_message_ln([IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber]),
+  (bestFirst(IntermediateOrigin, IntermediateDestination, Path, Cost); (Path = [], Cost = -404)),!,
+  log_message('found floor map path with bestFirst aStar;'),
   remove_graph(),
-    log_message('removed floor map graph;'),
+  log_message('removed floor map graph;'),
   format_path_json(Path, Cost, BuildingCode, FloorNumber, MapPath),
-  log_message_ln('finished format_path_json'),
-  append([MapPath], [], NewMapPaths),
+  log_message_ln('finished format_path_json'), !.
   
-  log_message('MapPath: '), log_message_ln(MapPath),
-  log_message('NewMapPaths: '), log_message_ln(NewMapPaths),
-  find_map_paths(ExitConnection, RemainingConnections, NextBuildingCode, NextFloorNumber, OriginCell, DestinationCell, NewMapPaths),
-  log_message('after aaaaaa'), log_message_ln(''),
-  MapPaths = NewMapPaths,
-  log_message('MapPaths: '), log_message_ln(MapPaths).
+set_intermediate_points(EntranceConnection, ExitConnection, MainOriginCell, MainDestinationCell, IntermediateOrigin, IntermediateDestination) :-
+  %% Set Intermediate Origin
+  (isConnection(EntranceConnection) ->
+      log_message('EntranceConnection is not empty; '),!,
+      connection_floor_building(EntranceConnection, RawPreviousFloorNumber, PreviousBuildingCode, RawCurrentFloorNumber, CurrentBuildingCode),
+      atom_number(RawPreviousFloorNumber, PreviousFloorNumber),
+      atom_number(RawCurrentFloorNumber, CurrentFloorNumber),
+      (EntranceConnection = elev(_, _) ->
+          log_message_ln('EntranceConnection is elev'),
+          logic:elevator_pos(IntermediateCol, IntermediateRow)
+      ;
+      EntranceConnection = cor(_, _) ->
+          log_message_ln('EntranceConnection is passage'),
+          logic:passage(IntermediateCol, IntermediateRow, PreviousBuildingCode, PreviousFloorNumber)
+      ),
+      IntermediateOrigin = cel(IntermediateCol, IntermediateRow)
+  ;
+      log_message_ln('EntranceConnection is empty'),
+      IntermediateOrigin = MainOriginCell
+  ),
+
+  %% Set Intermediate Destination
+  (isConnection(ExitConnection) ->
+      log_message('ExitConnection is not empty; '),!,
+      connection_floor_building(ExitConnection, RawCurrentFloorNumber, CurrentBuildingCode, RawNextFloorNumber, NextBuildingCode),
+      atom_number(RawCurrentFloorNumber, CurrentFloorNumber),
+      atom_number(RawNextFloorNumber, NextFloorNumber),
+      (ExitConnection = elev(_, _) ->
+          log_message_ln('ExitConnection is elev'),
+          logic:elevator_pos(DestCol, DestRow)
+      ;
+      ExitConnection = cor(_, _) ->
+          log_message_ln('ExitConnection is passage'),
+          log_message('DestCol: '), log_message(DestCol), log_message('DestRow: '), log_message(DestRow), log_message('NextBuildingCode: '), log_message(NextBuildingCode), log_message('NextFloorNumber: '), log_message_ln(NextFloorNumber),
+          logic:passage(DestCol, DestRow, NextBuildingCode, NextFloorNumber)
+      ),!,
+      IntermediateDestination = cel(DestCol, DestRow)
+  ;
+      log_message_ln('ExitConnection is empty'),!,
+      IntermediateDestination = MainDestinationCell
+  ), !.
+
+set_intermediate_building_floor(EntranceConnection, ExitConnection, IntermediateBuildingCode, IntermediateFloorNumber) :-
+  %% Determine Intermediate Building and Floor based on Entrance Connection
+  (isConnection(EntranceConnection) ->
+      connection_floor_building(EntranceConnection, _, _, RawCurrentFloorNumber, CurrentBuildingCode),
+      atom_number(RawCurrentFloorNumber, CurrentFloorNumber),
+      IntermediateBuildingCode = CurrentBuildingCode,
+      IntermediateFloorNumber = CurrentFloorNumber
+  ;
+      true % Do nothing if EntranceConnection is not a connection
+  ),
+
+  %% Determine Intermediate Building and Floor based on Exit Connection
+  (isConnection(ExitConnection) ->
+      connection_floor_building(ExitConnection, RawCurrentFloorNumber, CurrentBuildingCode, _, _),
+      atom_number(RawCurrentFloorNumber, CurrentFloorNumber),
+      IntermediateBuildingCode = CurrentBuildingCode,
+      IntermediateFloorNumber = CurrentFloorNumber
+  ;
+      true % Do nothing if ExitConnection is not a connection
+  ).
 
 
-isConnection(Connection) :- (Connection = elev(_, _) ; Connection = cor(_, _)).
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 % find_floor_map_path(EntranceConnection, BuildingCode, FloorNumber, OriginCell, DestinationCell, ExitConnection, ReturnedPathJson) :-
 %     log_message('find_floor_map_path with data [EntranceConnection, BuildingCode, FloorNumber, OriginCell, DestinationCell, ExitConnection]:'),
