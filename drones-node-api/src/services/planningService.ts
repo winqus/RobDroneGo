@@ -35,8 +35,8 @@ export default class PlanningService implements IPlanningService {
     let destination_map_cell_x = null;
     let destination_map_cell_y = null;
 
-    for (let y = originRoomPositionY; y < originRoomPositionY + originRoomLength; y++) {
-      for (let x = originRoomPositionX; x < originRoomPositionX + originRoomWidth; x++) {
+    for (let y = originRoomPositionY; y < originRoomPositionY + originRoomLength + 1; y++) {
+      for (let x = originRoomPositionX; x < originRoomPositionX + originRoomWidth + 1; x++) {
         if (originFloor.map.map[y][x] === 4 || originFloor.map.map[y][x] === 5) {
           origin_map_cell_x = x;
           origin_map_cell_y = y;

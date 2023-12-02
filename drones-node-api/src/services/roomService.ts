@@ -83,7 +83,7 @@ export default class RoomService implements IRoomService {
     }
 
     const roomFitsInFloor =
-      roomSize.width + roomPosition.y <= floorSize.width && roomSize.length + roomPosition.x <= floorSize.length;
+      roomSize.width + roomPosition.x <= floorSize.width && roomSize.length + roomPosition.y <= floorSize.length;
 
     if (!roomFitsInFloor) {
       return Result.fail<boolean>('Room does not fit in floor');
