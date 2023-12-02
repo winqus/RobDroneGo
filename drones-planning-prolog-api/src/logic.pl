@@ -1,6 +1,6 @@
 :- module(logic, [
     client_get_buildings/1, list_building_codes/0, get_floors/0, get_elevators/0, get_passages/0, 
-    load_info/0, remove_info/0, load_map/2, remove_map/0,
+    load_info/0, remove_info/0, load_map/4, remove_map/0,
     building_code/1, floors/2, elevator/2, corridor/4, connects/2, m/3, passage/4, elevator_pos/2
   ]).
 
@@ -16,7 +16,7 @@
 :- dynamic connects/2. % corridor (BuildingCode1, BuildingCode2)
 
 :- dynamic m/3. % m (column, row, value)
-:- dynamic passage/4. % passage (column, row, buildingCode, floorNumber)
+:- dynamic passage/4. % passage (column, row, toBuildingCode, toFloorNumber)
 :- dynamic elevator_pos/2. % elevator_pos (column, row)
 
 get_json_array_data(URL, JsonData) :-
@@ -148,14 +148,14 @@ remove_info():-
   retractall(connects(_,_)).
 
 
-load_map(FloorNumber, BuildingCode):-
+load_map(FloorNumber, BuildingCode, ExtractedMapWidth, ExtractedMapHeight):-
   remove_map(),
   generate_url_map(FloorNumber, BuildingCode, URL),
   % write('map url: '), write(URL), nl,
   get_json_array_data(URL, JsonData),
-  % write('json data: '), write(JsonData), nl,
   assertz(JsonData),
   json(Info),
+  extract_map_sizes(Info, ExtractedMapWidth, ExtractedMapHeight),
   extract_map(Info, Map),
   retract(JsonData),
   create_map(Map, 1),
@@ -180,6 +180,11 @@ generate_url_map(FloorNumber, BuildingCode, URL) :-
 
 extract_map(JsonData, Map) :-
   member(map=Map, JsonData).
+
+extract_map_sizes(Info, Width, Height) :-
+    member(size=json(Size), Info),
+    member(width=Width, Size),
+    member(height=Height, Size).
 
 create_map([], _).
 create_map([Line|Map], Row) :-
