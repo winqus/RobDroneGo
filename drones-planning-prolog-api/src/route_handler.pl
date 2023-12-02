@@ -1,4 +1,4 @@
-:- module(route_handler, [get_route_handler/1]).
+:- module(route_handler, [get_route_handler/1, log_message/1, log_message_ln/1]).
 
 :- use_module(library(http/http_parameters)).
 :- use_module(library(http/http_client)).
@@ -288,7 +288,9 @@ find_start_end(OriginMapCellCol, OriginMapCellRow, DestinationMapCellCol, Destin
   Start = cel(OriginMapCellCol, OriginMapCellRow),
   End = cel(DestinationMapCellCol, DestinationMapCellRow).
 
-cel_to_json(cel(Col, Row), json{col: Col, row: Row}).
+cel_to_json(cel(Col, Row), json{col: ColMinusOne, row: RowMinusOne}) :-
+  ColMinusOne is Col - 1,
+  RowMinusOne is Row - 1.
 
 format_path_json(Path, Cost, BuildingCode, FloorNumber, MapPathJson) :-
   maplist(cel_to_json, Path, JsonPath),
