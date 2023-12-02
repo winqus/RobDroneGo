@@ -37,7 +37,7 @@ export default class Maze extends THREE.Group {
     super();
     merge(this, parameters);
     this.loaded = false;
-    const { customMazeloaderService, mazeUrl, onLoadMaze, onMazeProgress, onMazeError } = customMazeLoaderParams;
+    const { customMazeloaderService, mazeUrl, elevatorUrl, onLoadMaze, onMazeProgress, onMazeError } = customMazeLoaderParams;
     globalAssetManager.startLoading();
 
     this.onLoad = function (configData) {
@@ -460,9 +460,11 @@ export default class Maze extends THREE.Group {
     // Load a maze description resource file
     // TODO proxy the resource file if needed
     this.url = mazeUrl;
-    loader.load(
+    this.elevatorUrl = elevatorUrl;
+    loader.loadElevators(
       //Resource URL
       this.url,
+      this.elevatorUrl,
 
       // onLoad callback
       (mazeData) => {

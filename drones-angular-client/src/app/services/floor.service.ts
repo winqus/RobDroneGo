@@ -40,4 +40,9 @@ export class FloorService {
     const route = API_ROUTES.floor.getAllFloors;
     return this.http.get<Floor[]>(route);
   }
+
+  getFloorsWithElevator(buildingCode: string): Observable<Floor[]> {
+    const route = API_ROUTES.floor.floorWithElevator(buildingCode);
+    return this.http.get<Floor[]>(route);
+  }
 }
