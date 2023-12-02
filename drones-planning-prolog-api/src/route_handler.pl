@@ -8,9 +8,6 @@
 :- use_module(navigationBuildingsFloors).
 :- use_module(graph_creation_for_maze_diagonal).
 :- use_module(astar_maze_diagonal_algorithm).
-% :- use_module(graph_creation_for_maze).
-% :- use_module(astar_algorithm).
-
 
 :- http_handler('/planning-api/route', get_route_handler, []).
 
@@ -86,12 +83,9 @@ get_route_handler(Request) :-
 
 same_floor_path(OriginFloorNumber, OriginBuildingCode, OriginCell, DestinationCell, MapPathJson) :-
   logic:load_map(OriginFloorNumber, OriginBuildingCode, MapWidth, MapHeight),
-  % graph_creation_for_maze_diagonal:create_graph(26, 16),
   create_graph(MapWidth, MapHeight),
-  % astar_maze_diagonal_algorithm:aStar(Start, End, Path, Cost),
-  % aStar(Start, End, Path, Cost),
-  bestFirst(OriginCell, DestinationCell, Path, Cost),
-  % graph_creation_for_maze_diagonal:remove_graph(),
+  % bestFirst(OriginCell, DestinationCell, Path, Cost),
+  beamSearch(OriginCell, DestinationCell, Path, Cost),
   remove_graph(),
   format_path_json(Path, Cost, OriginBuildingCode, OriginFloorNumber, MapPathJson).
 
@@ -101,8 +95,6 @@ printConnections([H|T]) :-
   printConnections(T).
 
 
-
-% find_map_paths(EntranceConnection, [], _, _, _, _, _) :- log_message('END EntranceConnection: '), log_message_ln(EntranceConnection), \+ isConnection(EntranceConnection), !.
 find_map_paths(EntranceConnection, [], _, _, MainOriginCell, MainDestinationCell, [MapPath]) :-
   isConnection(EntranceConnection),
   set_intermediate_building_floor(EntranceConnection, [], IntermediateBuildingCode, IntermediateFloorNumber),
@@ -113,9 +105,6 @@ find_map_paths(EntranceConnection, [], _, _, MainOriginCell, MainDestinationCell
   log_message('IntermediateOrigin: '), log_message(IntermediateOrigin), log_message('IntermediateDestination: '), log_message_ln(IntermediateDestination),
   find_and_format_best_path(IntermediateOrigin, IntermediateDestination, IntermediateBuildingCode, IntermediateFloorNumber, MapPath),
   log_message('LAST MapPath: '), log_message_ln(MapPath).
-  % append([MapPath], [], NewMapPaths),
-  % MapPaths = NewMapPaths,
-  % log_message('LAST1 MapPath: '), log_message_ln(MapPath).
 
 
 find_map_paths(EntranceConnection, [ExitConnection|RemainingConnections], BuildingCode, FloorNumber, MainOriginCell, MainDestinationCell, MapPaths) :-
@@ -150,7 +139,8 @@ load_map_for_floor(BuildingCode, FloorNumber, MapWidth, MapHeight) :-
 find_and_format_best_path(IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber, MapPath) :-
   log_message('Finding best path with data [IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber]:'),
   log_message_ln([IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber]),
-  (bestFirst(IntermediateOrigin, IntermediateDestination, Path, Cost); (Path = [], Cost = -404)),!,
+  % (bestFirst(IntermediateOrigin, IntermediateDestination, Path, Cost); (Path = [], Cost = -404)),!,
+  (beamSearch(IntermediateOrigin, IntermediateDestination, Path, Cost); (Path = [], Cost = -404)),!,
   log_message('found floor map path with bestFirst aStar;'),
   remove_graph(),
   log_message('removed floor map graph;'),
@@ -221,62 +211,6 @@ set_intermediate_building_floor(EntranceConnection, ExitConnection, Intermediate
   ).
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% find_floor_map_path(EntranceConnection, BuildingCode, FloorNumber, OriginCell, DestinationCell, ExitConnection, ReturnedPathJson) :-
-%     log_message('find_floor_map_path with data [EntranceConnection, BuildingCode, FloorNumber, OriginCell, DestinationCell, ExitConnection]:'),
-%     log_message_ln([EntranceConnection, BuildingCode, FloorNumber, OriginCell, DestinationCell, ExitConnection]),
-%   logic:load_map(FloorNumber, BuildingCode, MapWidth, MapHeight),
-%     log_message('loaded floor map of size'), log_message(MapWidth), log_message('x'), log_message(MapHeight), log_message(';'),
-%   create_graph(MapWidth, MapHeight),
-%     log_message('created floor map graph;'),
-%   bestFirst(OriginCell, DestinationCell, Path, Cost),
-%     log_message('found floor map path with bestFirst aStar;'),
-%   remove_graph(),
-%     log_message('removed floor map graph;'),
-%   format_path_json(Path, Cost, ReturnedPathJson),
-%     log_message_ln('finished format_path_json').
-    
-
-% process_connection(Connection, OriginCol, OriginRow, DestCol, DestRow, MapPathJson) :-
-%       log_message('started process_connection='), log_message(Connection), log_message('; '),
-%   connection_floor_building(Connection, FromFloor, FromBuilding, ToFloor, ToBuilding),
-%       log_message('finished connection_floor_building;'),
-%   logic:load_map(FromFloor, FromBuilding, MapWidth, MapHeight),
-%       log_message('finished load_map;'),
-%   create_graph(MapWidth, MapHeight),
-%       log_message('finished create_graph;'),
-
-%   % Set StartCel based on the current connection type
-%   (Connection = elev(_, _) ->
-%       log_message('Connection is elev;'),
-%       StartCel = cel(OriginCol, OriginRow),
-%       logic:elevator_pos(DestCol, DestRow)
-%   ; Connection = cor(_, _) ->
-%       StartCel = cel(OriginCol, OriginRow),
-%       logic:passage(DestCol, DestRow, ToBuilding, ToFloor)
-%   ),
-
-%   EndCel = cel(DestCol, DestRow),
-%       log_message('StartCel='), log_message(StartCel), log_message('EndCel='), log_message(EndCel),
-%   bestFirst(StartCel, EndCel, Path, Cost),
-%       log_message('finished bestFirst aStar;'),
-%   remove_graph(),
-%       log_message('finished remove_graph;'),
-%   format_path_json(Path, Cost, MapPathJson),
-%       log_message_ln('finished format_path_json').
 
 connection_floor_building(Connection, FromFloor, FromBuilding, ToFloor, ToBuilding) :-
   % Split the 'From' and 'To' parts of the connection
