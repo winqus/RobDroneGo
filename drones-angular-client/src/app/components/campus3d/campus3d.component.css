@@ -51,7 +51,7 @@ body {
 
 #subwindows-panel {
   position: absolute;
-  left: -48vw;
+  right: -48vw;
   bottom: -45vh;
   font-size: 1.5vmin;
   color: white;

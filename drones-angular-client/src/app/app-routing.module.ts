@@ -155,7 +155,7 @@ const routes: Routes = [
         path: 'task',
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'route/:code1/:code2', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: PathsBetweenBuildingsComponent },
+          { path: 'route', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: PathsBetweenBuildingsComponent },
           { path: 'analysis', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: ComplexityAnalysisComponent },
         ],
       },
@@ -173,17 +173,16 @@ const routes: Routes = [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
           {
             path: 'info',
-            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager, UserRole.FleetManager, UserRole.SystemAdministrator, UserRole.TaskManager])],
             component: AboutUsComponent,
           },
 
           {
             path: 'gdpr',
-            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager, UserRole.FleetManager, UserRole.SystemAdministrator, UserRole.TaskManager])],
             component: GdprComponent,
           },
           {
             path: 'folder',
+            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager, UserRole.FleetManager, UserRole.SystemAdministrator, UserRole.TaskManager])],
             children: [{ path: '', component: PublicFolderComponent }],
           },
         ],
