@@ -25,6 +25,9 @@ start :-
     start_server(Port).
 
 start_server(Port) :-
+    set_log_file,
+    format('Starting server on port ~d~n', [Port]),
+    log_message('Starting server on port'), log_message_ln(Port),
     http_server(http_dispatch, [port(Port)]).
     
 
