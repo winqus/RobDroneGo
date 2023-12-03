@@ -25,4 +25,18 @@ export default class RoomController implements IRoomController {
       return next(error);
     }
   }
+
+  public async getAllRooms(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const result = await this.roomService.getAllRooms();
+
+      if (result.isSuccess) {
+        res.status(200).json(result.getValue());
+      } else {
+        res.status(400).json({ error: result.error });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
 }

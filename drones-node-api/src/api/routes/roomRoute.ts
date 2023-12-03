@@ -37,4 +37,6 @@ export default (app: Router) => {
     errors(),
     routeJoiErrorHandler,
   );
+
+  route.get('/all', (req, res, next) => controller.getAllRooms(req, res, next), routeJoiErrorHandler);
 };
