@@ -63,7 +63,7 @@ get_route_handler(Request) :-
     % If origin and destination are on the same floor
     same_floor_path(OriginFloorNumber, OriginBuildingCode, OriginCell, DestinationCell, SameFloorPath),
           log_message('found same floor path;'),
-    JsonResponse = json{floors_paths: [], map_paths: [SameFloorPath]}
+    JsonResponse = json{floorsPaths: [], mapPathCount: 1, mapPaths: [SameFloorPath]}
     ;
     % Different floors
           log_message('finding better path floors...;'),!,
@@ -235,7 +235,7 @@ format_connection(elev(From, To), json{fromBuilding: FromBuilding, fromFloorNumb
   split_building_floor(From, FromBuilding, FromFloor),
   split_building_floor(To, ToBuilding, ToFloor).
 
-format_connection(cor(From, To), json{fromBuilding: FromBuilding, fromFloorNumber: FromFloor, toBuilding: ToBuilding, toFloorNumber: ToFloor, type:"corridor"}) :-
+format_connection(cor(From, To), json{fromBuilding: FromBuilding, fromFloorNumber: FromFloor, toBuilding: ToBuilding, toFloorNumber: ToFloor, type:"passage"}) :-
   split_building_floor(From, FromBuilding, FromFloor),
   split_building_floor(To, ToBuilding, ToFloor).
 
