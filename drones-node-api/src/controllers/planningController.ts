@@ -3,11 +3,12 @@ import { ParsedQs } from 'qs';
 import { Inject, Service } from 'typedi';
 import config from '../../config';
 import { Result } from '../core/logic/Result';
+import IPlanningService from '../services/IServices/IPlanningService';
 import IPlanningController from './IControllers/IPlanningController';
 
 @Service()
 export default class PlanningController implements IPlanningController {
-  constructor(@Inject(config.services.planning.name) private planningService: any) {}
+  constructor(@Inject(config.services.planning.name) private planningService: IPlanningService) {}
 
   public async calculateCells(req: Request, res: Response, next: NextFunction) {
     try {
