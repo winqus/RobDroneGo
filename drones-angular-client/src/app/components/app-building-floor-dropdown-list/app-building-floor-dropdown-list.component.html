@@ -7,9 +7,7 @@
       </div>
       <div class="collapse-content">
         <!-- Display floors for the selected building in order -->
-        <div *ngFor="let floor of getFloorsByBuilding(building.code)" class="btn btn-xs" (click)="onFloorSelection(building, floor.floorNumber)">
-          Load Maze {{ building.code }}{{ floor.floorNumber }}
-        </div>
+        <div *ngFor="let floor of getFloorsByBuilding(building.code)" class="btn btn-xs" (click)="onFloorSelection(building, floor.floorNumber)">Load Floor {{ floor.floorNumber }}</div>
       </div>
     </div>
   </ng-container>

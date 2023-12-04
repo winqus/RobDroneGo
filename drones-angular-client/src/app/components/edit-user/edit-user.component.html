@@ -1,0 +1,79 @@
+<div class="container p-0 md:p-7 flex justify-center items-center">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
+      <h2 class="text-2xl font-semibold mb-6">Edit user information</h2>
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-control">
+        <!-- First Name Field -->
+        <div class="mb-4">
+          <label for="firstName">{{ props.firstNameLabel }}</label>
+          <input type="text" id="firstName" formControlName="firstName" class="mt-1 p-2 block w-full border rounded-md" />
+        </div>
+        <div *ngIf="userForm.controls['firstName'].touched && userForm.controls['firstName'].invalid" class="text-error">
+          <small *ngIf="userForm.controls['firstName']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+          <small *ngIf="userForm.controls['firstName']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: firstNameArgs }}</small>
+          <small *ngIf="userForm.controls['firstName']?.errors?.['maxlength']">{{ validationErrors.fieldLengthRange | errorMessage: firstNameArgs }}</small>
+        </div>
+
+        <!-- Last Name Field -->
+        <div class="mb-4">
+          <label for="lastName">{{ props.lastNameLabel }}</label>
+          <input type="text" id="lastName" formControlName="lastName" class="mt-1 p-2 block w-full border rounded-md" />
+        </div>
+        <div *ngIf="userForm.controls['lastName'].touched && userForm.controls['lastName'].invalid" class="text-error">
+          <small *ngIf="userForm.controls['lastName']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+          <small *ngIf="userForm.controls['lastName']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: lastNameArgs }}</small>
+          <small *ngIf="userForm.controls['lastName']?.errors?.['maxlength']">{{ validationErrors.fieldLengthRange | errorMessage: lastNameArgs }}</small>
+        </div>
+
+        <!-- Email Field -->
+        <div class="mb-4">
+          <label for="email">{{ props.emailLabel }}</label>
+          <input type="email" id="email" formControlName="email" class="mt-1 p-2 block w-full border rounded-md" />
+        </div>
+        <div *ngIf="userForm.controls['email']?.touched && userForm.controls['email']?.invalid" class="text-error">
+          <small *ngIf="userForm.controls['email']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+          <small *ngIf="userForm.controls['email']?.errors?.['email']">{{ validationErrors.invalidEmail }}</small>
+        </div>
+
+        <!-- Button to Toggle Password Fields -->
+        <div class="mb-4">
+          <button class="btn btn-outline btn-primary" type="button" (click)="togglePasswordFields()">Update password</button>
+        </div>
+
+        <!-- Password Fields  -->
+        <ng-container *ngIf="showPasswordFields">
+          <p>After writing password, press 'Update user' to update the password.</p>
+          <br />
+          <div class="mb-4">
+            <label for="password">{{ props.passwordLabel }}</label>
+            <input type="password" id="password" formControlName="password" class="mt-1 p-2 block w-full border rounded-md" />
+          </div>
+          <div *ngIf="userForm.controls['password']?.touched && userForm.controls['password']?.invalid" class="text-error">
+            <small *ngIf="userForm.controls['password']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+            <small *ngIf="userForm.controls['password']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: passwordArgs }}</small>
+          </div>
+
+          <!-- Confirm Password Field -->
+          <div class="mb-4">
+            <label for="confirmPassword">{{ props.confirmPasswordLabel }}</label>
+            <input type="password" id="confirmPassword" formControlName="confirmPassword" class="mt-1 p-2 block w-full border rounded-md" />
+          </div>
+          <div *ngIf="userForm.controls['confirmPassword']?.touched && userForm.controls['confirmPassword']?.invalid" class="text-error">
+            <small *ngIf="userForm.controls['confirmPassword']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+          </div>
+          <div *ngIf="userForm.controls['confirmPassword']?.touched" class="text-error">
+            <small *ngIf="userForm.hasError('mismatch')">{{ validationErrors.passwordMismatch }}</small>
+          </div>
+        </ng-container>
+
+        <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
+        <app-success-form-message [message]="submitSuccessMessage"></app-success-form-message>
+
+        <!-- Signup Button -->
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="edit">{{ props.editUserButtonLabel }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

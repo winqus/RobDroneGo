@@ -19,6 +19,7 @@ import { EditBuildingComponent } from './components/edit-building/edit-building.
 import { EditElevatorComponent } from './components/edit-elevator/edit-elevator.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
 import { EditPassageComponent } from './components/edit-passage/edit-passage.component';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
@@ -154,7 +155,7 @@ const routes: Routes = [
         path: 'task',
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'route/:code1/:code2', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: PathsBetweenBuildingsComponent },
+          { path: 'route', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: PathsBetweenBuildingsComponent },
           { path: 'analysis', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: ComplexityAnalysisComponent },
         ],
       },
@@ -170,11 +171,18 @@ const routes: Routes = [
         path: 'about',
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'info', canActivate: [canActivateWithRole([UserRole.User])], component: AboutUsComponent },
+          {
+            path: 'info',
+            component: AboutUsComponent,
+          },
 
-          { path: 'gdpr', canActivate: [canActivateWithRole([UserRole.User])], component: GdprComponent },
+          {
+            path: 'gdpr',
+            component: GdprComponent,
+          },
           {
             path: 'folder',
+            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager, UserRole.FleetManager, UserRole.SystemAdministrator, UserRole.TaskManager])],
             children: [{ path: '', component: PublicFolderComponent }],
           },
         ],
@@ -195,6 +203,11 @@ const routes: Routes = [
           { path: 'login', component: LoginComponent },
           { path: '', redirectTo: 'signup', pathMatch: 'full' },
         ],
+      },
+      {
+        path: '',
+        component: MainLayoutComponent,
+        children: [{ path: 'user', component: EditUserComponent }],
       },
       { path: 'logout', component: LogoutComponent },
     ],

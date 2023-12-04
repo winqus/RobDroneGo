@@ -1,1 +1,121 @@
-<p>Functionality will be added later</p>
+<div class="p-0 md:p-7 flex justify-center items-center">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
+      <form [formGroup]="pathForm" (ngSubmit)="onSubmit()">
+        <div class="mb-6">
+          <span class="text font-bold m-2">Origin</span>
+          <!-- Origin building Code Dropdown Field -->
+          <label class="label" for="buildingCodeO">
+            <span class="label-text">Select Building Code</span>
+          </label>
+          <select formControlName="buildingCodeO" class="select select-bordered w-full" id="buildingCodeO" (change)="updateFloorListOrigin()">
+            <option *ngFor="let building of buildingsOrigin" [value]="building.code">{{ building.code }}</option>
+          </select>
+          <div *ngIf="pathForm.controls['buildingCodeO'].touched && pathForm.controls['buildingCodeO'].invalid" class="text-error">
+            <small *ngIf="pathForm.controls['buildingCodeO'].errors?.['required']">Building Code is required</small>
+          </div>
+          <!-- Origin Floor Number Dropdown Field -->
+          <label class="label" for="floorNumberO">
+            <span class="label-text">Select Floor Number</span>
+          </label>
+          <select formControlName="floorNumberO" class="select select-bordered w-full" id="floorNumberO" (change)="updateRoomListOrigin()">
+            <option *ngFor="let floor of floorsOrigin" [value]="floor.floorNumber">{{ floor.floorNumber }}</option>
+          </select>
+          <div *ngIf="pathForm.controls['floorNumberO'].touched && pathForm.controls['floorNumberO'].invalid" class="text-error">
+            <small *ngIf="pathForm.controls['floorNumberO'].errors?.['required']">Floor Code is required</small>
+          </div>
+          <!-- Origin Room Dropdown Field -->
+          <label class="label" for="roomO">
+            <span class="label-text">Select Room</span>
+          </label>
+          <select formControlName="roomO" class="select select-bordered w-full" id="roomO" (change)="checkSameRooms()">
+            <option *ngFor="let room of roomsOrigin" [value]="room.id">{{ room.name }}</option>
+          </select>
+          <div *ngIf="pathForm.controls['roomO'].touched && pathForm.controls['roomO'].invalid" class="text-error">
+            <small *ngIf="pathForm.controls['roomO'].errors?.['required']">Room selection is required</small>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <span class="text font-bold m-2">Destination</span>
+          <!--Destination Building Code Dropdown Field -->
+          <label class="label" for="buildingCodeD">
+            <span class="label-text">Select Building Code</span>
+          </label>
+          <select formControlName="buildingCodeD" class="select select-bordered w-full" id="buildingCodeD" (change)="updateFloorListDestination()">
+            <option *ngFor="let building of buildingsDestination" [value]="building.code">{{ building.code }}</option>
+          </select>
+          <div *ngIf="pathForm.controls['buildingCodeD'].touched && pathForm.controls['buildingCodeD'].invalid" class="text-error">
+            <small *ngIf="pathForm.controls['buildingCodeD'].errors?.['required']">Building Code is required</small>
+          </div>
+          <!-- Destination Floor Number Dropdown Field -->
+          <label class="label" for="floorNumberD">
+            <span class="label-text">Select Floor Number</span>
+          </label>
+          <select formControlName="floorNumberD" class="select select-bordered w-full" id="floorNumberD" (change)="updateRoomListDestination()">
+            <option *ngFor="let floor of floorsDestination" [value]="floor.floorNumber">{{ floor.floorNumber }}</option>
+          </select>
+          <div *ngIf="pathForm.controls['floorNumberD'].touched && pathForm.controls['floorNumberD'].invalid" class="text-error">
+            <small *ngIf="pathForm.controls['floorNumberD'].errors?.['required']">Floor Code is required</small>
+          </div>
+          <!-- Destination Room Dropdown Field -->
+          <label class="label" for="roomD">
+            <span class="label-text">Select Room</span>
+          </label>
+          <select formControlName="roomD" class="select select-bordered w-full" id="roomD" (change)="checkSameRooms()">
+            <option *ngFor="let room of roomsDestination" [value]="room.id">{{ room.name }}</option>
+          </select>
+          <div *ngIf="pathForm.controls['roomD'].touched && pathForm.controls['roomD'].invalid" class="text-error">
+            <small *ngIf="pathForm.controls['roomD'].errors?.['required']">Room selection is required</small>
+          </div>
+        </div>
+
+        <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
+        <small class="text-error" *ngIf="pathForm.controls['roomD'].errors?.['sameRoom']">Origin and Destination rooms must be different.</small>
+
+        <!-- Submit Button -->
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit" [disabled]="pathForm.invalid">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Route -->
+<div class="bg-base-300 px-1 xs:px-8 py-2">
+  <ng-container *ngIf="this.calculationResult; else noRoute">
+    <p class="text-4xl font-bold mb-4 text-center">Route</p>
+    <div *ngFor="let mapPath of this.calculationResult.mapPaths; let i = index" class="collapse collapse-arrow bg-base-200 mb-2">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">
+        <span *ngIf="this.calculationResult.floorsPaths[i]; else lastStep" class="badge badge-lg mr-3"
+          >{{ i + 1 }}) From floor {{ this.calculationResult.floorsPaths[i].fromBuilding }}{{ this.calculationResult.floorsPaths[i].fromFloorNumber }} by
+          {{ this.calculationResult.floorsPaths[i].type }} to floor {{ this.calculationResult.floorsPaths[i].toBuilding }}{{ this.calculationResult.floorsPaths[i].toFloorNumber }}
+        </span>
+        <ng-template #lastStep>
+          <span class="badge badge-lg mr-3">{{ i + 1 }}) Go to room</span>
+        </ng-template>
+      </div>
+      <div class="collapse-content">
+        <p *ngIf="mapPath" class="text-sm mb-1">Path cost is {{ this.calculationResult.mapPaths[i].cost }}</p>
+        <p *ngIf="mapPath" class="text-lg mb-1">Path on floor:</p>
+        <div>
+          <p *ngFor="let cell of this.calculationResult.mapPaths[i].path; let isLast = last">
+            <span class="badge badge-lg">Cell ({{ cell.col }};{{ cell.row }})</span>
+            <span class="mx-1" *ngIf="!isLast">,</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Error message if there is no route -->
+<ng-template #noRoute>
+  <div *ngIf="loadedOnce" class="flex items-center justify-center">
+    <div class="rounded-lg p-6 text-white text-center">
+      <p class="text-4xl font-bold mb-4">There's no route</p>
+    </div>
+  </div>
+</ng-template>

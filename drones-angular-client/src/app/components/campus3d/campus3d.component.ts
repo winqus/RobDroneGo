@@ -1,11 +1,14 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, firstValueFrom } from 'rxjs';
+import { API_ROUTES } from 'src/api.config';
 import { FloorSelectorGUI } from 'src/app/ThreeDModule/floorSelectorGUI.js';
 import Building from 'src/app/core/models/building.model.js';
+import Floor from 'src/app/core/models/floor.model.js';
 import Map from 'src/app/core/models/map.model.js';
 import ThumbRaiser from '../../ThreeDModule/thumb_raiser.js';
+import { FloorService } from '../../services/floor.service';
 import { AppBuildingFloorDropdownListComponent } from '../app-building-floor-dropdown-list/app-building-floor-dropdown-list.component.js';
 import { CustomMazeLoaderParams } from './interfaces/customMazeLoaderParams.interface';
 import { MapCell } from './interfaces/mapCell.enum';
@@ -70,24 +73,6 @@ function initializeThumbRaiser(
     thumberRaiserParams.miniMapCameraParameters,
   );
 }
-
-// TODO remove mazeExampleUrls when url retrieval is replaced in private initialize3d() {
-const mazeExampleUrls: {
-  [key: string]: {
-    [key: number]: string;
-  };
-} = {
-  B: {
-    1: './assets/mazes/Loquitas_10x10.json',
-    2: './assets/mazes/Loquitas_20x20.json',
-    3: './assets/mazes/exampleB3Maze.json',
-  },
-  C: {
-    2: './assets/mazes/ckarzx_20x20.json',
-    3: './assets/mazes/exampleC3Maze.json',
-    4: './assets/mazes/exampleC4Maze.json',
-  },
-};
 
 @Component({
   selector: 'app-campus3d',
@@ -175,18 +160,18 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     );
 
     // TODO - uncomment when mazeDataPostProcessor is refactored
-    // this.mazeLoaderService.mapDataFromApiPreProcessor = this.mapDataFromApiPreProcessor;
+    this.mazeLoaderService.mapDataFromApiPreProcessor = this.mapDataFromApiPreProcessor;
     this.mazeLoaderService.mazeDataPostProcessor = this.mazeDataPostProcessor;
     this.initialize3d();
   }
 
   // Prepares customMazeLoaderParams for loading a map, initializes ThumbRaiser and starts animation loop
-  // TODO replace with url for node API
   initialize3d() {
     const customMazeLoaderParams: CustomMazeLoaderParams = {
       customMazeloaderService: this.mazeLoaderService,
       // TODO replace with url for node API
-      mazeUrl: mazeExampleUrls[this.buildingCode][this.floorNumber],
+      mazeUrl: API_ROUTES.map.getMap(this.buildingCode, this.floorNumber),
+      elevatorUrl: API_ROUTES.floor.floorWithElevator(this.buildingCode),
       onLoadMaze: (data) => this.onLoadMaze(data),
       onMazeProgress: (progress) => this.onMazeProgress(progress),
       onMazeError: (error) => this.onMazeError(error),
@@ -211,23 +196,54 @@ export class Campus3dComponent implements OnInit, OnDestroy {
   // FIXME - Needs refactoring to be usable with backend node API
   // Should convert data from node API to MazePartialConfig or MazeAndPlayerConfig (enought, rest is added from baseMazeGroundWallSettings.json in customMazeLoaderService)
   // After refactoring uncomment line in ngOnInit() for customMazeLoaderService.mapDataFromApiPreProcessor to use this callback proxy function
-  mapDataFromApiPreProcessor = (data: Map): MazePartialConfig | MazeAndPlayerConfig => {
+  mapDataFromApiPreProcessor = (data: Map, floorsNumber: number[]): MazePartialConfig | MazeAndPlayerConfig => {
     const buildingCode = this.buildingCode;
     const floorNumber = this.floorNumber;
     const initialPlayerPosition: [number, number] = [0.0, 0.0];
     const initialPlayerDirection = 90.0;
+
+    let passages: Passage[] = [];
+    if (data.exitLocations?.passages) {
+      passages = data.exitLocations?.passages.map((passage) => {
+        let entrance: [number, number] = [-0.5, 0];
+        if (data.map[passage.cellPosition[0]][passage.cellPosition[1]] === MapCell.PassageWest) {
+          entrance = [0, -0.5];
+        }
+        return {
+          cellPosition: passage.cellPosition,
+          entracePositionOffset: entrance,
+          destination: passage.destination,
+        };
+      });
+    }
+
+    let elevators: Elevator[] = [];
+    if (data.exitLocations?.elevators) {
+      elevators = data.exitLocations?.elevators.map((elevator) => {
+        let entrance: [number, number] = [-0.5, 0];
+        if (data.map[elevator.cellPosition[0]][elevator.cellPosition[1]] === MapCell.ElevatorEast || data.map[elevator.cellPosition[0]][elevator.cellPosition[1]] === MapCell.ElevatorWest) {
+          entrance = [0, -0.5];
+        }
+        return {
+          cellPosition: elevator.cellPosition,
+          entracePositionOffset: entrance,
+          connectedFloorNumbers: floorsNumber,
+        };
+      });
+    }
+
     const processedData: MazeAndPlayerConfig = {
       maze: {
         buildingCode,
         floorNumber,
         size: {
-          width: data.size.width,
-          depth: data.size.height,
+          width: data.size.width - 1,
+          depth: data.size.height - 1,
         },
         map: data.map as MapCell[][],
         exitLocations: {
-          passages: [],
-          elevators: [],
+          passages: passages,
+          elevators: elevators,
         },
       },
       player: {
@@ -299,29 +315,23 @@ export class Campus3dComponent implements OnInit, OnDestroy {
               ];
               destinationPlayerDirection = 180;
               break;
-            case MapCell.ElevatorWest:
+            case MapCell.ElevatorEast:
               // Elevator entrance/exit facing west
-              destinationPlayerPosition = [
-                destinationElevator.cellPosition[0] + destinationElevator.entracePositionOffset[0] * 2,
-                destinationElevator.cellPosition[1] + destinationElevator.entracePositionOffset[1] * 2,
-              ];
-              destinationPlayerDirection = 270;
+              destinationPlayerPosition = [destinationElevator.cellPosition[0], destinationElevator.cellPosition[1]];
+              destinationPlayerDirection = 90;
               break;
             case MapCell.ElevatorSouth:
               // Elevator entrance/exit facing south
-              destinationPlayerPosition = [
-                destinationElevator.cellPosition[0] + destinationElevator.entracePositionOffset[0] * 2,
-                destinationElevator.cellPosition[1] + destinationElevator.entracePositionOffset[1] * 2,
-              ];
+              destinationPlayerPosition = [destinationElevator.cellPosition[0], destinationElevator.cellPosition[1]];
               destinationPlayerDirection = 0;
               break;
-            case MapCell.ElevatorEast:
+            case MapCell.ElevatorWest:
               // Elevator entrance/exit facing east
               destinationPlayerPosition = [
                 destinationElevator.cellPosition[0] + destinationElevator.entracePositionOffset[0] * 2,
                 destinationElevator.cellPosition[1] + destinationElevator.entracePositionOffset[1] * 2,
               ];
-              destinationPlayerDirection = 90;
+              destinationPlayerDirection = 270;
               break;
             default:
               console.error(`Error: Invalid map cell value: ${mapValue}`);
@@ -352,7 +362,8 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     // TODO replace with url for node API
     const customMazeLoaderParams: CustomMazeLoaderParams = {
       customMazeloaderService: this.mazeLoaderService,
-      mazeUrl: mazeExampleUrls[this.buildingCode][this.floorNumber],
+      mazeUrl: API_ROUTES.map.getMap(this.buildingCode, this.floorNumber),
+      elevatorUrl: API_ROUTES.floor.floorWithElevator(this.buildingCode),
       onLoadMaze: (data) => this.onLoadMaze(data),
       onMazeProgress: (progress) => this.onMazeProgress(progress),
       onMazeError: (error) => this.onMazeError(error),

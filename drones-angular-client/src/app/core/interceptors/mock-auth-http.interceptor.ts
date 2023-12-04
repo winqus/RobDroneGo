@@ -67,8 +67,10 @@ export class MockAuthHttpInterceptor implements HttpInterceptor {
     }
 
     // Mock the update user request (not implemented in backend)
-    if (request.url.includes('/api/auth/user/') && request.method === 'PUT') {
+    if (request.url.includes('/api/auth/user') && request.method === 'PUT') {
       console.log('Mocking the update user request');
+      const requestedUser = request.body.user as User;
+      this.setCurrentMockUser(requestedUser);
       const returnedUser = this.getCurrentMockUser();
 
       return of(new HttpResponse({ status: 200, body: { user: { ...returnedUser, ...request.body.user } } })).pipe(delay(500));

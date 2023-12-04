@@ -52,9 +52,11 @@ export const API_ROUTES = {
     getByBuildingCode: (buildingCode: string) => `${API_BASE}/floor/${buildingCode}`,
     getAllFloors: `${API_BASE}/floor`,
     updateFloor: (id: string) => `${API_BASE}/floor/${id}`,
+    floorWithElevator: (code: string) => `${API_BASE}/floor/elevator?buildingCode=${code}`,
   },
   room: {
     createRoom: `${API_BASE}/room`,
+    getAllRooms: `${API_BASE}/room/all`,
   },
   map: {
     uploadMap: (buildingCode: string, floorNumber: number) => `${API_BASE}/floor/${floorNumber}/building/${buildingCode}/`,
@@ -63,5 +65,10 @@ export const API_ROUTES = {
   folder: {
     upload: `${API_BASE}/folder/upload?file`,
     list: `${API_BASE}/folder/`,
+  },
+  planning: {
+    upload: `${API_BASE}/folder/upload?file`,
+    list: `${API_BASE}/folder/`,
+    roomsNavigation: `${API_BASE}/planning/calculate-cells`,
   },
 };

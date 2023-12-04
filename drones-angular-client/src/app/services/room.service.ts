@@ -5,12 +5,10 @@ import { API_ROUTES } from 'src/api.config';
 import Room from '../core/models/room.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoomService {
-
-  constructor(private http: HttpClient) { 
-  }
+  constructor(private http: HttpClient) {}
 
   createRoom(room: Room): Observable<Room> {
     const route = API_ROUTES.room.createRoom;
@@ -23,5 +21,10 @@ export class RoomService {
       floorId: room.floorId,
     };
     return this.http.post<Room>(route, postRoom);
+  }
+
+  getAllRooms(): Observable<Room[]> {
+    const route = API_ROUTES.room.getAllRooms;
+    return this.http.get<Room[]>(route);
   }
 }

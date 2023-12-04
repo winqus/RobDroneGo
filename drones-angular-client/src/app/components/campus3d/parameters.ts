@@ -129,8 +129,7 @@ export const parameters = {
         textureNegativeYUrl: 'stormydays_dn.jpg',
         texturePositiveZUrl: 'stormydays_rt.jpg',
         textureNegativeZUrl: 'stormydays_lf.jpg',
-        credits:
-          "Skybox created by <a href='https://opengameart.org/content/stormy-days-skybox' target='_blank' rel='noopener'>Jockum Skoglund (hipshot)</a>.",
+        credits: "Skybox created by <a href='https://opengameart.org/content/stormy-days-skybox' target='_blank' rel='noopener'>Jockum Skoglund (hipshot)</a>.",
       },
       {
         // Miramar
@@ -142,8 +141,7 @@ export const parameters = {
         textureNegativeYUrl: 'miramar_dn.jpg',
         texturePositiveZUrl: 'miramar_rt.jpg',
         textureNegativeZUrl: 'miramar_lf.jpg',
-        credits:
-          "Skybox created by <a href='https://opengameart.org/content/red-eclipse-skyboxes' target='_blank' rel='noopener'>Red Eclipse</a>.",
+        credits: "Skybox created by <a href='https://opengameart.org/content/red-eclipse-skyboxes' target='_blank' rel='noopener'>Red Eclipse</a>.",
       },
       {
         // Calm sea
@@ -155,8 +153,7 @@ export const parameters = {
         textureNegativeYUrl: 'calm_sea_dn.jpg',
         texturePositiveZUrl: 'calm_sea_rt.jpg',
         textureNegativeZUrl: 'calm_sea_lf.jpg',
-        credits:
-          "Skybox created by <a href='https://opengameart.org/content/xonotic-skyboxes' target='_blank' rel='noopener'>Xonotic</a>.",
+        credits: "Skybox created by <a href='https://opengameart.org/content/xonotic-skyboxes' target='_blank' rel='noopener'>Xonotic</a>.",
       },
     ],
     selected: 2,
@@ -249,8 +246,8 @@ export const parameters = {
     view: 'mini-map',
     initialViewport: new THREE.Vector4(0.5, 0.5, 0.3, 0.3),
     initialOrientation: new Orientation(180.0, -90.0),
-    initialZoom: 0.64,
-    zoomMin: 0.64,
-    zoomMax: 5.12,
+    initialZoom: 0.2,
+    zoomMin: 0.2, // original 0.64
+    zoomMax: 10.0, // original 5.12
   },
 };
