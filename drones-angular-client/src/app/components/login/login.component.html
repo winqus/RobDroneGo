@@ -4,7 +4,7 @@
   <label class="label" for="email">
     <span class="label-text">{{ props.emailLabel }}</span>
   </label>
-  <input type="email" formControlName="email" placeholder="{{ props.emailPlaceholder }}" class="input input-bordered" id="email">
+  <input type="email" formControlName="email" placeholder="{{ props.emailPlaceholder }}" class="input input-bordered" id="email" />
   <div *ngIf="loginForm.controls['email']?.touched && loginForm.controls['email']?.invalid" class="text-error">
     <small *ngIf="loginForm.controls['email']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
     <small *ngIf="loginForm.controls['email']?.errors?.['email']">{{ validationErrors.invalidEmail }}</small>
@@ -14,13 +14,13 @@
   <label class="label" for="password">
     <span class="label-text">{{ props.passwordLabel }}</span>
   </label>
-  <input type="password" formControlName="password" placeholder="{{ props.passwordPlaceholder }}" class="input input-bordered" id="password">
+  <input type="password" formControlName="password" placeholder="{{ props.passwordPlaceholder }}" class="input input-bordered" id="password" />
   <div *ngIf="loginForm.controls['password']?.touched && loginForm.controls['password']?.invalid" class="text-error">
     <small *ngIf="loginForm.controls['password']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
   </div>
 
   <!-- Login Button -->
-  <div class="form-control mt-6">
-    <button class="btn btn-primary" type="submit" [disabled]="loginForm.invalid">{{ props.loginButtonLabel }}</button>
+  <div class="form-control mt-6" for="button">
+    <button class="btn btn-primary" id="button" type="submit" [disabled]="loginForm.invalid">{{ props.loginButtonLabel }}</button>
   </div>
 </form>

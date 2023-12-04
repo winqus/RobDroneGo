@@ -51,6 +51,7 @@ export class SignupComponent implements OnInit {
         confirmPassword: new FormControl('', Validators.required),
         role: new FormControl(this.props.userRoles[0].role, Validators.required),
         gdprCompliance: new FormControl(false, Validators.requiredTrue),
+        isConfirmed: new FormControl(false),
       },
       { validators: this.passwordMatchValidator },
     );
