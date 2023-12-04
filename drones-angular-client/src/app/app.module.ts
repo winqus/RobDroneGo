@@ -58,6 +58,7 @@ import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -120,6 +121,7 @@ export const initAuthorizationProvider = {
     PublicFolderComponent,
     UploadMapComponent,
     EditUserComponent,
+    TermsOfUseComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [

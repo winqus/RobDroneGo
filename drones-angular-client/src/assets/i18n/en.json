@@ -394,7 +394,8 @@
           { "label": "System Administrator", "role": "System Administrator" },
           { "label": "Task Manager", "role": "Task Manager" }
         ],
-        "gdprLabel": "I agree to the <a class=\"link link-info\" href=\"/terms\" target=\"_blank\">Terms of Service</a> and <a class=\"link link-info\" href=\"/privacy\" target=\"_blank\">Privacy Policy</a>.",
+        "gdprLabel": "By clicking this check box, I consent to RobDroneGo to collect and process my personal data for the creation of user profile as explained in the <a class=\"gdpr\" href=\"/about/public/gdpr\" target=\"_blank\"><u>Data Processing Report</u></a> and <a class=\"terms-of-use\" href=\"/about/public/terms-of-use\" target=\"_blank\"><u>Terms of Use</u></a>.",
+        "gdprLabelContact": "",
         "signupButtonLabel": "Sign Up"
       }
     },
