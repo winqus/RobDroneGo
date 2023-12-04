@@ -315,7 +315,7 @@ export class Campus3dComponent implements OnInit, OnDestroy {
               ];
               destinationPlayerDirection = 180;
               break;
-            case MapCell.ElevatorWest:
+            case MapCell.ElevatorEast:
               // Elevator entrance/exit facing west
               destinationPlayerPosition = [destinationElevator.cellPosition[0], destinationElevator.cellPosition[1]];
               destinationPlayerDirection = 90;
@@ -325,7 +325,7 @@ export class Campus3dComponent implements OnInit, OnDestroy {
               destinationPlayerPosition = [destinationElevator.cellPosition[0], destinationElevator.cellPosition[1]];
               destinationPlayerDirection = 0;
               break;
-            case MapCell.ElevatorEast:
+            case MapCell.ElevatorWest:
               // Elevator entrance/exit facing east
               destinationPlayerPosition = [
                 destinationElevator.cellPosition[0] + destinationElevator.entracePositionOffset[0] * 2,
