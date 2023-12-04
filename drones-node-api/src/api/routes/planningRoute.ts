@@ -124,12 +124,15 @@ export default (app: Router) => {
     celebrate(routeSchema2),
     async (req, res, next) => {
       try {
-        const {
-          origin_map_cell_x,
-          origin_map_cell_y,
-          destination_map_cell_x,
-          destination_map_cell_y,
-        } = await planningController.calculateCells(req, res, next);
+        const result = await planningController.calculateCells(req, res, next);
+
+        if (result?.statusCode?.toString() === '400') {
+          res.status(400).json({ message: result?.body?.message });
+
+          return next(result?.body?.messag);
+        }
+
+        const { origin_map_cell_x, origin_map_cell_y, destination_map_cell_x, destination_map_cell_y } = result;
 
         const newData = {
           origin_map_cell_x,
