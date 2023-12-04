@@ -49,6 +49,7 @@ export class MockAuthHttpInterceptor implements HttpInterceptor {
         firstName: 'John-user',
         lastName: 'Doemocker',
         email: loginCredentials.email,
+        phonenumber: '7777777777',
         role: UserRole.User,
       });
       const returnedUser = this.getCurrentMockUser();

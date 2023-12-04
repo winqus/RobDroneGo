@@ -12,9 +12,11 @@ export interface EditUserProps {
   firstNameLabel: string;
   lastNameLabel: string;
   emailLabel: string;
+  phonenumberLabel: string;
   passwordLabel: string;
   confirmPasswordLabel: string;
   editUserButtonLabel: string;
+  downloadUserButtonLabel: string;
   userEditedMessage: string;
   userRolesDropdownLabel: String;
   userRoles: { label: string; role: string }[];
@@ -24,6 +26,7 @@ interface UpdateUserData {
   firstName: string;
   lastName: string;
   email: string;
+  phonenumber: string;
   password: string;
   role: UserRole;
 }
@@ -64,6 +67,7 @@ export class EditUserComponent implements OnChanges, OnInit {
         firstName: new FormControl('', [Validators.required, Validators.minLength(this.firstNameArgs.min), Validators.maxLength(this.firstNameArgs.max)]),
         lastName: new FormControl('', [Validators.required, Validators.minLength(this.lastNameArgs.min), Validators.maxLength(this.lastNameArgs.max)]),
         email: new FormControl('', [Validators.required, Validators.email]),
+        phonenumber: new FormControl('', [Validators.required, Validators.pattern(/^[\d+]+$/)]),
         password: new FormControl('', [Validators.required, Validators.minLength(this.passwordArgs.min), Validators.maxLength(this.passwordArgs.max)]),
         confirmPassword: new FormControl('', Validators.required),
       },
@@ -77,13 +81,16 @@ export class EditUserComponent implements OnChanges, OnInit {
         firstName: '',
         lastName: '',
         email: '',
+        phonenumber: '',
         role: UserRole.User,
       },
       firstNameLabel: 'First Name',
       lastNameLabel: 'Last Name',
       emailLabel: 'Email',
+      phonenumberLabel: 'Phone number',
       passwordLabel: 'Password',
       confirmPasswordLabel: 'Confirm Password',
+      downloadUserButtonLabel: 'Download',
 
       editUserButtonLabel: 'Update User',
       userRolesDropdownLabel: 'Choose user role',
@@ -98,6 +105,7 @@ export class EditUserComponent implements OnChanges, OnInit {
         firstName: this.props.user.firstName,
         lastName: this.props.user.lastName,
         email: this.props.user.email,
+        phonenumer: this.props.user.phonenumber,
         role: this.props.user.role,
       });
     }
@@ -113,6 +121,7 @@ export class EditUserComponent implements OnChanges, OnInit {
             firstName: this.userData.firstName,
             lastName: this.userData.lastName,
             email: this.userData.email,
+            phonenumber: this.userData.phonenumber,
             role: this.userData.role,
           });
         } else {
@@ -150,6 +159,7 @@ export class EditUserComponent implements OnChanges, OnInit {
       firstName: this.userForm.value.firstName,
       lastName: this.userForm.value.lastName,
       email: this.userForm.value.email,
+      phonenumber: this.userForm.value.phonenumber,
       password: this.userForm.value.password,
       role: this.userForm.value.role,
     };
@@ -165,5 +175,15 @@ export class EditUserComponent implements OnChanges, OnInit {
         this.isLoading = false;
       },
     });
+  }
+
+  downloadUserData() {
+    const userDataText = `First name: ${this.userForm.value.firstName}\nLast name: ${this.userForm.value.lastName}\nEmail:${this.userForm.value.email}\nPhonenumber:${this.userForm.value.phonenumber}`;
+
+    const blob = new Blob([userDataText], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'userData.json';
+    link.click();
   }
 }

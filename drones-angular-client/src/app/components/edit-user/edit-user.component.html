@@ -35,6 +35,15 @@
           <small *ngIf="userForm.controls['email']?.errors?.['email']">{{ validationErrors.invalidEmail }}</small>
         </div>
 
+        <!-- Phonenumber Field -->
+        <div class="mb-4">
+          <label for="phonenumber">{{ props.phonenumberLabel }}</label>
+          <input type="phonenumber" id="phonenumber" formControlName="phonenumber" class="mt-1 p-2 block w-full border rounded-md" />
+        </div>
+        <div *ngIf="userForm.controls['phonenumber']?.touched && userForm.controls['phonenumber']?.invalid" class="text-error">
+          <small *ngIf="userForm.controls['phonenumber']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+        </div>
+
         <!-- Button to Toggle Password Fields -->
         <div class="mb-4">
           <button class="btn btn-outline btn-primary" type="button" (click)="togglePasswordFields()">Update password</button>
@@ -69,11 +78,25 @@
         <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
         <app-success-form-message [message]="submitSuccessMessage"></app-success-form-message>
 
-        <!-- Signup Button -->
+        <!-- Edit Button -->
         <div class="form-control mt-6">
           <button class="btn btn-primary" type="edit">{{ props.editUserButtonLabel }}</button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<!--Download button-->
+
+<div class="container p-0 md:p-7 flex justify-center items-center">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
+      <h2 class="text-2xl font-semibold mb-6">Download</h2>
+      <p>Download copy of your personal data</p>
+      <div class="form-control mt-6">
+        <button class="btn btn-primary" (click)="downloadUserData()">{{ props.downloadUserButtonLabel }}</button>
+      </div>
     </div>
   </div>
 </div>
