@@ -10,4 +10,4 @@
 
 ## Action Items for Next Sprint ##
 - **Split Issues**: Split issues into tasks of 1 story point if possible.
-- **Detail Issues**: Add more descriptive descriptions (possible steps, examples, links).
+- **Detail Issues**: Add more descriptive descriptions (possible steps, examples, links, moodle discussion links).
