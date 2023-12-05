@@ -6,4 +6,5 @@ export interface IUserPersistence {
   password: string;
   salt: string;
   role: string;
+  isConfirmed: boolean;
 }

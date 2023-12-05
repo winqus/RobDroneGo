@@ -1,5 +1,6 @@
 import { Inject, Service } from 'typedi';
 import config from '../../config';
+import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { Result } from '../core/logic/Result';
 import { Role } from '../domain/role';
 import IRoleDTO from '../dto/IRoleDTO';
@@ -29,7 +30,7 @@ export default class RoleService implements IRoleService {
 
   public async createRole(roleDTO: IRoleDTO): Promise<Result<IRoleDTO>> {
     try {
-      const roleOrError = await Role.create(roleDTO);
+      const roleOrError = await Role.create(roleDTO, new UniqueEntityID(roleDTO.name));
 
       if (roleOrError.isFailure) {
         return Result.fail<IRoleDTO>(roleOrError.errorValue());

@@ -48,6 +48,7 @@ export default class UserRepo implements IUserRepo {
       } else {
         userDocument.firstName = user.firstName;
         userDocument.lastName = user.lastName;
+        userDocument.isConfirmed = user.isConfirmed;
         await userDocument.save();
 
         return user;

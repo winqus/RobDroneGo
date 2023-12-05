@@ -1,5 +1,5 @@
-import { IUserPersistence } from '../../dataschema/IUserPersistence';
 import mongoose from 'mongoose';
+import { IUserPersistence } from '../../dataschema/IUserPersistence';
 
 const User = new mongoose.Schema(
   {
@@ -34,6 +34,10 @@ const User = new mongoose.Schema(
     role: {
       type: String,
       default: 'user',
+    },
+    isConfirmed: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true },

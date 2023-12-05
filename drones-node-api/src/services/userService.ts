@@ -78,6 +78,7 @@ export default class UserService implements IUserService {
         email: email,
         role: role,
         password: password,
+        isConfirmed: userDTO.isConfirmed || false,
       });
 
       if (userOrError.isFailure) {
@@ -109,6 +110,10 @@ export default class UserService implements IUserService {
 
     if (!user) {
       throw new Error('User not registered');
+    }
+
+    if (user.isConfirmed === false) {
+      return Result.fail<{ userDTO: IUserDTO; token: string }>('User not confirmed');
     }
 
     /**

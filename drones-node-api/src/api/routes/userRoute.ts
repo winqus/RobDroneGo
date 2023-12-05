@@ -32,7 +32,10 @@ export default (app: Router) => {
 
       try {
         const authServiceInstance = Container.get(AuthService);
-        const userOrError = await authServiceInstance.SignUp(req.body as IUserDTO);
+        const userOrError = await authServiceInstance.SignUp({
+          ...req.body,
+          isConfirmed: false,
+        } as IUserDTO);
 
         if (userOrError.isFailure) {
           logger.debug(userOrError.errorValue());
@@ -67,7 +70,7 @@ export default (app: Router) => {
         const result = await authServiceInstance.SignIn(email, password);
 
         if (result.isFailure) {
-          return res.json().status(403);
+          return res.status(403).json({ message: result.errorValue() });
         }
 
         const { userDTO, token } = result.getValue();

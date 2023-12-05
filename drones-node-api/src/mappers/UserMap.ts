@@ -21,6 +21,7 @@ export class UserMap extends Mapper<User> {
       email: user.email.value,
       password: '',
       role: user.role.id.toString(),
+      isConfirmed: user.isConfirmed,
     } as IUserDTO;
   }
 
@@ -37,6 +38,7 @@ export class UserMap extends Mapper<User> {
         email: userEmailOrError.getValue(),
         password: userPasswordOrError.getValue(),
         role: role,
+        isConfirmed: raw.isConfirmed,
       },
       new UniqueEntityID(raw.domainId),
     );
@@ -54,6 +56,7 @@ export class UserMap extends Mapper<User> {
       firstName: user.firstName,
       lastName: user.lastName,
       role: user.role.id.toValue(),
+      isConfirmed: user.isConfirmed,
     };
 
     return a;

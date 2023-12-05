@@ -13,6 +13,7 @@ interface UserProps {
   email: UserEmail;
   password: UserPassword;
   role: Role;
+  isConfirmed?: boolean;
 }
 
 export class User extends AggregateRoot<UserProps> {
@@ -46,6 +47,14 @@ export class User extends AggregateRoot<UserProps> {
 
   set role(value: Role) {
     this.props.role = value;
+  }
+
+  get isConfirmed(): boolean {
+    return this.props.isConfirmed;
+  }
+
+  set isConfirmed(value: boolean) {
+    this.props.isConfirmed = value;
   }
 
   private constructor(props: UserProps, id?: UniqueEntityID) {
