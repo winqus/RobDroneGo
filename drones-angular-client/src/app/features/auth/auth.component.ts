@@ -27,6 +27,8 @@ export class AuthComponent implements OnInit {
   loginFormButtonLabel = content.components.auth.loginFormButtonLabel;
   signupFormButtonLabel = content.components.auth.signupFormButtonLabel;
 
+  errorResponse: any = [];
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -55,6 +57,7 @@ export class AuthComponent implements OnInit {
       error: (error) => {
         // Handle error
         console.error('login error', error);
+        this.errorResponse = error;
       },
     });
   }
@@ -69,6 +72,7 @@ export class AuthComponent implements OnInit {
       error: (error) => {
         // Handle error
         console.error('signup error', error);
+        this.errorResponse = error;
       },
     });
   }

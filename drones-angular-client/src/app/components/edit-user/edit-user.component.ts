@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserRole } from 'src/app/core/authentication/models/user-roles.enum';
 import { User } from 'src/app/core/authentication/models/user.model';
 import { UserService } from 'src/app/core/authentication/services/user.service';
+import { environment } from 'src/environments/environment';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
@@ -66,9 +67,9 @@ export class EditUserComponent implements OnChanges, OnInit {
       {
         firstName: new FormControl('', [Validators.required, Validators.minLength(this.firstNameArgs.min), Validators.maxLength(this.firstNameArgs.max)]),
         lastName: new FormControl('', [Validators.required, Validators.minLength(this.lastNameArgs.min), Validators.maxLength(this.lastNameArgs.max)]),
-        email: new FormControl('', [Validators.required, Validators.email]),
+        email: new FormControl('', [Validators.required, Validators.email, this.emailDomainValidator()]),
         phonenumber: new FormControl('', [Validators.required, Validators.pattern(/^[\d+]+$/)]),
-        password: new FormControl('', [Validators.required, Validators.minLength(this.passwordArgs.min), Validators.maxLength(this.passwordArgs.max)]),
+        password: new FormControl('', [Validators.required, Validators.minLength(10), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&.,#^+])[A-Za-z\d@$!%*?&.,#^+]{10,}$/)]),
         confirmPassword: new FormControl('', Validators.required),
       },
       { validators: this.passwordMatchValidator },
@@ -82,6 +83,7 @@ export class EditUserComponent implements OnChanges, OnInit {
         lastName: '',
         email: '',
         phonenumber: '',
+        taxpayernumber: '',
         role: UserRole.User,
       },
       firstNameLabel: 'First Name',
@@ -105,7 +107,7 @@ export class EditUserComponent implements OnChanges, OnInit {
         firstName: this.props.user.firstName,
         lastName: this.props.user.lastName,
         email: this.props.user.email,
-        phonenumer: this.props.user.phonenumber,
+        phonenumber: this.props.user.phonenumber,
         role: this.props.user.role,
       });
     }
@@ -134,6 +136,17 @@ export class EditUserComponent implements OnChanges, OnInit {
     });
   }
 
+  emailDomainValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const email = control.value as string;
+
+      if (email && !email.endsWith(`@${environment.emailDomain}`)) {
+        return { invalidDomain: true };
+      }
+
+      return null;
+    };
+  }
   passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const password = control.get('password');
     const confirmPassword = control.get('confirmPassword');
@@ -178,7 +191,7 @@ export class EditUserComponent implements OnChanges, OnInit {
   }
 
   downloadUserData() {
-    const userDataText = `First name: ${this.userForm.value.firstName}\nLast name: ${this.userForm.value.lastName}\nEmail:${this.userForm.value.email}\nPhonenumber:${this.userForm.value.phonenumber}`;
+    const userDataText = `First name: ${this.userForm.value.firstName}\nLast name: ${this.userForm.value.lastName}\nEmail:${this.userForm.value.email}\nPhone number:${this.userForm.value.phonenumber}\nTaxpayer number:${this.userForm.value.taxpayernumber}`;
 
     const blob = new Blob([userDataText], { type: 'text/plain' });
     const link = document.createElement('a');

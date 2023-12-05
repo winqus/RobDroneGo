@@ -15,6 +15,7 @@ import { CreatePassageComponent } from './components/create-passage/create-passa
 import { CreateRobotTypeComponent } from './components/create-robot-type/create-robot-type.component';
 import { CreateRobotComponent } from './components/create-robot/create-robot.component';
 import { CreateRoomComponent } from './components/create-room/create-room.component';
+import { CreateUserComponent } from './components/create-user/create-user.component';
 import { EditBuildingComponent } from './components/edit-building/edit-building.component';
 import { EditElevatorComponent } from './components/edit-elevator/edit-elevator.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
@@ -154,18 +155,21 @@ const routes: Routes = [
       },
       {
         path: 'task',
+        canActivate: [canActivateChildWithRole([UserRole.TaskManager])],
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'route', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: PathsBetweenBuildingsComponent },
-          { path: 'analysis', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: ComplexityAnalysisComponent },
+          { path: 'route', component: PathsBetweenBuildingsComponent },
+          { path: 'analysis', component: ComplexityAnalysisComponent },
         ],
       },
       {
         path: 'system',
+        canActivate: [canActivateChildWithRole([UserRole.SystemAdministrator])],
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'mbco', canActivate: [canActivateWithRole([UserRole.SystemAdministrator])], component: MbcoComponent },
-          { path: 'recovery-strategy', canActivate: [canActivateWithRole([UserRole.SystemAdministrator])], component: RecoveryStrategyComponent },
+          { path: 'mbco', component: MbcoComponent },
+          { path: 'recovery-strategy', component: RecoveryStrategyComponent },
+          { path: 'create-user', component: CreateUserComponent },
         ],
       },
       {

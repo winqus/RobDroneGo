@@ -308,6 +308,10 @@
             {
               "label": "Data and recovery strategy",
               "href": "system/recovery-strategy"
+            },
+            {
+              "label": "Create user",
+              "href": "system/create-user"
             }
           ]
         },
@@ -382,18 +386,15 @@
         "lastNamePlaceholder": "Last Name",
         "emailLabel": "Email",
         "emailPlaceholder": "Email",
+        "phonenumberLabel": "Phone number",
+        "phonenumberPlaceholder": "Phone number",
+        "taxpayernumberLabel": "Taxpayer number",
+        "taxpayernumberPlaceholder": "Taxpayer number",
         "passwordLabel": "Password",
         "passwordPlaceholder": "Password",
         "confirmPasswordLabel": "Confirm Password",
         "confirmPasswordPlaceholder": "Confirm Password",
-        "userRolesDropdownLabel": "Select Role",
-        "userRoles": [
-          { "label": "User", "role": "User" },
-          { "label": "Campus Manager", "role": "Campus Manager" },
-          { "label": "Fleet Manager", "role": "Fleet Manager" },
-          { "label": "System Administrator", "role": "System Administrator" },
-          { "label": "Task Manager", "role": "Task Manager" }
-        ],
+
         "gdprLabel": "By clicking this check box, I consent to RobDroneGo to collect and process my personal data for the creation of user profile as explained in the <a class=\"gdpr\" href=\"/about/public/gdpr\" target=\"_blank\"><u>Data Processing Report</u></a> and <a class=\"terms-of-use\" href=\"/about/public/terms-of-use\" target=\"_blank\"><u>Terms of Use</u></a>.",
         "gdprLabelContact": "",
         "signupButtonLabel": "Sign Up"
@@ -472,6 +473,29 @@
       "robotTypeRequiredError": "Robot type is required",
       "submitButtonLabel": "Create Robot",
       "robotCreatedMessage": "Robot created successfully"
+    },
+    "createUser": {
+      "firstNameLabel": "First Name",
+      "firstNamePlaceholder": "First Name",
+      "lastNameLabel": "Last Name",
+      "lastNamePlaceholder": "Last Name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Email",
+      "phonenumberLabel": "Phone number",
+      "phonenumberPlaceholder": "Phone number",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm Password",
+      "userRolesDropdownLabel": "Select Role",
+      "userRoles": [
+        { "label": "Campus Manager", "role": "Campus Manager" },
+        { "label": "Fleet Manager", "role": "Fleet Manager" },
+        { "label": "System Administrator", "role": "System Administrator" },
+        { "label": "Task Manager", "role": "Task Manager" }
+      ],
+      "createUserButtonLabel": "Create User",
+      "userCreatedMessage": "User created successfully"
     }
   },
   "validation_errors": {

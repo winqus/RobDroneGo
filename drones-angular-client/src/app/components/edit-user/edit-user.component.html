@@ -59,7 +59,7 @@
           </div>
           <div *ngIf="userForm.controls['password']?.touched && userForm.controls['password']?.invalid" class="text-error">
             <small *ngIf="userForm.controls['password']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
-            <small *ngIf="userForm.controls['password']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: passwordArgs }}</small>
+            <small *ngIf="userForm.controls['password']?.errors?.['pattern']"> Password must contain at least a capital letter, a lowercase letter, a digit and a symbol. </small>
           </div>
 
           <!-- Confirm Password Field -->

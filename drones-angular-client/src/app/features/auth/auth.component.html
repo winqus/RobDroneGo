@@ -17,6 +17,8 @@
       <ng-container *ngIf="formType === 'signup'">
         <app-signup [props]="signupComponentData" (submitEvent)="handleSignup($event)"></app-signup>
       </ng-container>
+
+      <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
     </div>
   </div>
 </div>

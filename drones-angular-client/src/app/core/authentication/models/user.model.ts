@@ -5,5 +5,6 @@ export interface User {
   lastName: string;
   email: string;
   phonenumber: string;
+  taxpayernumber: string;
   role: UserRole;
 }

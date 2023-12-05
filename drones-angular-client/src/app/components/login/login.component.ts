@@ -49,11 +49,6 @@ export class LoginComponent {
 
   onSubmit() {
     const user: User = this.loginForm.value;
-
-    if (user.isConfirmed) {
-      this.submitEvent.emit(user);
-    } else {
-      console.log('User is not confirmed. Login not allowed.');
-    }
+    this.submitEvent.emit(user);
   }
 }

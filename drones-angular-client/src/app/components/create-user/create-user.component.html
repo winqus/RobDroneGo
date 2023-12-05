@@ -1,0 +1,89 @@
+<div class="p-0 md:p-7 flex justify-center items-center">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
+      <!-- Signup Form -->
+      <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()" class="form-control">
+        <!-- First Name Field -->
+        <label class="label" for="firstName">
+          <span class="label-text">{{ props.firstNameLabel }}</span>
+        </label>
+        <input formControlName="firstName" type="text" placeholder="{{ props.firstNamePlaceholder }}" class="input input-bordered" id="firstName" />
+        <div *ngIf="createUserForm.controls['firstName'].touched && createUserForm.controls['firstName'].invalid" class="text-error">
+          <small *ngIf="createUserForm.controls['firstName']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+          <small *ngIf="createUserForm.controls['firstName']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: firstNameArgs }}</small>
+          <small *ngIf="createUserForm.controls['firstName']?.errors?.['maxlength']">{{ validationErrors.fieldLengthRange | errorMessage: firstNameArgs }}</small>
+        </div>
+
+        <!-- Last Name Field -->
+        <label class="label" for="lastName">
+          <span class="label-text">{{ props.lastNameLabel }}</span>
+        </label>
+        <input formControlName="lastName" type="text" placeholder="{{ props.lastNamePlaceholder }}" class="input input-bordered" id="lastName" />
+        <div *ngIf="createUserForm.controls['lastName'].touched && createUserForm.controls['lastName'].invalid" class="text-error">
+          <small *ngIf="createUserForm.controls['lastName']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+          <small *ngIf="createUserForm.controls['lastName']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: lastNameArgs }}</small>
+          <small *ngIf="createUserForm.controls['lastName']?.errors?.['maxlength']">{{ validationErrors.fieldLengthRange | errorMessage: lastNameArgs }}</small>
+        </div>
+
+        <!-- Email Field -->
+        <label class="label" for="email">
+          <span class="label-text">{{ props.emailLabel }}</span>
+        </label>
+        <input formControlName="email" type="email" placeholder="{{ props.emailPlaceholder }}" class="input input-bordered" id="email" />
+        <div *ngIf="createUserForm.controls['email']?.touched && createUserForm.controls['email']?.invalid" class="text-error">
+          <small *ngIf="createUserForm.controls['email']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+          <small *ngIf="createUserForm.controls['email']?.errors?.['email']">{{ validationErrors.invalidEmail }}</small>
+          <small *ngIf="createUserForm.controls['email']?.errors?.['invalidDomain']"> Email must belong to {{ emailDomainName }}. </small>
+        </div>
+
+        <!-- Phonenumber Field-->
+        <label class="label" for="phonenumber">
+          <span class="label-text">{{ props.phonenumberLabel }}</span>
+        </label>
+        <input formControlName="phonenumber" type="text" placeholder="{{ props.phonenumberPlaceholder }}" class="input input-bordered" id="phonenumber" />
+        <div *ngIf="createUserForm.controls['phonenumber']?.touched && createUserForm.controls['phonenumber']?.invalid" class="text-error">
+          <small *ngIf="createUserForm.controls['phonenumber']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+          <small *ngIf="createUserForm.controls['phonenumber']?.errors?.['pattern']"> Phonenumber can only contain + and numbers. </small>
+        </div>
+
+        <!-- Password Field -->
+        <label class="label" for="password">
+          <span class="label-text">{{ props.passwordLabel }}</span>
+        </label>
+        <input formControlName="password" type="password" placeholder="{{ props.passwordPlaceholder }}" class="input input-bordered" id="password" />
+        <div *ngIf="createUserForm.controls['password']?.touched && createUserForm.controls['password']?.invalid" class="text-error">
+          <small *ngIf="createUserForm.controls['password']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+          <small *ngIf="createUserForm.controls['password']?.errors?.['pattern']"> Password must contain at least a capital letter, a lowercase letter, a digit and a symbol. </small>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <label class="label" for="confirmPassword">
+          <span class="label-text">{{ props.confirmPasswordLabel }}</span>
+        </label>
+        <input formControlName="confirmPassword" type="password" placeholder="{{ props.confirmPasswordPlaceholder }}" class="input input-bordered" id="confirmPassword" />
+        <div *ngIf="createUserForm.controls['confirmPassword']?.touched && createUserForm.controls['confirmPassword']?.invalid" class="text-error">
+          <small *ngIf="createUserForm.controls['confirmPassword']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+        </div>
+        <div *ngIf="createUserForm.controls['confirmPassword']?.touched" class="text-error">
+          <small *ngIf="createUserForm.hasError('mismatch')">{{ validationErrors.passwordMismatch }}</small>
+        </div>
+
+        <!-- User Role Dropdown -->
+        <label class="label" for="role">
+          <span class="label-text">{{ props.userRolesDropdownLabel }}</span>
+        </label>
+        <select formControlName="role" class="select select-bordered" id="role">
+          <option *ngFor="let userRole of props.userRoles" [ngValue]="userRole.role">{{ userRole.label }}</option>
+        </select>
+
+        <!-- Signup Button -->
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit" [disabled]="createUserForm.invalid">{{ props.createUserButtonLabel }}</button>
+        </div>
+
+        <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
+        <app-success-form-message [message]="submitSuccessMessage"></app-success-form-message>
+      </form>
+    </div>
+  </div>
+</div>
