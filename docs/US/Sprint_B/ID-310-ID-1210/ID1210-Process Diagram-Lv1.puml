@@ -1,0 +1,20 @@
+@startuml SD Lv1
+
+actor "Campus Manager" as campusManager
+participant RobDroneGo as system
+
+activate campusManager
+
+campusManager -> system : GET /campus/room/create
+activate system
+system -> system : Check user's role and permissions
+campusManager <-- system : Show room creation menu
+campusManager -> system : Submit room creation form
+system -> system : Create room
+campusManager <-- system : Show room creation status message
+
+deactivate system
+
+deactivate campusManager
+
+@enduml

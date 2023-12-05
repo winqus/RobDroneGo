@@ -1,0 +1,36 @@
+@startuml SD Lv2
+
+actor "Campus Manager" as campusManager
+box "RobDroneGo" #LightBlue
+    participant "UI" as campusUI
+    participant "AuthService" as campusAPI
+    participant "Campus Management" as campusManagement
+    participant "DB" as DB
+end box
+
+campusManager -> campusUI : GET /campus/room/create
+activate campusUI
+        
+        campusUI -> campusAPI : Verify user's role and permissions
+        activate campusAPI
+        campusUI <-- campusAPI : Permission validated
+        deactivate campusAPI
+        campusManager <-- campusUI: Show room creation menu
+        campusManager -> campusUI: Submit room creation form
+
+        activate campusManagement
+        campusUI -> campusManagement : Create room request
+    
+        campusManagement-> DB : Insert room data
+        activate DB
+        DB --> campusManagement : Room created
+        deactivate DB
+
+    
+        campusManagement --> campusUI : Room creation status
+        deactivate campusManagement
+    
+campusManager <-- campusUI : Show room creation status message
+deactivate campusUI
+
+@enduml

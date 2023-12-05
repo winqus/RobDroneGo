@@ -1,0 +1,58 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant "RobDroneGo UI" as CampusUI
+box "RobDroneGo UI" #LightBlue
+    box "View"
+        participant "HTML + CSS + JS" as html
+        participant "Form Component" as component
+    end box
+    participant "UI Service" as UIService
+  
+    participant "API Routes" as API_ROUTES
+    participant "HTTP client" as http
+end box
+
+box "RobDroneGo backend" 
+participant "Authentication API" as AuthAPI
+participant "Building Management API" as BuildingAPI
+
+CampusUI -> html : Request ecreate room page
+activate html
+    html -> component : Load room creation form
+    activate component
+        component -> UIService : Submit room creation form
+        activate UIService
+            UIService -> API_ROUTES : Fetch auth and room creation APIs
+            activate API_ROUTES
+            API_ROUTES --> UIService : API endpoints
+            deactivate API_ROUTES
+
+            UIService -> http : POST api/room/create (auth&room info)
+            activate http
+                http -> AuthAPI : Validate user permission
+                activate AuthAPI
+                    AuthAPI -> AuthAPI : Check user role and permissions
+                AuthAPI --> http : Permission validation result
+                deactivate AuthAPI
+            http --> UIService : Room creation status
+            deactivate http
+        UIService --> component : Display status to user
+        deactivate UIService
+    html <-- component : Show room creation status message
+    deactivate component    
+CampusUI <-- html : Display room creatoin status
+deactivate html
+
+activate http
+http -> BuildingAPI : Create room request
+activate BuildingAPI
+BuildingAPI -> BuildingAPI: Create and store room
+note right : Room creation process is in user story ID310 
+http <-- BuildingAPI : Room creation response
+deactivate BuildingAPI
+
+
+
+@enduml
