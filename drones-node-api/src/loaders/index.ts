@@ -86,6 +86,16 @@ export default async ({ expressApp }) => {
     path: config.repos.user.path,
   };
 
+  const userService = {
+    name: config.services.user.name,
+    path: config.services.user.path,
+  };
+
+  const userController = {
+    name: config.controllers.user.name,
+    path: config.controllers.user.path,
+  };
+
   const roleService = {
     name: config.services.role.name,
     path: config.services.role.path,
@@ -229,6 +239,7 @@ export default async ({ expressApp }) => {
       roomController,
       planningController,
       fileController,
+      userController,
     ],
     repos: [
       roleRepo,
@@ -254,6 +265,7 @@ export default async ({ expressApp }) => {
       robotService,
       planningService,
       fileService,
+      userService,
     ],
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

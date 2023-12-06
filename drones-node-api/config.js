@@ -43,6 +43,8 @@ export default {
    */
   jwtSecret: process.env.JWT_SECRET || 'my sakdfho2390asjod$%jl)!sdjas0i secret',
 
+  allowedEmailDomains: process.env.ALLOWED_EMAIL_DOMAINS || ['isep.ipp.pt'],
+
   /**
    * Used by winston logger
    */
@@ -106,6 +108,10 @@ export default {
     planning: {
       name: 'PlanningController',
       path: '../controllers/planningController',
+    },
+    user: {
+      name: 'UserController',
+      path: '../controllers/userController',
     },
   },
 
@@ -196,6 +202,10 @@ export default {
     planning: {
       name: 'PlanningService',
       path: '../services/planningService',
+    },
+    user: {
+      name: 'UserService',
+      path: '../services/userService',
     },
   },
 };

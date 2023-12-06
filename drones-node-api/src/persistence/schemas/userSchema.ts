@@ -6,6 +6,7 @@ const User = new mongoose.Schema(
     domainId: {
       type: String,
       unique: true,
+      required: [true, 'Please enter domainId'],
     },
 
     firstName: {
@@ -25,7 +26,12 @@ const User = new mongoose.Schema(
       lowercase: true,
       unique: true,
       index: true,
+      required: [true, 'Please enter email'],
     },
+
+    phonenumber: String,
+
+    taxpayernumber: String,
 
     password: String,
 
@@ -33,8 +39,9 @@ const User = new mongoose.Schema(
 
     role: {
       type: String,
-      default: 'user',
+      required: [true, 'Please enter role'],
     },
+
     isConfirmed: {
       type: Boolean,
       default: false,

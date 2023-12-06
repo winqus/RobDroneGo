@@ -11,6 +11,8 @@ interface UserProps {
   firstName: string;
   lastName: string;
   email: UserEmail;
+  phonenumber: string;
+  taxpayernumber: string;
   password: UserPassword;
   role: Role;
   isConfirmed?: boolean;
@@ -29,16 +31,48 @@ export class User extends AggregateRoot<UserProps> {
     return this.props.email;
   }
 
+  set email(email: UserEmail) {
+    this.props.email = email;
+  }
+
   get firstName(): string {
     return this.props.firstName;
+  }
+
+  set firstName(value: string) {
+    this.props.firstName = value;
   }
 
   get lastName(): string {
     return this.props.lastName;
   }
 
+  set lastName(value: string) {
+    this.props.lastName = value;
+  }
+
+  get phonenumber(): string {
+    return this.props.phonenumber;
+  }
+
+  set phonenumber(value: string) {
+    this.props.phonenumber = value;
+  }
+
+  get taxpayernumber(): string {
+    return this.props.taxpayernumber;
+  }
+
+  set taxpayernumber(value: string) {
+    this.props.taxpayernumber = value;
+  }
+
   get password(): UserPassword {
     return this.props.password;
+  }
+
+  set password(value: UserPassword) {
+    this.props.password = value;
   }
 
   get role(): Role {
@@ -67,6 +101,8 @@ export class User extends AggregateRoot<UserProps> {
       { argument: props.lastName, argumentName: 'lastName' },
       { argument: props.email, argumentName: 'email' },
       { argument: props.role, argumentName: 'role' },
+      { argument: props.phonenumber, argumentName: 'phonenumber' },
+      { argument: props.taxpayernumber, argumentName: 'taxpayernumber' },
     ];
 
     const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
