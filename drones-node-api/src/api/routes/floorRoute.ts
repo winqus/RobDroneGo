@@ -4,6 +4,7 @@ import { Container } from 'typedi';
 import config from '../../../config';
 
 import IFloorController from '../../controllers/IControllers/IFloorController';
+import middlewares from '../middlewares';
 import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
 const route = Router();
@@ -15,6 +16,7 @@ export default (app: Router) => {
 
   route.post(
     '',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         floorNumber: Joi.number().required(),
@@ -31,6 +33,7 @@ export default (app: Router) => {
 
   route.put(
     '/:floorId',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         description: Joi.string()
@@ -48,6 +51,7 @@ export default (app: Router) => {
 
   route.patch(
     '/:floorId',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         description: Joi.string()
@@ -81,6 +85,7 @@ export default (app: Router) => {
 
   route.patch(
     '/:floorNumber/building/:buildingCode',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         map: Joi.object({

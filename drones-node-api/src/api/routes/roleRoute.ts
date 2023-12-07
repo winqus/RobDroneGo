@@ -5,6 +5,7 @@ import { Container } from 'typedi';
 import IRoleController from '../../controllers/IControllers/IRoleController';
 
 import config from '../../../config';
+import middlewares from '../middlewares';
 
 const route = Router();
 
@@ -15,6 +16,7 @@ export default (app: Router) => {
 
   route.post(
     '',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         name: Joi.string().required(),
@@ -25,6 +27,7 @@ export default (app: Router) => {
 
   route.put(
     '',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         id: Joi.string().required(),

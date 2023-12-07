@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { UserRole } from './src/domain/userRole.enum';
 
 // Set the NODE_ENV to 'development' by default
 const envFound = dotenv.config();
@@ -44,6 +45,8 @@ export default {
   jwtSecret: process.env.JWT_SECRET || 'my sakdfho2390asjod$%jl)!sdjas0i secret',
 
   allowedEmailDomains: process.env.ALLOWED_EMAIL_DOMAINS || ['isep.ipp.pt'],
+
+  defaultUserRole: process.env.DEFAULT_USER_ROLE || UserRole.User.valueOf(),
 
   /**
    * Used by winston logger

@@ -18,7 +18,7 @@ const attachCurrentUser = async (req, res, next) => {
     const userRepo = Container.get(config.repos.user.name) as IUserRepo;
 
     if (!req.token || req.token == undefined) {
-      next(new Error('Non-existent or invalid token'));
+      return res.status(401).json(new Error('Non-existent or invalid token'));
     }
 
     const id = req.token.id;
@@ -28,7 +28,7 @@ const attachCurrentUser = async (req, res, next) => {
     if (isFound) {
       next();
     } else {
-      next(new Error('Token does not correspond to any user in the system'));
+      return res.status(401).json(new Error('Token does not correspond to any user in the system'));
     }
   } catch (e) {
     Logger.error('🔥 Error attaching user to req: %o', e);

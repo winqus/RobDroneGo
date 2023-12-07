@@ -88,7 +88,7 @@ export default class UserService implements IUserService {
       const email = await UserEmail.create(userDTO.email).getValue();
       let role: Role;
 
-      const roleOrError = await this.getRole(userDTO.role);
+      const roleOrError = await this.getRole(userDTO.role || config.defaultUserRole);
       if (roleOrError.isFailure) {
         return Result.fail<{ userDTO: IUserDTO }>(roleOrError.error);
       } else {
@@ -134,11 +134,7 @@ export default class UserService implements IUserService {
     const user = await this.userRepo.findByEmail(email);
 
     if (!user) {
-      throw new Error('User not registered');
-    }
-
-    if (user.isConfirmed === false) {
-      return Result.fail<UserToken>('User not confirmed');
+      return Result.fail<UserToken>('Invalid Email or Password');
     }
 
     /**
@@ -148,6 +144,10 @@ export default class UserService implements IUserService {
     const validPassword = await argon2.verify(user.password.value, password);
     if (validPassword) {
       this.logger.silly('Password is valid!');
+      if (user.isConfirmed === false) {
+        return Result.fail<UserToken>({ message: 'User not confirmed' });
+      }
+
       this.logger.silly('Generating JWT');
       const token = this.generateToken(user) as string;
 
@@ -155,7 +155,7 @@ export default class UserService implements IUserService {
 
       return Result.ok<UserToken>({ userDTO: userDTO, token: token });
     } else {
-      throw new Error('Invalid Password');
+      return Result.fail<UserToken>('Invalid Email or Password');
     }
   }
 
@@ -199,7 +199,9 @@ export default class UserService implements IUserService {
         user.taxpayernumber = userDTO.taxpayernumber;
       }
       if (userDTO.password) {
-        user.password = await UserPassword.create({ value: userDTO.password, hashed: true }).getValue();
+        const salt = randomBytes(32);
+        const hashedPassword = await argon2.hash(userDTO.password, { salt });
+        user.password = await UserPassword.create({ value: hashedPassword, hashed: true }).getValue();
       }
 
       const updatedUser = await this.userRepo.save(user);

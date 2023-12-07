@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { Container } from 'typedi';
 import config from '../../../config';
 import IBuildingController from '../../controllers/IControllers/IBuildingController';
+import middlewares from '../middlewares';
 import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
 const route = Router();
@@ -14,6 +15,7 @@ export default (app: Router) => {
 
   route.post(
     '',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         name: Joi.string()
@@ -34,6 +36,7 @@ export default (app: Router) => {
 
   route.put(
     '/:id',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         name: Joi.string()
@@ -56,6 +59,7 @@ export default (app: Router) => {
 
   route.patch(
     '/:id',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         name: Joi.string()
@@ -97,6 +101,7 @@ export default (app: Router) => {
 
   route.post(
     '/:code/elevator',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         number: Joi.number().required(),
@@ -116,6 +121,7 @@ export default (app: Router) => {
 
   route.put(
     '/:code/elevator',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         make: Joi.string().required(),
@@ -131,6 +137,7 @@ export default (app: Router) => {
 
   route.patch(
     '/:code/elevator',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         make: Joi.string(),

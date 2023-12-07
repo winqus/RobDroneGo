@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { Container } from 'typedi';
 import config from '../../../config';
 import IRobotController from '../../controllers/IControllers/IRobotController';
+import middlewares from '../middlewares';
 import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
 const route = Router();
@@ -14,6 +15,7 @@ export default (app: Router) => {
 
   route.post(
     '',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         code: Joi.string().required(),
@@ -32,6 +34,7 @@ export default (app: Router) => {
 
   route.patch(
     '/:robotCode/state',
+    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         available: Joi.boolean().required(),

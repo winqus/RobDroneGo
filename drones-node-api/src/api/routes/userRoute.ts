@@ -24,7 +24,7 @@ export default (app: Router) => {
         phonenumber: Joi.string().required(),
         taxpayernumber: Joi.string(),
         password: Joi.string().required(),
-        role: Joi.string().required(),
+        role: Joi.string(),
       }),
     }),
     async (req, res, next) => controller.signUp(req, res, next),

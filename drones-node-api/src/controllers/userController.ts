@@ -4,6 +4,8 @@ import { Container, Inject, Service } from 'typedi';
 
 import config from '../../config';
 
+import { ParamsDictionary } from 'express-serve-static-core';
+import { ParsedQs } from 'qs';
 import winston from 'winston';
 import { IUserDTO } from '../dto/IUserDTO';
 import IUserService from '../services/IServices/IUserService';
@@ -32,7 +34,7 @@ export default class UserController implements IUserController {
 
       const { userDTO } = userOrError.getValue();
 
-      return res.status(201).json({ userDTO });
+      return res.status(201).json({ user: userDTO });
     } catch (error) {
       this.logger.error('User signup error %o', error);
 
@@ -46,12 +48,12 @@ export default class UserController implements IUserController {
       const result = await this.userService.signIn(email, password);
 
       if (result.isFailure) {
-        return res.status(403).json({ message: result.errorValue() });
+        return res.status(403).json(result.errorValue());
       }
 
       const { userDTO, token } = result.getValue();
 
-      return res.json({ userDTO, token }).status(200);
+      return res.json({ user: userDTO, token }).status(200);
     } catch (error) {
       this.logger.error('User sign-in error %o', error);
 
@@ -68,17 +70,21 @@ export default class UserController implements IUserController {
   public async getMe(req: any, res: Response, next: NextFunction) {
     try {
       if (!req.token || req.token == undefined) {
-        return res.json(new Error('Token invalid')).status(401);
+        return res.status(401).json({ message: 'Token invalid' });
       }
 
       const userResult = await this.userService.getUserById(req.token.id);
       if (userResult.isFailure) {
-        return res.json(new Error('No such user')).status(401);
+        return res.status(401).json({ message: 'No such user' });
       }
 
       const userDTO = userResult.getValue();
 
-      return res.json(userDTO).status(200);
+      if (userDTO.isConfirmed === false) {
+        return res.status(401).json({ message: 'User not confirmed' });
+      }
+
+      return res.json({ user: userDTO }).status(200);
     } catch (error) {
       this.logger.error('Failed to getMe user %o', error);
 
@@ -89,12 +95,12 @@ export default class UserController implements IUserController {
   public async deleteUser(req: Request & any, res: Response, next: NextFunction) {
     try {
       if (!req.token || req.token == undefined) {
-        return res.json(new Error('Token invalid')).status(401);
+        return res.status(401).json(new Error('Token invalid'));
       }
 
       const userResult = await this.userService.getUserById(req.token.id);
       if (userResult.isFailure) {
-        return res.json(new Error('No such user')).status(401);
+        return res.status(401).json(new Error('No such user'));
       }
 
       this.userService.deleteUser(req.token.email);
@@ -120,7 +126,9 @@ export default class UserController implements IUserController {
         return res.status(400).json({ message: result.errorValue() });
       }
 
-      return res.status(200).send(result.getValue());
+      const userTokenPair = result.getValue();
+
+      return res.status(200).send({ user: userTokenPair.userDTO, token: userTokenPair.token });
     } catch (error) {
       this.logger.error('Error updating user: %o', error);
 

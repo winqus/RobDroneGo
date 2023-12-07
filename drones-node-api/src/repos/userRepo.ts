@@ -52,6 +52,8 @@ export default class UserRepo implements IUserRepo {
         userDocument.phonenumber = user.phonenumber;
         userDocument.taxpayernumber = user.taxpayernumber;
         userDocument.isConfirmed = user.isConfirmed;
+        userDocument.password = user.password.value;
+        userDocument.role = user.role.id.toString();
         await userDocument.save();
 
         return user;
