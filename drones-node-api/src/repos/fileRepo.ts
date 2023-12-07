@@ -50,7 +50,7 @@ export default class FileRepo implements IFileRepo {
 
       return files;
     } catch (error) {
-      fs.mkdirSync(global.__basedir + config.publicFolder);
+      fs.mkdirSync(config.base_dir + config.publicFolder);
 
       return [];
     }
