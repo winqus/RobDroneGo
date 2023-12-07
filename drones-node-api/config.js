@@ -47,6 +47,7 @@ export default {
   allowedEmailDomains: process.env.ALLOWED_EMAIL_DOMAINS || ['isep.ipp.pt'],
 
   defaultUserRole: process.env.DEFAULT_USER_ROLE || UserRole.User.valueOf(),
+  userRoles: Object.values(UserRole),
 
   /**
    * Used by winston logger
