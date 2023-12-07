@@ -121,11 +121,6 @@ const routes: Routes = [
             canActivate: [canActivateWithRole([UserRole.CampusManager])],
             children: [{ path: 'upload', component: UploadMapComponent }],
           },
-          {
-            path: 'map',
-            canActivate: [canActivateWithRole([UserRole.CampusManager])],
-            children: [{ path: 'upload', component: UploadMapComponent }],
-          },
           // ... other campus-related routes here
         ],
       },
@@ -164,7 +159,7 @@ const routes: Routes = [
       },
       {
         path: 'system',
-        canActivate: [canActivateChildWithRole([UserRole.SystemAdministrator])],
+        // canActivate: [canActivateChildWithRole([UserRole.SystemAdministrator])],
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
           { path: 'mbco', component: MbcoComponent },

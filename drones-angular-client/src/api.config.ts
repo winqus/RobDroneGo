@@ -16,8 +16,11 @@ export const API_ROUTES = {
     me: `${API_BASE}/auth/me`,
     login: `${API_BASE}/auth/signin`,
     register: `${API_BASE}/auth/signup`,
-    update: `${API_BASE}/auth/user`,
+    update: `${API_BASE}/auth/update`,
     logout: `${API_BASE}/auth/logout`,
+    getAll: `${API_BASE}/auth/all`,
+    confirm: `${API_BASE}/auth/confirm`,
+    delete: `${API_BASE}/auth/delete`,
   },
   building: {
     getAll: `${API_BASE}/building/all`,

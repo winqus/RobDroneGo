@@ -21,6 +21,7 @@ import { CreatePassageComponent } from './components/create-passage/create-passa
 import { CreateRobotTypeComponent } from './components/create-robot-type/create-robot-type.component';
 import { CreateRobotComponent } from './components/create-robot/create-robot.component';
 import { CreateRoomComponent } from './components/create-room/create-room.component';
+import { CreateUserComponent } from './components/create-user/create-user.component';
 import { EditBuildingComponent } from './components/edit-building/edit-building.component';
 import { EditElevatorComponent } from './components/edit-elevator/edit-elevator.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
@@ -59,7 +60,6 @@ import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.comp
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
-import { CreateUserComponent } from './components/create-user/create-user.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -130,8 +130,7 @@ export const initAuthorizationProvider = {
     initAuthorizationProvider,
     jwtInterceptorProvider,
     loggingInterceptorProvider,
-    // comment this line to use the real auth API
-    mockAuthHttpInterceptorProvider,
+    // mockAuthHttpInterceptorProvider, // comment this line to use the real auth API
   ],
   bootstrap: [AppComponent],
 })

@@ -29,7 +29,6 @@ interface UpdateUserData {
   email: string;
   phonenumber: string;
   password: string;
-  role: UserRole;
 }
 
 @Component({
@@ -38,7 +37,7 @@ interface UpdateUserData {
   styleUrls: ['./edit-user.component.css'],
 })
 export class EditUserComponent implements OnChanges, OnInit {
-  @Input() props: EditUserProps = this.getDefaultProps();
+  @Input() props: Partial<EditUserProps> = this.getDefaultProps();
 
   @Output() submitEvent = new EventEmitter<unknown>();
 
@@ -95,9 +94,9 @@ export class EditUserComponent implements OnChanges, OnInit {
       downloadUserButtonLabel: 'Download',
 
       editUserButtonLabel: 'Update User',
-      userRolesDropdownLabel: 'Choose user role',
-      userRoles: [],
       userEditedMessage: 'User Edited',
+      userRolesDropdownLabel: 'User Role',
+      userRoles: [],
     };
   }
 
@@ -108,7 +107,7 @@ export class EditUserComponent implements OnChanges, OnInit {
         lastName: this.props.user.lastName,
         email: this.props.user.email,
         phonenumber: this.props.user.phonenumber,
-        role: this.props.user.role,
+        taxpayernumber: this.props.user.taxpayernumber,
       });
     }
   }
@@ -124,7 +123,6 @@ export class EditUserComponent implements OnChanges, OnInit {
             lastName: this.userData.lastName,
             email: this.userData.email,
             phonenumber: this.userData.phonenumber,
-            role: this.userData.role,
           });
         } else {
           console.error('User data is null or undefined');
@@ -168,18 +166,17 @@ export class EditUserComponent implements OnChanges, OnInit {
     this.errorResponse = {};
     this.submitSuccessMessage = null;
 
-    const userFormData: UpdateUserData = {
+    const updatedUserData: UpdateUserData = {
       firstName: this.userForm.value.firstName,
       lastName: this.userForm.value.lastName,
       email: this.userForm.value.email,
       phonenumber: this.userForm.value.phonenumber,
-      password: this.userForm.value.password,
-      role: this.userForm.value.role,
+      password: this.userForm.value.password || undefined,
     };
 
-    this.userService.update(userFormData).subscribe({
+    this.userService.update(updatedUserData).subscribe({
       next: (user) => {
-        this.submitSuccessMessage = this.props.userEditedMessage;
+        this.submitSuccessMessage = this.props.userEditedMessage || null;
         this.isLoading = false;
       },
       error: (error) => {
@@ -191,9 +188,17 @@ export class EditUserComponent implements OnChanges, OnInit {
   }
 
   downloadUserData() {
-    const userDataText = `First name: ${this.userForm.value.firstName}\nLast name: ${this.userForm.value.lastName}\nEmail:${this.userForm.value.email}\nPhone number:${this.userForm.value.phonenumber}\nTaxpayer number:${this.userForm.value.taxpayernumber}`;
+    const userDataForDownload = {
+      firstName: this.userData!.firstName,
+      lastName: this.userData!.lastName,
+      email: this.userData!.email,
+      phoneNumber: this.userData!.phonenumber,
+      taxpayerNumber: this.userData!.taxpayernumber || undefined,
+    };
+    const userDataJson = JSON.stringify(userDataForDownload, null, 2); // The '2' here adds indentation to the JSON string
 
-    const blob = new Blob([userDataText], { type: 'text/plain' });
+    const blob = new Blob([userDataJson], { type: 'application/json' });
+
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
     link.download = 'userData.json';

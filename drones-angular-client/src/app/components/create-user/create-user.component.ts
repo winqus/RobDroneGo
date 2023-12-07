@@ -119,13 +119,21 @@ export class CreateUserComponent implements OnInit {
 
   onSubmit() {
     // this.submitEvent.emit(this.createUserForm.value as RegisterCredentials);
+    const formData = this.createUserForm.value;
     const credentials: CreateUserCredentials = {
-      ...this.createUserForm.value,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phonenumber: formData.phonenumber,
       taxpayernumber: '000000000',
+      role: formData.role,
+      password: formData.password,
     };
     this.systemAdminService.createUser(credentials).subscribe({
       next: (authResponse) => {
         this.submitSuccessMessage = this.props.userCreatedMessage;
+
+        this.systemAdminService.confirmUser(authResponse.user.email, true).subscribe();
       },
       error: (error) => {
         // Handle error
