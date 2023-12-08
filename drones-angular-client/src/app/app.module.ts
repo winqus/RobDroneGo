@@ -48,7 +48,6 @@ import { RobotListComponent } from './components/robot-list/robot-list.component
 import { SearchRobotComponent } from './components/search-robot/search-robot.component';
 import { SuccessFormMessageComponent } from './components/shared/success-form-message/success-form-message.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
 import { UploadMapComponent } from './components/upload-map/upload-map.component';
 import { JwtService } from './core/authentication/services/jwt.service';
 import { UserService } from './core/authentication/services/user.service';
@@ -122,7 +121,7 @@ export const initAuthorizationProvider = {
     PublicFolderComponent,
     UploadMapComponent,
     EditUserComponent,
-    TermsOfUseComponent,
+
     CreateUserComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],

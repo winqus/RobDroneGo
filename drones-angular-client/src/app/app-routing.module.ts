@@ -37,7 +37,6 @@ import { RecoveryStrategyComponent } from './components/recovery-strategy/recove
 import { RobotListComponent } from './components/robot-list/robot-list.component';
 import { SearchRobotComponent } from './components/search-robot/search-robot.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
 import { UploadMapComponent } from './components/upload-map/upload-map.component';
 import { canActivateChildWithAuth, canActivateChildWithRole, canActivateWithAuth, canActivateWithRole } from './core/authentication/guards/auth.guard';
 import { UserRole } from './core/authentication/models/user-roles.enum';
@@ -177,13 +176,10 @@ const routes: Routes = [
           },
 
           {
-            path: 'gdpr',
+            path: 'privacy-policy',
             component: GdprComponent,
           },
-          {
-            path: 'terms-of-use',
-            component: TermsOfUseComponent,
-          },
+
           {
             path: 'folder',
             canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager, UserRole.FleetManager, UserRole.SystemAdministrator, UserRole.TaskManager])],
@@ -201,12 +197,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
       {
-        path: 'gdpr',
+        path: 'privacy-policy',
         component: GdprComponent,
-      },
-      {
-        path: 'terms-of-use',
-        component: TermsOfUseComponent,
       },
     ],
   },
