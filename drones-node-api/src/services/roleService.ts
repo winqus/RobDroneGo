@@ -10,7 +10,12 @@ import IRoleService from './IServices/IRoleService';
 
 @Service()
 export default class RoleService implements IRoleService {
-  constructor(@Inject(config.repos.role.name) private roleRepo: IRoleRepo) {}
+  constructor(@Inject(config.repos.role.name) private roleRepo: IRoleRepo) {
+    const userRolesToExist = config.userRoles;
+    userRolesToExist.forEach(async (userRole) => {
+      this.createRole({ id: userRole.toString(), name: userRole } as IRoleDTO);
+    });
+  }
 
   public async getRole(roleId: string): Promise<Result<IRoleDTO>> {
     try {

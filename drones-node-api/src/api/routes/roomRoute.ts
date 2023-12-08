@@ -3,18 +3,25 @@ import { Router } from 'express';
 import { Container } from 'typedi';
 import config from '../../../config';
 import IRoomController from '../../controllers/IControllers/IRoomController';
+import { UserRole } from '../../domain/userRole.enum';
 import middlewares from '../middlewares';
 import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
 const route = Router();
+const protectedRoute = Router();
+
+protectedRoute.use(middlewares.isAuth);
+protectedRoute.use(middlewares.attachCurrentUser);
+protectedRoute.use(middlewares.requireAnyRole([UserRole.CampusManager]));
+
 export default (app: Router) => {
   app.use('/room', route);
+  app.use('/room', protectedRoute);
 
   const controller = Container.get(config.controllers.room.name) as IRoomController;
 
-  route.post(
+  protectedRoute.post(
     '',
-    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         name: Joi.string().required(),

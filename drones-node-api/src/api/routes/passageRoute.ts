@@ -3,19 +3,25 @@ import { Router } from 'express';
 import { Container } from 'typedi';
 import config from '../../../config';
 import IPassageController from '../../controllers/IControllers/IPassageController';
+import { UserRole } from '../../domain/userRole.enum';
 import middlewares from '../middlewares';
 import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
 const route = Router();
+const protectedRoute = Router();
+
+protectedRoute.use(middlewares.isAuth);
+protectedRoute.use(middlewares.attachCurrentUser);
+protectedRoute.use(middlewares.requireAnyRole([UserRole.CampusManager]));
 
 export default (app: Router) => {
   app.use('/passage', route);
+  app.use('/passage', protectedRoute);
 
   const controller = Container.get(config.controllers.passage.name) as IPassageController;
 
-  route.post(
+  protectedRoute.post(
     '',
-    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         buildingCode1: Joi.string().required(),
@@ -58,9 +64,8 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.put(
+  protectedRoute.put(
     '/',
-    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         oldPassage: Joi.object({

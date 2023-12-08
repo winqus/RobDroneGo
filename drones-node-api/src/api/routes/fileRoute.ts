@@ -3,33 +3,39 @@ import { Router } from 'express';
 import { Container } from 'typedi';
 import config from '../../../config';
 import IFileController from '../../controllers/IControllers/IFileController';
+import { UserRole } from '../../domain/userRole.enum';
 import middlewares from '../middlewares';
 import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 import uploadFilesMiddleware from '../middlewares/uploadFile';
 
 const route = Router();
+const protectedRoute = Router();
+
+protectedRoute.use(middlewares.isAuth);
+protectedRoute.use(middlewares.attachCurrentUser);
+protectedRoute.use(middlewares.requireAnyRole());
 
 export default (app: Router) => {
   app.use('/folder', route);
+  app.use('/folder', protectedRoute);
 
   const controller = Container.get(config.controllers.file.name) as IFileController;
 
-  route.post(
+  protectedRoute.post(
     '/upload',
-    middlewares.isAuth,
+    middlewares.requireAnyRole(config.userRoles.filter((role) => role !== UserRole.User)),
     uploadFilesMiddleware,
     (req, res, next) => controller.uploadFile(req, res, next),
     errors(),
     routeJoiErrorHandler,
   );
 
-  route.get(
+  protectedRoute.get(
     '/download/:fileName',
-    middlewares.isAuth,
     (req, res, next) => controller.downloadFile(req, res, next),
     errors(),
     routeJoiErrorHandler,
   );
 
-  route.get('', middlewares.isAuth, (req, res, next) => controller.listAllFiles(req, res, next));
+  protectedRoute.get('', (req, res, next) => controller.listAllFiles(req, res, next));
 };

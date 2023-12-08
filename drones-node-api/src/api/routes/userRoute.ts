@@ -4,13 +4,19 @@ import { Container } from 'typedi';
 import { celebrate, errors, Joi } from 'celebrate';
 import config from '../../../config';
 import IUserController from '../../controllers/IControllers/IUserController';
+import { UserRole } from '../../domain/userRole.enum';
 import middlewares from '../middlewares';
 import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
 const route = Router();
+const protectedRoute = Router();
+
+protectedRoute.use(middlewares.isAuth);
+protectedRoute.use(middlewares.attachCurrentUser);
 
 export default (app: Router) => {
   app.use('/auth', route);
+  app.use('/auth', protectedRoute);
 
   const controller = Container.get(config.controllers.user.name) as IUserController;
 
@@ -45,9 +51,8 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.patch(
+  protectedRoute.patch(
     '/update',
-    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         firstName: Joi.string(),
@@ -63,17 +68,15 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.delete(
+  protectedRoute.delete(
     '/delete',
-    middlewares.isAuth,
     async (req, res, next) => controller.deleteUser(req, res, next),
     errors(),
     routeJoiErrorHandler,
   );
 
-  route.patch(
+  protectedRoute.patch(
     '/confirm',
-    middlewares.isAuth,
     celebrate({
       body: Joi.object({
         email: Joi.string().required(),
@@ -87,9 +90,9 @@ export default (app: Router) => {
 
   route.post('/logout', middlewares.isAuth, (req, res, next) => controller.signOut(req, res, next));
 
-  route.get('/me', middlewares.isAuth, middlewares.attachCurrentUser, async (req, res, next) =>
-    controller.getMe(req, res, next),
-  );
+  protectedRoute.get('/me', middlewares.attachCurrentUser, async (req, res, next) => controller.getMe(req, res, next));
 
-  route.get('/all', middlewares.isAuth, async (req, res, next) => controller.getAllUsers(req, res, next));
+  protectedRoute.get('/all', middlewares.requireAnyRole([UserRole.SystemAdministrator]), async (req, res, next) =>
+    controller.getAllUsers(req, res, next),
+  );
 };

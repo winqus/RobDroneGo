@@ -4,6 +4,7 @@ import winston from 'winston';
 
 import config from '../../../config';
 
+import { UserMap } from '../../mappers/UserMap';
 import IUserRepo from '../../services/IRepos/IUserRepo';
 
 /**
@@ -18,22 +19,24 @@ const attachCurrentUser = async (req, res, next) => {
     const userRepo = Container.get(config.repos.user.name) as IUserRepo;
 
     if (!req.token || req.token == undefined) {
-      return res.status(401).json(new Error('Non-existent or invalid token'));
+      return res.status(401).json({ message: 'Non-existent or invalid token' });
     }
 
     const id = req.token.id;
 
-    const isFound = await userRepo.exists(id);
+    const user = await userRepo.findById(id);
 
-    if (isFound) {
+    if (user) {
+      const userDTO = UserMap.toDTO(user);
+      req.user = userDTO;
       next();
     } else {
-      return res.status(401).json(new Error('Token does not correspond to any user in the system'));
+      return res.status(401).json({ message: 'Token does not correspond to any user in the system' });
     }
-  } catch (e) {
-    Logger.error('🔥 Error attaching user to req: %o', e);
+  } catch (error) {
+    Logger.error('🔥 Error attaching user to req: %o', error);
 
-    return next(e);
+    return next(error);
   }
 };
 
