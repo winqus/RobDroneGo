@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:pipeline": "ng build --source-map=false --optimization=false --aot=true --progress --configuration pipeline",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",

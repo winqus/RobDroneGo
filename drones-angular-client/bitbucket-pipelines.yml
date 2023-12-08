@@ -4,13 +4,16 @@ pipelines:
   pull-requests:
     '**':
       - step:
+          runs-on:
+                - self.hosted
+                - linux
           name: "Build Angular App"
           caches:
             - node
           script:
             - if [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "main" ] && [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "develop" ]; then echo 'Destination not main or develop branch.'; exit 0; fi
             - npm install
-            - npm run build
+            - npm run build:pipeline
   branches:
     main:
       - step:
@@ -52,4 +55,3 @@ pipelines:
       #     script:
       #       - npm install -g @azure/static-web-apps-cli
       #       - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN --env preview
-  
