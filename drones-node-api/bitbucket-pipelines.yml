@@ -28,6 +28,9 @@ pipelines:
   custom:
     ssh-test:
       - step:
+          runs-on:
+            - self.hosted
+            - linux
           name: Test SSH Connection
           script:
             - echo "Testing SSH connection to the server"
