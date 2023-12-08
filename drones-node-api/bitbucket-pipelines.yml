@@ -5,18 +5,23 @@ pipelines:
     '**':
       - parallel:
           - step:
+              runs-on:
+                - self.hosted
+                - linux
               name: Build and Test Node
               caches:
                 - node
               script:
                 - if [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "main" ] && [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "develop" ]; then echo 'Destination not main or develop branch.'; exit 0; fi
-                - apt-get update
                 - node -v
                 - python3 --version
                 - npm install
                 - npm run build
                 - npx jest
           - step:
+              runs-on:
+                - self.hosted
+                - linux
               name: Code linting Node
               caches:
                 - node
@@ -38,6 +43,9 @@ pipelines:
     manual-trigger:
       - parallel:
           - step:
+              runs-on:
+                - self.hosted
+                - linux
               name: Manually Triggered Build and Test Node
               script:
                 - apt-get update
@@ -47,6 +55,9 @@ pipelines:
                 - npm run build
                 - npx jest
           - step:
+              runs-on:
+                - self.hosted
+                - linux
               name: Manually Triggered Node Code linting
               script:
                 - npm install

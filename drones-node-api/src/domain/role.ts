@@ -24,7 +24,7 @@ export class Role extends AggregateRoot<RoleProps> {
     return new RoleId(this.roleId.toValue());
   }
 
-  get name(): string {
+  get name(): UserRole {
     return this.props.name;
   }
 
