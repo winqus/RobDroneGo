@@ -2,7 +2,7 @@ import { DeliveryTask } from './deliveryTask.model';
 import { NavigationPlan } from './shared/navigationPlan.interface';
 import { SurveillanceTask } from './surveillanceTask.model';
 
-export interface ITaskRequestDTO {
+export interface TaskRequest {
   id: string;
   status: string;
   requesterEmail: string;
