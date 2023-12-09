@@ -5,8 +5,8 @@ pipelines:
     '**':
       - step:
           runs-on:
-                - self.hosted
-                - linux
+            - self.hosted
+            - linux
           name: "Build Angular App"
           caches:
             - node
@@ -18,40 +18,54 @@ pipelines:
     main:
       - step:
           name: "Build for Production"
+          runs-on:
+            - self.hosted
+            - linux
           caches:
             - node
           script:
             - npm install
-            - npm run build -- --configuration production
+            - npm run build:production
           artifacts:
             - dist/dronesangularclient/**
       - step:
           name: Deploy to Production on DEI Cloud
+          runs-on:
+            - self.hosted
+            - linux
           script:
-            - echo "Copying artifacts to the production server"
-            - scp -r -P $UI_SERVER_SSH_PORT dist/dronesangularclient/** $UI_SERVER_USERNAME@$UI_SERVER_HOSTNAME:/home/www/angular-app/production/
-      # - step:
-      #     name: "Deploy to Production on Azure Static Web Apps"
-      #     script:
-      #       - npm install -g @azure/static-web-apps-cli
-      #       - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN --env production
+          - pipe: atlassian/sftp-deploy:0.8.0
+            variables:
+              USER: '$UI_SERVER_USERNAME'
+              SERVER: '$UI_SERVER_HOSTNAME'
+              REMOTE_PATH: '/home/www/angular-app/production/'
+              LOCAL_PATH: 'dist/dronesangularclient/**'
+              DEBUG: 'true'
+              EXTRA_ARGS: '-oPort=$UI_SERVER_SSH_PORT -P $UI_SERVER_SSH_PORT'
     develop:
       - step:
-          name: "Build for Development"
+          name: "Build for Staging (Development)"
+          runs-on:
+            - self.hosted
+            - linux
           caches:
             - node
           script:
             - npm install
-            - npm run build -- --configuration development --base-href /development/
+            - npm run build:staging -- --base-href /development/
           artifacts:
             - dist/dronesangularclient/**
       - step:
-          name: Deploy to Development on DEI Cloud
+          name: Deploy to Staging (Development) on DEI Cloud
+          runs-on:
+            - self.hosted
+            - linux
           script:
-            - echo "Copying artifacts to the development server"
-            - scp -r -P $UI_SERVER_SSH_PORT dist/dronesangularclient/** $UI_SERVER_USERNAME@$UI_SERVER_HOSTNAME:/home/www/angular-app/development/
-      # - step:
-      #     name: "Deploy to Preview on Azure Static Web Apps"
-      #     script:
-      #       - npm install -g @azure/static-web-apps-cli
-      #       - swa deploy dist/dronesangularclient --deployment-token $SWA_DEPLOYMENT_TOKEN --env preview
+          - pipe: atlassian/sftp-deploy:0.8.0
+            variables:
+              USER: '$UI_SERVER_USERNAME'
+              SERVER: '$UI_SERVER_HOSTNAME'
+              REMOTE_PATH: '/home/www/angular-app/development/'
+              LOCAL_PATH: 'dist/dronesangularclient/**'
+              DEBUG: 'true'
+              EXTRA_ARGS: '-oPort=$UI_SERVER_SSH_PORT -P $UI_SERVER_SSH_PORT'
