@@ -14,8 +14,8 @@ pipelines:
             - if [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "main" ] && [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "develop" ]; then echo 'Destination not main or develop branch.'; exit 0; fi
             - npm install
             - npm run build:pipeline
-  branches:
-    main:
+  custom:
+    deploy-main:
       - step:
           name: "Build for Production"
           runs-on:
@@ -42,7 +42,7 @@ pipelines:
               LOCAL_PATH: 'dist/dronesangularclient/**'
               DEBUG: 'true'
               EXTRA_ARGS: '-oPort=$UI_SERVER_SSH_PORT -P $UI_SERVER_SSH_PORT'
-    develop:
+    deploy-develop:
       - step:
           name: "Build for Staging (Development)"
           runs-on:

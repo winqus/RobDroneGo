@@ -46,12 +46,14 @@ export class MockAuthHttpInterceptor implements HttpInterceptor {
       console.log('Mocking the login request');
       const loginCredentials = AuthMap.toLoginCredentials(request.body.user);
       this.setCurrentMockUser({
+        id: 'random-id-132',
         firstName: 'John-user',
         lastName: 'Doemocker',
         email: loginCredentials.email,
         phonenumber: '0376372678',
         taxpayernumber: '726453678',
         role: UserRole.User,
+        isConfirmed: true,
       });
       const returnedUser = this.getCurrentMockUser();
 

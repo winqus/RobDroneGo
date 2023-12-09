@@ -84,7 +84,7 @@ export class EditUserComponent implements OnChanges, OnInit {
         phonenumber: '',
         taxpayernumber: '',
         role: UserRole.User,
-      },
+      } as User,
       firstNameLabel: 'First Name',
       lastNameLabel: 'Last Name',
       emailLabel: 'Email',

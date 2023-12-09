@@ -91,7 +91,7 @@ export class UserService {
 
   confirmUser(email: string, confirmed: boolean) {
     const route = API_ROUTES.user.confirm;
-    return this.http.patch(route, { email, confirmed });
+    return this.http.patch(route, { email, isConfirmed: confirmed });
   }
 
   deleteSelf() {

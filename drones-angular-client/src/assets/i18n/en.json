@@ -312,6 +312,10 @@
             {
               "label": "Create user",
               "href": "system/create-user"
+            },
+            {
+              "label": "Users",
+              "href": "system/users"
             }
           ]
         },
