@@ -1,4 +1,4 @@
-interface IDeliveryTaskDTO {
+export interface IDeliveryTaskDTO {
   pickUpRoomId: string;
   deliveryRoomId: string;
   pickUpContact: number;

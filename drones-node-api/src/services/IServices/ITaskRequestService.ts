@@ -1,6 +1,7 @@
 import { UniqueEntityID } from '../../core/domain/UniqueEntityID';
 import { Result } from '../../core/logic/Result';
 import { TaskRequest } from '../../domain/TaskRequest/taskRequest';
+import { ITaskRequestDTO } from '../../dto/ITaskRequestDTO';
 
 export default interface ITaskRequestService {
   create(TaskDto: ITaskRequestDTO): Promise<Result<TaskRequest>>;

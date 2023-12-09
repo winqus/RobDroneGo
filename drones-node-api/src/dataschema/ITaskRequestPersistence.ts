@@ -7,6 +7,6 @@ export interface ITaskRequestPersistence {
   status: string;
   requesterEmail: string;
   task: IDeliveryTaskPersistence | ISurveillanceTaskPersistence;
-  requestCreatedDateTime: Date;
+  requestCreatedDateTime: string;
   navigationData?: INavigationDataPersistence;
 }

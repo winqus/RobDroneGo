@@ -21,23 +21,27 @@ export class TaskRequest extends AggregateRoot<TaskProps> {
   }
 
   get requesterEmail(): string {
-    return this.requesterEmail;
+    return this.props.requesterEmail;
   }
 
   get task(): DeliveryTask | SurveillanceTask {
-    return this.task;
+    return this.props.task;
   }
 
   get requestCreatedDateTime(): Date {
-    return this.requestCreatedDateTime;
+    return this.props.requestCreatedDateTime;
   }
 
   get status(): TaskStatus {
-    return this.status;
+    return this.props.status;
   }
 
   set status(newStatus: TaskStatus) {
-    this.status = newStatus;
+    this.props.status = newStatus;
+  }
+
+  get navigationData(): NavigationData {
+    return this.props.navigationData;
   }
 
   private constructor(props: TaskProps, id?: UniqueEntityID) {

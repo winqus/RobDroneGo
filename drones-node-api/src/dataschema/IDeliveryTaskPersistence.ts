@@ -1,4 +1,5 @@
 export interface IDeliveryTaskPersistence {
+  id: string;
   pickUpRoomId: string;
   deliveryRoomId: string;
   pickUpContact: number;
