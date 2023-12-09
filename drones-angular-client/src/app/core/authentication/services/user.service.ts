@@ -29,7 +29,10 @@ export class UserService {
     return this.http.get<{ user: User }>(route).pipe(
       tap({
         next: ({ user }) => this.currentUserSubject.next(user),
-        error: () => this.purgeAuthentication(),
+        error: (error) => {
+          this.purgeAuthentication();
+          window.location.reload();
+        },
       }),
       shareReplay(1),
     );
@@ -37,19 +40,19 @@ export class UserService {
 
   login(credentials: LoginCredentials): Observable<AuthResponse> {
     const route = API_ROUTES.user.login;
-    return this.http.post<AuthResponse>(route, { user: credentials }).pipe(tap(({ user, token }) => this.setAuthentication(user, token)));
+    return this.http.post<AuthResponse>(route, { ...credentials }).pipe(tap(({ user, token }) => this.setAuthentication(user, token)));
   }
 
   register(credentials: RegisterCredentials): Observable<AuthResponse> {
     const route = API_ROUTES.user.register;
-    return this.http.post<AuthResponse>(route, { user: credentials }).pipe(tap(({ user, token }) => this.setAuthentication(user, token)));
+    return this.http.post<AuthResponse>(route, { ...credentials });
   }
 
   update(user: Partial<User>): Observable<{ user: User }> {
     const route = API_ROUTES.user.update;
-    return this.http.put<{ user: User }>(route, { user }).pipe(
-      tap(({ user }) => {
-        this.currentUserSubject.next(user);
+    return this.http.patch<AuthResponse>(route, { ...user }).pipe(
+      tap(({ user, token }) => {
+        this.setAuthentication(user, token);
       }),
     );
   }
@@ -79,5 +82,20 @@ export class UserService {
     }
 
     return false;
+  }
+
+  getAllUsers(): Observable<User[]> {
+    const route = API_ROUTES.user.getAll;
+    return this.http.get<User[]>(route);
+  }
+
+  confirmUser(email: string, confirmed: boolean) {
+    const route = API_ROUTES.user.confirm;
+    return this.http.patch(route, { email, confirmed });
+  }
+
+  deleteSelf() {
+    const route = API_ROUTES.user.delete;
+    return this.http.delete(route);
   }
 }

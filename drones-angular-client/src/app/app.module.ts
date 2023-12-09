@@ -21,6 +21,7 @@ import { CreatePassageComponent } from './components/create-passage/create-passa
 import { CreateRobotTypeComponent } from './components/create-robot-type/create-robot-type.component';
 import { CreateRobotComponent } from './components/create-robot/create-robot.component';
 import { CreateRoomComponent } from './components/create-room/create-room.component';
+import { CreateUserComponent } from './components/create-user/create-user.component';
 import { EditBuildingComponent } from './components/edit-building/edit-building.component';
 import { EditElevatorComponent } from './components/edit-elevator/edit-elevator.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
@@ -47,7 +48,6 @@ import { RobotListComponent } from './components/robot-list/robot-list.component
 import { SearchRobotComponent } from './components/search-robot/search-robot.component';
 import { SuccessFormMessageComponent } from './components/shared/success-form-message/success-form-message.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
 import { UploadMapComponent } from './components/upload-map/upload-map.component';
 import { JwtService } from './core/authentication/services/jwt.service';
 import { UserService } from './core/authentication/services/user.service';
@@ -59,7 +59,6 @@ import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.comp
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
-import { CreateUserComponent } from './components/create-user/create-user.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -122,7 +121,7 @@ export const initAuthorizationProvider = {
     PublicFolderComponent,
     UploadMapComponent,
     EditUserComponent,
-    TermsOfUseComponent,
+
     CreateUserComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
@@ -130,8 +129,7 @@ export const initAuthorizationProvider = {
     initAuthorizationProvider,
     jwtInterceptorProvider,
     loggingInterceptorProvider,
-    // comment this line to use the real auth API
-    mockAuthHttpInterceptorProvider,
+    // mockAuthHttpInterceptorProvider, // comment this line to use the real auth API
   ],
   bootstrap: [AppComponent],
 })

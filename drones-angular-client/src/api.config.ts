@@ -11,13 +11,17 @@ const API_BASE = environment.apiUrl;
 
 export const API_ROUTES = {
   base: API_BASE,
-  threeDModuleAssetsBase: './assets',
+  // threeDModuleAssetsBase: './assets',
+  threeDModuleAssetsBase: 'https://robdrongoassets.blob.core.windows.net/angular-assets',
   user: {
     me: `${API_BASE}/auth/me`,
     login: `${API_BASE}/auth/signin`,
     register: `${API_BASE}/auth/signup`,
-    update: `${API_BASE}/auth/user`,
+    update: `${API_BASE}/auth/update`,
     logout: `${API_BASE}/auth/logout`,
+    getAll: `${API_BASE}/auth/all`,
+    confirm: `${API_BASE}/auth/confirm`,
+    delete: `${API_BASE}/auth/delete`,
   },
   building: {
     getAll: `${API_BASE}/building/all`,

@@ -48,6 +48,7 @@ export class AuthComponent implements OnInit {
   }
 
   handleLogin(formData: any) {
+    this.errorResponse = [];
     const credentials: LoginCredentials = formData;
     this.userService.login(credentials).subscribe({
       next: (authResponse) => {
@@ -63,11 +64,12 @@ export class AuthComponent implements OnInit {
   }
 
   handleSignup(formData: any) {
+    this.errorResponse = [];
     const credentials: RegisterCredentials = AuthMap.toRegisterCredentials(formData);
     this.userService.register(credentials).subscribe({
       next: (authResponse) => {
         // Handle successful registration
-        this.router.navigate(['/dashboard']);
+        this.setFormType('login');
       },
       error: (error) => {
         // Handle error

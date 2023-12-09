@@ -14,6 +14,11 @@ export class SystemAdminService {
 
   createUser(credentials: CreateUserCredentials): Observable<AuthResponse> {
     const route = API_ROUTES.user.register;
-    return this.http.post<AuthResponse>(route, { user: credentials });
+    return this.http.post<AuthResponse>(route, { ...credentials });
+  }
+
+  confirmUser(email: string, confirmed: boolean) {
+    const route = API_ROUTES.user.confirm;
+    return this.http.patch(route, { email, isConfirmed: confirmed });
   }
 }

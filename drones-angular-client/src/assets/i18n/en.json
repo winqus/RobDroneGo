@@ -262,7 +262,7 @@
                   "href": "/fleet/robot/search"
                 },
                 {
-                  "label": "Change state",
+                  "label": "Change State",
                   "href": "/fleet/robot/state"
                 }
               ]
@@ -284,11 +284,11 @@
           "href": "/task",
           "dropdownLinks": [
             {
-              "label": "Find route",
+              "label": "Find Route",
               "href": "task/route"
             },
             {
-              "label": "Complexity analysis",
+              "label": "Complexity Analysis",
               "href": "task/analysis"
             }
           ]
@@ -306,7 +306,7 @@
               "href": "system/mbco"
             },
             {
-              "label": "Data and recovery strategy",
+              "label": "Data and Recovery Strategy",
               "href": "system/recovery-strategy"
             },
             {
@@ -316,7 +316,7 @@
           ]
         },
         {
-          "label": "About us",
+          "label": "About Us",
           "href": "/about",
           "dropdownLinks": [
             {
@@ -324,8 +324,8 @@
               "href": "about/info"
             },
             {
-              "label": "How we use your data",
-              "href": "about/gdpr"
+              "label": "Privacy Policy",
+              "href": "about/privacy-policy"
             },
             {
               "label": "Public Folder",
@@ -395,7 +395,7 @@
         "confirmPasswordLabel": "Confirm Password",
         "confirmPasswordPlaceholder": "Confirm Password",
 
-        "gdprLabel": "By clicking this check box, I consent to RobDroneGo to collect and process my personal data for the creation of user profile as explained in the <a class=\"gdpr\" href=\"/about/public/gdpr\" target=\"_blank\"><u>Data Processing Report</u></a> and <a class=\"terms-of-use\" href=\"/about/public/terms-of-use\" target=\"_blank\"><u>Terms of Use</u></a>.",
+        "gdprLabel": "By clicking this check box, I consent to RobDroneGo to collect and process my personal data for the creation of user profile as explained in the <a class=\"privacy-policy\" href=\"/about/public/privacy-policy\" target=\"_blank\"><u> Privacy Policy </u></a>.",
         "gdprLabelContact": "",
         "signupButtonLabel": "Sign Up"
       }
