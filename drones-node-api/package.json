@@ -10,7 +10,7 @@
     "restart:prod": "pm2 restart 'node-api-prod",
     "stop:prod": "pm2 stop 'node-api-prod",
     "start:dev": "pm2 start build/src/app.js --name 'node-api-dev' --cwd '/home/www/node-app/development/' --env NODE_ENV=development,PORT=4001 --no-daemon ",
-    "restart": "pm2 restart 'node-api-dev'",
+    "restart:dev": "pm2 restart 'node-api-dev'",
     "stop:dev": "pm2 stop 'node-api-dev'",
     "inspect": "nodemon --inspect src/app.ts",
     "test": "mocha -r ts-node/register **/*.test.ts",
