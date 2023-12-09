@@ -71,4 +71,11 @@ export const API_ROUTES = {
     list: `${API_BASE}/folder/`,
     roomsNavigation: `${API_BASE}/planning/calculate-cells`,
   },
+  taskRequest: {
+    create: `${API_BASE}/taskRequest`,
+    getAll: `${API_BASE}/taskRequest`,
+    getByID: (id: string) => `${API_BASE}/taskRequest/${id}`,
+    updateState: (id: string) => `${API_BASE}/taskRequest/${id}/state`,
+    addNavigation: (id: string) => `${API_BASE}/taskRequest/${id}/navigationData`,
+  },
 };
