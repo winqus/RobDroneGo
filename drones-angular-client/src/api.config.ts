@@ -76,6 +76,5 @@ export const API_ROUTES = {
     getAll: `${API_BASE}/taskRequest`,
     getById: (id: string) => `${API_BASE}/taskRequest/${id}`,
     updateStatus: (id: string) => `${API_BASE}/taskRequest/${id}/state`,
-    addNavigation: (id: string) => `${API_BASE}/taskRequest/${id}/navigationData`,
   },
 };
