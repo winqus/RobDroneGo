@@ -15,13 +15,13 @@ export class TaskRequestMap extends Mapper<TaskRequest> {
   public static toDTO(taskRequest: TaskRequest): ITaskRequestDTO {
     return {
       id: taskRequest.id.toString(),
-      status: Object.keys(TaskStatus).at(Object.values(TaskStatus).indexOf(TaskStatus.Pending)),
+      status: Object.keys(TaskStatus).at(Object.values(TaskStatus).indexOf(taskRequest.status)),
       requesterEmail: taskRequest.requesterEmail,
       task:
         taskRequest.task instanceof DeliveryTask
           ? DeliveryTaskMap.toDTO(taskRequest.task)
           : SurveillanceTaskMap.toDTO(taskRequest.task),
-      requestCreatedDateTime: taskRequest.requestCreatedDateTime.toDateString(),
+      requestCreatedDateTime: taskRequest.requestCreatedDateTime.toISOString(),
       navigationData: taskRequest.navigationData ? NavigationDataMap.toDTO(taskRequest.navigationData) : null,
     } as ITaskRequestDTO;
   }
@@ -53,13 +53,13 @@ export class TaskRequestMap extends Mapper<TaskRequest> {
   public static toPersistence(taskRequest: TaskRequest): ITaskRequestPersistence {
     return {
       id: taskRequest.id.toString(),
-      status: Object.keys(TaskStatus).at(Object.values(TaskStatus).indexOf(TaskStatus.Pending)),
+      status: Object.keys(TaskStatus).at(Object.values(TaskStatus).indexOf(taskRequest.status)),
       requesterEmail: taskRequest.requesterEmail,
       task:
         taskRequest.task instanceof DeliveryTask
           ? DeliveryTaskMap.toDTO(taskRequest.task)
           : SurveillanceTaskMap.toDTO(taskRequest.task),
-      requestCreatedDateTime: taskRequest.requestCreatedDateTime.toDateString(),
+      requestCreatedDateTime: taskRequest.requestCreatedDateTime.toISOString(),
       navigationData: taskRequest.navigationData ? NavigationDataMap.toPersistence(taskRequest.navigationData) : null,
     } as ITaskRequestPersistence;
   }

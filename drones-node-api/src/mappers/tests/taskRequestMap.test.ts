@@ -8,7 +8,7 @@ import { TaskStatus } from '../../domain/TaskRequest/taskStatus';
 import { TaskRequestMap } from '../taskRequestMap';
 
 describe('TaskRequestMap', () => {
-  const date = new Date().toDateString();
+  const date = new Date().toISOString();
   const id = '5f7f3b9d-3b7e-4b1e-8b4d-5b9f0a0e9e4e';
 
   const taskRequestDeliveryDTO = {

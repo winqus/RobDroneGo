@@ -1,13 +1,8 @@
 import mongoose from 'mongoose';
-import { INavigationDataPersistence } from '../../dataschema/INavigationDataPersistence';
+import { UniqueEntityID } from '../../core/domain/UniqueEntityID';
 
 const NavigationData = new mongoose.Schema(
   {
-    id: {
-      type: String,
-      unique: true,
-    },
-
     floorsPaths: {
       type: [
         {

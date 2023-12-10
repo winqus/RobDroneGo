@@ -1,8 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { ITaskRequestPersistence } from '../../dataschema/ITaskRequestPersistence';
-import { DeliveryTask } from './deliveryTaskSchema';
 import { NavigationData } from './navigationDataSchema';
-import { SurveillanceTask } from './surveillanceTaskSchema';
 
 const TaskRequest = new mongoose.Schema(
   {
@@ -22,7 +20,7 @@ const TaskRequest = new mongoose.Schema(
     },
 
     task: {
-      type: DeliveryTask || SurveillanceTask,
+      type: Schema.Types.Mixed,
       required: [true, 'Please enter the task'],
     },
 
@@ -33,7 +31,6 @@ const TaskRequest = new mongoose.Schema(
 
     navigationData: {
       type: NavigationData,
-      required: [true, 'Please enter the navigation data'],
     },
   },
   { timestamps: true },

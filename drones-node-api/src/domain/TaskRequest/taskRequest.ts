@@ -36,12 +36,16 @@ export class TaskRequest extends AggregateRoot<TaskProps> {
     return this.props.status;
   }
 
-  set status(newStatus: TaskStatus) {
-    this.props.status = newStatus;
+  get navigationData(): NavigationData | null {
+    return this.props.navigationData;
   }
 
-  get navigationData(): NavigationData {
-    return this.props.navigationData;
+  set navigationData(newNavigationData: NavigationData) {
+    this.props.navigationData = newNavigationData;
+  }
+
+  set status(newStatus: TaskStatus) {
+    this.props.status = newStatus;
   }
 
   private constructor(props: TaskProps, id?: UniqueEntityID) {

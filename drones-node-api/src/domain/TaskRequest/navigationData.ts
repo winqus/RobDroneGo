@@ -41,6 +41,18 @@ export class NavigationData extends ValueObject<NavigationDataProps> {
     return this.props.mapPaths;
   }
 
+  set FloorsPaths(floorsPaths: FloorPath[]) {
+    this.props.floorsPaths = floorsPaths;
+  }
+
+  set MapPathCount(mapPathCount: number) {
+    this.props.mapPathCount = mapPathCount;
+  }
+
+  set MapPaths(mapPaths: MapPath[]) {
+    this.props.mapPaths = mapPaths;
+  }
+
   private constructor(props: NavigationDataProps) {
     super(props);
   }

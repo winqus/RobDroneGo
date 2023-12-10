@@ -117,6 +117,10 @@ export default {
       name: 'UserController',
       path: '../controllers/userController',
     },
+    taskRequest: {
+      name: 'TaskRequestController',
+      path: '../controllers/taskRequestController',
+    },
   },
 
   repos: {
@@ -159,6 +163,10 @@ export default {
     file: {
       name: 'FileRepo',
       path: '../repos/fileRepo',
+    },
+    taskRequest: {
+      name: 'TaskRequestRepo',
+      path: '../repos/taskRequestRepo',
     },
   },
 
@@ -210,6 +218,10 @@ export default {
     user: {
       name: 'UserService',
       path: '../services/userService',
+    },
+    taskRequest: {
+      name: 'TaskRequestService',
+      path: '../services/taskRequestService',
     },
   },
 };
