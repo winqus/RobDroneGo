@@ -1,0 +1,191 @@
+<div class="container mx-auto p-4 lg:px-52">
+  <div class="form-control mb-10">
+    <h1 class="text-center"><b>Create Task Request</b></h1>
+    <label class="label">
+      <span class="label-text">Select Task Type</span>
+    </label>
+    <select class="select select-bordered w-full" [(ngModel)]="taskType" (change)="onTaskTypeChange()">
+      <option disabled value="">--Choose Task Type--</option>
+      <option value="Delivery">Delivery</option>
+      <option value="Surveillance">Surveillance</option>
+    </select>
+  </div>
+
+  <h2 *ngIf="taskType" class="text-center">Enter Task Information</h2>
+
+  <!-- Delivery Task Form -->
+  <form *ngIf="taskType === 'Delivery'" [formGroup]="deliveryForm" (ngSubmit)="submitTask()" class="mt-4">
+    <div class="sm:grid grid-cols-2 gap-4 gap-x-10">
+      <!-- Dropdowns for selecting rooms -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Pick Up Room</span>
+        </label>
+        <!-- Pickup room selection dropdowns -->
+        <div class="join join-vertical md:join-horizontal">
+          <select class="select select-bordered select-sm join-item" (change)="onPickupBuildingChange($event.target)" formControlName="pickUpBuildingCode">
+            <option disabled selected>Building</option>
+            <option *ngFor="let building of buildings" [value]="building.code">{{ building.code }}</option>
+          </select>
+          <select class="select select-bordered select-sm join-item" (change)="onPickupFloorChange($event.target)" formControlName="pickUpFloorNumber">
+            <option disabled selected>Floor</option>
+            <option *ngFor="let floor of pickupFloors" [value]="floor.id">{{ floor.floorNumber }}</option>
+          </select>
+          <select class="select select-bordered select-sm join-item" formControlName="pickUpRoomId">
+            <option disabled selected>Room</option>
+            <option *ngFor="let room of pickupRooms" [value]="room.id">{{ room.name }}</option>
+          </select>
+        </div>
+        <div class="text-error text-sm" *ngIf="deliveryForm.controls['pickUpRoomId'].invalid && deliveryForm.controls['pickUpRoomId'].touched">
+          <small *ngIf="deliveryForm.controls['pickUpRoomId'].errors?.['pattern']">Pick Up Room is required. </small>
+        </div>
+      </div>
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Delivery Room</span>
+        </label>
+        <!-- Delivery room selection dropdowns -->
+        <div class="join join-vertical md:join-horizontal" *ngIf="deliveryForm.get('pickUpRoomId')?.value !== 'Room'; else pickupNotSelected">
+          <select class="select select-bordered select-sm join-item" (change)="onDeliveryBuildingChange($event.target)" formControlName="deliveryBuildingCode">
+            <option disabled selected>Building</option>
+            <option *ngFor="let building of buildings" [value]="building.code">{{ building.code }}</option>
+          </select>
+          <select class="select select-bordered select-sm join-item" (change)="onDeliveryFloorChange($event.target)" formControlName="deliveryFloorNumber">
+            <option disabled selected>Floor</option>
+            <option *ngFor="let floor of deliveryFloors" [value]="floor.id">{{ floor.floorNumber }}</option>
+          </select>
+          <select class="select select-bordered select-sm join-item" formControlName="deliveryRoomId">
+            <option disabled selected>Room</option>
+            <option *ngFor="let room of deliveryRooms" [value]="room.id">{{ room.name }}</option>
+          </select>
+        </div>
+        <div class="text-error text-sm" *ngIf="deliveryForm.controls['deliveryRoomId'].invalid && deliveryForm.controls['deliveryRoomId'].touched">
+          <small *ngIf="deliveryForm.controls['deliveryRoomId'].errors?.['pattern']">Delivery Room is required. </small>
+          <small *ngIf="deliveryForm.hasError('sameRoom')">Choose rooms that are different. </small>
+        </div>
+        <ng-template #pickupNotSelected>
+          <span class="text-sm text-slate-500 text-center">Please select the pick up room first</span>
+        </ng-template>
+      </div>
+      <!-- Contacts and Names -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Pick Up Person Name</span>
+        </label>
+        <input type="text" formControlName="pickUpName" class="input input-bordered" />
+        <div class="text-error text-sm" *ngIf="deliveryForm.controls['pickUpName'].invalid && deliveryForm.controls['pickUpName'].touched">
+          <small *ngIf="deliveryForm.controls['pickUpName'].errors?.['required']">Pick Up Person Name is required. </small>
+        </div>
+      </div>
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Delivery Person Name</span>
+        </label>
+        <input type="text" formControlName="deliveryName" class="input input-bordered" />
+        <div class="text-error text-sm" *ngIf="deliveryForm.controls['deliveryName'].invalid && deliveryForm.controls['deliveryName'].touched">
+          <small *ngIf="deliveryForm.controls['deliveryName'].errors?.['required']">Delivery Person Name is required. </small>
+        </div>
+      </div>
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Pick Up Person Phone Number</span>
+        </label>
+        <input type="number" formControlName="pickUpContact" class="input input-bordered" />
+        <div class="text-error text-sm" *ngIf="deliveryForm.controls['pickUpContact'].invalid">
+          <small *ngIf="deliveryForm.controls['pickUpContact'].errors?.['required']">Pick Up Contact Number is required. </small>
+          <small *ngIf="deliveryForm.controls['pickUpContact'].errors?.['pattern']">Invalid contact number, must be 9 numbers. </small>
+        </div>
+      </div>
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Delivery Person Phone Number</span>
+        </label>
+        <input type="number" formControlName="deliveryContact" class="input input-bordered" />
+        <div class="text-error text-sm" *ngIf="deliveryForm.controls['deliveryContact'].invalid && deliveryForm.controls['deliveryContact'].touched">
+          <small *ngIf="deliveryForm.controls['deliveryContact'].errors?.['required']">Delivery Contact Number is required. </small>
+          <small *ngIf="deliveryForm.controls['deliveryContact'].errors?.['pattern']">Invalid contact number, must be 9 numbers. </small>
+        </div>
+      </div>
+      <!-- Confirmation Code and Description -->
+      <div class="form-control mt-5">
+        <label class="label">
+          <span class="label-text">Confirmation Code</span>
+        </label>
+        <input type="number" formControlName="confirmationCode" class="input input-bordered w-52" />
+        <div class="text-error text-sm" *ngIf="deliveryForm.controls['confirmationCode'].invalid && deliveryForm.controls['confirmationCode'].touched">
+          <small *ngIf="deliveryForm.controls['confirmationCode'].errors?.['required']">Confirmation code is required. </small>
+          <small *ngIf="deliveryForm.controls['confirmationCode'].errors?.['pattern']">Invalid number, must be 4-6 numbers. </small>
+        </div>
+      </div>
+      <div class="form-control col-span-2">
+        <label class="label">
+          <span class="label-text">Description</span>
+        </label>
+        <textarea formControlName="description" class="textarea textarea-bordered h-24"></textarea>
+        <div class="text-error text-sm" *ngIf="deliveryForm.controls['description'].invalid && deliveryForm.controls['description'].touched">
+          <small *ngIf="deliveryForm.controls['description'].errors?.['required']">Description is required. </small>
+          <small *ngIf="deliveryForm.controls['description'].errors?.['pattern']">Description must contain only alphanumeric characters. </small>
+          <small *ngIf="deliveryForm.controls['description'].errors?.['maxlength']">Description must be no longer than 1000. </small>
+        </div>
+      </div>
+    </div>
+    <!-- <button type="submit" class="btn btn-primary mt-4">Submit Delivery Task</button> -->
+  </form>
+
+  <!-- Surveillance Task Form -->
+  <form *ngIf="taskType === 'Surveillance'" [formGroup]="surveillanceForm" (ngSubmit)="submitTask()" class="mt-4">
+    <div class="grid grid-cols-1 gap-4">
+      <!-- Building Dropdown -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Building Code</span>
+        </label>
+        <select class="select select-bordered select-sm join-item" (change)="onSurveillanceBuildingChange($event.target)" formControlName="buildingCode">
+          <option disabled selected>Building</option>
+          <option *ngFor="let building of buildings" [value]="building.code">{{ building.code }}</option>
+        </select>
+        <div class="text-error text-sm" *ngIf="surveillanceForm.controls['buildingCode'].invalid && surveillanceForm.controls['buildingCode'].touched">
+          <small *ngIf="surveillanceForm.controls['buildingCode'].errors?.['pattern']">Building code is required. </small>
+        </div>
+      </div>
+      <!-- Floor Numbers Selection -->
+      <div class="form-control" *ngIf="surveillanceFloors.length > 0">
+        <label class="label">
+          <span class="label-text">Select Floors</span>
+        </label>
+        <div *ngFor="let floor of surveillanceFloors">
+          <label class="cursor-pointer label justify-start">
+            <input type="checkbox" class="checkbox checkbox-accent checkbox-xs mr-2" [value]="floor.floorNumber" (change)="onSurveillanceFloorSelect(floor.floorNumber, $event.target)" />
+            <span class="label-text">{{ floor.floorNumber }}</span>
+          </label>
+        </div>
+      </div>
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Contact Phone Number</span>
+        </label>
+        <input type="number" formControlName="contactNumber" class="input input-bordered" />
+        <div class="text-error text-sm" *ngIf="surveillanceForm.controls['contactNumber'].invalid && surveillanceForm.controls['contactNumber'].touched">
+          <small *ngIf="surveillanceForm.controls['contactNumber'].errors?.['required']">Contact Number is required. </small>
+          <small *ngIf="surveillanceForm.controls['contactNumber'].errors?.['pattern']">Invalid contact number, must be 9 numbers. </small>
+        </div>
+      </div>
+    </div>
+  </form>
+  <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
+  <app-success-form-message [message]="submitSuccessMessage"></app-success-form-message>
+  <!-- Submit Button -->
+  <div *ngIf="taskType" class="form-control mt-6">
+    <button
+      class="btn btn-primary"
+      type="submit"
+      (click)="submitTask()"
+      [disabled]="(taskType === 'Delivery' && deliveryForm.invalid) || (taskType === 'Surveillance' && surveillanceForm.invalid) || isLoading"
+    >
+      <span *ngIf="!isLoading">Submit Task Request</span>
+      <span *ngIf="isLoading">
+        <span class="loading loading-dots"></span>
+      </span>
+    </button>
+  </div>
+</div>

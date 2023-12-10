@@ -2,7 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EMPTY } from 'rxjs';
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +21,7 @@ import { CreatePassageComponent } from './components/create-passage/create-passa
 import { CreateRobotTypeComponent } from './components/create-robot-type/create-robot-type.component';
 import { CreateRobotComponent } from './components/create-robot/create-robot.component';
 import { CreateRoomComponent } from './components/create-room/create-room.component';
+import { CreateTaskRequestComponent } from './components/create-task-request/create-task-request.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { EditBuildingComponent } from './components/edit-building/edit-building.component';
 import { EditElevatorComponent } from './components/edit-elevator/edit-elevator.component';
@@ -49,6 +50,7 @@ import { SearchRobotComponent } from './components/search-robot/search-robot.com
 import { SuccessFormMessageComponent } from './components/shared/success-form-message/success-form-message.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { UploadMapComponent } from './components/upload-map/upload-map.component';
+import { UserListComponent } from './components/user-list/user-list.component';
 import { JwtService } from './core/authentication/services/jwt.service';
 import { UserService } from './core/authentication/services/user.service';
 import { jwtInterceptorProvider } from './core/interceptors/jwt.interceptor';
@@ -59,7 +61,6 @@ import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.comp
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
-import { UserListComponent } from './components/user-list/user-list.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -124,9 +125,10 @@ export const initAuthorizationProvider = {
     EditUserComponent,
 
     CreateUserComponent,
-      UserListComponent,
+    UserListComponent,
+    CreateTaskRequestComponent,
   ],
-  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
+  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule, FormsModule],
   providers: [
     initAuthorizationProvider,
     jwtInterceptorProvider,

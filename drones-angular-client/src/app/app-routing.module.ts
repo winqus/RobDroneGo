@@ -15,6 +15,7 @@ import { CreatePassageComponent } from './components/create-passage/create-passa
 import { CreateRobotTypeComponent } from './components/create-robot-type/create-robot-type.component';
 import { CreateRobotComponent } from './components/create-robot/create-robot.component';
 import { CreateRoomComponent } from './components/create-room/create-room.component';
+import { CreateTaskRequestComponent } from './components/create-task-request/create-task-request.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { EditBuildingComponent } from './components/edit-building/edit-building.component';
 import { EditElevatorComponent } from './components/edit-elevator/edit-elevator.component';
@@ -150,11 +151,12 @@ const routes: Routes = [
       },
       {
         path: 'task',
-        canActivate: [canActivateChildWithRole([UserRole.TaskManager])],
+        canActivate: [canActivateChildWithRole([UserRole.User, UserRole.TaskManager])],
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-          { path: 'route', component: PathsBetweenBuildingsComponent },
-          { path: 'analysis', component: ComplexityAnalysisComponent },
+          { path: 'request-task', component: CreateTaskRequestComponent },
+          { path: 'route', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: PathsBetweenBuildingsComponent },
+          { path: 'analysis', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: ComplexityAnalysisComponent },
         ],
       },
       {

@@ -284,6 +284,10 @@
           "href": "/task",
           "dropdownLinks": [
             {
+              "label": "Make Request",
+              "href": "task/request-task"
+            },
+            {
               "label": "Find Route",
               "href": "task/route"
             },
