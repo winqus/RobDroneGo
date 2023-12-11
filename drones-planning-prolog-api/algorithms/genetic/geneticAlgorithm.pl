@@ -21,6 +21,17 @@ tasks(5).
   Population Size: |: 20.
   Crossover Probability (%):|: 70.
   Mutation Probability (%):|: 30. 
+
+  OR PASTE TO CONSOLE AS: generate. 10. 20. 70. 30.
+-----------------------------------------*/
+/*-----Smaller output example--------------
+  ?- generate.
+  Number of new Generations: 5.
+  Population Size: |: 5.
+  Crossover Probability (%):|: 70.
+  Mutation Probability (%):|: 30. 
+
+  OR PASTE TO CONSOLE AS: generate. 5. 5. 70. 30.
 -----------------------------------------*/
 
 
