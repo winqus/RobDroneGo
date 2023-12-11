@@ -4,14 +4,14 @@
 :- dynamic crossover_probability/1.
 :- dynamic mutation_probability/1.
 
-% task(Id, ProcessingTime, CompletionTime, PenaltyWeight).
+%% task(Id, ProcessingTime, CompletionTime, PenaltyWeight). AKA Individual
 task(t1, 2, 5, 1).
 task(t2, 4, 7, 6).
 task(t3, 1, 11, 2).
 task(t4, 3, 9, 3).
 task(t5, 3, 8, 2).
 
-% tasks(NTasks).
+%% tasks(NTasks).
 tasks(5).
 
 %%% Usage example %%%:
@@ -109,12 +109,17 @@ sort_population(PopEval, PopEvalSorted):-
 generate_generation(G, G, Pop) :- !,
     write('Generation '), write(G), write(':'), nl, write(Pop), nl.
 
+%%% Modified to include partial elitism %%%
 generate_generation(N, G, Pop) :-
     write('Generation '), write(N), write(':'), nl, write(Pop), nl,
+    elitism(Pop, Elites, 20), % Extract pertencage of elites (best evaluated individuals) from the current population
     crossover(Pop, NPop1),
     mutation(NPop1, NPop),
     evaluate_population(NPop, NPopEval),
-    sort_population(NPopEval, NPopSorted),
+    append(Elites, NPopEval, CombinedPop), % Combine elites with new population
+    % sort_population(NPopEval, NPopSorted),
+    sort_population(CombinedPop, CombinedPopSorted),
+    select_new_population(CombinedPopSorted, NPopSorted), % Select new population (ensures population size is maintained)
     N1 is N + 1,
     generate_generation(N1, G, NPopSorted).
 
@@ -176,6 +181,22 @@ mutation23(G1, P, [G|Ind], G2, [G|NInd]) :-
     P1 is P - 1,
     mutation23(G1, P1, Ind, G2, NInd).
 
+%%% Elitism predicate to extract the best individuals from the population %%%
+elitism(Population, Elites, Percentage) :-
+  population(PopSize),
+  EliteCount is max(1, PopSize // Percentage), % Top Percentage% or at least 1 individual
+  take(EliteCount, Population, Elites).
+take(0, _, []) :- !.
+take(N, [H|T], [H|R]) :-
+    N > 0,
+    N1 is N - 1,
+    take(N1, T, R).
+
+%%% Ensures population size is maintained %%%
+select_new_population(Population, Selected) :-
+  population(PopSize),
+  length(Selected, PopSize),
+  append(Selected, _, Population).
 
 bubble_sort([X], [X]) :- !.
 bubble_sort([X|Xs], Ys) :-
@@ -190,7 +211,7 @@ bubble_swap([X*VX, Y*VY|L1], [Y*VY|L2]) :-
 
 bubble_swap([X|L1], [X|L2]) :- bubble_swap(L1, L2).
 
-%----- Other helper predicates -----------------------------------------------------
+%----- Other helper predicates ----------------------------------------------------%
 remove(1, [G|Rest], G, Rest).
 remove(N, [G1|Rest], G, [G1|Rest1]):-
   N1 is N-1,
