@@ -39,7 +39,7 @@ bestFirst2(End, (_, Ca, LA), Path, Cost) :-
 						CaX is CostX + Ca, estimate(X, End, EstX),
 						CEX is CaX + EstX), New),
 		sort(New, [B | _]),
-		write('Path bf2 is: '), writeln(B),
+		% write('Path bf2 is: '), writeln(B),
 		bestFirst2(End, B, Path, Cost).
 
 %% Beam Search Implementation. Beam width is 40 by default.

@@ -141,7 +141,7 @@ find_and_format_best_path(IntermediateOrigin, IntermediateDestination, BuildingC
   log_message_ln([IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber]),
   % (bestFirst(IntermediateOrigin, IntermediateDestination, Path, Cost); (Path = [], Cost = -404)),!,
   (beamSearch(IntermediateOrigin, IntermediateDestination, Path, Cost); (Path = [], Cost = -404)),!,
-  log_message('found floor map path with bestFirst aStar;'),
+  log_message('found floor map path with beamSearch;'),
   remove_graph(),
   log_message('removed floor map graph;'),
   format_path_json(Path, Cost, BuildingCode, FloorNumber, MapPath),

@@ -18,10 +18,7 @@ set_log_file :-
 get_current_date(DateStr) :- get_time(Stamp), format_time(string(DateStr), '%Y-%m-%d', Stamp).
 
 start :-
-    set_log_file,
     port(Port),
-    format('Starting server on port ~d~n', [Port]),
-    log_message('Starting server on port'), log_message_ln(Port),
     start_server(Port).
 
 start_server(Port) :-
