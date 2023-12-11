@@ -28,6 +28,7 @@ import { FloorListComponent } from './components/floor-list/floor-list.component
 import { FloorsServedByElevatorListComponent } from './components/floors-served-by-elevator-list/floors-served-by-elevator-list.component';
 import { FloorsToDifBuildsComponent } from './components/floors-to-dif-builds/floors-to-dif-builds.component';
 import { GdprComponent } from './components/gdpr/gdpr.component';
+import { ListTaskRequestComponent } from './components/list-task-request/list-task-request.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { MbcoComponent } from './components/mbco/mbco.component';
@@ -157,6 +158,7 @@ const routes: Routes = [
           { path: 'request-task', component: CreateTaskRequestComponent },
           { path: 'route', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: PathsBetweenBuildingsComponent },
           { path: 'analysis', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: ComplexityAnalysisComponent },
+          { path: 'list', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: ListTaskRequestComponent },
         ],
       },
       {

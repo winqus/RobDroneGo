@@ -294,6 +294,10 @@
             {
               "label": "Complexity Analysis",
               "href": "task/analysis"
+            },
+            {
+              "label": "List Tasks",
+              "href": "task/list"
             }
           ]
         },

@@ -12,7 +12,7 @@ export interface CreateTaskRequestDTO {
 }
 
 export interface UpdateTaskRequestStatusDTO {
-  state: string;
+  status: string;
 }
 
 @Injectable({
@@ -21,16 +21,16 @@ export interface UpdateTaskRequestStatusDTO {
 export class TaskRequestService {
   constructor(private http: HttpClient) {}
 
-  getAllTaskRequests(): Observable<TaskRequest> {
+  getAllTaskRequests(): Observable<TaskRequest[]> {
     const route = API_ROUTES.taskRequest.getAll;
 
-    return this.http.get<TaskRequest>(route);
+    return this.http.get<TaskRequest[]>(route);
   }
 
-  getTaskRequestById(id: string): Observable<TaskRequest> {
+  getTaskRequestById(id: string): Observable<TaskRequest[]> {
     const route = API_ROUTES.taskRequest.getById(id);
 
-    return this.http.get<TaskRequest>(route);
+    return this.http.get<TaskRequest[]>(route);
   }
 
   createTaskRequest(taskRequest: CreateTaskRequestDTO): Observable<TaskRequest> {
@@ -45,10 +45,11 @@ export class TaskRequestService {
 
   updateTaskRequestStatus(id: string, status: TaskStatus): Observable<TaskRequest> {
     const statusDTO: UpdateTaskRequestStatusDTO = {
-      state: status.toString(),
+      status: Object.entries(TaskStatus).find(([key, value]) => value === status)?.[0] as string
     };
+    console.log(statusDTO);
     const route = API_ROUTES.taskRequest.updateStatus(id);
 
-    return this.http.put<TaskRequest>(route, statusDTO);
+    return this.http.patch<TaskRequest>(route, statusDTO);
   }
 }

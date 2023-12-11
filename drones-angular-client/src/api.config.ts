@@ -79,6 +79,6 @@ export const API_ROUTES = {
     create: `${API_BASE}/taskRequest`,
     getAll: `${API_BASE}/taskRequest`,
     getById: (id: string) => `${API_BASE}/taskRequest/${id}`,
-    updateStatus: (id: string) => `${API_BASE}/taskRequest/${id}/state`,
+    updateStatus: (id: string) => `${API_BASE}/taskRequest/${id}/status`,
   },
 };

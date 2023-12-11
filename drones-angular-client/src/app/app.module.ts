@@ -36,6 +36,7 @@ import { FloorsToDifBuildsComponent } from './components/floors-to-dif-builds/fl
 import { FooterComponent } from './components/footer/footer.component';
 import { FormErrorListComponent } from './components/form-error-list/form-error-list.component';
 import { GdprComponent } from './components/gdpr/gdpr.component';
+import { ListTaskRequestComponent } from './components/list-task-request/list-task-request.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { MbcoComponent } from './components/mbco/mbco.component';
@@ -127,6 +128,7 @@ export const initAuthorizationProvider = {
     CreateUserComponent,
     UserListComponent,
     CreateTaskRequestComponent,
+    ListTaskRequestComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule, FormsModule],
   providers: [
