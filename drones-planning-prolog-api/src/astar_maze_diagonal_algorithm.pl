@@ -8,9 +8,13 @@
 % aStar(cel(3, 2), cel(2, 3), Path, Cost), writeln(Path).
 
 :- dynamic cached_estimate/3.
+:- dynamic visited/1.
 
 clear_estimate_cache :-
 	retractall(cached_estimate(_, _, _)).
+
+clear_visited :-
+	retractall(visited(_)).
 
 % Estimate function (Euclidean distance, supports diagonal) with caching
 estimate(cel(Col1, Row1), cel(Col2, Row2), Estimate) :-
@@ -42,34 +46,46 @@ bestFirst2(End, (_, Ca, LA), Path, Cost) :-
 		% write('Path bf2 is: '), writeln(B),
 		bestFirst2(End, B, Path, Cost).
 
-%% Beam Search Implementation. Beam width is 40 by default.
+%% Beam Search Implementation. Beam width is 40 by default. 1000 quite nice (20s)
 beamSearch(Start, End, Path, Cost) :-
 	beam_search(Start, End, Path, Cost, 40).
 
 beam_search(Start, Goal, Path, Cost, BeamWidth) :-
 	clear_estimate_cache,
-	beam_search_helper(Goal, BeamWidth, [(_, 0, [Start])], Path, Cost).
+	clear_visited,
+	beam_search_helper(Goal, BeamWidth, [(_, 0, [Start])], Path, Cost, [Start]).
 
-beam_search_helper(Goal, _, [(_, Cost, [Goal | T]) | _], Path, Cost) :-
+beam_search_helper(Goal, _, [(_, Cost, [Goal | T]) | _], Path, Cost, _) :-
 	reverse([Goal | T], Path).
 
-beam_search_helper(Goal, BeamWidth, [(_, Ca, LA) | Others], Path, Cost) :-
+beam_search_helper(Goal, BeamWidth, [(_, Ca, LA) | Others], Path, Cost, Visited) :-
 	LA = [Act | _],
 	findall((CEX, CaX, [X | LA]),
-					(Goal \== Act, connectCell(Act, X, CostX), \+ member(X, LA),
+					(Goal \== Act, connectCell(Act, X, CostX), \+ visited(X),
 					CaX is CostX + Ca, estimate(X, Goal, EstX),
 					CEX is CaX + EstX), New),
+	update_visited(New, Visited, NewVisited),
 	append(Others, New, All),
 	sort(All, AllOrd),
 	trim_beam(AllOrd, BeamWidth, Trimmed),
-	beam_search_helper(Goal, BeamWidth, Trimmed, Path, Cost).
+	beam_search_helper(Goal, BeamWidth, Trimmed, Path, Cost, NewVisited).
+
 
 % Trims the list to only keep the top N elements as per the beam width
 trim_beam(List, BeamWidth, Trimmed) :-
 	length(List, Length),
 	(Length > BeamWidth -> length(Trimmed, BeamWidth); Trimmed = List),
 	append(Trimmed, _, List).
-	
+
+update_visited(NewPaths, Visited, NewVisited) :-
+	findall(X, (member((_, _, [X | _]), NewPaths), \+ member(X, Visited)), NewCells),
+	append(Visited, NewCells, NewVisited),
+	mark_visited(NewCells).
+
+mark_visited([]).
+mark_visited([H|T]) :-
+    assert(visited(H)),
+    mark_visited(T).
 
 
 
