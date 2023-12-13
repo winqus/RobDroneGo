@@ -42,8 +42,7 @@
         </label>
         <input formControlName="phonenumber" type="text" placeholder="{{ props.phonenumberPlaceholder }}" class="input input-bordered" id="phonenumber" />
         <div *ngIf="createUserForm.controls['phonenumber']?.touched && createUserForm.controls['phonenumber']?.invalid" class="text-error">
-          <small *ngIf="createUserForm.controls['phonenumber']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
-          <small *ngIf="createUserForm.controls['phonenumber']?.errors?.['pattern']"> Phonenumber can only contain + and numbers. </small>
+          <small *ngIf="createUserForm.controls['phonenumber']?.errors?.['pattern']"> Invalid contact number, must be 9 numbers. </small>
         </div>
 
         <!-- Password Field -->

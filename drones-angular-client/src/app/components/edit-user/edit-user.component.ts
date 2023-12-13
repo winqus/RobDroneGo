@@ -18,7 +18,9 @@ export interface EditUserProps {
   confirmPasswordLabel: string;
   editUserButtonLabel: string;
   downloadUserButtonLabel: string;
+  deleteUserButtonLabel: string;
   userEditedMessage: string;
+  userDeletedMessage: string;
   userRolesDropdownLabel: String;
   userRoles: { label: string; role: string }[];
 }
@@ -53,6 +55,7 @@ export class EditUserComponent implements OnChanges, OnInit {
   firstNameArgs = { field: 'First Name', min: 2, max: 50 };
   lastNameArgs = { field: 'Last Name', min: 2, max: 50 };
   passwordArgs = { field: 'Password', min: 8, max: 50 };
+  router: any;
 
   togglePasswordFields() {
     this.showPasswordFields = !this.showPasswordFields;
@@ -67,7 +70,7 @@ export class EditUserComponent implements OnChanges, OnInit {
         firstName: new FormControl('', [Validators.required, Validators.minLength(this.firstNameArgs.min), Validators.maxLength(this.firstNameArgs.max)]),
         lastName: new FormControl('', [Validators.required, Validators.minLength(this.lastNameArgs.min), Validators.maxLength(this.lastNameArgs.max)]),
         email: new FormControl('', [Validators.required, Validators.email, this.emailDomainValidator()]),
-        phonenumber: new FormControl('', [Validators.required, Validators.pattern(/^[\d+]+$/)]),
+        phonenumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{9}$')]),
         password: new FormControl('', [Validators.required, Validators.minLength(10), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&.,#^+])[A-Za-z\d@$!%*?&.,#^+]{10,}$/)]),
         confirmPassword: new FormControl('', Validators.required),
       },
@@ -95,8 +98,11 @@ export class EditUserComponent implements OnChanges, OnInit {
 
       editUserButtonLabel: 'Update User',
       userEditedMessage: 'User Edited',
+      userDeletedMessage: 'User Deleted',
       userRolesDropdownLabel: 'User Role',
       userRoles: [],
+
+      deleteUserButtonLabel: 'Delete user',
     };
   }
 
@@ -203,5 +209,15 @@ export class EditUserComponent implements OnChanges, OnInit {
     link.href = window.URL.createObjectURL(blob);
     link.download = 'userData.json';
     link.click();
+  }
+  deleteUserData() {
+    this.userService.deleteSelf().subscribe({
+      next: () => {
+        this.userService.logout();
+      },
+      error: (error) => {
+        console.error('user delete error', error);
+      },
+    });
   }
 }

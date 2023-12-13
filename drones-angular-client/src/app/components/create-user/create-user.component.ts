@@ -69,7 +69,7 @@ export class CreateUserComponent implements OnInit {
         firstName: new FormControl('', [Validators.required, Validators.minLength(this.firstNameArgs.min), Validators.maxLength(this.firstNameArgs.max)]),
         lastName: new FormControl('', [Validators.required, Validators.minLength(this.lastNameArgs.min), Validators.maxLength(this.lastNameArgs.max)]),
         email: new FormControl('', [Validators.required, Validators.email, this.emailDomainValidator()]),
-        phonenumber: new FormControl('', [Validators.required, Validators.pattern(/^[\d+]+$/)]),
+        phonenumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{9}$')]),
         password: new FormControl('', [Validators.required, Validators.minLength(10), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&.,#^+])[A-Za-z\d@$!%*?&.,#^+]{10,}$/)]),
         confirmPassword: new FormControl('', Validators.required),
         role: new FormControl(this.props.userRoles[0].role, Validators.required),

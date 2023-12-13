@@ -40,7 +40,7 @@
   <input formControlName="phonenumber" type="text" placeholder="{{ props.phonenumberPlaceholder }}" class="input input-bordered" id="phonenumber" />
   <div *ngIf="signupForm.controls['phonenumber']?.touched && signupForm.controls['phonenumber']?.invalid" class="text-error">
     <small *ngIf="signupForm.controls['phonenumber']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
-    <small *ngIf="signupForm.controls['phonenumber']?.errors?.['pattern']"> Phonenumber can only contain + and numbers. </small>
+    <small *ngIf="signupForm.controls['phonenumber'].errors?.['pattern']"> Invalid contact number, must be 9 numbers. </small>
   </div>
 
   <!-- Taxpayernumber Field-->

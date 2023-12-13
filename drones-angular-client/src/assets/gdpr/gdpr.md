@@ -16,11 +16,12 @@ We collect and process personal information when users register to use our produ
 - -Name
 - -Email Address
 - -Phone Number
+- -Taxpayer Identification Number
 - -Digital Identity (combination of Email Address and password)<br><br>
 
 The data objects fall into the following categories:
 
-- -Identification: Name, Email Address, Digital Identity
+- -Identification: Name, Email Address, Digital Identity, Taxpayer Identification Number
 - -Contact: Email Address, Phone Number<br><br>
 
 **Time**<br><br>
@@ -42,6 +43,10 @@ The phone number is used to contact the user in case of necessary communication 
 Email address
 
 Email address is used for the registration process, and it is part of the user's login information. It is also used for sending updates of terms and rules if occur and as a general channel of communication with the user.<br><br>
+
+Taxpayer Identification Number
+
+Taxpayer identification number is used to personal identification that is essential for entering into contracts.<br><br>
 
 Digital Identity
 
@@ -82,4 +87,4 @@ The RobDroneGo project sets Havu K. as the person responsible for the processing
 <br><br>
 <br><br>
 
-Updated 8/12/2023
+Updated 13/12/2023
