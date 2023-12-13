@@ -38,6 +38,7 @@ import { PublicFolderComponent } from './components/public-folder/public-folder.
 import { RecoveryStrategyComponent } from './components/recovery-strategy/recovery-strategy.component';
 import { RobotListComponent } from './components/robot-list/robot-list.component';
 import { SearchRobotComponent } from './components/search-robot/search-robot.component';
+import { SearchTaskComponent } from './components/search-task/search-task.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { UploadMapComponent } from './components/upload-map/upload-map.component';
 import { UserListComponent } from './components/user-list/user-list.component';
@@ -156,6 +157,7 @@ const routes: Routes = [
         children: [
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
           { path: 'request-task', component: CreateTaskRequestComponent },
+          { path: 'search', component: SearchTaskComponent },
           { path: 'route', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: PathsBetweenBuildingsComponent },
           { path: 'analysis', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: ComplexityAnalysisComponent },
           { path: 'list', canActivate: [canActivateWithRole([UserRole.TaskManager])], component: ListTaskRequestComponent },

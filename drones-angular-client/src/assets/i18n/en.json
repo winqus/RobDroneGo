@@ -288,6 +288,10 @@
               "href": "task/request-task"
             },
             {
+              "label": "Search",
+              "href": "task/search"
+            },
+            {
               "label": "Find Route",
               "href": "task/route"
             },

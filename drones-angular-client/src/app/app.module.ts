@@ -48,6 +48,7 @@ import { RecoveryStrategyComponent } from './components/recovery-strategy/recove
 import { RecursiveMenuDropdownComponent } from './components/recursive-menu-dropdown/recursive-menu-dropdown.component';
 import { RobotListComponent } from './components/robot-list/robot-list.component';
 import { SearchRobotComponent } from './components/search-robot/search-robot.component';
+import { SearchTaskComponent } from './components/search-task/search-task.component';
 import { SuccessFormMessageComponent } from './components/shared/success-form-message/success-form-message.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { UploadMapComponent } from './components/upload-map/upload-map.component';
@@ -129,6 +130,7 @@ export const initAuthorizationProvider = {
     UserListComponent,
     CreateTaskRequestComponent,
     ListTaskRequestComponent,
+    SearchTaskComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule, FormsModule],
   providers: [

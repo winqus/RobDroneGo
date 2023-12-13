@@ -40,7 +40,7 @@ export class SearchRobotComponent {
 
   errorResponse: any;
   submitSuccessMessage: SuccessMessage = null;
-  noBuildingsFoundMessage: string = '';
+  noRobotsFoundMessage: string = 'No robots found';
   isLoading = false;
   loadedOnce = false;
   searchRobotForm: FormGroup;

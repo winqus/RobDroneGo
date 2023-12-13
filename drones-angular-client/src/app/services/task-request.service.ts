@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_ROUTES } from 'src/api.config';
 import { DeliveryTask } from '../core/models/deliveryTask.model';
+import { TaskFilters } from '../core/models/shared/taskFilters.type';
 import { SurveillanceTask } from '../core/models/surveillanceTask.model';
 import { TaskRequest, TaskStatus } from '../core/models/taskRequest.model';
 
@@ -52,4 +53,11 @@ export class TaskRequestService {
 
     return this.http.patch<TaskRequest>(route, statusDTO);
   }
+
+  // getTaskByFilter(filters: TaskFilters): TaskRequest[] {
+  //   const definedFilters = Object.fromEntries(Object.entries(filters).filter(([_, v]) => v !== undefined));
+  //   const route = API_ROUTES.taskRequest.getAll;
+
+  //   return filteredTasks;
+  // }
 }
