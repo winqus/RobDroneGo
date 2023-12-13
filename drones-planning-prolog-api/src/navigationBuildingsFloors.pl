@@ -4,8 +4,9 @@
   path_floors/4,
   better_path_floors/3,
   connection_list_cost/2
-]).
+  ]).
 
+:- include('../config.pl').
 :- use_module(logic).
 
 % floors(Building, FloorsList): Lists all floors available in each building.
@@ -55,11 +56,13 @@ connection_list_cost(ConnectionList, Cost) :-
 connection_list_cost_helper([], Cost, Cost).
 
 connection_list_cost_helper([elev(_, _)|Rest], CurrentCost, TotalCost) :-
-  NewCost is CurrentCost + 4,
+  elevatorTransitCost(ElevatorCost),
+  NewCost is CurrentCost + ElevatorCost,
   connection_list_cost_helper(Rest, NewCost, TotalCost).
 
 connection_list_cost_helper([cor(_, _)|Rest], CurrentCost, TotalCost) :-
-  NewCost is CurrentCost + 2,
+  passageTransitCost(PassageCost),
+  NewCost is CurrentCost + PassageCost,
   connection_list_cost_helper(Rest, NewCost, TotalCost).
 
 

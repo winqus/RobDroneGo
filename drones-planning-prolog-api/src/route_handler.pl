@@ -63,17 +63,18 @@ get_route_handler(Request) :-
     % If origin and destination are on the same floor
     same_floor_path(OriginFloorNumber, OriginBuildingCode, OriginCell, DestinationCell, SameFloorPath),
           log_message('found same floor path;'),
-    JsonResponse = json{floorsPaths: [], mapPathCount: 1, mapPaths: [SameFloorPath]}
+    JsonResponse = json{floorsPaths: [], floorsConnectionsCost: 0, mapPathCount: 1, mapPaths: [SameFloorPath]}
     ;
     % Different floors
           log_message('finding better path floors...;'),!,
     better_path_floors(OriginBuildingFloor, DestinationBuildingFloor, Connections),
+    connection_list_cost(Connections, ConnectionsCost),
           log_message_ln('found better path floors'),
     format_connections(Connections, JsonConnections),
     find_map_paths(0, Connections, OriginBuildingCode, OriginFloorNumber, OriginCell, DestinationCell, MapPaths),
           log_message_ln('found floor map path(s)'),
     length(MapPaths, MapPathsCount),
-    JsonResponse = json{floorsPaths: JsonConnections, mapPathCount: MapPathsCount, mapPaths: MapPaths}
+    JsonResponse = json{floorsPaths: JsonConnections, floorsConnectionsCost: ConnectionsCost, mapPathCount: MapPathsCount, mapPaths: MapPaths}
   ),
       log_message('finished paths finding;'),
   format('Content-type: application/json~n~n'),
