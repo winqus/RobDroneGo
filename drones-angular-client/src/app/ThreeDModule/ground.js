@@ -56,5 +56,6 @@ export default class Ground extends THREE.Mesh {
     this.position.set(0.0, -this.size.y / 2.0, 0.0);
     this.castShadow = false;
     this.receiveShadow = true;
+    this.name = 'ground';
   }
 }

@@ -1,14 +1,17 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subscription, firstValueFrom } from 'rxjs';
+import { Observable, Subscription, catchError, firstValueFrom, of, switchMap, tap, throwError } from 'rxjs';
 import { API_ROUTES } from 'src/api.config';
 import { FloorSelectorGUI } from 'src/app/ThreeDModule/floorSelectorGUI.js';
 import Building from 'src/app/core/models/building.model.js';
 import Floor from 'src/app/core/models/floor.model.js';
 import Map from 'src/app/core/models/map.model.js';
+import Room from 'src/app/core/models/room.model.js';
+import { environment } from 'src/environments/environment';
 import ThumbRaiser from '../../ThreeDModule/thumb_raiser.js';
 import { FloorService } from '../../services/floor.service';
+import { RoomService } from '../../services/room.service';
 import { AppBuildingFloorDropdownListComponent } from '../app-building-floor-dropdown-list/app-building-floor-dropdown-list.component.js';
 import { CustomMazeLoaderParams } from './interfaces/customMazeLoaderParams.interface';
 import { MapCell } from './interfaces/mapCell.enum';
@@ -105,12 +108,16 @@ export class Campus3dComponent implements OnInit, OnDestroy {
   paramMapSubscription!: Subscription;
   queryParamsSubscription!: Subscription;
 
-  loadingScreenText = 'Loading';
+  loadingScreenText = 'Choose a floor';
 
   sceneLoaded = false;
   assetsLoaded = false;
   showLoadingScreen = true;
   renderLoadingScreenElement = true;
+
+  currentElevator?: Elevator;
+  currentFloorRooms?: Room[];
+  currentFloor?: Floor;
 
   previousBuildingCode: string | null = null;
   previousFloorNumber: number | null = null;
@@ -120,6 +127,8 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private mazeLoaderService: CustomMazeLoaderService,
+    private roomService: RoomService,
+    private floorService: FloorService,
   ) {}
 
   // Subscribes to changes in route params (by rerouting in code or manually).
@@ -136,7 +145,13 @@ export class Campus3dComponent implements OnInit, OnDestroy {
 
       if (floorNumber !== null) {
         this.floorNumber = +floorNumber; // Convert string to number
-        this.replace3dScene();
+
+        if (!environment.production) {
+          console.log('thumbRaiser initialized?', thumbRaiser?.isInitialized() || false);
+        }
+
+        this.renderLoadingScreenElement = true;
+        this.load3dScene();
       }
     });
 
@@ -151,7 +166,9 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     this.mazeLoaderService.loadMazeBase3DData(
       './assets/mazes/baseMaze3DSettings.json',
       (_data) => {
-        console.log('Base maze 3D data loaded:', _data);
+        if (!environment.production) {
+          console.log('Base Maze 3D Settings data loaded:', _data);
+        }
       },
       (_progress) => {},
       (error) => {
@@ -159,43 +176,11 @@ export class Campus3dComponent implements OnInit, OnDestroy {
       },
     );
 
-    // TODO - uncomment when mazeDataPostProcessor is refactored
     this.mazeLoaderService.mapDataFromApiPreProcessor = this.mapDataFromApiPreProcessor;
     this.mazeLoaderService.mazeDataPostProcessor = this.mazeDataPostProcessor;
-    this.initialize3d();
-  }
-
-  // Prepares customMazeLoaderParams for loading a map, initializes ThumbRaiser and starts animation loop
-  initialize3d() {
-    const customMazeLoaderParams: CustomMazeLoaderParams = {
-      customMazeloaderService: this.mazeLoaderService,
-      // TODO replace with url for node API
-      mazeUrl: API_ROUTES.map.getMap(this.buildingCode, this.floorNumber),
-      elevatorUrl: API_ROUTES.floor.floorWithElevator(this.buildingCode),
-      onLoadMaze: (data) => this.onLoadMaze(data),
-      onMazeProgress: (progress) => this.onMazeProgress(progress),
-      onMazeError: (error) => this.onMazeError(error),
-    };
-
-    this.assetsLoaded = false;
-    this.sceneLoaded = false;
-
-    initializeThumbRaiser(
-      this.canvasContainer,
-      customMazeLoaderParams,
-      () => this.onGameIsRunning(),
-      () => this.onGameIsPaused(),
-      () => this.onAssetsLoaded(),
-      () => this.onSceneLoaded(),
-      (exitLocation: ExitLocationEvent) => this.onSceneExitLocation(exitLocation),
-    );
-    animateGame();
   }
 
   // Called by customMazeLoaderService when base maze 3D data is to be loaded (first thing that intercepts data from backend API)
-  // FIXME - Needs refactoring to be usable with backend node API
-  // Should convert data from node API to MazePartialConfig or MazeAndPlayerConfig (enought, rest is added from baseMazeGroundWallSettings.json in customMazeLoaderService)
-  // After refactoring uncomment line in ngOnInit() for customMazeLoaderService.mapDataFromApiPreProcessor to use this callback proxy function
   mapDataFromApiPreProcessor = (data: Map, floorsNumber: number[]): MazePartialConfig | MazeAndPlayerConfig => {
     const buildingCode = this.buildingCode;
     const floorNumber = this.floorNumber;
@@ -254,11 +239,66 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     return processedData;
   };
 
+  loadRoomData(): Observable<any> {
+    return this.floorService.getFloorsByBuildingCode(this.buildingCode).pipe(
+      switchMap((floors) => {
+        const currentFloor = floors.find((floor) => floor.floorNumber === this.floorNumber);
+
+        if (!currentFloor) {
+          console.error(`Error: Floor ${this.floorNumber} not found in building ${this.buildingCode}`);
+          return of(null);
+        }
+
+        this.currentFloor = currentFloor;
+        return this.roomService.getRoomsByFloorId(currentFloor.id);
+      }),
+      tap((rooms) => {
+        if (rooms) {
+          this.currentFloorRooms = rooms;
+          // console.warn('Room data assigned to currentFloorRooms:', this.currentFloorRooms);
+        }
+      }),
+      catchError((error) => {
+        console.error('An error occurred while loading room data:', error);
+        return of(null);
+      }),
+    );
+  }
+
+  addFloorRoomDataToMazeData = (data: MazeFullConfig): MazeFullConfig => {
+    const rooms: (Room & { doorPosition?: [number, number] })[] = [];
+    const currentFloorRooms = this.currentFloorRooms;
+
+    for (const room of currentFloorRooms || []) {
+      let mapCellX = null;
+      let mapCellY = null;
+
+      for (let y = room.position.y; y <= room.position.y + room.size.length; y++) {
+        for (let x = room.position.x; x <= room.position.x + room.size.width; x++) {
+          if (data.maze.map[y][x] === 4 || data.maze.map[y][x] === 5) {
+            mapCellX = x;
+            mapCellY = y;
+          }
+        }
+      }
+      const roomData: Room & { doorPosition?: [number, number] } = {
+        ...room,
+        doorPosition: mapCellX !== null && mapCellY !== null ? [mapCellX, mapCellY] : undefined,
+      };
+      rooms.push(roomData);
+    }
+    data.roomData = rooms;
+
+    return data;
+  };
+
   // Called by customMazeLoaderService when maze data is to be loaded (last thing that intercepts data from backend API before start of maze generation)
   mazeDataPostProcessor = (data: MazeFullConfig) => {
     if (this.previousExitLocation) {
       if (this.previousExitLocation.type === 'passage') {
-        const origin = { buildingCode: this.previousBuildingCode, floorNumber: this.previousFloorNumber } as Destination;
+        // const origin = { buildingCode: this.previousBuildingCode, floorNumber: this.previousFloorNumber } as Destination;
+        const origin = { buildingCode: this.previousExitLocation.exitBuildingCode, floorNumber: this.previousExitLocation.exitFloorNumber } as Destination;
+        console.warn('Origin in mazeDataPostProcessor:', origin);
         const destinationPassage = data.maze.exitLocations.passages.find(
           (passage) => passage.destination.buildingCode === origin.buildingCode && passage.destination.floorNumber === origin.floorNumber,
         );
@@ -345,21 +385,13 @@ export class Campus3dComponent implements OnInit, OnDestroy {
       }
     }
 
+    this.addFloorRoomDataToMazeData(data);
+
     return data;
   };
 
   // Replaces 3D scene with a new one. Replaces the url used in map loading based on updated route params. Loads new maze in thumbRaiser.
-  // TODO replace with url for node API
-  replace3dScene() {
-    if (!thumbRaiser?.isInitialized()) {
-      return;
-    }
-
-    this.assetsLoaded = false;
-    this.sceneLoaded = false;
-    this.renderLoadingScreenElement = true;
-
-    // TODO replace with url for node API
+  load3dScene() {
     const customMazeLoaderParams: CustomMazeLoaderParams = {
       customMazeloaderService: this.mazeLoaderService,
       mazeUrl: API_ROUTES.map.getMap(this.buildingCode, this.floorNumber),
@@ -369,17 +401,52 @@ export class Campus3dComponent implements OnInit, OnDestroy {
       onMazeError: (error) => this.onMazeError(error),
     };
 
-    thumbRaiser.loadNewMaze(customMazeLoaderParams);
-    if (animationFrameId === null) {
-      animateGame();
+    this.loadingScreenText = `Loading ${this.buildingCode}-${this.floorNumber}`;
+    if (this.previousExitLocation) {
+      if (this.previousExitLocation.type === 'passage') {
+        const exitLocation = this.previousExitLocation.details as Passage;
+        this.loadingScreenText = `Traversing passage to ${exitLocation.destination.buildingCode}-${exitLocation.destination.floorNumber}`;
+      } else if (this.previousExitLocation.type === 'elevator') {
+        this.loadingScreenText = `Elevator transit to floor ${this.floorNumber}`;
+      }
     }
+
+    if (!thumbRaiser?.isInitialized()) {
+      console.warn('Initializing thumbRaiser');
+      initializeThumbRaiser(
+        this.canvasContainer,
+        customMazeLoaderParams,
+        () => this.onGameIsRunning(),
+        () => this.onGameIsPaused(),
+        () => this.onAssetsLoaded(),
+        () => this.onSceneLoaded(),
+        (exitLocation: ExitLocationEvent) => this.onSceneExitLocation(exitLocation),
+      );
+    }
+
+    if (!thumbRaiser?.isInitialized()) {
+      console.error('Failed to initialize thumbRaiser');
+      return;
+    }
+
+    this.loadRoomData().subscribe(() => {
+      console.warn('Loading 3D scene');
+
+      thumbRaiser.loadNewMaze(customMazeLoaderParams);
+
+      if (animationFrameId === null) {
+        animateGame();
+      }
+    });
   }
 
-  // Navigates to a new 3D scene (triggers a new maze load; check replace3dScene())
+  // Navigates to a new 3D scene (triggers a new maze load; check load3dScene())
   changeMaze = (buildingCode: string, floorNumber: number, robotId?: string): void => {
     const navigationExtras = robotId || this.robotId ? { queryParams: { robotId: robotId || this.robotId } } : {};
     this.router.navigate(['/3d/building', buildingCode, 'floor', floorNumber], navigationExtras).then(() => {
       // handle something post navigation, if needed
+      this.renderLoadingScreenElement = true;
+      this.showLoadingScreen = true;
     });
   };
 
@@ -388,6 +455,9 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     const building = selectedData.building as Building;
     const floorNumber = selectedData.floorNumber as number;
 
+    this.previousBuildingCode = null;
+    this.previousFloorNumber = null;
+    this.previousExitLocation = null;
     // Call the changeMaze method with the selected building and floor
     this.changeMaze(building.code, floorNumber);
   };
@@ -403,6 +473,7 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     if (exitLocation.type === 'passage') {
       const destination = (exitLocation.details as Passage).destination;
       this.changeMaze(destination.buildingCode, destination.floorNumber);
+      stopAnimation();
     } else if (exitLocation.type === 'elevator') {
       stopAnimation();
       const destination = exitLocation.details as Elevator;
@@ -430,9 +501,14 @@ export class Campus3dComponent implements OnInit, OnDestroy {
   };
 
   onSceneLoaded = () => {
-    this.sceneLoaded = true;
-    this.showLoadingScreen = false;
-    console.log('Scene loaded');
+    const checkAssetsLoaded = setInterval(() => {
+      if (this.assetsLoaded === true) {
+        clearInterval(checkAssetsLoaded);
+        this.sceneLoaded = true;
+        this.showLoadingScreen = false;
+        console.log('Scene loaded');
+      }
+    }, 100); // Check every 500 milliseconds
   };
 
   onLoadingAnimationDone = () => {

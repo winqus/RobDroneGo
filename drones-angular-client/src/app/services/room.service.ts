@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { API_ROUTES } from 'src/api.config';
 import Room from '../core/models/room.model';
 
@@ -26,5 +26,10 @@ export class RoomService {
   getAllRooms(): Observable<Room[]> {
     const route = API_ROUTES.room.getAllRooms;
     return this.http.get<Room[]>(route);
+  }
+
+  getRoomsByFloorId(floorId: string): Observable<Room[]> {
+    const roomsObservable = this.getAllRooms().pipe(map((rooms) => rooms.filter((room) => room.floorId === floorId)));
+    return roomsObservable;
   }
 }

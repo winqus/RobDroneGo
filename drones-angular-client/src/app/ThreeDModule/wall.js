@@ -142,5 +142,7 @@ export default class Wall extends THREE.Group {
 
         this.geometries.push(BufferGeometryUtils.mergeGeometries(geometries, false));
         this.materials.push(secondaryMaterial);
+
+        this.name = "wall";
     }
 }

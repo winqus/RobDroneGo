@@ -15,6 +15,9 @@
 
 import * as THREE from 'three';
 import Stats from 'three/addons/libs/stats.module.js';
+import { cartesianToCell, cellToCartesian } from '../ThreeDModule/Helpers/coordinateUtils.js';
+import TimedExecutor from '../ThreeDModule/Helpers/timedExecutor.js';
+import PickHelper from '../ThreeDModule/toolTip.js';
 import Animations from './animations.js';
 import globalAssetManager from './assetLoadingManager.js';
 import Audio from './audio.js';
@@ -447,6 +450,8 @@ export default class ThumbRaiser {
     this.topViewCameraParameters = merge({}, cameraData, topViewCameraParameters);
     this.miniMapCameraParameters = merge({}, cameraData, miniMapCameraParameters);
 
+    this.timedExecutor = new TimedExecutor();
+
     // Set the game state
     this.gameRunning = false;
     this.gamePaused = false;
@@ -484,6 +489,10 @@ export default class ThumbRaiser {
     // Create the maze
     // this.maze = new Maze(this.mazeParameters, this.customMazeLoaderParams);
     this.initializeMaze(this.mazeParameters);
+
+    this.pickHelper = new PickHelper(this.maze);
+    this.pickPosition = { x: 0, y: 0, z: 0 };
+    this.clearPickPosition();
 
     // Create the player
     this.player = new Player(this.playerParameters);
@@ -624,13 +633,21 @@ export default class ThumbRaiser {
     this.maze = new Maze(mazeParams, this.customMazeLoaderParams);
   }
 
-  loadNewMaze(customMazeLoaderParams) {
+  loadNewMaze(customMazeLoaderParams, mazeParamChanges = {}) {
     this.customMazeLoaderParams = customMazeLoaderParams;
     if (this.gameRunning) {
       this.pauseGame();
     }
 
-    this.initializeMaze(this.mazeParameters);
+    // this.initializeMaze(this.mazeParameters);
+    this.initializeMaze({
+      ...this.mazeParameters,
+      ...mazeParamChanges,
+    });
+
+    this.pickHelper = new PickHelper(this.maze);
+    this.clearPickPosition();
+
     // Scene added in update method
 
     if (this.gameRunning || this.gamePaused) {
@@ -786,7 +803,7 @@ export default class ThumbRaiser {
       ) {
         mouse.camera = camera;
         this.getPointedFrame(mouse, camera);
-        this.setCursor(this.mouse.frame == 'none' ? 'drag' : this.mouse.frame);
+        this.setCursor(this.mouse.frame == 'none' ? 'auto' : this.mouse.frame);
         return;
       }
     }
@@ -1067,7 +1084,8 @@ export default class ThumbRaiser {
             this.mouse.camera.previousViewport = this.mouse.camera.viewport.clone();
             if (this.mouse.frame == 'none') {
               // No frame is being pointed; so, it is not a resizing event. It must be a dragging event
-              this.setCursor('dragging'); // Change the cursor from "grab" to "grabbing"
+              // this.setCursor('dragging'); // Change the cursor from "grab" to "grabbing"
+              this.setCursor('drag');
             }
             // Otherwise it is a resizing event, but no action is needed here; so, no else {} here
           } else {
@@ -1090,6 +1108,27 @@ export default class ThumbRaiser {
     }
   }
 
+  getCanvasRelativePosition(event) {
+    const rect = this.canvas.getBoundingClientRect();
+    return {
+      x: ((event.clientX - rect.left) * this.canvas.width) / rect.width,
+      y: ((event.clientY - rect.top) * this.canvas.height) / rect.height,
+    };
+  }
+
+  setPickPosition(event) {
+    const pos = this.getCanvasRelativePosition(event);
+    this.pickPosition.x = (pos.x / canvas.width) * 2 - 1;
+    this.pickPosition.y = (pos.y / canvas.height) * -2 + 1; // note we flip Y
+    this.pickPosition.z = 0;
+  }
+
+  clearPickPosition() {
+    this.pickPosition.x = -100000;
+    this.pickPosition.y = -100000;
+    this.pickPosition.z = -100000;
+  }
+
   mouseMove(event) {
     if (event.target.id == 'canvas') {
       document.activeElement.blur();
@@ -1098,7 +1137,27 @@ export default class ThumbRaiser {
         const adjustedClientX = event.clientX + this.getClientXOffset();
         const adjustedClientY = this.window.innerHeight - event.clientY + this.getClientYOffset() - 1;
         this.mouse.currentPosition = new THREE.Vector2(adjustedClientX, adjustedClientY);
+
         if (event.buttons == 0) {
+          if (this.mouse.camera == 'none') {
+            this.clearPickPosition();
+            this.pickHelper.hideToolTip();
+          }
+          this.timedExecutor.execute(
+            'pickHelperExecution',
+            () => {
+              if (this.mouse.camera != 'none') {
+                this.setPickPosition(event);
+                const viewport = this.mouse.camera.viewport;
+                const normalizedPosition = {
+                  x: ((adjustedClientX - viewport.x) / viewport.z) * 2 - 1,
+                  y: ((adjustedClientY - viewport.y) / viewport.w) * 2 - 1,
+                };
+                this.pickHelper.pick(normalizedPosition, this.scene, this.mouse.camera.activeProjection);
+              }
+            },
+            10,
+          );
           // No button down
           this.getPointedViewport(this.mouse);
         } else if (this.mouse.actionInProgress) {
@@ -1134,6 +1193,13 @@ export default class ThumbRaiser {
             }
             this.mouse.previousPosition = this.mouse.currentPosition;
           }
+        }
+        const tooltipX = event.clientX + 10;
+        const tooltipY = event.clientY - 20;
+
+        if (this.pickHelper.tooltip) {
+          this.pickHelper.tooltip.style.left = `${tooltipX}px`;
+          this.pickHelper.tooltip.style.top = `${tooltipY}px`;
         }
       }
     } else {
