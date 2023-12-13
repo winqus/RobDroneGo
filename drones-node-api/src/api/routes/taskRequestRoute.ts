@@ -13,7 +13,7 @@ const protectedRoute = Router();
 
 protectedRoute.use(middlewares.isAuth);
 protectedRoute.use(middlewares.attachCurrentUser);
-protectedRoute.use(middlewares.requireAnyRole([UserRole.TaskManager]));
+protectedRoute.use(middlewares.requireAnyRole([UserRole.User, UserRole.TaskManager]));
 
 export default (app: Router) => {
   app.use('/taskRequest', route);
@@ -21,7 +21,7 @@ export default (app: Router) => {
 
   const controller = Container.get(config.controllers.taskRequest.name) as ITaskRequestController;
 
-  route.post(
+  protectedRoute.post(
     '',
     celebrate({
       body: Joi.object({
@@ -54,8 +54,9 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.patch(
+  protectedRoute.patch(
     '/:id/status',
+    middlewares.requireAnyRole([UserRole.TaskManager]),
     celebrate({
       body: Joi.object({
         status: Joi.string()
@@ -71,8 +72,9 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.patch(
+  protectedRoute.patch(
     '/:id/navigationData',
+    middlewares.requireAnyRole([UserRole.TaskManager]),
     celebrate({
       body: Joi.object({
         floorsPaths: Joi.array().items(
