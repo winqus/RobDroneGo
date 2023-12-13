@@ -12,6 +12,7 @@
         {
           "label": "Campus",
           "href": "/campus",
+          "displayForRoles": ["Campus Manager"],
           "dropdownLinks": [
             {
               "label": "Building",
@@ -243,6 +244,7 @@
         {
           "label": "Fleet",
           "href": "/fleet",
+          "displayForRoles": ["Fleet Manager"],
 
           "dropdownLinks": [
             {
@@ -282,36 +284,44 @@
         {
           "label": "Task",
           "href": "/task",
+          "displayForRoles": ["Task Manager", "User"],
           "dropdownLinks": [
             {
               "label": "Make Request",
-              "href": "task/request-task"
+              "href": "task/request-task",
+              "displayForRoles": ["Task Manager", "User"]
             },
             {
               "label": "Search",
-              "href": "task/search"
+              "href": "task/search",
+              "displayForRoles": ["Task Manager"]
             },
             {
               "label": "Find Route",
-              "href": "task/route"
+              "href": "task/route",
+              "displayForRoles": ["Task Manager"]
             },
             {
               "label": "Complexity Analysis",
-              "href": "task/analysis"
+              "href": "task/analysis",
+              "displayForRoles": ["Task Manager"]
             },
             {
               "label": "List Tasks",
-              "href": "task/list"
+              "href": "task/list",
+              "displayForRoles": ["Task Manager"]
             }
           ]
         },
         {
           "label": "3D",
-          "href": "/3d"
+          "href": "/3d",
+          "displayForRoles": ["Campus Manager", "Fleet Manager", "Task Manager"]
         },
         {
           "label": "System",
           "href": "/system",
+          "displayForRoles": ["System Administrator"],
           "dropdownLinks": [
             {
               "label": "MBCO",

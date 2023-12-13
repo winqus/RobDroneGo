@@ -1,4 +1,4 @@
-<li *ngFor="let link of links">
+<li *ngFor="let link of filteredLinks$ | async">
   <a *ngIf="!isDropdownLink(link)" href="{{ link.href }}">{{ link.label }}</a>
   <details *ngIf="isDropdownLink(link)">
     <summary>{{ link.label }}</summary>
