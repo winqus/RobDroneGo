@@ -113,7 +113,8 @@ generate_generation(G, G, Pop) :- !,
 generate_generation(N, G, Pop) :-
     write('Generation '), write(N), write(':'), nl, write(Pop), nl,
     elitism(Pop, Elites, 20), % Extract pertencage of elites (best evaluated individuals) from the current population
-    crossover(Pop, NPop1),
+    population(PopSize),
+    crossover(Pop, NPop1, PopSize),
     mutation(NPop1, NPop),
     evaluate_population(NPop, NPopEval),
     append(Elites, NPopEval, CombinedPop), % Combine elites with new population
@@ -136,17 +137,43 @@ generate_crossover_points1(P1, P2) :-
 generate_crossover_points1(P1, P2) :-
     generate_crossover_points1(P1, P2).
 
-crossover([], []).
-crossover([Ind* _], [Ind]).
-crossover([Ind1* _, Ind2* _|Rest], [NInd1, NInd2|Rest1]) :-
+% crossover([], []).
+% crossover([Ind* _], [Ind]).
+% crossover([Ind1* _, Ind2* _|Rest], [NInd1, NInd2|Rest1]) :-
+%     generate_crossover_points(P1, P2),
+%     crossover_probability(Pcross), random(0.0, 1.0, Pc),
+%     ((Pc =< Pcross, !,
+%         cross(Ind1, Ind2, P1, P2, NInd1),
+%         cross(Ind2, Ind1, P1, P2, NInd2))
+%     ;
+%     (NInd1 = Ind1, NInd2 = Ind2)),
+%     crossover(Rest, Rest1).
+
+% crossover(Pop, NewPop, NumberIndv).
+crossover(_, [], 0).
+crossover(_, [], 1).
+crossover(Pop, [NInd1, NInd2|Rest1], NumberIndv) :-
     generate_crossover_points(P1, P2),
     crossover_probability(Pcross), random(0.0, 1.0, Pc),
+    random_members(Pop, Ind1, Ind2),
     ((Pc =< Pcross, !,
         cross(Ind1, Ind2, P1, P2, NInd1),
-        cross(Ind2, Ind1, P1, P2, NInd2))
+        cross(Ind2, Ind1, P1, P2, NInd2),
+        write('Crossover: '), write(Ind1), write(' and '), write(Ind2), write(' at '), write(P1), write(' and '), write(P2), nl),
+        write('Crossover Result: '), write(NInd1), write(' and '), write(NInd2), nl
     ;
     (NInd1 = Ind1, NInd2 = Ind2)),
-    crossover(Rest, Rest1).
+    NumberIndv1 is NumberIndv - 2,
+    crossover(Pop, Rest1, NumberIndv1).
+
+random_members(Pop, Ind1, Ind2) :-
+    population(PopSize),
+    random(1, PopSize, IndexInd1),
+    random(1, PopSize, IndexInd2),
+    ((IndexInd1 \= IndexInd2, !, 
+    nth1(IndexInd1, Pop, Ind1* _),
+    nth1(IndexInd2, Pop, Ind2* _));
+    random_members(Pop, Ind1, Ind2)).
 
 cross(Ind1, Ind2, P1, P2, NInd11) :-
   sublist(Ind1, P1, P2, Sub1),
