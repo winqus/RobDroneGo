@@ -28,20 +28,32 @@ pipelines:
             - npm run build:production
           artifacts:
             - dist/dronesangularclient/**
-      - step:
-          name: Deploy to Production on DEI Cloud
-          runs-on:
-            - self.hosted
-            - linux
-          script:
-          - pipe: atlassian/sftp-deploy:0.8.0
-            variables:
-              USER: '$UI_SERVER_USERNAME'
-              SERVER: '$UI_SERVER_HOSTNAME'
-              REMOTE_PATH: '/home/www/angular-app/production/'
-              LOCAL_PATH: 'dist/dronesangularclient/**'
-              DEBUG: 'true'
-              EXTRA_ARGS: '-oPort=$UI_SERVER_SSH_PORT -P $UI_SERVER_SSH_PORT'
+      - parallel:
+        - step:
+            name: Deploy to Production on DEI Cloud Cluster Server 1
+            runs-on:
+              - self.hosted
+              - linux
+            script:
+            - pipe: atlassian/sftp-deploy:0.8.0
+              variables:
+                USER: '$UI_SERVER_USERNAME'
+                SERVER: '$UI_SERVER_HOSTNAME'
+                REMOTE_PATH: '/home/www/angular-app/production/'
+                LOCAL_PATH: 'dist/dronesangularclient/**'
+                DEBUG: 'true'
+                EXTRA_ARGS: '-oPort=$UI_SERVER_SSH_PORT -P $UI_SERVER_SSH_PORT'
+        - step:
+            name: Deploy to Production on DEI Cloud Cluster Server 2
+            script:
+            - pipe: atlassian/sftp-deploy:0.8.0
+              variables:
+                USER: '$UI_SERVER_2_USERNAME'
+                SERVER: '$UI_SERVER_2_HOSTNAME'
+                REMOTE_PATH: '/home/www/angular-app/production/'
+                LOCAL_PATH: 'dist/dronesangularclient/**'
+                DEBUG: 'true'
+                EXTRA_ARGS: '-oPort=$UI_SERVER_2_SSH_PORT -P $UI_SERVER_2_SSH_PORT'
     deploy-develop:
       - step:
           name: "Build for Staging (Development)"
@@ -55,17 +67,29 @@ pipelines:
             - npm run build:staging -- --base-href /development/
           artifacts:
             - dist/dronesangularclient/**
-      - step:
-          name: Deploy to Staging (Development) on DEI Cloud
-          runs-on:
-            - self.hosted
-            - linux
-          script:
-          - pipe: atlassian/sftp-deploy:0.8.0
-            variables:
-              USER: '$UI_SERVER_USERNAME'
-              SERVER: '$UI_SERVER_HOSTNAME'
-              REMOTE_PATH: '/home/www/angular-app/development/'
-              LOCAL_PATH: 'dist/dronesangularclient/**'
-              DEBUG: 'true'
-              EXTRA_ARGS: '-oPort=$UI_SERVER_SSH_PORT -P $UI_SERVER_SSH_PORT'
+      - parallel:
+        - step:
+            name: Deploy to Staging (Development) on DEI Cloud Cluster Server 1
+            runs-on:
+              - self.hosted
+              - linux
+            script:
+            - pipe: atlassian/sftp-deploy:0.8.0
+              variables:
+                USER: '$UI_SERVER_USERNAME'
+                SERVER: '$UI_SERVER_HOSTNAME'
+                REMOTE_PATH: '/home/www/angular-app/development/'
+                LOCAL_PATH: 'dist/dronesangularclient/**'
+                DEBUG: 'true'
+                EXTRA_ARGS: '-oPort=$UI_SERVER_SSH_PORT -P $UI_SERVER_SSH_PORT'
+        - step:
+            name: Deploy to Staging (Development) on DEI Cloud Cluster Server 2
+            script:
+            - pipe: atlassian/sftp-deploy:0.8.0
+              variables:
+                USER: '$UI_SERVER_2_USERNAME'
+                SERVER: '$UI_SERVER_2_HOSTNAME'
+                REMOTE_PATH: '/home/www/angular-app/development/'
+                LOCAL_PATH: 'dist/dronesangularclient/**'
+                DEBUG: 'true'
+                EXTRA_ARGS: '-oPort=$UI_SERVER_2_SSH_PORT -P $UI_SERVER_2_SSH_PORT'
