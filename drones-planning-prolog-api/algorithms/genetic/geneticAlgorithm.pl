@@ -1,3 +1,5 @@
+:- use_module(library(lists)).
+
 % Dynamic declarations
 :- dynamic generations/1.
 :- dynamic population/1.
@@ -113,6 +115,7 @@ generate_generation(G, G, Pop) :- !,
 generate_generation(N, G, Pop) :-
     write('Generation '), write(N), write(':'), nl, write(Pop), nl,
     elitism(Pop, Elites, 20), % Extract pertencage of elites (best evaluated individuals) from the current population
+    % write('Elites: '), write(Elites), nl,
     population(PopSize),
     crossover(Pop, NPop1, PopSize),
     mutation(NPop1, NPop),
@@ -158,9 +161,7 @@ crossover(Pop, [NInd1, NInd2|Rest1], NumberIndv) :-
     random_members(Pop, Ind1, Ind2),
     ((Pc =< Pcross, !,
         cross(Ind1, Ind2, P1, P2, NInd1),
-        cross(Ind2, Ind1, P1, P2, NInd2),
-        write('Crossover: '), write(Ind1), write(' and '), write(Ind2), write(' at '), write(P1), write(' and '), write(P2), nl),
-        write('Crossover Result: '), write(NInd1), write(' and '), write(NInd2), nl
+        cross(Ind2, Ind1, P1, P2, NInd2))
     ;
     (NInd1 = Ind1, NInd2 = Ind2)),
     NumberIndv1 is NumberIndv - 2,
@@ -209,15 +210,39 @@ mutation23(G1, P, [G|Ind], G2, [G|NInd]) :-
     mutation23(G1, P1, Ind, G2, NInd).
 
 %%% Elitism predicate to extract the best individuals from the population %%%
-elitism(Population, Elites, Percentage) :-
+elitism(Population, Res, Percentage) :-
   population(PopSize),
-  EliteCount is max(1, PopSize // Percentage), % Top Percentage% or at least 1 individual
-  take(EliteCount, Population, Elites).
-take(0, _, []) :- !.
-take(N, [H|T], [H|R]) :-
+  MaxN is floor(PopSize * (Percentage / 100)),
+  EliteCount is max(1, MaxN), % Top Percentage% or at least 1 individual
+  % write('EliteCount: '), write(EliteCount), nl,
+  Population = [BestInd|T],
+  Elites = [BestInd],
+  reverse(T, PopRev),
+  Count is EliteCount - 1,
+  PopulationSize is PopSize - 1,
+  take(Count, PopRev, PopulationSize, Elites, Res).
+
+take(0, _, _, R, R).
+take(N, [H|T], PopSize, R, Elites) :-
     N > 0,
+    Percentage is N / PopSize,
+    random(0.0, 1.0, P),
+    %write('P: '), write(P), nl,
+    %write('Percentage: '), write(Percentage), nl,
+    (( 
+    P < Percentage, 
+    %write('P < Percentage'), nl,
     N1 is N - 1,
-    take(N1, T, R).
+    %write('N1: '), write(N1), nl,
+    %write('H: '), write(H), nl,
+    %write('R: '), write(R), nl,
+    Result = [H|R]
+    %write('Result: '), write(Result), nl
+    );
+    N1 is N, 
+    Result = R),
+    PopSize1 is PopSize - 1,
+    take(N1, T, PopSize1, Result, Elites).
 
 %%% Ensures population size is maintained %%%
 select_new_population(Population, Selected) :-
