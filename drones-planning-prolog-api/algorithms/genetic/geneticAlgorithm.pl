@@ -5,6 +5,8 @@
 :- dynamic population/1.
 :- dynamic crossover_probability/1.
 :- dynamic mutation_probability/1.
+:- dynamic best_ind/1.
+:- dynamic stabl/1.
 
 %% task(Id, ProcessingTime, CompletionTime, PenaltyWeight). AKA Individual
 task(t1, 2, 5, 1).
@@ -15,6 +17,7 @@ task(t5, 3, 8, 2).
 
 %% tasks(NTasks).
 tasks(5).
+num_stable_tasks(3).
 
 %%% Usage example %%%:
 /*-----------------------------------------
@@ -57,6 +60,9 @@ generate:-
   evaluate_population(Pop, PopEval),
   write('PopEval='), write(PopEval), nl,
   sort_population(PopEval, PopSorted),
+  PopSorted = [BestInd|_],
+  asserta(best_ind(BestInd)),
+  asserta(stabl(0)),
   generations(NG),
   generate_generation(0, NG, PopSorted).
 
@@ -125,7 +131,23 @@ generate_generation(N, G, Pop) :-
     sort_population(CombinedPop, CombinedPopSorted),
     select_new_population(CombinedPopSorted, NPopSorted), % Select new population (ensures population size is maintained)
     N1 is N + 1,
-    generate_generation(N1, G, NPopSorted).
+    NPopSorted = [BestInd|_],
+    best_ind(BestInd1),
+    write('BestInd: '), write(BestInd), nl,
+    write('BestInd1: '), write(BestInd1), nl,
+    ((BestInd == BestInd1, 
+    stabl(V), num_stable_tasks(Nt), 
+    ((V == Nt, !, generate_generation(N, N, Pop)); 
+    (V1 is V + 1, 
+    retractall(stabl(_)), 
+    asserta(stabl(V1)), 
+    generate_generation(N1, G, NPopSorted)
+    )));
+     retractall(stabl(_)),
+     retractall(best_ind(_)),
+     asserta(best_ind(BestInd)),
+     asserta(stabl(0)),
+     generate_generation(N1, G, NPopSorted)).
 
 generate_crossover_points(P1, P2) :-
     generate_crossover_points1(P1, P2).
