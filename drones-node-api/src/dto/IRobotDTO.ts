@@ -6,4 +6,9 @@ export default interface IRobotDTO {
   serialNumber: string;
   available: boolean;
   type: string;
+  position: {
+    floorNumber: number;
+    buildingCode: string;
+    cellPosition: [number, number];
+  };
 }

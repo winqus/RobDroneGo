@@ -40,6 +40,11 @@ describe('RobotService', () => {
         serialNumber: 'A11',
         available: true,
         type: 'Type',
+        position: {
+          floorNumber: 4,
+          buildingCode: 'B',
+          cellPosition: [0, 0],
+        },
       };
 
       robotRepoMock.save.mockResolvedValue(robotStub as any);
@@ -60,6 +65,12 @@ describe('RobotService', () => {
         serialNumber: 'A11',
         available: true,
         type: 'Type',
+
+        position: {
+          floorNumber: 2,
+          buildingCode: 'A',
+          cellPosition: [0, 0],
+        },
       };
 
       const result = await robotService.createRobot(robotDTO);
@@ -77,6 +88,11 @@ describe('RobotService', () => {
         serialNumber: 'A11',
         available: true,
         type: 'Type',
+        position: {
+          floorNumber: 1,
+          buildingCode: 'C',
+          cellPosition: [5, 6],
+        },
       };
 
       robotRepoMock.save.mockResolvedValue(robotStub as any);

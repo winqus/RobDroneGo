@@ -37,6 +37,11 @@ describe('RobotController', () => {
         serialNumber: 'A11',
         available: true,
         type: 'Type',
+        position: {
+          floorNumber: 1,
+          buildingCode: 'A',
+          cellPosition: [0, 0],
+        },
       };
 
       robotServiceMock.createRobot.mockResolvedValue(Result.ok<IRobotDTO>(robotDTO) as any);
@@ -67,6 +72,11 @@ describe('RobotController', () => {
         serialNumber: 'A11',
         available: true,
         type: 'Type',
+        position: {
+          floorNumber: 1,
+          buildingCode: 'A',
+          cellPosition: [0, 0],
+        },
       };
 
       reqMock.params = { robotCode: robotDTO.code };
@@ -89,6 +99,11 @@ describe('RobotController', () => {
         serialNumber: 'A11',
         available: true,
         type: 'Type',
+        position: {
+          floorNumber: 1,
+          buildingCode: 'A',
+          cellPosition: [0, 0],
+        },
       };
 
       reqMock.params = { robotCode: robotDTO.code };
@@ -113,6 +128,11 @@ describe('RobotController', () => {
         serialNumber: 'A11',
         available: true,
         type: 'Type',
+        position: {
+          floorNumber: 1,
+          buildingCode: 'A',
+          cellPosition: [0, 0],
+        },
       };
 
       robotServiceMock.getAllRobots.mockResolvedValue(

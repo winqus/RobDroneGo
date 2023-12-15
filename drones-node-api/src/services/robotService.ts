@@ -61,6 +61,7 @@ export default class RobotService implements IRobotService {
         serialNumber: existingRobot.serialNumber.value,
         available: updatedRobotDTO.available,
         type: existingRobot.type.value,
+        position: existingRobot.position,
       };
 
       const robotOrError = RobotMap.toDomain(updatedRobotData);

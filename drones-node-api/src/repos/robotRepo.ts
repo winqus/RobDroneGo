@@ -37,6 +37,11 @@ export default class RobotRepo implements IRobotRepo {
         robotDocument.serialNumber = robot.serialNumber.value;
         robotDocument.available = robot.available;
         robotDocument.type = robot.type.value;
+        robotDocument.position = {
+          floorNumber: robot.position.floorNumber,
+          buildingCode: robot.position.buildingCode,
+          cellPosition: robot.position.cellPosition,
+        };
 
         await robotDocument.save();
 

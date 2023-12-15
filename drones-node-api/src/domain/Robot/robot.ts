@@ -8,6 +8,11 @@ import { Description } from './ValueObjects/description';
 import { Nickname } from './ValueObjects/nickname';
 import { SerialNumber } from './ValueObjects/serialNumber';
 
+export interface Position {
+  floorNumber: number;
+  buildingCode: string;
+  cellPosition: [number, number];
+}
 interface RobotProps {
   code: Code;
   description: Description | null;
@@ -15,6 +20,7 @@ interface RobotProps {
   serialNumber: SerialNumber;
   available: boolean;
   type: RobotType;
+  position: Position;
 }
 
 export class Robot extends AggregateRoot<RobotProps> {
@@ -54,6 +60,14 @@ export class Robot extends AggregateRoot<RobotProps> {
     return this.props.type;
   }
 
+  get position(): Position {
+    return this.props.position;
+  }
+
+  set position(value: Position) {
+    this.props.position = value;
+  }
+
   private constructor(props: RobotProps, id?: UniqueEntityID) {
     super(props, id);
   }
@@ -64,6 +78,7 @@ export class Robot extends AggregateRoot<RobotProps> {
       { argument: props.nickname, argumentName: 'nickname' },
       { argument: props.serialNumber, argumentName: 'serialNumber' },
       { argument: props.type, argumentName: 'type' },
+      { argument: props.position, argumentName: 'position' },
     ];
 
     const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);

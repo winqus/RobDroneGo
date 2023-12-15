@@ -35,6 +35,20 @@ const Robot = new mongoose.Schema(
       type: String,
       required: [true, 'Please enter robot type'],
     },
+    position: {
+      floorNumber: {
+        type: Number,
+        default: 1,
+      },
+      buildingCode: {
+        type: String,
+        default: 'BuildingCode',
+      },
+      cellPosition: {
+        type: [Number, Number],
+        default: [0, 0],
+      },
+    },
   },
   { timestamps: true, autoIndex: true },
 );
