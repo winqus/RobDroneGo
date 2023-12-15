@@ -3,7 +3,7 @@ import { Code } from '../ValueObjects/code';
 import { Description } from '../ValueObjects/description';
 import { Nickname } from '../ValueObjects/nickname';
 import { SerialNumber } from '../ValueObjects/serialNumber';
-import { Robot } from '../robot';
+import { Position, Robot } from '../robot';
 
 describe('Robot', () => {
   describe('create', () => {
@@ -16,6 +16,11 @@ describe('Robot', () => {
         serialNumber: SerialNumber.create('1234567890').getValue(),
         available: true,
         type: RobotType.create('DRONE').getValue(),
+        position: {
+          floorNumber: 2,
+          buildingCode: 'A',
+          cellPosition: [8, 8],
+        },
       };
 
       // Act
@@ -34,6 +39,11 @@ describe('Robot', () => {
         SerialNumber.create('1234567890').getValue(),
         true,
         RobotType.create('DRONE').getValue(),
+        {
+          floorNumber: 1,
+          buildingCode: 'A1',
+          cellPosition: [0, 2],
+        },
       ],
       [
         Code.create('A1').getValue(),
@@ -42,6 +52,11 @@ describe('Robot', () => {
         null,
         true,
         RobotType.create('DRONE').getValue(),
+        {
+          floorNumber: 1,
+          buildingCode: 'A1',
+          cellPosition: [0, 1],
+        },
       ],
       [
         Code.create('A1').getValue(),
@@ -50,10 +65,26 @@ describe('Robot', () => {
         SerialNumber.create('1234567890').getValue(),
         true,
         null,
+        {
+          floorNumber: 1,
+          buildingCode: 'A1',
+          cellPosition: [1, 0],
+        },
       ],
     ])(
       'should fail if any required property is null or undefined',
-      (code, description, nickname, serialNumber, available, type) => {
+      (
+        code,
+        description,
+        nickname,
+        serialNumber,
+        available,
+        type,
+        position,
+        floorNumber,
+        buildingCode,
+        cellPosition,
+      ) => {
         // Arrange
         const robotProps = {
           code,
@@ -62,6 +93,11 @@ describe('Robot', () => {
           serialNumber,
           available,
           type,
+          position: {
+            floorNumber,
+            buildingCode,
+            cellPosition,
+          },
         };
 
         // Act
