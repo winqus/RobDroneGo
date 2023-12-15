@@ -133,8 +133,8 @@ generate_generation(N, G, Pop) :-
     N1 is N + 1,
     NPopSorted = [BestInd|_],
     best_ind(BestInd1),
-    write('BestInd: '), write(BestInd), nl,
-    write('BestInd1: '), write(BestInd1), nl,
+    % write('BestInd: '), write(BestInd), nl,
+    % write('BestInd1: '), write(BestInd1), nl,
     ((BestInd == BestInd1, 
     stabl(V), num_stable_tasks(Nt), 
     ((V == Nt, !, generate_generation(N, N, Pop)); 
