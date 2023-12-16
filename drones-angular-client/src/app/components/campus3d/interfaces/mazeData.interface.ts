@@ -1,5 +1,6 @@
 import Room from 'src/app/core/models/room.model';
 import { MapCell } from './mapCell.enum';
+import { NavigationPlan } from 'src/app/core/models/shared/navigationPlan.interface';
 
 export interface MazeFullConfig {
   maze: Maze;
@@ -152,4 +153,9 @@ export interface Vector3 {
   x: number;
   y: number;
   z: number;
+}
+
+export interface RobotState {
+  isAutoMoving: boolean;
+  navigationData?: NavigationPlan; // check for correct interface name
 }

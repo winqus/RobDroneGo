@@ -429,6 +429,7 @@ export default class ThumbRaiser {
     thirdPersonViewCameraParameters,
     topViewCameraParameters,
     miniMapCameraParameters,
+    isAutomoving,
   ) {
     this.initialized = true;
     this.firstRender = true;
@@ -449,6 +450,7 @@ export default class ThumbRaiser {
     this.thirdPersonViewCameraParameters = merge({}, cameraData, thirdPersonViewCameraParameters);
     this.topViewCameraParameters = merge({}, cameraData, topViewCameraParameters);
     this.miniMapCameraParameters = merge({}, cameraData, miniMapCameraParameters);
+    this.isAutomoving = isAutomoving;
 
     this.timedExecutor = new TimedExecutor();
 
@@ -496,6 +498,7 @@ export default class ThumbRaiser {
 
     // Create the player
     this.player = new Player(this.playerParameters);
+    this.player.robotState = isAutomoving;
 
     // Create the lights
     this.ambientLight = new AmbientLight(this.ambientLightParameters);
@@ -1512,7 +1515,7 @@ export default class ThumbRaiser {
           // this.logger.warn('exitLog', 'found some exit:', exitLocation);
           this.sceneExitLocationCallback(exitLocation);
         } //else {
-        if (true) {
+        if (!this.player.robotState.isAutoMoving) {
           let coveredDistance = this.player.walkingSpeed * deltaT;
           let directionIncrement = this.player.turningSpeed * deltaT;
           if (this.player.shiftKey) {

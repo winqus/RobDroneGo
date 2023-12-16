@@ -15,9 +15,10 @@ import { RoomService } from '../../services/room.service';
 import { AppBuildingFloorDropdownListComponent } from '../app-building-floor-dropdown-list/app-building-floor-dropdown-list.component.js';
 import { CustomMazeLoaderParams } from './interfaces/customMazeLoaderParams.interface';
 import { MapCell } from './interfaces/mapCell.enum';
-import MazePartialConfig, { Destination, Elevator, ExitLocationEvent, MazeAndPlayerConfig, MazeFullConfig, Passage } from './interfaces/mazeData.interface.js';
+import MazePartialConfig, { Destination, Elevator, ExitLocationEvent, MazeAndPlayerConfig, MazeFullConfig, Passage, RobotState } from './interfaces/mazeData.interface.js';
 import { CustomMazeLoaderService } from './services/custom-maze-loader.service';
 import * as thumberRaiserParams from './threeD.config';
+import { is } from 'cypress/types/bluebird/index.js';
 
 let thumbRaiser: any;
 let animationFrameId: number | null = null;
@@ -46,6 +47,7 @@ function initializeThumbRaiser(
   assetsLoadedCallback = () => {},
   sceneLoadedCallback = () => {},
   sceneExitLocationCallback: (exitLocation: ExitLocationEvent) => void,
+  isAutoMoving: RobotState
 ) {
   thumbRaiser = new ThumbRaiser(
     canvasContainer.nativeElement,
@@ -74,6 +76,7 @@ function initializeThumbRaiser(
     thumberRaiserParams.thirdPersonViewCameraParameters,
     thumberRaiserParams.topViewCameraParameters,
     thumberRaiserParams.miniMapCameraParameters,
+    isAutoMoving
   );
 }
 
@@ -122,6 +125,8 @@ export class Campus3dComponent implements OnInit, OnDestroy {
   previousBuildingCode: string | null = null;
   previousFloorNumber: number | null = null;
   previousExitLocation: ExitLocationEvent | null = null;
+
+  isAutomoving: RobotState = { isAutoMoving: false};
 
   constructor(
     private router: Router,
@@ -421,6 +426,7 @@ export class Campus3dComponent implements OnInit, OnDestroy {
         () => this.onAssetsLoaded(),
         () => this.onSceneLoaded(),
         (exitLocation: ExitLocationEvent) => this.onSceneExitLocation(exitLocation),
+        this.isAutomoving
       );
     }
 

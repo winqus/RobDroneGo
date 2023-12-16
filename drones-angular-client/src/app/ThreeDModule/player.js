@@ -19,7 +19,12 @@ import { merge } from './merge.js';
 export default class Player extends THREE.Group {
   constructor(parameters) {
     super();
+    this.robotState = {
+      isAutoMoving: false,
+      navigationData: null
+    };
     merge(this, parameters);
+
 
     // Convert default direction from degrees to radians
     this.defaultDirection = THREE.MathUtils.degToRad(this.defaultDirection);
