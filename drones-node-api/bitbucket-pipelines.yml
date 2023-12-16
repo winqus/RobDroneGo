@@ -60,8 +60,7 @@ pipelines:
               script:
                 - npm install
                 - npm run lint:js || true
-  branches:
-    main:
+    deploy-main:
       - step:
           name: Test Node
           runs-on:
@@ -99,7 +98,7 @@ pipelines:
             - set +e;
             - exit 0
             - EOF
-    develop:
+    deploy-develop:
       - step:
           name: Test Node
           runs-on:
