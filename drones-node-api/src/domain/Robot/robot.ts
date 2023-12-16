@@ -13,7 +13,7 @@ export interface Position {
   buildingCode: string;
   cellPosition: [number, number];
 }
-interface RobotProps {
+export interface RobotProps {
   code: Code;
   description: Description | null;
   nickname: Nickname;

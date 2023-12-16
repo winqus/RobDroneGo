@@ -3,13 +3,13 @@ import { Code } from '../ValueObjects/code';
 import { Description } from '../ValueObjects/description';
 import { Nickname } from '../ValueObjects/nickname';
 import { SerialNumber } from '../ValueObjects/serialNumber';
-import { Position, Robot } from '../robot';
+import { Robot, RobotProps } from '../robot';
 
 describe('Robot', () => {
   describe('create', () => {
     it('should successfully create a Robot instance with valid properties', () => {
       // Arrange
-      const robotProps = {
+      const robotProps: RobotProps = {
         code: Code.create('A1').getValue(),
         description: Description.create('Test robot').getValue(),
         nickname: Nickname.create('Test').getValue(),
@@ -73,18 +73,7 @@ describe('Robot', () => {
       ],
     ])(
       'should fail if any required property is null or undefined',
-      (
-        code,
-        description,
-        nickname,
-        serialNumber,
-        available,
-        type,
-        position,
-        floorNumber,
-        buildingCode,
-        cellPosition,
-      ) => {
+      (code, description, nickname, serialNumber, available, type, position) => {
         // Arrange
         const robotProps = {
           code,
@@ -93,11 +82,7 @@ describe('Robot', () => {
           serialNumber,
           available,
           type,
-          position: {
-            floorNumber,
-            buildingCode,
-            cellPosition,
-          },
+          position: position,
         };
 
         // Act

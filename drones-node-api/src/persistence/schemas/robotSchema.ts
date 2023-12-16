@@ -35,6 +35,7 @@ const Robot = new mongoose.Schema(
       type: String,
       required: [true, 'Please enter robot type'],
     },
+
     position: {
       floorNumber: {
         type: Number,
@@ -42,7 +43,7 @@ const Robot = new mongoose.Schema(
       },
       buildingCode: {
         type: String,
-        default: 'BuildingCode',
+        default: 'BCode',
       },
       cellPosition: {
         type: [Number, Number],
