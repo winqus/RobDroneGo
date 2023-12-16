@@ -6,9 +6,6 @@ pipelines:
       - parallel:
           - step:
               name: Build and Test Node
-              runs-on:
-                - self.hosted
-                - linux
               caches:
                 - node
               script:
@@ -19,9 +16,6 @@ pipelines:
                 - npm run build
                 - npx jest
           - step:
-              runs-on:
-                - self.hosted
-                - linux
               name: Code linting Node
               caches:
                 - node
