@@ -28,10 +28,10 @@ export class TaskRequestService {
     return this.http.get<TaskRequest[]>(route);
   }
 
-  getTaskRequestById(id: string): Observable<TaskRequest[]> {
+  getTaskRequestById(id: string): Observable<TaskRequest> {
     const route = API_ROUTES.taskRequest.getById(id);
 
-    return this.http.get<TaskRequest[]>(route);
+    return this.http.get<TaskRequest>(route);
   }
 
   createTaskRequest(taskRequest: CreateTaskRequestDTO): Observable<TaskRequest> {
@@ -46,7 +46,7 @@ export class TaskRequestService {
 
   updateTaskRequestStatus(id: string, status: TaskStatus): Observable<TaskRequest> {
     const statusDTO: UpdateTaskRequestStatusDTO = {
-      status: Object.entries(TaskStatus).find(([key, value]) => value === status)?.[0] as string
+      status: Object.entries(TaskStatus).find(([key, value]) => value === status)?.[0] as string,
     };
     console.log(statusDTO);
     const route = API_ROUTES.taskRequest.updateStatus(id);

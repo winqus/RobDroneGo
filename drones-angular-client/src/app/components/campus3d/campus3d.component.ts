@@ -1,24 +1,33 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, Subscription, catchError, firstValueFrom, of, switchMap, tap, throwError } from 'rxjs';
+import { error } from 'cypress/types/jquery/index.js';
+import { update } from 'lodash';
+import { Observable, Subscription, catchError, combineLatest, debounceTime, firstValueFrom, of, switchMap, tap, throwError } from 'rxjs';
 import { API_ROUTES } from 'src/api.config';
 import { FloorSelectorGUI } from 'src/app/ThreeDModule/floorSelectorGUI.js';
 import Building from 'src/app/core/models/building.model.js';
+import { DeliveryTask } from 'src/app/core/models/deliveryTask.model.js';
 import Floor from 'src/app/core/models/floor.model.js';
 import Map from 'src/app/core/models/map.model.js';
 import Room from 'src/app/core/models/room.model.js';
+import { TaskRequest } from 'src/app/core/models/taskRequest.model.js';
 import { environment } from 'src/environments/environment';
 import ThumbRaiser from '../../ThreeDModule/thumb_raiser.js';
+import { isDeliveryTask } from '../../core/utilities/task-utilities';
 import { FloorService } from '../../services/floor.service';
+import { ModalService } from '../../services/modal.service';
 import { RoomService } from '../../services/room.service';
+import { TaskRequestService } from '../../services/task-request.service';
 import { AppBuildingFloorDropdownListComponent } from '../app-building-floor-dropdown-list/app-building-floor-dropdown-list.component.js';
+import mockedDeliveryTaskRequest from './example/data/mockedDeliveryTaskRequest.mock';
+import NAVIGATION_DATA_EXAMPLE from './example/data/navigationData.example.json';
 import { CustomMazeLoaderParams } from './interfaces/customMazeLoaderParams.interface';
 import { MapCell } from './interfaces/mapCell.enum';
-import MazePartialConfig, { Destination, Elevator, ExitLocationEvent, MazeAndPlayerConfig, MazeFullConfig, Passage, RobotState } from './interfaces/mazeData.interface.js';
+import MazePartialConfig, { Destination, Elevator, ExitLocationEvent, MazeAndPlayerConfig, MazeFullConfig, Passage } from './interfaces/mazeData.interface';
+import { RobotState } from './interfaces/robotState.interface';
 import { CustomMazeLoaderService } from './services/custom-maze-loader.service';
 import * as thumberRaiserParams from './threeD.config';
-import { is } from 'cypress/types/bluebird/index.js';
 
 let thumbRaiser: any;
 let animationFrameId: number | null = null;
@@ -47,7 +56,7 @@ function initializeThumbRaiser(
   assetsLoadedCallback = () => {},
   sceneLoadedCallback = () => {},
   sceneExitLocationCallback: (exitLocation: ExitLocationEvent) => void,
-  isAutoMoving: RobotState
+  isAutoMoving: RobotState,
 ) {
   thumbRaiser = new ThumbRaiser(
     canvasContainer.nativeElement,
@@ -76,7 +85,7 @@ function initializeThumbRaiser(
     thumberRaiserParams.thirdPersonViewCameraParameters,
     thumberRaiserParams.topViewCameraParameters,
     thumberRaiserParams.miniMapCameraParameters,
-    isAutoMoving
+    isAutoMoving,
   );
 }
 
@@ -107,9 +116,8 @@ export class Campus3dComponent implements OnInit, OnDestroy {
 
   buildingCode!: string;
   floorNumber!: number;
-  robotId: string | null = null;
-  paramMapSubscription!: Subscription;
-  queryParamsSubscription!: Subscription;
+  taskId: string | null = null;
+  paramsSubscription!: Subscription;
 
   loadingScreenText = 'Choose a floor';
 
@@ -126,7 +134,11 @@ export class Campus3dComponent implements OnInit, OnDestroy {
   previousFloorNumber: number | null = null;
   previousExitLocation: ExitLocationEvent | null = null;
 
-  isAutomoving: RobotState = { isAutoMoving: false};
+  robotState: RobotState = {
+    isAutoMoving: false,
+  };
+
+  currentTaskRequest?: TaskRequest;
 
   constructor(
     private router: Router,
@@ -134,37 +146,93 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     private mazeLoaderService: CustomMazeLoaderService,
     private roomService: RoomService,
     private floorService: FloorService,
-  ) {}
+    private taskService: TaskRequestService,
+    private modalService: ModalService,
+  ) {
+    /* VISUALIZE THE ROBOT PATH */
+    if (!environment.production) {
+      (window as any).SHOW_ROBOT_PATH = true;
+    }
+  }
 
   // Subscribes to changes in route params (by rerouting in code or manually).
   // When buildingCode or floorNumber changes, the 3D scene is replaced with a new one.
   // Loads initial scene based on url params.
   ngOnInit(): void {
-    this.paramMapSubscription = this.route.paramMap.subscribe((params) => {
+    const combinedParams = combineLatest([this.route.paramMap, this.route.queryParams]);
+
+    this.paramsSubscription = combinedParams.pipe(debounceTime(100)).subscribe(([params, queryParams]) => {
+      // console.warn('CALLED PARAMS SUBSCRIPTION', params, queryParams);
+
       const buildingCode = params.get('buildingCode');
       const floorNumber = params.get('floorNumber');
+      const taskId = queryParams['taskId'];
+      const taskStep = +queryParams['step'] || undefined;
 
       if (buildingCode !== null) {
         this.buildingCode = buildingCode;
       }
-
       if (floorNumber !== null) {
         this.floorNumber = +floorNumber; // Convert string to number
+      }
 
-        if (!environment.production) {
-          console.log('thumbRaiser initialized?', thumbRaiser?.isInitialized() || false);
-        }
+      if (!environment.production) {
+        console.log('thumbRaiser initialized?', thumbRaiser?.isInitialized() || false);
+      }
 
+      if (taskId) {
+        // console.warn(`Task ID: ${taskId}`);
+        this.taskId = taskId;
+
+        // this.taskService.getTaskRequestById(taskId).subscribe({
+        const mockedTaskRequest: TaskRequest = mockedDeliveryTaskRequest;
+
+        // TODO: Uncomment this line and remove mockedTaskRequest (and the line `of(mockedTas.....).subsc....` ) when integrating with backend.
+        // this.taskService.getTaskRequestById(taskId).subscribe({
+        of(mockedTaskRequest).subscribe({
+          next: (taskRequest) => {
+            if (isDeliveryTask(taskRequest)) {
+              console.warn('Loaded task request:', taskRequest.id);
+              const deliveryTask = taskRequest.task as DeliveryTask;
+              if (taskRequest.navigationData) {
+                this.robotState.navigationData = taskRequest.navigationData;
+                this.robotState.isAutoMoving = true;
+
+                this.robotState.navigationStep = taskStep !== undefined ? Math.max(0, Math.min(taskStep, this.robotState.navigationData?.mapPaths.length - 1)) : 0;
+                this.robotState.numberOfNavigationSteps = this.robotState.navigationData?.mapPaths.length;
+                this.robotState.navigationState = this.robotState.navigationStep === 0 ? 'unstarted' : 'ready';
+
+                this.currentTaskRequest = taskRequest;
+                this.buildingCode = taskRequest.navigationData.mapPaths[this.robotState.navigationStep].buildingCode;
+                this.floorNumber = taskRequest.navigationData.mapPaths[this.robotState.navigationStep].floorNumber;
+
+                const currentUrl = this.router.url;
+                const routeArray = ['/3d/building', this.buildingCode, 'floor', this.floorNumber];
+                const queryParams = { taskId: taskId, step: this.robotState.navigationStep };
+                this.router.navigate(routeArray, {
+                  relativeTo: this.route,
+                  queryParams: queryParams,
+                  queryParamsHandling: 'merge',
+                  replaceUrl: true,
+                });
+
+                this.renderLoadingScreenElement = true;
+                this.load3dScene();
+              } else {
+                window.alert('No navigation data found for this task');
+              }
+            } else {
+              window.alert('Only delivery tasks are supported at the moment');
+            }
+          },
+          error: (error: any) => {
+            console.error('Error while getting task request by id:', error);
+            window.alert('Task could not be loaded..');
+          },
+        });
+      } else if (buildingCode && floorNumber) {
         this.renderLoadingScreenElement = true;
         this.load3dScene();
-      }
-    });
-
-    this.queryParamsSubscription = this.route.queryParams.subscribe((queryParams) => {
-      const robotId = queryParams['robotId'];
-      if (robotId) {
-        console.log(`Robot ID: ${robotId}`);
-        this.robotId = robotId;
       }
     });
 
@@ -183,6 +251,16 @@ export class Campus3dComponent implements OnInit, OnDestroy {
 
     this.mazeLoaderService.mapDataFromApiPreProcessor = this.mapDataFromApiPreProcessor;
     this.mazeLoaderService.mazeDataPostProcessor = this.mazeDataPostProcessor;
+
+    window.addEventListener('robotNavigationStepFinished', this.onRobotNavigationStepFinished);
+  }
+
+  ngOnDestroy(): void {
+    if (this.paramsSubscription) {
+      this.paramsSubscription.unsubscribe();
+    }
+
+    window.removeEventListener('robotNavigationStepFinished', this.onRobotNavigationStepFinished);
   }
 
   // Called by customMazeLoaderService when base maze 3D data is to be loaded (first thing that intercepts data from backend API)
@@ -303,7 +381,7 @@ export class Campus3dComponent implements OnInit, OnDestroy {
       if (this.previousExitLocation.type === 'passage') {
         // const origin = { buildingCode: this.previousBuildingCode, floorNumber: this.previousFloorNumber } as Destination;
         const origin = { buildingCode: this.previousExitLocation.exitBuildingCode, floorNumber: this.previousExitLocation.exitFloorNumber } as Destination;
-        console.warn('Origin in mazeDataPostProcessor:', origin);
+        // console.warn('Origin in mazeDataPostProcessor:', origin);
         const destinationPassage = data.maze.exitLocations.passages.find(
           (passage) => passage.destination.buildingCode === origin.buildingCode && passage.destination.floorNumber === origin.floorNumber,
         );
@@ -426,7 +504,7 @@ export class Campus3dComponent implements OnInit, OnDestroy {
         () => this.onAssetsLoaded(),
         () => this.onSceneLoaded(),
         (exitLocation: ExitLocationEvent) => this.onSceneExitLocation(exitLocation),
-        this.isAutomoving
+        this.robotState,
       );
     }
 
@@ -447,8 +525,9 @@ export class Campus3dComponent implements OnInit, OnDestroy {
   }
 
   // Navigates to a new 3D scene (triggers a new maze load; check load3dScene())
-  changeMaze = (buildingCode: string, floorNumber: number, robotId?: string): void => {
-    const navigationExtras = robotId || this.robotId ? { queryParams: { robotId: robotId || this.robotId } } : {};
+  changeMaze = (buildingCode: string, floorNumber: number, taskId?: string, step?: number): void => {
+    const navigationExtras = taskId || this.taskId ? { queryParams: { taskId: taskId || this.taskId, step: step || this.robotState.navigationStep } } : {};
+
     this.router.navigate(['/3d/building', buildingCode, 'floor', floorNumber], navigationExtras).then(() => {
       // handle something post navigation, if needed
       this.renderLoadingScreenElement = true;
@@ -468,7 +547,7 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     this.changeMaze(building.code, floorNumber);
   };
 
-  // Triggered in thumbRaiser.js when player reaches an exitLocation (that's check in maze.js)
+  // Triggered in thumbRaiser.js when player manually reaches an exitLocation (that's check in maze.js)
   onSceneExitLocation = (exitLocation: ExitLocationEvent) => {
     console.warn('Exit location:', exitLocation);
 
@@ -489,9 +568,39 @@ export class Campus3dComponent implements OnInit, OnDestroy {
       const floorSelectionList = destination.connectedFloorNumbers.filter((floorNumber) => floorNumber !== this.floorNumber);
       floorSelectorLilGui.addFloorButtons(floorSelectionList, (floor: number) => {
         floorSelectorLilGui.destroy();
-        this.changeMaze(this.buildingCode, floor, this.robotId || undefined);
+        this.changeMaze(this.buildingCode, floor, this.taskId || undefined);
       });
     }
+  };
+
+  onRobotNavigationStepFinished = (event: Event) => {
+    const updatedRobotState = (event as CustomEvent).detail as RobotState;
+    // console.warn('Robot navigation step finished:', updatedRobotState);
+
+    const navigationStepState = updatedRobotState.navigationState;
+    if (navigationStepState !== 'stepFinished') {
+      return;
+    }
+
+    if (this.robotState.navigationStep === this.robotState.numberOfNavigationSteps! - 1) {
+      this.handleFullyCompletedNavigation();
+      return;
+    } else {
+      this.handleFinishedNavigationStep();
+    }
+  };
+
+  handleFullyCompletedNavigation = () => {
+    this.robotState.navigationState = 'fullyCompleted';
+    this.openNavigationFullyFinishedModal();
+  };
+
+  handleFinishedNavigationStep = () => {
+    this.robotState.navigationStep = Math.min(this.robotState.navigationStep! + 1, this.robotState.numberOfNavigationSteps! - 1);
+    this.robotState.navigationState = 'ready';
+    const nextNavigationPlan = this.robotState.navigationData?.mapPaths[this.robotState.navigationStep!]!;
+    const { buildingCode, floorNumber } = nextNavigationPlan;
+    this.changeMaze(buildingCode, floorNumber, this.taskId!, this.robotState.navigationStep);
   };
 
   // Not utilized at the moment
@@ -512,6 +621,11 @@ export class Campus3dComponent implements OnInit, OnDestroy {
         clearInterval(checkAssetsLoaded);
         this.sceneLoaded = true;
         this.showLoadingScreen = false;
+
+        if (this.robotState.isAutoMoving) {
+          window.dispatchEvent(new CustomEvent('enableAutoMove', { detail: true }));
+        }
+
         console.log('Scene loaded');
       }
     }, 100); // Check every 500 milliseconds
@@ -539,9 +653,24 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     console.error('Maze loading error:', error);
   };
 
-  ngOnDestroy(): void {
-    if (this.paramMapSubscription) {
-      this.paramMapSubscription.unsubscribe();
-    }
-  }
+  openNavigationFullyFinishedModal = () => {
+    this.modalService.openModal('Navigation Completed', 'The preview of task execution completed.', [
+      {
+        text: 'Close',
+        class: 'btn',
+        action: () => {
+          /* Any additional close logic */
+        },
+        shouldClose: true,
+      },
+      {
+        text: 'Go to Task List',
+        class: 'btn btn-primary',
+        action: () => {
+          this.router.navigate(['/task/list']);
+        },
+        shouldClose: true,
+      },
+    ]);
+  };
 }

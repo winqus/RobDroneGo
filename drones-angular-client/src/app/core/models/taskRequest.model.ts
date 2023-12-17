@@ -5,9 +5,11 @@ import { SurveillanceTask } from './surveillanceTask.model';
 export enum TaskStatus {
   Pending,
   Approved,
-  In_Execution,
-  Completed,
+  In_Execution, // Not used in this prototype
+  Completed, // Not used in this prototype
   Denied,
+  Planning,
+  Planned,
 }
 
 export interface TaskRequest {

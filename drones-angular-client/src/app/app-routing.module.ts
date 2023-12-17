@@ -61,8 +61,8 @@ const routes: Routes = [
     canActivateChild: [canActivateChildWithAuth],
     children: [
       { path: 'dashboard', component: DashboardComponent },
-      { path: '3d', component: Campus3dComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
-      { path: '3d/building/:buildingCode/floor/:floorNumber', component: Campus3dComponent, canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager])] },
+      { path: '3d', component: Campus3dComponent, canActivate: [canActivateWithRole([UserRole.FleetManager, UserRole.TaskManager, UserRole.CampusManager])] },
+      { path: '3d/building/:buildingCode/floor/:floorNumber', component: Campus3dComponent, canActivate: [canActivateWithRole([UserRole.FleetManager, UserRole.TaskManager, UserRole.CampusManager])] },
       {
         path: 'campus',
         children: [

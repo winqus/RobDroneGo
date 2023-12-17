@@ -63,6 +63,7 @@ import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.comp
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
+import { ModalComponent } from './components/modal/modal.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -131,6 +132,7 @@ export const initAuthorizationProvider = {
     CreateTaskRequestComponent,
     ListTaskRequestComponent,
     SearchTaskComponent,
+    ModalComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule, FormsModule],
   providers: [

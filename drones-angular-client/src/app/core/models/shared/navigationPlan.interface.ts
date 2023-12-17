@@ -1,4 +1,5 @@
 export interface NavigationPlan {
+  floorsConnectionsCost: number;
   floorsPaths: FloorPath[];
   mapPathCount: number;
   mapPaths: MapPath[];
