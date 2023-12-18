@@ -21,7 +21,7 @@ import { EditBuildingComponent } from './components/edit-building/edit-building.
 import { EditElevatorComponent } from './components/edit-elevator/edit-elevator.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
 import { EditPassageComponent } from './components/edit-passage/edit-passage.component';
-import { EditUserComponent, EditUserComponent } from './components/edit-user/edit-user.component';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
@@ -182,10 +182,6 @@ const routes: Routes = [
             path: 'info',
             component: AboutUsComponent,
           },
-          {
-            path: 'info',
-            component: AboutUsComponent,
-          },
 
           {
             path: 'privacy-policy',
@@ -194,7 +190,6 @@ const routes: Routes = [
 
           {
             path: 'folder',
-            canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager, UserRole.FleetManager, UserRole.SystemAdministrator, UserRole.TaskManager])],
             canActivate: [canActivateWithRole([UserRole.User, UserRole.CampusManager, UserRole.FleetManager, UserRole.SystemAdministrator, UserRole.TaskManager])],
             children: [{ path: '', component: PublicFolderComponent }],
           },
@@ -228,11 +223,6 @@ const routes: Routes = [
 
           { path: '', redirectTo: 'signup', pathMatch: 'full' },
         ],
-      },
-      {
-        path: '',
-        component: MainLayoutComponent,
-        children: [{ path: 'user', component: EditUserComponent }],
       },
       {
         path: '',

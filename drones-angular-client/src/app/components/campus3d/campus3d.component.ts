@@ -56,7 +56,7 @@ function initializeThumbRaiser(
   assetsLoadedCallback = () => {},
   sceneLoadedCallback = () => {},
   sceneExitLocationCallback: (exitLocation: ExitLocationEvent) => void,
-  robotState: RobotState,
+  isAutoMoving: RobotState,
 ) {
   thumbRaiser = new ThumbRaiser(
     canvasContainer.nativeElement,
@@ -85,7 +85,7 @@ function initializeThumbRaiser(
     thumberRaiserParams.thirdPersonViewCameraParameters,
     thumberRaiserParams.topViewCameraParameters,
     thumberRaiserParams.miniMapCameraParameters,
-    robotState,
+    isAutoMoving,
   );
 }
 
@@ -300,36 +300,6 @@ export class Campus3dComponent implements OnInit, OnDestroy {
       });
     }
 
-    let passages: Passage[] = [];
-    if (data.exitLocations?.passages) {
-      passages = data.exitLocations?.passages.map((passage) => {
-        let entrance: [number, number] = [-0.5, 0];
-        if (data.map[passage.cellPosition[0]][passage.cellPosition[1]] === MapCell.PassageWest) {
-          entrance = [0, -0.5];
-        }
-        return {
-          cellPosition: passage.cellPosition,
-          entracePositionOffset: entrance,
-          destination: passage.destination,
-        };
-      });
-    }
-
-    let elevators: Elevator[] = [];
-    if (data.exitLocations?.elevators) {
-      elevators = data.exitLocations?.elevators.map((elevator) => {
-        let entrance: [number, number] = [-0.5, 0];
-        if (data.map[elevator.cellPosition[0]][elevator.cellPosition[1]] === MapCell.ElevatorEast || data.map[elevator.cellPosition[0]][elevator.cellPosition[1]] === MapCell.ElevatorWest) {
-          entrance = [0, -0.5];
-        }
-        return {
-          cellPosition: elevator.cellPosition,
-          entracePositionOffset: entrance,
-          connectedFloorNumbers: floorsNumber,
-        };
-      });
-    }
-
     const processedData: MazeAndPlayerConfig = {
       maze: {
         buildingCode,
@@ -337,13 +307,9 @@ export class Campus3dComponent implements OnInit, OnDestroy {
         size: {
           width: data.size.width - 1,
           depth: data.size.height - 1,
-          width: data.size.width - 1,
-          depth: data.size.height - 1,
         },
         map: data.map as MapCell[][],
         exitLocations: {
-          passages: passages,
-          elevators: elevators,
           passages: passages,
           elevators: elevators,
         },

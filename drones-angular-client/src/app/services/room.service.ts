@@ -6,10 +6,8 @@ import Room from '../core/models/room.model';
 
 @Injectable({
   providedIn: 'root',
-  providedIn: 'root',
 })
 export class RoomService {
-  constructor(private http: HttpClient) {}
   constructor(private http: HttpClient) {}
 
   createRoom(room: Room): Observable<Room> {

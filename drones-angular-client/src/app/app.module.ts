@@ -40,7 +40,6 @@ import { ListTaskRequestComponent } from './components/list-task-request/list-ta
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { MbcoComponent } from './components/mbco/mbco.component';
-import { ModalComponent } from './components/modal/modal.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { PassageListComponent } from './components/passage-list/passage-list.component';
 import { PathsBetweenBuildingsComponent } from './components/paths-between-buildings/paths-between-buildings.component';
@@ -64,6 +63,7 @@ import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.comp
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
+import { ModalComponent } from './components/modal/modal.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
