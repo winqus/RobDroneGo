@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import RegisterCredentials from 'src/app/core/authentication/models/registerCredentials.model';
-import { UserRole } from 'src/app/core/authentication/models/user-roles.enum';
+import { environment } from 'src/environments/environment';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
 
 export interface SignupProps {
@@ -12,12 +12,14 @@ export interface SignupProps {
   lastNamePlaceholder: string;
   emailLabel: string;
   emailPlaceholder: string;
+  phonenumberLabel: string;
+  phonenumberPlaceholder: string;
+  taxpayernumberLabel: string;
+  taxpayernumberPlaceholder: string;
   passwordLabel: string;
   passwordPlaceholder: string;
   confirmPasswordLabel: string;
   confirmPasswordPlaceholder: string;
-  userRolesDropdownLabel: string;
-  userRoles: { label: string; role: string }[];
   gdprLabel: string;
   signupButtonLabel: string;
 }
@@ -36,21 +38,24 @@ export class SignupComponent implements OnInit {
   validationErrors = content.validation_errors;
   firstNameArgs = { field: 'First Name', min: 2, max: 50 };
   lastNameArgs = { field: 'Last Name', min: 2, max: 50 };
-  passwordArgs = { field: 'Password', min: 8, max: 50 };
+  passwordArgs = { field: 'Password', min: 10, max: 50 };
+  taxpayernumberArgs = { field: 'Taxpayernumber', min: 9, max: 9 };
+  emailDomainName = environment.emailDomain;
 
   constructor(private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
-    // Listen to the route parameters or URL segments
     this.signupForm = new FormGroup(
       {
         firstName: new FormControl('', [Validators.required, Validators.minLength(this.firstNameArgs.min), Validators.maxLength(this.firstNameArgs.max)]),
         lastName: new FormControl('', [Validators.required, Validators.minLength(this.lastNameArgs.min), Validators.maxLength(this.lastNameArgs.max)]),
-        email: new FormControl('', [Validators.required, Validators.email]),
-        password: new FormControl('', [Validators.required, Validators.minLength(this.passwordArgs.min), Validators.maxLength(this.passwordArgs.max)]),
+        email: new FormControl('', [Validators.required, Validators.email, this.emailDomainValidator()]),
+        phonenumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{9}$')]),
+        taxpayernumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{9}$')]),
+        password: new FormControl('', [Validators.required, Validators.minLength(10), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&.,#^+])[A-Za-z\d@$!%*?&.,#^+]{10,}$/)]),
         confirmPassword: new FormControl('', Validators.required),
-        role: new FormControl(this.props.userRoles[0].role, Validators.required),
         gdprCompliance: new FormControl(false, Validators.requiredTrue),
+        isConfirmed: new FormControl(false),
       },
       { validators: this.passwordMatchValidator },
     );
@@ -67,14 +72,27 @@ export class SignupComponent implements OnInit {
       firstNamePlaceholder: 'No props',
       lastNamePlaceholder: 'No props',
       emailPlaceholder: 'No props',
+      phonenumberLabel: 'No props',
+      phonenumberPlaceholder: 'No props',
+      taxpayernumberLabel: 'No props',
+      taxpayernumberPlaceholder: 'No props',
       passwordPlaceholder: 'No props',
       confirmPasswordPlaceholder: 'No props',
-      userRolesDropdownLabel: 'No props',
-      userRoles: [],
       signupButtonLabel: 'No props',
     };
   }
 
+  emailDomainValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const email = control.value as string;
+
+      if (email && !email.endsWith(`@${environment.emailDomain}`)) {
+        return { invalidDomain: true };
+      }
+
+      return null;
+    };
+  }
   passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const password = control.get('password');
     const confirmPassword = control.get('confirmPassword');

@@ -1,0 +1,12 @@
+<div class="modal modal-open">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg" *ngIf="title">{{ title }}</h3>
+    <p class="py-4" *ngIf="body">{{ body }}</p>
+
+    <div class="modal-action">
+      <button *ngFor="let button of buttons" [ngClass]="button.class" (click)="onButtonAction(button.action, button.shouldClose)">
+        {{ button.text }}
+      </button>
+    </div>
+  </div>
+</div>

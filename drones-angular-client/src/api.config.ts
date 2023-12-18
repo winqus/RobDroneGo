@@ -11,13 +11,17 @@ const API_BASE = environment.apiUrl;
 
 export const API_ROUTES = {
   base: API_BASE,
-  threeDModuleAssetsBase: './assets',
+  // threeDModuleAssetsBase: './assets',
+  threeDModuleAssetsBase: 'https://robdrongoassets.blob.core.windows.net/angular-assets',
   user: {
     me: `${API_BASE}/auth/me`,
     login: `${API_BASE}/auth/signin`,
     register: `${API_BASE}/auth/signup`,
-    update: `${API_BASE}/auth/user`,
+    update: `${API_BASE}/auth/update`,
     logout: `${API_BASE}/auth/logout`,
+    getAll: `${API_BASE}/auth/all`,
+    confirm: `${API_BASE}/auth/confirm`,
+    delete: `${API_BASE}/auth/delete`,
   },
   building: {
     getAll: `${API_BASE}/building/all`,
@@ -70,5 +74,12 @@ export const API_ROUTES = {
     upload: `${API_BASE}/folder/upload?file`,
     list: `${API_BASE}/folder/`,
     roomsNavigation: `${API_BASE}/planning/calculate-cells`,
+  },
+  taskRequest: {
+    create: `${API_BASE}/taskRequest`,
+    getAll: `${API_BASE}/taskRequest`,
+    getByFilter: (filters: any) => `${API_BASE}/task/search?${new URLSearchParams(filters as any).toString()}`,
+    getById: (id: string) => `${API_BASE}/taskRequest/${id}`,
+    updateStatus: (id: string) => `${API_BASE}/taskRequest/${id}/status`,
   },
 };

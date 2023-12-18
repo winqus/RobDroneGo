@@ -1,0 +1,70 @@
+<div class="container p-0 md:p-7 flex justify-center items-center mx-auto">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8">
+      <form [formGroup]="searchTaskForm" (ngSubmit)="onSubmit()" class="form-control">
+        <!-- Choose status -->
+        <label for="status" class="label">
+          <span class="label-text">{{ props.statusLabel }}</span>
+        </label>
+
+        <select formControlName="status" id="status" class="select select-bordered">
+          <option value="">Select Status</option>
+          <option value="Pending">Pending</option>
+          <option value="Approved">Approved</option>
+          <option value="In_Execution">In Execution</option>
+          <option value="Completed">Completed</option>
+          <option value="Denied">Denied</option>
+        </select>
+        <!-- Enter user -->
+        <label for="user" class="label">
+          <span class="label-text">{{ props.userLabel }}</span>
+        </label>
+        <input formControlName="user" type="text" placeholder="{{ props.userPlaceholder }}" class="input input-bordered" id="user" />
+
+        <!-- Enter device -->
+        <label for="device" class="label">
+          <span class="label-text">{{ props.deviceLabel }}</span>
+        </label>
+        <input formControlName="device" type="text" placeholder="{{ props.devicePlaceholder }}" class="input input-bordered" id="device" />
+
+        <!-- Submit Button -->
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" type="submit" [disabled]="searchTaskForm.invalid || isLoading">
+            <span *ngIf="!isLoading">{{ props.listTasksButtonLabel }}</span>
+            <span *ngIf="isLoading">
+              <span class="loading loading-dots"></span>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- List of tasks -->
+<div class="bg-base-300 px-1 xs:px-8 py-2">
+  <ng-container *ngIf="props.searchResults.length > 0; else noTasks">
+    <div *ngFor="let task of props.searchResults" class="collapse collapse-arrow bg-base-200 mb-2">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">
+        <span class="badge badge-lg mr-3"> {{ task.requestCreatedDateTime }}</span>
+      </div>
+
+      <div class="collapse-content">
+        <p *ngIf="task.status" class="text-sm mb-1">Status: {{ task.status }}</p>
+        <p *ngIf="task.requesterEmail" class="text-sm mb-1">User: {{ task.requesterEmail }}</p>
+        <!--Edit this later TODO-->
+        <p *ngIf="task" class="text-sm mb-1">Robottype: {{ task }}</p>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Error message if there are no tasks -->
+<ng-template #noTasks>
+  <div *ngIf="loadedOnce" class="flex items-center justify-center">
+    <div class="rounded-lg p-6 text-white text-center">
+      <p class="text-4xl font-bold mb-4">{{ noTasksFoundMessage }}</p>
+    </div>
+  </div>
+</ng-template>

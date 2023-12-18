@@ -35,6 +35,16 @@
           <small *ngIf="userForm.controls['email']?.errors?.['email']">{{ validationErrors.invalidEmail }}</small>
         </div>
 
+        <!-- Phonenumber Field -->
+        <div class="mb-4">
+          <label for="phonenumber">{{ props.phonenumberLabel }}</label>
+          <input type="phonenumber" id="phonenumber" formControlName="phonenumber" class="mt-1 p-2 block w-full border rounded-md" />
+        </div>
+        <div *ngIf="userForm.controls['phonenumber']?.touched && userForm.controls['phonenumber']?.invalid" class="text-error">
+          <small *ngIf="userForm.controls['phonenumber']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+          <small *ngIf="userForm.controls['phonenumber'].errors?.['pattern']">Invalid contact number, must be 9 numbers. </small>
+        </div>
+
         <!-- Button to Toggle Password Fields -->
         <div class="mb-4">
           <button class="btn btn-outline btn-primary" type="button" (click)="togglePasswordFields()">Update password</button>
@@ -50,7 +60,7 @@
           </div>
           <div *ngIf="userForm.controls['password']?.touched && userForm.controls['password']?.invalid" class="text-error">
             <small *ngIf="userForm.controls['password']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
-            <small *ngIf="userForm.controls['password']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: passwordArgs }}</small>
+            <small *ngIf="userForm.controls['password']?.errors?.['pattern']"> Password must contain at least a capital letter, a lowercase letter, a digit and a symbol. </small>
           </div>
 
           <!-- Confirm Password Field -->
@@ -69,11 +79,51 @@
         <app-form-error-list [errorResponse]="errorResponse"></app-form-error-list>
         <app-success-form-message [message]="submitSuccessMessage"></app-success-form-message>
 
-        <!-- Signup Button -->
+        <!-- Edit Button -->
         <div class="form-control mt-6">
           <button class="btn btn-primary" type="edit">{{ props.editUserButtonLabel }}</button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<!--Download button-->
+
+<div class="container p-0 md:p-7 flex justify-center items-center">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
+      <h2 class="text-2xl font-semibold mb-6">Download</h2>
+      <p>Download copy of your personal data</p>
+      <div class="form-control mt-6">
+        <button class="btn btn-primary" (click)="downloadUserData()">{{ props.downloadUserButtonLabel }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete button -->
+
+<div class="container p-0 md:p-7 flex justify-center items-center">
+  <div class="card w-full max-w-md md:max-w-lg bg-base-100 shadow-xl">
+    <div class="card-body px-2 xs:px-8 min-h-screen xs:min-h-0">
+      <h2 class="text-2xl font-semibold mb-6">Delete</h2>
+      <p>Delete the user and erase all data</p>
+      <div class="form-control mt-6">
+        <button class="btn btn-error" onclick="my_modal_1.showModal()">{{ props.deleteUserButtonLabel }}</button>
+        <dialog id="my_modal_1" class="modal">
+          <div class="modal-box">
+            <h3 class="font-bold text-lg">Delete</h3>
+            <p class="py-4">You are deleting your user and all your user data. After this you can no longer log into the system. Are you sure?</p>
+            <div class="modal-action">
+              <form method="dialog">
+                <button class="btn btn-info">No, go back</button>
+              </form>
+              <button class="btn" (click)="deleteUserData()">Yes, delete</button>
+            </div>
+          </div>
+        </dialog>
+      </div>
     </div>
   </div>
 </div>

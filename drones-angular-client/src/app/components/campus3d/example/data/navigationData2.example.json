@@ -1,0 +1,135 @@
+{
+  "floorsConnectionsCost": 16,
+  "floorsPaths": [
+    {
+      "fromBuilding": "A",
+      "fromFloorNumber": "1",
+      "toBuilding": "A",
+      "toFloorNumber": "2",
+      "type": "elevator"
+    },
+    {
+      "fromBuilding": "A",
+      "fromFloorNumber": "2",
+      "toBuilding": "B",
+      "toFloorNumber": "2",
+      "type": "passage"
+    },
+    {
+      "fromBuilding": "B",
+      "fromFloorNumber": "2",
+      "toBuilding": "D",
+      "toFloorNumber": "3",
+      "type": "passage"
+    }
+  ],
+  "mapPathCount": 4,
+  "mapPaths": [
+    {
+      "buildingCode": "A",
+      "cost": 17.64,
+      "floorNumber": 1,
+      "path": [
+        { "col": 10, "row": 7 },
+        { "col": 11, "row": 6 },
+        { "col": 12, "row": 5 },
+        { "col": 13, "row": 4 },
+        { "col": 14, "row": 4 },
+        { "col": 15, "row": 4 },
+        { "col": 16, "row": 3 },
+        { "col": 17, "row": 3 },
+        { "col": 18, "row": 3 },
+        { "col": 19, "row": 3 },
+        { "col": 20, "row": 3 },
+        { "col": 21, "row": 3 },
+        { "col": 22, "row": 3 },
+        { "col": 23, "row": 3 },
+        { "col": 23, "row": 2 },
+        { "col": 23, "row": 1 },
+        { "col": 23, "row": 0 }
+      ]
+    },
+    {
+      "buildingCode": "A",
+      "cost": 8.41,
+      "floorNumber": 2,
+      "path": [
+        { "col": 23, "row": 0 },
+        { "col": 23, "row": 1 },
+        { "col": 23, "row": 2 },
+        { "col": 23, "row": 3 },
+        { "col": 24, "row": 4 },
+        { "col": 24, "row": 5 },
+        { "col": 24, "row": 6 },
+        { "col": 24, "row": 7 },
+        { "col": 25, "row": 7 }
+      ]
+    },
+    {
+      "buildingCode": "B",
+      "cost": 41.68999999999999,
+      "floorNumber": 2,
+      "path": [
+        { "col": 0, "row": 7 },
+        { "col": 1, "row": 8 },
+        { "col": 2, "row": 9 },
+        { "col": 3, "row": 10 },
+        { "col": 4, "row": 11 },
+        { "col": 5, "row": 11 },
+        { "col": 6, "row": 11 },
+        { "col": 7, "row": 11 },
+        { "col": 8, "row": 11 },
+        { "col": 9, "row": 11 },
+        { "col": 10, "row": 10 },
+        { "col": 10, "row": 9 },
+        { "col": 10, "row": 8 },
+        { "col": 10, "row": 7 },
+        { "col": 10, "row": 6 },
+        { "col": 10, "row": 5 },
+        { "col": 10, "row": 4 },
+        { "col": 10, "row": 3 },
+        { "col": 11, "row": 3 },
+        { "col": 12, "row": 3 },
+        { "col": 13, "row": 3 },
+        { "col": 14, "row": 3 },
+        { "col": 15, "row": 3 },
+        { "col": 16, "row": 4 },
+        { "col": 16, "row": 5 },
+        { "col": 16, "row": 6 },
+        { "col": 16, "row": 7 },
+        { "col": 16, "row": 8 },
+        { "col": 16, "row": 9 },
+        { "col": 16, "row": 10 },
+        { "col": 16, "row": 11 },
+        { "col": 17, "row": 12 },
+        { "col": 18, "row": 13 },
+        { "col": 19, "row": 13 },
+        { "col": 20, "row": 14 },
+        { "col": 21, "row": 14 },
+        { "col": 22, "row": 14 },
+        { "col": 23, "row": 14 },
+        { "col": 23, "row": 15 }
+      ]
+    },
+    {
+      "buildingCode": "D",
+      "cost": 14.05,
+      "floorNumber": 3,
+      "path": [
+        { "col": 10, "row": 0 },
+        { "col": 9, "row": 1 },
+        { "col": 9, "row": 2 },
+        { "col": 9, "row": 3 },
+        { "col": 9, "row": 4 },
+        { "col": 8, "row": 5 },
+        { "col": 8, "row": 6 },
+        { "col": 7, "row": 7 },
+        { "col": 7, "row": 8 },
+        { "col": 6, "row": 9 },
+        { "col": 6, "row": 10 },
+        { "col": 5, "row": 11 },
+        { "col": 5, "row": 12 }
+      ]
+    }
+  ]
+}

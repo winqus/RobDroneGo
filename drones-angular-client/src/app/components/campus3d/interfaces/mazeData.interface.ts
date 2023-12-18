@@ -1,3 +1,5 @@
+import Room from 'src/app/core/models/room.model';
+import { NavigationPlan } from 'src/app/core/models/shared/navigationPlan.interface';
 import { MapCell } from './mapCell.enum';
 
 export interface MazeFullConfig {
@@ -8,6 +10,7 @@ export interface MazeFullConfig {
   passageWall: Wall;
   elevatorWall: Wall;
   doorWall: Wall;
+  roomData?: (Room & { doorPosition?: [number, number] })[];
 }
 
 export default interface MazePartialConfig {
@@ -50,6 +53,8 @@ export interface ExitLocations {
 export interface ExitLocationEvent {
   type: 'passage' | 'elevator';
   details: Passage | Elevator;
+  exitFloorNumber: number;
+  exitBuildingCode: string;
 }
 
 export interface Passage {

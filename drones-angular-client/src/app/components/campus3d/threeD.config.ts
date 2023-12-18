@@ -135,7 +135,7 @@ export const cubeTexturesParameters = {
     {
       // Calm sea
       name: 'Calm sea',
-      texturePath: `${assetBase}cube_textures/xonotic-skyboxes/skyboxes/calm_sea/`,
+      texturePath: `${assetBase}/cube_textures/xonotic-skyboxes/skyboxes/calm_sea/`,
       texturePositiveXUrl: 'calm_sea_ft.jpg',
       textureNegativeXUrl: 'calm_sea_bk.jpg',
       texturePositiveYUrl: 'calm_sea_up.jpg',

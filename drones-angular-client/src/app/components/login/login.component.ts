@@ -10,18 +10,25 @@ export interface LoginProps {
   loginButtonLabel: string;
 }
 
+export interface User {
+  email: string;
+  password: string;
+  isConfirmed: boolean;
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   @Input() props: LoginProps = this.getDefaultProps();
 
-  @Output() submitEvent = new EventEmitter<any>();
+  @Output() submitEvent = new EventEmitter<User>();
 
   loginForm: FormGroup;
   validationErrors = content.validation_errors;
+  user: any;
 
   constructor() {
     this.loginForm = new FormGroup({
@@ -41,6 +48,7 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    this.submitEvent.emit(this.loginForm.value);
+    const user: User = this.loginForm.value;
+    this.submitEvent.emit(user);
   }
 }

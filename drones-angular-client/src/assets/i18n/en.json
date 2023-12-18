@@ -12,6 +12,7 @@
         {
           "label": "Campus",
           "href": "/campus",
+          "displayForRoles": ["Campus Manager"],
           "dropdownLinks": [
             {
               "label": "Building",
@@ -243,6 +244,7 @@
         {
           "label": "Fleet",
           "href": "/fleet",
+          "displayForRoles": ["Fleet Manager"],
 
           "dropdownLinks": [
             {
@@ -262,7 +264,7 @@
                   "href": "/fleet/robot/search"
                 },
                 {
-                  "label": "Change state",
+                  "label": "Change State",
                   "href": "/fleet/robot/state"
                 }
               ]
@@ -282,37 +284,65 @@
         {
           "label": "Task",
           "href": "/task",
+          "displayForRoles": ["Task Manager", "User"],
           "dropdownLinks": [
             {
-              "label": "Find route",
-              "href": "task/route"
+              "label": "Make Request",
+              "href": "task/request-task",
+              "displayForRoles": ["Task Manager", "User"]
             },
             {
-              "label": "Complexity analysis",
-              "href": "task/analysis"
+              "label": "Search",
+              "href": "task/search",
+              "displayForRoles": ["Task Manager"]
+            },
+            {
+              "label": "Find Route",
+              "href": "task/route",
+              "displayForRoles": ["Task Manager"]
+            },
+            {
+              "label": "Complexity Analysis",
+              "href": "task/analysis",
+              "displayForRoles": ["Task Manager"]
+            },
+            {
+              "label": "List Tasks",
+              "href": "task/list",
+              "displayForRoles": ["Task Manager"]
             }
           ]
         },
         {
           "label": "3D",
-          "href": "/3d"
+          "href": "/3d",
+          "displayForRoles": ["Campus Manager", "Fleet Manager", "Task Manager"]
         },
         {
           "label": "System",
           "href": "/system",
+          "displayForRoles": ["System Administrator"],
           "dropdownLinks": [
             {
               "label": "MBCO",
               "href": "system/mbco"
             },
             {
-              "label": "Data and recovery strategy",
+              "label": "Data and Recovery Strategy",
               "href": "system/recovery-strategy"
+            },
+            {
+              "label": "Create user",
+              "href": "system/create-user"
+            },
+            {
+              "label": "Users",
+              "href": "system/users"
             }
           ]
         },
         {
-          "label": "About us",
+          "label": "About Us",
           "href": "/about",
           "dropdownLinks": [
             {
@@ -320,8 +350,8 @@
               "href": "about/info"
             },
             {
-              "label": "How we use your data",
-              "href": "about/gdpr"
+              "label": "Privacy Policy",
+              "href": "about/privacy-policy"
             },
             {
               "label": "Public Folder",
@@ -382,19 +412,17 @@
         "lastNamePlaceholder": "Last Name",
         "emailLabel": "Email",
         "emailPlaceholder": "Email",
+        "phonenumberLabel": "Phone number",
+        "phonenumberPlaceholder": "Phone number",
+        "taxpayernumberLabel": "Taxpayer number",
+        "taxpayernumberPlaceholder": "Taxpayer number",
         "passwordLabel": "Password",
         "passwordPlaceholder": "Password",
         "confirmPasswordLabel": "Confirm Password",
         "confirmPasswordPlaceholder": "Confirm Password",
-        "userRolesDropdownLabel": "Select Role",
-        "userRoles": [
-          { "label": "User", "role": "User" },
-          { "label": "Campus Manager", "role": "Campus Manager" },
-          { "label": "Fleet Manager", "role": "Fleet Manager" },
-          { "label": "System Administrator", "role": "System Administrator" },
-          { "label": "Task Manager", "role": "Task Manager" }
-        ],
-        "gdprLabel": "I agree to the <a class=\"link link-info\" href=\"/terms\" target=\"_blank\">Terms of Service</a> and <a class=\"link link-info\" href=\"/privacy\" target=\"_blank\">Privacy Policy</a>.",
+
+        "gdprLabel": "By clicking this check box, I consent to RobDroneGo to collect and process my personal data for the creation of user profile as explained in the <a class=\"privacy-policy\" href=\"/about/public/privacy-policy\" target=\"_blank\"><u> Privacy Policy </u></a>.",
+        "gdprLabelContact": "",
         "signupButtonLabel": "Sign Up"
       }
     },
@@ -471,6 +499,29 @@
       "robotTypeRequiredError": "Robot type is required",
       "submitButtonLabel": "Create Robot",
       "robotCreatedMessage": "Robot created successfully"
+    },
+    "createUser": {
+      "firstNameLabel": "First Name",
+      "firstNamePlaceholder": "First Name",
+      "lastNameLabel": "Last Name",
+      "lastNamePlaceholder": "Last Name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Email",
+      "phonenumberLabel": "Phone number",
+      "phonenumberPlaceholder": "Phone number",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm Password",
+      "userRolesDropdownLabel": "Select Role",
+      "userRoles": [
+        { "label": "Campus Manager", "role": "Campus Manager" },
+        { "label": "Fleet Manager", "role": "Fleet Manager" },
+        { "label": "System Administrator", "role": "System Administrator" },
+        { "label": "Task Manager", "role": "Task Manager" }
+      ],
+      "createUserButtonLabel": "Create User",
+      "userCreatedMessage": "User created successfully"
     }
   },
   "validation_errors": {

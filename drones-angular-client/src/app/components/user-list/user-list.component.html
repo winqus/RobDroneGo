@@ -1,0 +1,25 @@
+<div class="container mx-auto p-4">
+  <div class="grid grid-cols-6 gap-4 font-bold p-2">
+    <span>Email</span>
+    <span>First Name</span>
+    <span>Last Name</span>
+    <span>Phone Number</span>
+    <span>Role</span>
+    <span>Status</span>
+  </div>
+  <ul class="list-none">
+    <li *ngFor="let user of users$ | async" class="grid grid-cols-6 gap-4 items-center p-2 border-b">
+      <span>{{ user.email }}</span>
+      <span>{{ user.firstName }}</span>
+      <span>{{ user.lastName }}</span>
+      <span>{{ user.phonenumber }}</span>
+      <span>{{ user.role }}</span>
+      <div class="form-control">
+        <label class="label cursor-pointer">
+          <input type="checkbox" class="toggle" [checked]="user.isConfirmed" (change)="onConfirmToggle(user)" />
+          <span class="label-text">{{ user.isConfirmed ? 'Confirmed' : 'Unconfirmed' }}</span>
+        </label>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,32 @@
+<div class="p-2 px-4">
+  <div class="flex items-center pb-2">
+    <input type="checkbox" id="pending" class="checkbox checkbox-sm" (change)="onPendingToggle($event)" />
+    <label for="pending" class="ml-2 text-sm">Show only pending requests</label>
+  </div>
+  <div *ngIf="taskRequests.length; else loading" class="daisy-flex daisy-flex-col">
+    <div *ngFor="let taskRequest of taskRequests" class="collapse collapse-arrow bg-base-200 mb-2">
+      <input type="checkbox" />
+      <div class="collapse-title text-lg font-medium">
+        <span *ngIf="isDelivery(taskRequest)" class="text-sm mb-1">Delivery Task </span>
+        <span *ngIf="!isDelivery(taskRequest)" class="text-sm mb-1">Surveillance Task </span>
+        <span *ngIf="taskRequest.requesterEmail" class="text-sm mb-2"><strong>Requester Email: </strong>{{ taskRequest.requesterEmail }}</span>
+      </div>
+      <div class="collapse-content">
+        <p *ngIf="taskRequest.status" class="text-sm mb-1"><strong>Status: </strong>{{ taskRequest.status }}</p>
+        <p *ngIf="taskRequest.requestCreatedDateTime" class="text-sm mb-2"><strong>Created At : </strong>{{ taskRequest.requestCreatedDateTime }}</p>
+        <div *ngIf="isPending(taskRequest)" class="flex space-x-1">
+          <button class="btn btn-xs btn-outline btn-success" (click)="approveRequest(taskRequest)">Approve</button>
+          <button class="btn btn-xs btn-outline btn-error" (click)="denyRequest(taskRequest)">Deny</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <div class="flex items-center justify-center h-screen">
+      <div class="bg-gray-400 rounded-lg p-6 text-white text-center">
+        <p class="text-4xl font-bold mb-4">Task Requests not found</p>
+      </div>
+    </div>
+  </ng-template>
+</div>

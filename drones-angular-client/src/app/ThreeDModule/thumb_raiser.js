@@ -15,6 +15,10 @@
 
 import * as THREE from 'three';
 import Stats from 'three/addons/libs/stats.module.js';
+import { cartesianToCell, cellToCartesian } from '../ThreeDModule/Helpers/coordinateUtils.js';
+import PathVisualizer from '../ThreeDModule/Helpers/pathVisualizer.js';
+import TimedExecutor from '../ThreeDModule/Helpers/timedExecutor.js';
+import PickHelper from '../ThreeDModule/toolTip.js';
 import Animations from './animations.js';
 import globalAssetManager from './assetLoadingManager.js';
 import Audio from './audio.js';
@@ -426,6 +430,7 @@ export default class ThumbRaiser {
     thirdPersonViewCameraParameters,
     topViewCameraParameters,
     miniMapCameraParameters,
+    robotState,
   ) {
     this.initialized = true;
     this.firstRender = true;
@@ -446,6 +451,9 @@ export default class ThumbRaiser {
     this.thirdPersonViewCameraParameters = merge({}, cameraData, thirdPersonViewCameraParameters);
     this.topViewCameraParameters = merge({}, cameraData, topViewCameraParameters);
     this.miniMapCameraParameters = merge({}, cameraData, miniMapCameraParameters);
+    this.robotState = robotState;
+
+    this.timedExecutor = new TimedExecutor();
 
     // Set the game state
     this.gameRunning = false;
@@ -485,8 +493,15 @@ export default class ThumbRaiser {
     // this.maze = new Maze(this.mazeParameters, this.customMazeLoaderParams);
     this.initializeMaze(this.mazeParameters);
 
+    this.pickHelper = new PickHelper(this.maze);
+
     // Create the player
     this.player = new Player(this.playerParameters);
+    // this.player.robotState = this.robotState;
+    // this.player.robotState = this.robotState.clone();
+    this.player.robotState = JSON.parse(JSON.stringify(this.robotState));
+    this.player.pathPoints = [];
+    this.player.enableAutoMove = false;
 
     // Create the lights
     this.ambientLight = new AmbientLight(this.ambientLightParameters);
@@ -624,13 +639,34 @@ export default class ThumbRaiser {
     this.maze = new Maze(mazeParams, this.customMazeLoaderParams);
   }
 
-  loadNewMaze(customMazeLoaderParams) {
+  loadNewMaze(customMazeLoaderParams, mazeParamChanges = {}) {
     this.customMazeLoaderParams = customMazeLoaderParams;
     if (this.gameRunning) {
       this.pauseGame();
     }
 
-    this.initializeMaze(this.mazeParameters);
+    console.log('Loading a maze...');
+
+    this.player.robotState = JSON.parse(JSON.stringify(this.robotState));
+
+    // this.initializeMaze(this.mazeParameters);
+    this.initializeMaze({
+      ...this.mazeParameters,
+      ...mazeParamChanges,
+    });
+
+    this.pickHelper = new PickHelper(this.maze);
+
+    if (this.pathVisualizer) {
+      this.pathVisualizer.cleanUp();
+    }
+    this.pathVisualizer = new PathVisualizer(this.scene);
+
+    if (this.initialPathVisualizer) {
+      this.initialPathVisualizer.cleanUp();
+    }
+    this.initialPathVisualizer = new PathVisualizer(this.scene);
+
     // Scene added in update method
 
     if (this.gameRunning || this.gamePaused) {
@@ -786,7 +822,7 @@ export default class ThumbRaiser {
       ) {
         mouse.camera = camera;
         this.getPointedFrame(mouse, camera);
-        this.setCursor(this.mouse.frame == 'none' ? 'drag' : this.mouse.frame);
+        this.setCursor(this.mouse.frame == 'none' ? 'auto' : this.mouse.frame);
         return;
       }
     }
@@ -965,6 +1001,21 @@ export default class ThumbRaiser {
     this.renderer.setSize(this.window.innerWidth, this.window.innerHeight);
   }
 
+  enableAutoMove(enabled) {
+    if (this.player.robotState.navigationData && this.player.robotState.isAutoMoving) {
+      this.player.enableAutoMove = enabled;
+      this.player.currentPathIndex = undefined;
+      this.player.pathPoints = this.player.originalPathPoints.slice();
+    } else {
+      enabled = false;
+    }
+    console.warn('Robot auto move:', enabled);
+    if (!enabled && this.player.robotState.navigationState == 'started') {
+      this.player.robotState.navigationState = 'stopped';
+      this.animations.fadeToAction('Idle', 0.2);
+    }
+  }
+
   keyChange(event, state) {
     if (document.activeElement == document.body) {
       // if (document.activeElement == this.canvasContainer) {
@@ -1067,7 +1118,8 @@ export default class ThumbRaiser {
             this.mouse.camera.previousViewport = this.mouse.camera.viewport.clone();
             if (this.mouse.frame == 'none') {
               // No frame is being pointed; so, it is not a resizing event. It must be a dragging event
-              this.setCursor('dragging'); // Change the cursor from "grab" to "grabbing"
+              // this.setCursor('dragging'); // Change the cursor from "grab" to "grabbing"
+              this.setCursor('drag');
             }
             // Otherwise it is a resizing event, but no action is needed here; so, no else {} here
           } else {
@@ -1090,6 +1142,17 @@ export default class ThumbRaiser {
     }
   }
 
+  setTooltipPosition(event) {
+    const tooltipX = event.pageX + 10;
+    const tooltipY = event.pageY - 20;
+
+    if (this.pickHelper.tooltip) {
+      this.pickHelper.tooltip.style.left = `${tooltipX}px`;
+      this.pickHelper.tooltip.style.top = `${tooltipY}px`;
+      this.pickHelper.tooltip.style.zIndex = 5;
+    }
+  }
+
   mouseMove(event) {
     if (event.target.id == 'canvas') {
       document.activeElement.blur();
@@ -1098,7 +1161,25 @@ export default class ThumbRaiser {
         const adjustedClientX = event.clientX + this.getClientXOffset();
         const adjustedClientY = this.window.innerHeight - event.clientY + this.getClientYOffset() - 1;
         this.mouse.currentPosition = new THREE.Vector2(adjustedClientX, adjustedClientY);
+
         if (event.buttons == 0) {
+          if (this.mouse.camera == 'none') {
+            this.pickHelper.hideToolTip();
+          }
+          this.timedExecutor.execute(
+            'pickHelperExecution',
+            () => {
+              if (this.mouse.camera != 'none') {
+                const viewport = this.mouse.camera.viewport;
+                const normalizedPosition = {
+                  x: ((adjustedClientX - viewport.x) / viewport.z) * 2 - 1,
+                  y: ((adjustedClientY - viewport.y) / viewport.w) * 2 - 1,
+                };
+                this.pickHelper.pick(normalizedPosition, this.scene, this.mouse.camera.activeProjection);
+              }
+            },
+            10,
+          );
           // No button down
           this.getPointedViewport(this.mouse);
         } else if (this.mouse.actionInProgress) {
@@ -1135,6 +1216,8 @@ export default class ThumbRaiser {
             this.mouse.previousPosition = this.mouse.currentPosition;
           }
         }
+
+        this.setTooltipPosition(event);
       }
     } else {
       this.setCursor('auto');
@@ -1298,297 +1381,717 @@ export default class ThumbRaiser {
     this.audio.play(this.audio.endClips, false);
   }
 
+  checkResourceLoading() {
+    if (this.audio.loaded() && this.maze.loaded && this.player.loaded) {
+      this.setupScene();
+      this.playerSetup();
+      // this.unregisterEventHandlers();
+      if (!this.resourcesLoadedOnce) {
+        this.setupAudio();
+        this.setupAnimations();
+        this.uiSetup();
+        this.registerEventHandlers();
+      }
+      this.initializeGame();
+
+      if (this.window.SHOW_ROBOT_PATH) {
+        this.initialPathVisualizer.visualizePath(this.player.pathPoints, 0.02);
+      }
+
+      this.resourcesLoadedOnce = true;
+    }
+  }
+
+  setupAudio() {
+    const types = [this.audio.introductionClips, this.audio.idleClips, this.audio.jumpClips, this.audio.deathClips, this.audio.danceClips, this.audio.endClips];
+    types.forEach((type) => {
+      type.forEach((clip) => {
+        this.addAudioClipToScene(clip);
+      });
+    });
+  }
+
+  addAudioClipToScene(clip) {
+    let position = clip.position.split(' ');
+    if (position.length == 4 && position[0] == 'scene') {
+      // Positional audio object (scene specific position in cartesian coordinates)
+      position = position.slice(1).map(Number);
+      if (!Number.isNaN(position[0]) && !Number.isNaN(position[1]) && !Number.isNaN(position[2])) {
+        this.scene.add(clip.source);
+        clip.source.position.set(position[0], position[1], position[2]);
+      }
+    } else if (position.length == 3 && position[0] == 'maze') {
+      // Positional audio object (maze specific position in cell coordinates)
+      position = position.slice(1).map(Number);
+      if (!Number.isNaN(position[0]) && !Number.isNaN(position[1])) {
+        this.scene.add(clip.source);
+        position = this.maze.cellToCartesian(position);
+        clip.source.position.set(position.x, position.y, position.z);
+      }
+    } else if (clip.position == 'exit') {
+      // Positional audio object (maze exit location)
+      this.scene.add(clip.source);
+      // Disabled as old exitLocation won't be used
+      // clip.source.position.set(this.maze.exitLocation.x, this.maze.exitLocation.y, this.maze.exitLocation.z);
+    } else if (clip.position == 'initial') {
+      // Positional audio object (player initial position)
+      this.scene.add(clip.source);
+      clip.source.position.set(this.maze.initialPosition.x, this.maze.initialPosition.y, this.maze.initialPosition.z);
+    } else if (clip.position == 'player') {
+      // Positional audio object (player current position)
+      this.player.add(clip.source);
+    } else if (clip.position == 'spotlight') {
+      // Positional audio object (spotlight current position)
+      this.spotLight.add(clip.source);
+    }
+  }
+
+  setupScene() {
+    this.scene.add(this.maze);
+    this.scene.add(this.player);
+    this.scene.add(this.ambientLight);
+    this.scene.add(this.directionalLight);
+    this.scene.add(this.spotLight);
+    this.scene.add(this.flashLight);
+    this.scene.add(this.flashLight.target);
+  }
+
+  setupAnimations() {
+    // Create model animations (states, emotes and expressions)
+    this.animations = new Animations(this.player);
+  }
+
+  playerSetup() {
+    this.player.position.set(this.maze.initialPosition.x, this.maze.initialPosition.y, this.maze.initialPosition.z);
+    this.player.direction = this.maze.initialDirection;
+    this.spotLight.target = this.player;
+    this.firstPersonViewCamera.playerRadius = this.playerRadius = this.player.radius;
+
+    if (this.collisionDetectionParameters.boundingVolumes.visible) {
+      this.setBoundingVolumesVisibility(true);
+    }
+
+    const pathIndex = this.player.robotState.navigationStep;
+    if (pathIndex !== undefined && pathIndex !== null) {
+      this.player.pathPoints =
+        this.player.robotState.navigationData?.mapPaths[pathIndex].path.map((pathPoint) => {
+          const cell = [pathPoint.row, pathPoint.col];
+          const cartesianPosition = this.maze.cellToCartesian(cell);
+          return new THREE.Vector3(cartesianPosition.x, cartesianPosition.y, cartesianPosition.z);
+        }) || [];
+
+      this.player.originalPathPoints = this.player.pathPoints.slice();
+
+      this.player.position.set(this.player.pathPoints[0].x, this.player.pathPoints[0].y, this.player.pathPoints[0].z);
+      // Set direction based on the next point in the path (in degrees)
+      const nextPoint = this.player.pathPoints[1];
+      const nextPointDirection = new THREE.Vector3(nextPoint.x, nextPoint.y, nextPoint.z).sub(this.player.position).normalize();
+      const nextPointDirectionAngle = Math.atan2(nextPointDirection.x, nextPointDirection.z);
+      this.player.direction = THREE.MathUtils.radToDeg(nextPointDirectionAngle);
+
+      //set this.player.rotation.y to the same value as this.player.direction
+      this.player.rotation.y = THREE.MathUtils.degToRad(this.player.direction);
+    }
+
+    // FOR DEBUGGING PURPOSES
+    // console.warn('this.player.position', this.player.position);
+    // console.warn('this.player.pathPoints', this.player.pathPoints);
+    this.window.OFFSET_PLAYER = () => {
+      this.player.position.z += 1;
+    };
+  }
+
+  uiSetup() {
+    this.userInterface = new UserInterface(this);
+    this.userInterface.checkBox = document.getElementById('user-interface');
+    this.userInterface.checkBox.checked = true;
+  }
+
+  registerEventHandlers() {
+    this.window.addEventListener('resize', (event) => this.windowResize(event));
+    document.addEventListener('keydown', (event) => this.keyChange(event, true));
+    document.addEventListener('keyup', (event) => this.keyChange(event, false));
+    document.addEventListener('mousedown', (event) => this.mouseDown(event));
+    document.addEventListener('mousemove', (event) => this.mouseMove(event));
+    document.addEventListener('mouseup', (event) => this.mouseUp(event));
+    this.renderer.domElement.addEventListener('wheel', (event) => this.mouseWheel(event));
+    document.addEventListener('contextmenu', (event) => this.contextMenu(event));
+    this.view.addEventListener('change', (event) => this.elementChange(event));
+    this.projection.addEventListener('change', (event) => this.elementChange(event));
+    this.horizontal.addEventListener('change', (event) => this.elementChange(event));
+    this.vertical.addEventListener('change', (event) => this.elementChange(event));
+    this.distance.addEventListener('change', (event) => this.elementChange(event));
+    this.zoom.addEventListener('change', (event) => this.elementChange(event));
+    this.fixedViewCamera.checkBox.addEventListener('change', (event) => this.elementChange(event));
+    this.firstPersonViewCamera.checkBox.addEventListener('change', (event) => this.elementChange(event));
+    this.thirdPersonViewCamera.checkBox.addEventListener('change', (event) => this.elementChange(event));
+    this.topViewCamera.checkBox.addEventListener('change', (event) => this.elementChange(event));
+    this.statistics.checkBox.addEventListener('change', (event) => this.elementChange(event));
+    this.userInterface.checkBox.addEventListener('change', (event) => this.elementChange(event));
+    this.help.checkBox.addEventListener('change', (event) => this.elementChange(event));
+    this.reset.addEventListener('click', (event) => this.buttonClick(event));
+    this.resetAll.addEventListener('click', (event) => this.buttonClick(event));
+
+    this.window.addEventListener('enableAutoMove', (event) => this.enableAutoMove(event.detail));
+  }
+
+  unregisterEventHandlers() {
+    this.window.removeEventListener('resize', (event) => this.windowResize(event));
+    document.removeEventListener('keydown', (event) => this.keyChange(event, true));
+    document.removeEventListener('keyup', (event) => this.keyChange(event, false));
+    document.removeEventListener('mousedown', (event) => this.mouseDown(event));
+    document.removeEventListener('mousemove', (event) => this.mouseMove(event));
+    document.removeEventListener('mouseup', (event) => this.mouseUp(event));
+    this.renderer.domElement.removeEventListener('wheel', (event) => this.mouseWheel(event));
+    document.removeEventListener('contextmenu', (event) => this.contextMenu(event));
+    this.view.removeEventListener('change', (event) => this.elementChange(event));
+    this.projection.removeEventListener('change', (event) => this.elementChange(event));
+    this.horizontal.removeEventListener('change', (event) => this.elementChange(event));
+    this.vertical.removeEventListener('change', (event) => this.elementChange(event));
+    this.distance.removeEventListener('change', (event) => this.elementChange(event));
+    this.zoom.removeEventListener('change', (event) => this.elementChange(event));
+    this.fixedViewCamera.checkBox.removeEventListener('change', (event) => this.elementChange(event));
+    this.firstPersonViewCamera.checkBox.removeEventListener('change', (event) => this.elementChange(event));
+    this.thirdPersonViewCamera.checkBox.removeEventListener('change', (event) => this.elementChange(event));
+    this.topViewCamera.checkBox.removeEventListener('change', (event) => this.elementChange(event));
+    this.statistics.checkBox.removeEventListener('change', (event) => this.elementChange(event));
+    this.userInterface.checkBox.removeEventListener('change', (event) => this.elementChange(event));
+    this.help.checkBox.removeEventListener('change', (event) => this.elementChange(event));
+    this.reset.removeEventListener('click', (event) => this.buttonClick(event));
+    this.resetAll.removeEventListener('click', (event) => this.buttonClick(event));
+
+    this.window.removeEventListener('enableAutoMove', (event) => this.enableAutoMove(event.detail));
+  }
+
+  initializeGame() {
+    if (!this.gameRunning && !this.gamePaused) {
+      this.clock = new THREE.Clock();
+      this.audio.play(this.audio.introductionClips, false);
+      this.gameRunning = true;
+      globalAssetManager.onAllLoaded(() => {
+        this.assetsLoadedCallback();
+      });
+      this.runGame();
+    }
+  }
+
+  updateAnimationAndPlayerMovement(deltaT) {
+    // Update model animations
+    this.animations.update(deltaT);
+
+    if (this.animations.actionInProgress) {
+      return;
+    }
+    /* Update the player */
+
+    if (!this.player.enableAutoMove && !this.player.robotState.isAutoMoving) {
+      // Check if the player found any exit
+      const exitLocation = this.maze.foundSomeExit(this.player.position);
+      if (exitLocation) {
+        this.sceneExitLocationCallback(exitLocation);
+      }
+
+      this.updateManualControl(deltaT);
+    } else {
+      this.updateAutoRobotPathMovement(deltaT);
+    }
+
+    this.window.NAVIGATION_STATE = this.player.robotState.navigationState;
+  }
+
+  smoothPath(originalPath) {
+    const smoothedPath = [];
+    const spline = new THREE.CatmullRomCurve3(originalPath);
+    const divisions = originalPath.length * 5; // Increase divisions for smoother path
+
+    for (let i = 0; i <= divisions; i++) {
+      const point = spline.getPoint(i / divisions);
+
+      if (i > 0 && i < divisions) {
+        const prev = smoothedPath[smoothedPath.length - 1];
+        const next = spline.getPoint((i + 1) / divisions);
+
+        const vec1 = prev.clone().sub(point).normalize();
+        const vec2 = next.clone().sub(point).normalize();
+        const angle = vec1.angleTo(vec2);
+
+        // Threshold for sharp turn, adjust as needed
+        const sharpTurnThreshold = Math.PI / 2;
+
+        if (angle > sharpTurnThreshold) {
+          // For sharp turns, use linear interpolation
+          const midPoint = prev.clone().lerp(next, 0.5);
+          smoothedPath.push(midPoint);
+        } else {
+          // For smoother turns, use the spline point
+          smoothedPath.push(point);
+        }
+      } else {
+        // First and last points are added normally
+        smoothedPath.push(point);
+      }
+    }
+
+    let finalPath = smoothedPath;
+
+    const smoothingWindowSize = 13;
+    finalPath = this.applyMovingAverageSmoothing(finalPath, smoothingWindowSize);
+
+    return finalPath;
+  }
+
+  applyMovingAverageSmoothing(path, windowSize) {
+    if (windowSize <= 1 || path.length <= 1) {
+      // If windowSize is 1 or less, or path has 1 or less points, no smoothing is applied
+      return path.slice();
+    }
+
+    const smoothedPath = [];
+    const halfWindow = Math.floor(windowSize / 2);
+
+    for (let i = 0; i < path.length; i++) {
+      let sum = new THREE.Vector3(0, 0, 0);
+      let count = 0;
+
+      // Calculate the average for the points in the window
+      for (let j = -halfWindow; j <= halfWindow; j++) {
+        const index = i + j;
+
+        // Ensure index stays within the path boundaries
+        if (index >= 0 && index < path.length) {
+          sum.add(path[index]);
+          count++;
+        }
+      }
+
+      const averagePoint = sum.divideScalar(count);
+      smoothedPath.push(averagePoint);
+    }
+
+    // Ensure the first point of the original path is included
+    if (path.length > 1 && windowSize > 1) {
+      smoothedPath[0] = path[0].clone();
+    }
+
+    // Ensure the last point of the original path is included
+    if (path.length > 1 && windowSize > 1) {
+      smoothedPath[path.length - 1] = path[path.length - 1].clone();
+    }
+
+    // Add additional points at the start and end
+    const transitionPoints = 3;
+    for (let i = 0; i < transitionPoints; i++) {
+      // Start
+      const startMidPoint = smoothedPath[i].clone().lerp(smoothedPath[i + 1], 0.5);
+      smoothedPath.unshift(startMidPoint);
+
+      // End
+      const endIndex = smoothedPath.length - 2 - i; // Calculate the index for the end interpolation
+      const endMidPoint = smoothedPath[endIndex].clone().lerp(smoothedPath[endIndex + 1], 0.5);
+      smoothedPath.splice(endIndex + 1, 0, endMidPoint); // Insert the new point at the correct position
+    }
+
+    return smoothedPath;
+  }
+
+  calculateClosestIndex(path, position) {
+    let closestDistanceSquared = Infinity;
+    let closestIndex = 0;
+
+    for (let i = 0; i < path.length; i++) {
+      const distanceSquared = position.distanceToSquared(path[i]);
+      if (distanceSquared < closestDistanceSquared) {
+        closestDistanceSquared = distanceSquared;
+        closestIndex = i;
+      }
+    }
+
+    return closestIndex;
+  }
+
+  initializePathMovement(pathPoints) {
+    const path = pathPoints;
+    let closestIndex = this.calculateClosestIndex(path, this.player.position);
+
+    this.player.currentPathIndex = closestIndex;
+    if (this.window.SHOW_ROBOT_PATH) {
+      this.pathVisualizer.visualizePath(path, 0.01, 0x00ff00);
+    }
+
+    this.player.currentSpeed = 0;
+    this.player.maxSpeed = this.player.walkingSpeed * this.player.runningFactor;
+
+    this.player.robotState.navigationState = 'started';
+  }
+
+  needsToMoveToClosestPoint() {
+    const path = this.player.pathPoints;
+    const closestPoint = path[this.player.currentPathIndex];
+    const distanceSquared = this.player.position.distanceToSquared(closestPoint);
+    return distanceSquared > 0;
+  }
+
+  playerDistanceToClosestPoint() {
+    const path = this.player.pathPoints;
+    const closestPoint = path[this.player.currentPathIndex];
+    const distanceSquared = this.player.position.distanceToSquared(closestPoint);
+    return Math.sqrt(distanceSquared);
+  }
+
+  updateAutoRobotPathMovement(deltaT) {
+    if (!this.player.enableAutoMove || !this.player.robotState.isAutoMoving) {
+      return;
+    }
+
+    if (this.player.currentPathIndex === undefined) {
+      this.player.pathPoints = this.smoothPath(this.player.pathPoints);
+      this.initializePathMovement(this.player.pathPoints);
+    }
+
+    const path = this.player.pathPoints;
+    const speed = this.player.walkingSpeed * this.player.runningFactor;
+    if (this.player.currentPathIndex < path.length) {
+      const currentClosestPointDistance = this.playerDistanceToClosestPoint();
+
+      // FOR DEBUGGING PURPOSES
+      this.window.DISTANCE_TO_CLOSEST_POINT = currentClosestPointDistance;
+
+      // If the robot is too far from current path point, set a flag to move it there first
+      if (currentClosestPointDistance > 1.1) {
+        // > 1 is ok, needs further testing
+        this.player.movingToClosestPoint = true;
+
+        // const closestIndex = this.calculateClosestIndex(path, this.player.position);
+        this.timedExecutor.execute(
+          'calculateClosestIndex',
+          () => {
+            this.player.currentPathIndex = this.calculateClosestIndex(path, this.player.position);
+            console.log('⚠ Recaclulated closest point');
+          },
+          500,
+        );
+        // this.player.currentPathIndex = closestIndex;
+      }
+
+      // Move towards the closest point first, if necessary
+      if (this.player.movingToClosestPoint) {
+        this.logger.log('id=updateAutoRobotPathMovement', '⚠ Adjusting position by moving to closest point, distance:', currentClosestPointDistance, 500);
+
+        const closestPoint = path[this.player.currentPathIndex];
+        const direction = closestPoint.clone().sub(this.player.position).normalize();
+        const move = direction.multiplyScalar(speed * deltaT);
+        this.player.position.add(move);
+
+        // Check if the robot has reached the closest point
+        if (this.player.position.distanceToSquared(closestPoint) < move.lengthSq()) {
+          this.player.movingToClosestPoint = false;
+          this.player.currentPathIndex++;
+        }
+
+        this.updateRobotRotation(direction, deltaT);
+
+        this.animations.fadeToAction('Running', 0.2);
+
+        return;
+      }
+    }
+    // Move along the path
+    if (this.player.currentPathIndex < path.length - 1) {
+      const currentPoint = path[this.player.currentPathIndex];
+      const nextPoint = path[this.player.currentPathIndex + 1];
+      const direction = nextPoint.clone().sub(currentPoint).normalize();
+      this.calculateDynamicSpeed(currentPoint, nextPoint);
+      const speed = this.player.currentSpeed;
+      // this.logger.log('id=speed', 'Current speed:', speed, 200);
+      const move = direction.multiplyScalar(speed * deltaT);
+      const newPosition = this.player.position.clone().add(move);
+
+      if (newPosition.distanceToSquared(nextPoint) < move.lengthSq() || this.shouldAdvanceToNextPoint(newPosition, nextPoint)) {
+        this.player.currentPathIndex++;
+
+        // FOR DEBUGGING PURPOSES
+        this.window.MOVE_LENGTH_SQ = move.lengthSq();
+        this.window.CURRENT_PATH_INDEX = this.player.currentPathIndex;
+      }
+
+      this.player.position.copy(newPosition);
+
+      this.updateRobotRotation(direction, deltaT);
+
+      this.adjustAnimationBasedOnSpeed(speed);
+    } else {
+      // Robot has reached the end of the path
+      this.enableAutoMove(false);
+      this.animations.fadeToAction('Idle', 0.2);
+      if (this.player.robotState.navigationState !== 'stepFinished') {
+        this.player.robotState.navigationState = 'stepFinished';
+        this.window.dispatchEvent(new CustomEvent('robotNavigationStepFinished', { detail: this.player.robotState }));
+      }
+    }
+  }
+
+  shouldAdvanceToNextPoint(currentPosition, nextPoint) {
+    const distanceToNextPoint = currentPosition.distanceToSquared(nextPoint);
+    const threshold = 0.001;
+    return distanceToNextPoint < threshold;
+  }
+
+  adjustAnimationBasedOnSpeed(speed) {
+    if (speed > this.player.walkingSpeed) {
+      this.animations.fadeToAction('Running', 0.2);
+    } else {
+      this.animations.fadeToAction('Walking', 0.2);
+    }
+  }
+
+  calculateDynamicSpeed() {
+    const path = this.player.pathPoints;
+    const baseSpeed = this.player.walkingSpeed * this.player.runningFactor;
+    const sharpTurnThreshold = THREE.MathUtils.degToRad(5); // 10 degrees to radians
+    const criticalAngle = THREE.MathUtils.degToRad(50); // 50 degrees to radians
+    const lookAheadPoints = 3; // (3) Number of points to look ahead for detecting sharp turns
+    const exponent = 2; // (2)
+    const acceleration = 0.05;
+
+    let maxAngle = 0;
+    for (let i = 1; i <= lookAheadPoints && this.player.currentPathIndex + i < path.length - 1; i++) {
+      const currentPoint = path[this.player.currentPathIndex + i - 1];
+      const nextPoint = path[this.player.currentPathIndex + i];
+      const afterNextPoint = path[this.player.currentPathIndex + i + 1];
+
+      const turnVector1 = nextPoint.clone().sub(currentPoint).normalize();
+      const turnVector2 = afterNextPoint.clone().sub(nextPoint).normalize();
+      const angle = turnVector1.angleTo(turnVector2);
+
+      if (angle > maxAngle) {
+        maxAngle = angle;
+      }
+    }
+
+    let targetSpeed;
+    if (maxAngle > sharpTurnThreshold) {
+      const nonLinearFactor = (maxAngle - sharpTurnThreshold) / (criticalAngle - sharpTurnThreshold);
+      const speedAdjustment = Math.max(0.5, 1 - nonLinearFactor ** exponent); // Squared to make it non-linear
+      const adjustedSpeed = baseSpeed * speedAdjustment;
+
+      // this.logger.warn('id=calculateDynamicSpeed', 'Sharp turn detected, adjusting speed to', adjustedSpeed, 200);
+
+      targetSpeed = adjustedSpeed;
+    } else {
+      targetSpeed = baseSpeed;
+    }
+
+    // If the current speed is less than the target speed, increase it
+    if (this.player.currentSpeed < targetSpeed) {
+      this.player.currentSpeed += acceleration;
+      // If the current speed exceeds the target speed due to acceleration, clamp it
+      if (this.player.currentSpeed > targetSpeed) {
+        this.player.currentSpeed = targetSpeed;
+      }
+    }
+    // If the current speed is more than the target speed, decrease it
+    else if (this.player.currentSpeed > targetSpeed) {
+      this.player.currentSpeed -= acceleration;
+      // If the current speed drops below the target speed due to deceleration, clamp it
+      if (this.player.currentSpeed < targetSpeed) {
+        this.player.currentSpeed = targetSpeed;
+      }
+    }
+
+    return this.player.currentSpeed;
+  }
+
+  updateRobotRotation(direction, deltaT) {
+    // Smoothly update player rotation to face the moving direction
+    const targetAngle = Math.atan2(direction.x, direction.z);
+    const currentAngle = this.player.rotation.y + this.player.defaultDirection;
+    const angleDifference = targetAngle - currentAngle;
+    const baseRotationSpeed = 4;
+    const rotationSpeed = Math.max(Math.min(10, baseRotationSpeed * (this.player.maxSpeed / (this.player.currentSpeed + 0.01)) ** 6), baseRotationSpeed);
+    // this.logger.log('id=rotationSpeed', 'Current rotation speed:', rotationSpeed, 100);
+
+    // Ensure that the robot turns in the shortest direction
+    const deltaAngle = Math.atan2(Math.sin(angleDifference), Math.cos(angleDifference)) * rotationSpeed * deltaT;
+
+    this.player.rotation.y += deltaAngle;
+    if (this.player.rotation.y > Math.PI) {
+      this.player.rotation.y -= 2 * Math.PI;
+    }
+    if (this.player.rotation.y < -Math.PI) {
+      this.player.rotation.y += 2 * Math.PI;
+    }
+  }
+
+  updateManualControl(deltaT) {
+    let coveredDistance = this.player.walkingSpeed * deltaT;
+    let directionIncrement = this.player.turningSpeed * deltaT;
+    if (this.player.shiftKey) {
+      coveredDistance *= this.player.runningFactor;
+      directionIncrement *= this.player.runningFactor;
+    }
+    let playerTurned = false;
+    let directionDeg = this.player.direction;
+    if (this.player.keyStates.left) {
+      playerTurned = true;
+      directionDeg += directionIncrement;
+    } else if (this.player.keyStates.right) {
+      playerTurned = true;
+      directionDeg -= directionIncrement;
+    }
+    const directionRad = THREE.MathUtils.degToRad(directionDeg);
+    let playerMoved = false;
+    const position = this.player.position.clone();
+    if (this.player.keyStates.backward) {
+      playerMoved = true;
+      position.sub(new THREE.Vector3(coveredDistance * Math.sin(directionRad), 0.0, coveredDistance * Math.cos(directionRad)));
+    } else if (this.player.keyStates.forward) {
+      playerMoved = true;
+      position.add(new THREE.Vector3(coveredDistance * Math.sin(directionRad), 0.0, coveredDistance * Math.cos(directionRad)));
+    }
+    if (
+      this.maze.collision(
+        this.collisionDetectionParameters.method,
+        position,
+        this.collisionDetectionParameters.method != 'obb-aabb' ? this.player.radius : this.player.halfSize,
+        directionRad - this.player.defaultDirection,
+      )
+    ) {
+      this.audio.play(this.audio.deathClips, false);
+      this.animations.fadeToAction('Death', 0.2);
+    } else if (this.player.keyStates.jump) {
+      this.audio.play(this.audio.jumpClips, true);
+      this.animations.fadeToAction('Jump', 0.2);
+    } else if (this.player.keyStates.yes) {
+      this.animations.fadeToAction('Yes', 0.2);
+    } else if (this.player.keyStates.no) {
+      this.animations.fadeToAction('No', 0.2);
+    } else if (this.player.keyStates.wave) {
+      this.animations.fadeToAction('Wave', 0.2);
+    } else if (this.player.keyStates.punch) {
+      this.animations.fadeToAction('Punch', 0.2);
+    } else if (this.player.keyStates.thumbsUp) {
+      this.animations.fadeToAction('ThumbsUp', 0.2);
+    } else {
+      if (playerTurned) {
+        this.player.direction = directionDeg;
+      }
+      if (playerMoved) {
+        this.animations.fadeToAction(this.player.shiftKey ? 'Running' : 'Walking', 0.2);
+        this.player.position.set(position.x, position.y, position.z);
+      } else {
+        if (this.animations.idleTimeOut()) {
+          this.animations.resetIdleTime();
+          this.audio.play(this.audio.idleClips, false);
+        }
+        this.animations.fadeToAction('Idle', this.animations.activeName != 'Death' ? 0.2 : 0.6);
+      }
+    }
+    this.player.rotation.y = directionRad - this.player.defaultDirection;
+  }
+
   update() {
     if (!this.gameRunning && !this.gamePaused) {
-      if (this.audio.loaded() && this.maze.loaded && this.player.loaded) {
-        // If all resources have been loaded
-        // Add positional audio sources to objects
-        const types = [this.audio.introductionClips, this.audio.idleClips, this.audio.jumpClips, this.audio.deathClips, this.audio.danceClips, this.audio.endClips];
-        types.forEach((type) => {
-          type.forEach((clip) => {
-            let position = clip.position.split(' ');
-            if (position.length == 4 && position[0] == 'scene') {
-              // Positional audio object (scene specific position in cartesian coordinates)
-              position = position.slice(1).map(Number);
-              if (!Number.isNaN(position[0]) && !Number.isNaN(position[1]) && !Number.isNaN(position[2])) {
-                this.scene.add(clip.source);
-                clip.source.position.set(position[0], position[1], position[2]);
-              }
-            } else if (position.length == 3 && position[0] == 'maze') {
-              // Positional audio object (maze specific position in cell coordinates)
-              position = position.slice(1).map(Number);
-              if (!Number.isNaN(position[0]) && !Number.isNaN(position[1])) {
-                this.scene.add(clip.source);
-                position = this.maze.cellToCartesian(position);
-                clip.source.position.set(position.x, position.y, position.z);
-              }
-            } else if (clip.position == 'exit') {
-              // Positional audio object (maze exit location)
-              this.scene.add(clip.source);
-              // Disabled as exitLocation won't be used
-              // clip.source.position.set(this.maze.exitLocation.x, this.maze.exitLocation.y, this.maze.exitLocation.z);
-            } else if (clip.position == 'initial') {
-              // Positional audio object (player initial position)
-              this.scene.add(clip.source);
-              clip.source.position.set(this.maze.initialPosition.x, this.maze.initialPosition.y, this.maze.initialPosition.z);
-            } else if (clip.position == 'player') {
-              // Positional audio object (player current position)
-              this.player.add(clip.source);
-            } else if (clip.position == 'spotlight') {
-              // Positional audio object (spotlight current position)
-              this.spotLight.add(clip.source);
-            }
-          });
-        });
-
-        // Add the maze, the player and the lights to the scene
-        this.scene.add(this.maze);
-        this.scene.add(this.player);
-        this.scene.add(this.ambientLight);
-        this.scene.add(this.directionalLight);
-        this.scene.add(this.spotLight);
-        this.scene.add(this.flashLight);
-        this.scene.add(this.flashLight.target);
-
-        // Create model animations (states, emotes and expressions)
-        this.animations = new Animations(this.player);
-
-        // Set the player's position and direction
-        this.player.position.set(this.maze.initialPosition.x, this.maze.initialPosition.y, this.maze.initialPosition.z);
-        this.player.direction = this.maze.initialDirection;
-
-        // Set the spotlight target
-        this.spotLight.target = this.player;
-
-        // Report the player radius to the flashlight and to the first-person view camera
-        this.firstPersonViewCamera.playerRadius = this.playerRadius = this.player.radius;
-
-        // Initialize the bounding volumes visibility
-        if (this.collisionDetectionParameters.boundingVolumes.visible) {
-          this.setBoundingVolumesVisibility(true);
-        }
-
-        // Create the user interface
-        this.userInterface = new UserInterface(this);
-
-        // Get and configure the user interface checkbox
-        this.userInterface.checkBox = document.getElementById('user-interface');
-        this.userInterface.checkBox.checked = true;
-
-        // Register the event handler to be called on window resize
-        this.window.addEventListener('resize', (event) => this.windowResize(event));
-
-        // Register the event handler to be called on key down
-        document.addEventListener('keydown', (event) => this.keyChange(event, true));
-
-        // Register the event handler to be called on key release
-        document.addEventListener('keyup', (event) => this.keyChange(event, false));
-
-        // Register the event handler to be called on mouse down
-        document.addEventListener('mousedown', (event) => this.mouseDown(event));
-
-        // Register the event handler to be called on mouse move
-        document.addEventListener('mousemove', (event) => this.mouseMove(event));
-
-        // Register the event handler to be called on mouse up
-        document.addEventListener('mouseup', (event) => this.mouseUp(event));
-
-        // Register the event handler to be called on mouse wheel
-        this.renderer.domElement.addEventListener('wheel', (event) => this.mouseWheel(event));
-
-        // Register the event handler to be called on context menu
-        document.addEventListener('contextmenu', (event) => this.contextMenu(event));
-
-        // Register the event handler to be called on select, input number, or input checkbox change
-        this.view.addEventListener('change', (event) => this.elementChange(event));
-        this.projection.addEventListener('change', (event) => this.elementChange(event));
-        this.horizontal.addEventListener('change', (event) => this.elementChange(event));
-        this.vertical.addEventListener('change', (event) => this.elementChange(event));
-        this.distance.addEventListener('change', (event) => this.elementChange(event));
-        this.zoom.addEventListener('change', (event) => this.elementChange(event));
-        this.fixedViewCamera.checkBox.addEventListener('change', (event) => this.elementChange(event));
-        this.firstPersonViewCamera.checkBox.addEventListener('change', (event) => this.elementChange(event));
-        this.thirdPersonViewCamera.checkBox.addEventListener('change', (event) => this.elementChange(event));
-        this.topViewCamera.checkBox.addEventListener('change', (event) => this.elementChange(event));
-        this.statistics.checkBox.addEventListener('change', (event) => this.elementChange(event));
-        this.userInterface.checkBox.addEventListener('change', (event) => this.elementChange(event));
-        this.help.checkBox.addEventListener('change', (event) => this.elementChange(event));
-
-        // Register the event handler to be called on input button click
-        this.reset.addEventListener('click', (event) => this.buttonClick(event));
-        this.resetAll.addEventListener('click', (event) => this.buttonClick(event));
-
-        // Create the clock
-        this.clock = new THREE.Clock();
-
-        // Play an introduction clip
-        this.audio.play(this.audio.introductionClips, false);
-
-        // Start the game
-        this.gameRunning = true;
-        globalAssetManager.onAllLoaded(() => {
-          this.assetsLoadedCallback();
-        });
-        this.runGame();
-      } else {
-        // No logic at the time
-      }
+      this.checkResourceLoading();
     } else {
-      // Update the model animations
-      const deltaT = this.clock.getDelta();
-      this.animations.update(deltaT);
+      /* Game is running or paused */
+      this.updateGame();
+    }
+  }
 
-      // Update the player
-      if (!this.animations.actionInProgress) {
-        // Check if the player found the exit
-        const exitLocation = this.maze.foundSomeExit(this.player.position);
-        if (exitLocation) {
-          // this.logger.warn('exitLog', 'found some exit:', exitLocation);
-          this.sceneExitLocationCallback(exitLocation);
-        } //else {
-        if (true) {
-          let coveredDistance = this.player.walkingSpeed * deltaT;
-          let directionIncrement = this.player.turningSpeed * deltaT;
-          if (this.player.shiftKey) {
-            coveredDistance *= this.player.runningFactor;
-            directionIncrement *= this.player.runningFactor;
-          }
-          let playerTurned = false;
-          let directionDeg = this.player.direction;
-          if (this.player.keyStates.left) {
-            playerTurned = true;
-            directionDeg += directionIncrement;
-          } else if (this.player.keyStates.right) {
-            playerTurned = true;
-            directionDeg -= directionIncrement;
-          }
-          const directionRad = THREE.MathUtils.degToRad(directionDeg);
-          let playerMoved = false;
-          const position = this.player.position.clone();
-          if (this.player.keyStates.backward) {
-            playerMoved = true;
-            position.sub(new THREE.Vector3(coveredDistance * Math.sin(directionRad), 0.0, coveredDistance * Math.cos(directionRad)));
-          } else if (this.player.keyStates.forward) {
-            playerMoved = true;
-            position.add(new THREE.Vector3(coveredDistance * Math.sin(directionRad), 0.0, coveredDistance * Math.cos(directionRad)));
-          }
-          if (
-            this.maze.collision(
-              this.collisionDetectionParameters.method,
-              position,
-              this.collisionDetectionParameters.method != 'obb-aabb' ? this.player.radius : this.player.halfSize,
-              directionRad - this.player.defaultDirection,
-            )
-          ) {
-            this.audio.play(this.audio.deathClips, false);
-            this.animations.fadeToAction('Death', 0.2);
-          } else if (this.player.keyStates.jump) {
-            this.audio.play(this.audio.jumpClips, true);
-            this.animations.fadeToAction('Jump', 0.2);
-          } else if (this.player.keyStates.yes) {
-            this.animations.fadeToAction('Yes', 0.2);
-          } else if (this.player.keyStates.no) {
-            this.animations.fadeToAction('No', 0.2);
-          } else if (this.player.keyStates.wave) {
-            this.animations.fadeToAction('Wave', 0.2);
-          } else if (this.player.keyStates.punch) {
-            this.animations.fadeToAction('Punch', 0.2);
-          } else if (this.player.keyStates.thumbsUp) {
-            this.animations.fadeToAction('ThumbsUp', 0.2);
-          } else {
-            if (playerTurned) {
-              this.player.direction = directionDeg;
-            }
-            if (playerMoved) {
-              this.animations.fadeToAction(this.player.shiftKey ? 'Running' : 'Walking', 0.2);
-              this.player.position.set(position.x, position.y, position.z);
-            } else {
-              if (this.animations.idleTimeOut()) {
-                this.animations.resetIdleTime();
-                this.audio.play(this.audio.idleClips, false);
-              }
-              this.animations.fadeToAction('Idle', this.animations.activeName != 'Death' ? 0.2 : 0.6);
-            }
-          }
+  updateGame() {
+    this.updateAnimationsAndMovements();
+    this.updateCameraAndLightParameters();
+    this.updateStatistics();
+    this.renderPrimaryViewports();
+    this.renderSecondaryViewport();
+    this.finalizeFirstRender();
+  }
 
-          this.player.rotation.y = directionRad - this.player.defaultDirection;
-        }
+  updateAnimationsAndMovements() {
+    const deltaT = this.clock.getDelta();
+    this.updateAnimationAndPlayerMovement(deltaT);
+  }
+
+  updateCameraAndLightParameters() {
+    // Update the flashlight, first-person view, third-person view and top view camera parameters (player orientation and target)
+    let orientation = new THREE.Quaternion();
+    this.player.getWorldQuaternion(orientation);
+    let target = new THREE.Vector3(this.player.position.x, this.player.position.y + this.player.face.worldPosition.y, this.player.position.z);
+    this.topViewCamera.playerOrientation = orientation;
+    this.topViewCamera.setTarget(target);
+    this.thirdPersonViewCamera.playerOrientation = orientation;
+    this.thirdPersonViewCamera.setTarget(target);
+    const directionRad = THREE.MathUtils.degToRad(this.player.direction);
+    if (!this.realisticViewMode.checkBox.checked) {
+      this.firstPersonViewCamera.playerOrientation = orientation;
+      this.firstPersonViewCamera.setTarget(target);
+      this.flashLight.playerOrientation = orientation;
+      target = new THREE.Vector3(
+        this.player.position.x + this.player.radius * Math.sin(directionRad),
+        this.player.position.y + this.player.size.y,
+        this.player.position.z + this.player.radius * Math.cos(directionRad),
+      );
+      this.flashLight.setTarget(target);
+    } else {
+      this.player.headEnd.getWorldQuaternion(orientation);
+      this.player.face.getWorldPosition(target);
+      this.firstPersonViewCamera.playerOrientation = orientation;
+      this.firstPersonViewCamera.setTarget(target);
+      this.flashLight.playerOrientation = orientation;
+      target.add(new THREE.Vector3(this.player.radius * Math.sin(directionRad), this.player.size.y - this.player.face.worldPosition.y, this.player.radius * Math.cos(directionRad)));
+      this.flashLight.setTarget(target);
+    }
+  }
+
+  updateStatistics() {
+    this.statistics.update();
+  }
+
+  renderPrimaryViewports() {
+    this.enableShadows(this.shadowsParameters.enabled);
+    this.enableFog(this.fog.enabled);
+    this.renderer.clearColor();
+    for (let i = this.visibleViewportCameras.length - 1; i >= 0; i--) {
+      // Primary viewports must be rendered in reverse order: the topmost visible one will be rendered last
+      const camera = this.visibleViewportCameras[i];
+      if (this.fog.enabled) {
+        this.fog.density = camera.fogDensity;
       }
-
-      // Update the flashlight, first-person view, third-person view and top view camera parameters (player orientation and target)
-      let orientation = new THREE.Quaternion();
-      this.player.getWorldQuaternion(orientation);
-      let target = new THREE.Vector3(this.player.position.x, this.player.position.y + this.player.face.worldPosition.y, this.player.position.z);
-      this.topViewCamera.playerOrientation = orientation;
-      this.topViewCamera.setTarget(target);
-      this.thirdPersonViewCamera.playerOrientation = orientation;
-      this.thirdPersonViewCamera.setTarget(target);
-      const directionRad = THREE.MathUtils.degToRad(this.player.direction);
-      if (!this.realisticViewMode.checkBox.checked) {
-        this.firstPersonViewCamera.playerOrientation = orientation;
-        this.firstPersonViewCamera.setTarget(target);
-        this.flashLight.playerOrientation = orientation;
-        target = new THREE.Vector3(
-          this.player.position.x + this.player.radius * Math.sin(directionRad),
-          this.player.position.y + this.player.size.y,
-          this.player.position.z + this.player.radius * Math.cos(directionRad),
-        );
-        this.flashLight.setTarget(target);
-      } else {
-        this.player.headEnd.getWorldQuaternion(orientation);
-        this.player.face.getWorldPosition(target);
-        this.firstPersonViewCamera.playerOrientation = orientation;
-        this.firstPersonViewCamera.setTarget(target);
-        this.flashLight.playerOrientation = orientation;
-        target.add(new THREE.Vector3(this.player.radius * Math.sin(directionRad), this.player.size.y - this.player.face.worldPosition.y, this.player.radius * Math.cos(directionRad)));
-        this.flashLight.setTarget(target);
-      }
-
-      // Update statistics
-      this.statistics.update();
-
-      // Render primary viewports
-      this.enableShadows(this.shadowsParameters.enabled);
-      this.enableFog(this.fog.enabled);
-      this.renderer.clearColor();
-      for (let i = this.visibleViewportCameras.length - 1; i >= 0; i--) {
-        // Primary viewports must be rendered in reverse order: the topmost visible one will be rendered last
-        const camera = this.visibleViewportCameras[i];
-        if (this.fog.enabled) {
-          this.fog.density = camera.fogDensity;
-        }
-        this.player.visible = camera != this.firstPersonViewCamera;
-        this.renderer.setViewport(camera.viewport.x, camera.viewport.y, camera.viewport.width, camera.viewport.height);
-        if (this.cubeTexture.name == 'None' || this.fog.enabled) {
-          this.background.children[0].material.color.set(this.fog.enabled ? this.fog.color : camera.backgroundColor);
-          this.renderer.render(this.background, this.camera2D); // Render the background
-        }
-        this.renderer.clearDepth();
-        this.renderer.render(this.scene, camera.activeProjection); // Render the scene
-        this.frame.children[0].material.color.set(camera.frameColor);
-        this.renderer.render(this.frame, this.camera2D); // Render the frame
-      }
-
-      // Render secondary viewport (mini-map)
-      if (this.miniMapCamera.checkBox.checked) {
-        this.enableShadows(false);
-        this.scene.background = null;
-        this.scene.fog = null;
-        this.player.visible = true;
-        this.renderer.setViewport(this.miniMapCamera.viewport.x, this.miniMapCamera.viewport.y, this.miniMapCamera.viewport.width, this.miniMapCamera.viewport.height);
-        this.background.children[0].material.color.set(this.miniMapCamera.backgroundColor);
+      this.player.visible = camera != this.firstPersonViewCamera;
+      this.renderer.setViewport(camera.viewport.x, camera.viewport.y, camera.viewport.width, camera.viewport.height);
+      if (this.cubeTexture.name == 'None' || this.fog.enabled) {
+        this.background.children[0].material.color.set(this.fog.enabled ? this.fog.color : camera.backgroundColor);
         this.renderer.render(this.background, this.camera2D); // Render the background
-        this.renderer.clearDepth();
-        this.renderer.render(this.scene, this.miniMapCamera.activeProjection); // Render the scene
-        this.frame.children[0].material.color.set(this.miniMapCamera.frameColor);
-        this.renderer.render(this.frame, this.camera2D); // Render the frame
       }
+      this.renderer.clearDepth();
+      this.renderer.render(this.scene, camera.activeProjection); // Render the scene
+      this.frame.children[0].material.color.set(camera.frameColor);
+      this.renderer.render(this.frame, this.camera2D); // Render the frame
+    }
+  }
 
-      if (this.firstRender) {
-        this.firstRender = false;
-        window.dispatchEvent(new Event('resize'));
-        this.sceneLoadedCallback();
-      }
+  renderSecondaryViewport() {
+    // Render secondary viewport (mini-map)
+    if (this.miniMapCamera.checkBox.checked) {
+      this.enableShadows(false);
+      this.scene.background = null;
+      this.scene.fog = null;
+      this.player.visible = true;
+      this.renderer.setViewport(this.miniMapCamera.viewport.x, this.miniMapCamera.viewport.y, this.miniMapCamera.viewport.width, this.miniMapCamera.viewport.height);
+      this.background.children[0].material.color.set(this.miniMapCamera.backgroundColor);
+      this.renderer.render(this.background, this.camera2D); // Render the background
+      this.renderer.clearDepth();
+      this.renderer.render(this.scene, this.miniMapCamera.activeProjection); // Render the scene
+      this.frame.children[0].material.color.set(this.miniMapCamera.frameColor);
+      this.renderer.render(this.frame, this.camera2D); // Render the frame
+    }
+  }
+
+  finalizeFirstRender() {
+    if (this.firstRender) {
+      this.firstRender = false;
+      window.dispatchEvent(new Event('resize'));
+      this.sceneLoadedCallback();
     }
   }
 }

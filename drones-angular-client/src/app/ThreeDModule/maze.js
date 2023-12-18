@@ -57,6 +57,8 @@ export default class Maze extends THREE.Group {
       this.size = configData.maze.size;
       this.halfSize = { width: this.size.width / 2.0, depth: this.size.depth / 2.0 };
       this.map = configData.maze.map;
+      this.mazeData = configData.maze;
+      this.roomData = configData.roomData;
 
       // Old stuff left for compatibility (testability)
       if (configData.maze.exitLocation) {
@@ -393,6 +395,7 @@ export default class Maze extends THREE.Group {
         mesh = new THREE.Mesh(mergedGeometry, wall.materials[i]);
         mesh.castShadow = true;
         mesh.receiveShadow = true;
+        mesh.name = 'wall';
         this.add(mesh);
       }
 
@@ -403,6 +406,7 @@ export default class Maze extends THREE.Group {
           mesh = new THREE.Mesh(mergedGeometry, doorWall.materials[i]);
           mesh.castShadow = true;
           mesh.receiveShadow = true;
+          mesh.name = 'door';
           this.add(mesh);
         }
       }
@@ -414,6 +418,7 @@ export default class Maze extends THREE.Group {
           mesh = new THREE.Mesh(mergedGeometry, passageWall.materials[i]);
           mesh.castShadow = true;
           mesh.receiveShadow = true;
+          mesh.name = 'passage';
           this.add(mesh);
         }
       }
@@ -425,6 +430,7 @@ export default class Maze extends THREE.Group {
           mesh = new THREE.Mesh(mergedGeometry, elevatorWall.materials[i]);
           mesh.castShadow = true;
           mesh.receiveShadow = true;
+          mesh.name = 'elevator';
           this.add(mesh);
         }
       }
@@ -624,7 +630,7 @@ export default class Maze extends THREE.Group {
     let passageDetectionRadiusZ = 0.2 * this.scale.z;
     for (const passage of this.exitLocations.passages) {
       if (Math.abs(position.x - passage.entrancePosition3d.x) < passageDetectionRadiusX && Math.abs(position.z - passage.entrancePosition3d.z) < passageDetectionRadiusZ) {
-        return { type: 'passage', details: passage };
+        return { type: 'passage', details: passage, exitFloorNumber: this.mazeData.floorNumber, exitBuildingCode: this.mazeData.buildingCode };
       }
     }
 
@@ -633,7 +639,7 @@ export default class Maze extends THREE.Group {
     let elevatorDetectionRadiusZ = 0.2 * this.scale.z;
     for (const elevator of this.exitLocations.elevators) {
       if (Math.abs(position.x - elevator.entrancePosition3d.x) < elevatorDetectionRadiusX && Math.abs(position.z - elevator.entrancePosition3d.z) < elevatorDetectionRadiusZ) {
-        return { type: 'elevator', details: elevator };
+        return { type: 'elevator', details: elevator, exitFloorNumber: this.mazeData.floorNumber, exitBuildingCode: this.mazeData.buildingCode };
       }
     }
 

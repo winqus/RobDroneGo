@@ -2,7 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EMPTY } from 'rxjs';
 import { AppRoutingModule } from './app-routing.module';
@@ -21,10 +21,13 @@ import { CreatePassageComponent } from './components/create-passage/create-passa
 import { CreateRobotTypeComponent } from './components/create-robot-type/create-robot-type.component';
 import { CreateRobotComponent } from './components/create-robot/create-robot.component';
 import { CreateRoomComponent } from './components/create-room/create-room.component';
+import { CreateTaskRequestComponent } from './components/create-task-request/create-task-request.component';
+import { CreateUserComponent } from './components/create-user/create-user.component';
 import { EditBuildingComponent } from './components/edit-building/edit-building.component';
 import { EditElevatorComponent } from './components/edit-elevator/edit-elevator.component';
 import { EditFloorComponent } from './components/edit-floor/edit-floor.component';
 import { EditPassageComponent } from './components/edit-passage/edit-passage.component';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { ElevatorListComponent } from './components/elevator-list/elevator-list.component';
 import { ErrorComponent } from './components/error/error.component';
 import { FloorListComponent } from './components/floor-list/floor-list.component';
@@ -33,6 +36,7 @@ import { FloorsToDifBuildsComponent } from './components/floors-to-dif-builds/fl
 import { FooterComponent } from './components/footer/footer.component';
 import { FormErrorListComponent } from './components/form-error-list/form-error-list.component';
 import { GdprComponent } from './components/gdpr/gdpr.component';
+import { ListTaskRequestComponent } from './components/list-task-request/list-task-request.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { MbcoComponent } from './components/mbco/mbco.component';
@@ -44,9 +48,11 @@ import { RecoveryStrategyComponent } from './components/recovery-strategy/recove
 import { RecursiveMenuDropdownComponent } from './components/recursive-menu-dropdown/recursive-menu-dropdown.component';
 import { RobotListComponent } from './components/robot-list/robot-list.component';
 import { SearchRobotComponent } from './components/search-robot/search-robot.component';
+import { SearchTaskComponent } from './components/search-task/search-task.component';
 import { SuccessFormMessageComponent } from './components/shared/success-form-message/success-form-message.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { UploadMapComponent } from './components/upload-map/upload-map.component';
+import { UserListComponent } from './components/user-list/user-list.component';
 import { JwtService } from './core/authentication/services/jwt.service';
 import { UserService } from './core/authentication/services/user.service';
 import { jwtInterceptorProvider } from './core/interceptors/jwt.interceptor';
@@ -57,7 +63,7 @@ import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.comp
 import { AuthComponent } from './features/auth/auth.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ErrorMessagePipe } from './shared/pipes/error-message.pipe';
-import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 export function initAuthorization(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
@@ -120,14 +126,20 @@ export const initAuthorizationProvider = {
     PublicFolderComponent,
     UploadMapComponent,
     EditUserComponent,
+
+    CreateUserComponent,
+    UserListComponent,
+    CreateTaskRequestComponent,
+    ListTaskRequestComponent,
+    SearchTaskComponent,
+    ModalComponent,
   ],
-  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
+  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule, FormsModule],
   providers: [
     initAuthorizationProvider,
     jwtInterceptorProvider,
     loggingInterceptorProvider,
-    // comment this line to use the real auth API
-    mockAuthHttpInterceptorProvider,
+    // mockAuthHttpInterceptorProvider, // comment this line to use the real auth API
   ],
   bootstrap: [AppComponent],
 })

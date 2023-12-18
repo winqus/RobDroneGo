@@ -30,6 +30,27 @@
   <div *ngIf="signupForm.controls['email']?.touched && signupForm.controls['email']?.invalid" class="text-error">
     <small *ngIf="signupForm.controls['email']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
     <small *ngIf="signupForm.controls['email']?.errors?.['email']">{{ validationErrors.invalidEmail }}</small>
+    <small *ngIf="signupForm.controls['email']?.errors?.['invalidDomain']"> Email must belong to {{ emailDomainName }}. </small>
+  </div>
+
+  <!-- Phonenumber Field-->
+  <label class="label" for="phonenumber">
+    <span class="label-text">{{ props.phonenumberLabel }}</span>
+  </label>
+  <input formControlName="phonenumber" type="text" placeholder="{{ props.phonenumberPlaceholder }}" class="input input-bordered" id="phonenumber" />
+  <div *ngIf="signupForm.controls['phonenumber']?.touched && signupForm.controls['phonenumber']?.invalid" class="text-error">
+    <small *ngIf="signupForm.controls['phonenumber']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+    <small *ngIf="signupForm.controls['phonenumber'].errors?.['pattern']"> Invalid contact number, must be 9 numbers. </small>
+  </div>
+
+  <!-- Taxpayernumber Field-->
+  <label class="label" for="taxpayernumber">
+    <span class="label-text">{{ props.taxpayernumberLabel }}</span>
+  </label>
+  <input formControlName="taxpayernumber" type="text" placeholder="{{ props.taxpayernumberPlaceholder }}" class="input input-bordered" id="taxpayernumber" />
+  <div *ngIf="signupForm.controls['taxpayernumber']?.touched && signupForm.controls['taxpayernumber']?.invalid" class="text-error">
+    <small *ngIf="signupForm.controls['taxpayernumber']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
+    <small *ngIf="signupForm.controls['taxpayernumber']?.errors?.['pattern']"> Taxpayer number must be 9 digits and contain only numeric values. </small>
   </div>
 
   <!-- Password Field -->
@@ -39,7 +60,7 @@
   <input formControlName="password" type="password" placeholder="{{ props.passwordPlaceholder }}" class="input input-bordered" id="password" />
   <div *ngIf="signupForm.controls['password']?.touched && signupForm.controls['password']?.invalid" class="text-error">
     <small *ngIf="signupForm.controls['password']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
-    <small *ngIf="signupForm.controls['password']?.errors?.['minlength']">{{ validationErrors.fieldLengthRange | errorMessage: passwordArgs }}</small>
+    <small *ngIf="signupForm.controls['password']?.errors?.['pattern']"> Password must contain at least a capital letter, a lowercase letter, a digit and a symbol. </small>
   </div>
 
   <!-- Confirm Password Field -->
@@ -53,14 +74,6 @@
   <div *ngIf="signupForm.controls['confirmPassword']?.touched" class="text-error">
     <small *ngIf="signupForm.hasError('mismatch')">{{ validationErrors.passwordMismatch }}</small>
   </div>
-
-  <!-- User Role Dropdown -->
-  <label class="label" for="role">
-    <span class="label-text">{{ props.userRolesDropdownLabel }}</span>
-  </label>
-  <select formControlName="role" class="select select-bordered" id="role">
-    <option *ngFor="let userRole of props.userRoles" [ngValue]="userRole.role">{{ userRole.label }}</option>
-  </select>
 
   <!-- GDPR Compliance Checkbox -->
   <label class="label cursor-pointer mt-3 justify-start" for="gdprCompliance">
