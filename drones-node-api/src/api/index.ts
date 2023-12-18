@@ -8,6 +8,7 @@ import robot from './routes/robotRoute';
 import robotType from './routes/robotTypeRoute';
 import role from './routes/roleRoute';
 import room from './routes/roomRoute';
+import taskRequest from './routes/taskRequestRoute';
 import { default as auth, default as user } from './routes/userRoute';
 
 export default () => {
@@ -24,6 +25,7 @@ export default () => {
   robot(app);
   files(app);
   planning(app);
+  taskRequest(app);
 
   return app;
 };

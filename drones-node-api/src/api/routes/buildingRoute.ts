@@ -3,16 +3,24 @@ import { Router } from 'express';
 import { Container } from 'typedi';
 import config from '../../../config';
 import IBuildingController from '../../controllers/IControllers/IBuildingController';
+import { UserRole } from '../../domain/userRole.enum';
+import middlewares from '../middlewares';
 import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
 const route = Router();
+const protectedRoute = Router();
+
+protectedRoute.use(middlewares.isAuth);
+protectedRoute.use(middlewares.attachCurrentUser);
+protectedRoute.use(middlewares.requireAnyRole([UserRole.CampusManager]));
 
 export default (app: Router) => {
   app.use('/building', route);
+  app.use('/building', protectedRoute);
 
   const controller = Container.get(config.controllers.building.name) as IBuildingController;
 
-  route.post(
+  protectedRoute.post(
     '',
     celebrate({
       body: Joi.object({
@@ -32,7 +40,7 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.put(
+  protectedRoute.put(
     '/:id',
     celebrate({
       body: Joi.object({
@@ -54,7 +62,7 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.patch(
+  protectedRoute.patch(
     '/:id',
     celebrate({
       body: Joi.object({
@@ -95,7 +103,7 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.post(
+  protectedRoute.post(
     '/:code/elevator',
     celebrate({
       body: Joi.object({
@@ -114,7 +122,7 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.put(
+  protectedRoute.put(
     '/:code/elevator',
     celebrate({
       body: Joi.object({
@@ -129,7 +137,7 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.patch(
+  protectedRoute.patch(
     '/:code/elevator',
     celebrate({
       body: Joi.object({
@@ -145,6 +153,8 @@ export default (app: Router) => {
   );
 
   route.get('/all', (req, res, next) => controller.listAllBuildings(req, res, next));
+
   route.get('/:code/elevators', (req, res, next) => controller.listElevatorsInBuilding(req, res, next));
+
   route.get('/:code', (req, res, next) => controller.getBuildingByCode(req, res, next));
 };

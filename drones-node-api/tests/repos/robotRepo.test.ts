@@ -26,6 +26,11 @@ describe('RobotRepo', () => {
       serialNumber: { value: 'A11' },
       available: true,
       type: { value: 'Type' },
+      position: {
+        floorNumber: 2,
+        buildingCode: 'C',
+        cellPosition: [0, 0],
+      },
     } as Robot;
   });
 
@@ -58,6 +63,7 @@ describe('RobotRepo', () => {
         serialNumber: robotStub.serialNumber.value,
         available: robotStub.available,
         type: robotStub.type.value,
+        position: robotStub.type.value,
       } as HydratedDocument<any, any, any>);
 
       await robotRepo.save(robotStub);

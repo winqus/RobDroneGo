@@ -5,9 +5,14 @@ import { Result } from '../core/logic/Result';
 import { RoleId } from './roleId';
 
 import IRoleDTO from '../dto/IRoleDTO';
+import { UserRole } from './userRole.enum';
 
 interface RoleProps {
-  name: string;
+  name: UserRole;
+}
+
+function isValidUserRole(name: string): name is UserRole {
+  return Object.values(UserRole).includes(name as UserRole);
 }
 
 export class Role extends AggregateRoot<RoleProps> {
@@ -19,11 +24,11 @@ export class Role extends AggregateRoot<RoleProps> {
     return new RoleId(this.roleId.toValue());
   }
 
-  get name(): string {
+  get name(): UserRole {
     return this.props.name;
   }
 
-  set name(value: string) {
+  set name(value: UserRole) {
     this.props.name = value;
   }
 
@@ -34,8 +39,8 @@ export class Role extends AggregateRoot<RoleProps> {
   public static create(roleDTO: IRoleDTO, id?: UniqueEntityID): Result<Role> {
     const name = roleDTO.name;
 
-    if (!!name === false || name.length === 0) {
-      return Result.fail<Role>('Must provide a role name');
+    if (!name || !isValidUserRole(name)) {
+      return Result.fail<Role>('Must provide a proper role name');
     } else {
       const role = new Role({ name: name }, id);
 

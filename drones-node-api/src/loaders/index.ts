@@ -51,6 +51,11 @@ export default async ({ expressApp }) => {
     schema: '../persistence/schemas/roomSchema',
   };
 
+  const taskRequestSchema = {
+    name: 'taskRequestSchema',
+    schema: '../persistence/schemas/taskRequestSchema',
+  };
+
   const roomService = {
     name: config.services.room.name,
     path: config.services.room.path,
@@ -84,6 +89,16 @@ export default async ({ expressApp }) => {
   const userRepo = {
     name: config.repos.user.name,
     path: config.repos.user.path,
+  };
+
+  const userService = {
+    name: config.services.user.name,
+    path: config.services.user.path,
+  };
+
+  const userController = {
+    name: config.controllers.user.name,
+    path: config.controllers.user.path,
   };
 
   const roleService = {
@@ -206,6 +221,21 @@ export default async ({ expressApp }) => {
     path: config.controllers.planning.path,
   };
 
+  const taskRequestService = {
+    name: config.services.taskRequest.name,
+    path: config.services.taskRequest.path,
+  };
+
+  const taskRequestRepo = {
+    name: config.repos.taskRequest.name,
+    path: config.repos.taskRequest.path,
+  };
+
+  const taskRequestController = {
+    name: config.controllers.taskRequest.name,
+    path: config.controllers.taskRequest.path,
+  };
+
   await dependencyInjectorLoader({
     mongoConnection,
     schemas: [
@@ -218,6 +248,7 @@ export default async ({ expressApp }) => {
       robotTypeSchema,
       robotSchema,
       roomSchema,
+      taskRequestSchema,
     ],
     controllers: [
       roleController,
@@ -229,6 +260,8 @@ export default async ({ expressApp }) => {
       roomController,
       planningController,
       fileController,
+      userController,
+      taskRequestController,
     ],
     repos: [
       roleRepo,
@@ -241,6 +274,7 @@ export default async ({ expressApp }) => {
       robotRepo,
       roomRepo,
       fileRepo,
+      taskRequestRepo,
     ],
     services: [
       roleService,
@@ -254,6 +288,8 @@ export default async ({ expressApp }) => {
       robotService,
       planningService,
       fileService,
+      userService,
+      taskRequestService,
     ],
   });
   Logger.info('✌️ Schemas, Controllers, Repositories, Services, etc. loaded');

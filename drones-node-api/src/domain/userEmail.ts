@@ -1,6 +1,7 @@
+import config from '../../config';
 import { ValueObject } from '../core/domain/ValueObject';
-import { Result } from '../core/logic/Result';
 import { Guard } from '../core/logic/Guard';
+import { Result } from '../core/logic/Result';
 
 interface UserEmailProps {
   value: string;
@@ -17,6 +18,7 @@ export class UserEmail extends ValueObject<UserEmailProps> {
 
   public static create(email: string): Result<UserEmail> {
     const guardResult = Guard.againstNullOrUndefined(email, 'email');
+
     if (!guardResult.succeeded) {
       return Result.fail<UserEmail>(guardResult.message);
     } else {

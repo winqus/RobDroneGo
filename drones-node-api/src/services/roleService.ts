@@ -1,5 +1,6 @@
 import { Inject, Service } from 'typedi';
 import config from '../../config';
+import { UniqueEntityID } from '../core/domain/UniqueEntityID';
 import { Result } from '../core/logic/Result';
 import { Role } from '../domain/role';
 import IRoleDTO from '../dto/IRoleDTO';
@@ -9,7 +10,12 @@ import IRoleService from './IServices/IRoleService';
 
 @Service()
 export default class RoleService implements IRoleService {
-  constructor(@Inject(config.repos.role.name) private roleRepo: IRoleRepo) {}
+  constructor(@Inject(config.repos.role.name) private roleRepo: IRoleRepo) {
+    const userRolesToExist = config.userRoles;
+    userRolesToExist.forEach(async (userRole) => {
+      this.createRole({ id: userRole.toString(), name: userRole } as IRoleDTO);
+    });
+  }
 
   public async getRole(roleId: string): Promise<Result<IRoleDTO>> {
     try {
@@ -29,7 +35,7 @@ export default class RoleService implements IRoleService {
 
   public async createRole(roleDTO: IRoleDTO): Promise<Result<IRoleDTO>> {
     try {
-      const roleOrError = await Role.create(roleDTO);
+      const roleOrError = await Role.create(roleDTO, new UniqueEntityID(roleDTO.name));
 
       if (roleOrError.isFailure) {
         return Result.fail<IRoleDTO>(roleOrError.errorValue());

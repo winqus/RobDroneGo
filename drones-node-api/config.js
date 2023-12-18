@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { UserRole } from './src/domain/userRole.enum';
 
 // Set the NODE_ENV to 'development' by default
 const envFound = dotenv.config();
@@ -42,6 +43,11 @@ export default {
    * Your secret sauce
    */
   jwtSecret: process.env.JWT_SECRET || 'my sakdfho2390asjod$%jl)!sdjas0i secret',
+
+  allowedEmailDomains: process.env.ALLOWED_EMAIL_DOMAINS || ['isep.ipp.pt'],
+
+  defaultUserRole: process.env.DEFAULT_USER_ROLE || UserRole.User.valueOf(),
+  userRoles: Object.values(UserRole),
 
   /**
    * Used by winston logger
@@ -107,6 +113,14 @@ export default {
       name: 'PlanningController',
       path: '../controllers/planningController',
     },
+    user: {
+      name: 'UserController',
+      path: '../controllers/userController',
+    },
+    taskRequest: {
+      name: 'TaskRequestController',
+      path: '../controllers/taskRequestController',
+    },
   },
 
   repos: {
@@ -149,6 +163,10 @@ export default {
     file: {
       name: 'FileRepo',
       path: '../repos/fileRepo',
+    },
+    taskRequest: {
+      name: 'TaskRequestRepo',
+      path: '../repos/taskRequestRepo',
     },
   },
 
@@ -196,6 +214,14 @@ export default {
     planning: {
       name: 'PlanningService',
       path: '../services/planningService',
+    },
+    user: {
+      name: 'UserService',
+      path: '../services/userService',
+    },
+    taskRequest: {
+      name: 'TaskRequestService',
+      path: '../services/taskRequestService',
     },
   },
 };

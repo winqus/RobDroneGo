@@ -1,19 +1,24 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { Router } from 'express';
 import { Container } from 'typedi';
 
-import { IUserDTO } from '../../dto/IUserDTO';
-import AuthService from '../../services/userService';
-
-import { celebrate, Joi } from 'celebrate';
+import { celebrate, errors, Joi } from 'celebrate';
+import config from '../../../config';
+import IUserController from '../../controllers/IControllers/IUserController';
+import { UserRole } from '../../domain/userRole.enum';
 import middlewares from '../middlewares';
-import winston = require('winston');
-
-const user_controller = require('../../controllers/userController');
+import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
 const route = Router();
+const protectedRoute = Router();
+
+protectedRoute.use(middlewares.isAuth);
+protectedRoute.use(middlewares.attachCurrentUser);
 
 export default (app: Router) => {
   app.use('/auth', route);
+  app.use('/auth', protectedRoute);
+
+  const controller = Container.get(config.controllers.user.name) as IUserController;
 
   route.post(
     '/signup',
@@ -22,32 +27,15 @@ export default (app: Router) => {
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
         email: Joi.string().required(),
+        phonenumber: Joi.string().required(),
+        taxpayernumber: Joi.string(),
         password: Joi.string().required(),
-        role: Joi.string().required(),
+        role: Joi.string(),
       }),
     }),
-    async (req: Request, res: Response, next: NextFunction) => {
-      const logger = Container.get('logger') as winston.Logger;
-      logger.debug('Calling Sign-Up endpoint with body: %o', req.body);
-
-      try {
-        const authServiceInstance = Container.get(AuthService);
-        const userOrError = await authServiceInstance.SignUp(req.body as IUserDTO);
-
-        if (userOrError.isFailure) {
-          logger.debug(userOrError.errorValue());
-
-          return res.status(401).send(userOrError.errorValue());
-        }
-
-        const { userDTO, token } = userOrError.getValue();
-
-        return res.status(201).json({ userDTO, token });
-      } catch (e) {
-        //logger.error('🔥 error: %o', e);
-        return next(e);
-      }
-    },
+    async (req, res, next) => controller.signUp(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
   );
 
   route.post(
@@ -58,52 +46,53 @@ export default (app: Router) => {
         password: Joi.string().required(),
       }),
     }),
-    async (req: Request, res: Response, next: NextFunction) => {
-      const logger = Container.get('logger') as winston.Logger;
-      logger.debug('Calling Sign-In endpoint with body: %o', req.body);
-      try {
-        const { email, password } = req.body;
-        const authServiceInstance = Container.get(AuthService);
-        const result = await authServiceInstance.SignIn(email, password);
-
-        if (result.isFailure) {
-          return res.json().status(403);
-        }
-
-        const { userDTO, token } = result.getValue();
-
-        return res.json({ userDTO, token }).status(200);
-      } catch (e) {
-        logger.error('🔥 error: %o', e);
-
-        return next(e);
-      }
-    },
+    async (req, res, next) => controller.signIn(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
   );
 
-  /**
-   * @TODO Let's leave this as a place holder for now
-   * The reason for a logout route could be deleting a 'push notification token'
-   * so the device stops receiving push notifications after logout.
-   *
-   * Another use case for advance/enterprise apps, you can store a record of the jwt token
-   * emitted for the session and add it to a black list.
-   * It's really annoying to develop that but if you had to, please use Redis as your data store
-   */
-  route.post('/logout', middlewares.isAuth, (req: Request, res: Response, next: NextFunction) => {
-    const logger = Container.get('logger') as winston.Logger;
-    logger.debug('Calling Sign-Out endpoint with body: %o', req.body);
-    try {
-      //@TODO AuthService.Logout(req.user) do some clever stuff
-      return res.status(200).end();
-    } catch (e) {
-      logger.error('🔥 error %o', e);
+  protectedRoute.patch(
+    '/update',
+    celebrate({
+      body: Joi.object({
+        firstName: Joi.string(),
+        lastName: Joi.string(),
+        email: Joi.string(),
+        phonenumber: Joi.string(),
+        taxpayernumber: Joi.string(),
+        password: Joi.string(),
+      }),
+    }),
+    async (req, res, next) => controller.updateUser(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
 
-      return next(e);
-    }
-  });
+  protectedRoute.delete(
+    '/delete',
+    async (req, res, next) => controller.deleteUser(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
 
-  app.use('/users', route);
+  protectedRoute.patch(
+    '/confirm',
+    celebrate({
+      body: Joi.object({
+        email: Joi.string().required(),
+        isConfirmed: Joi.boolean().default(true),
+      }),
+    }),
+    async (req, res, next) => controller.confirmUser(req, res, next),
+    errors(),
+    routeJoiErrorHandler,
+  );
 
-  route.get('/me', middlewares.isAuth, middlewares.attachCurrentUser, user_controller.getMe);
+  route.post('/logout', middlewares.isAuth, (req, res, next) => controller.signOut(req, res, next));
+
+  protectedRoute.get('/me', middlewares.attachCurrentUser, async (req, res, next) => controller.getMe(req, res, next));
+
+  protectedRoute.get('/all', middlewares.requireAnyRole([UserRole.SystemAdministrator]), async (req, res, next) =>
+    controller.getAllUsers(req, res, next),
+  );
 };

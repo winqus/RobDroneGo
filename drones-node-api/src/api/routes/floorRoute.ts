@@ -4,16 +4,24 @@ import { Container } from 'typedi';
 import config from '../../../config';
 
 import IFloorController from '../../controllers/IControllers/IFloorController';
+import { UserRole } from '../../domain/userRole.enum';
+import middlewares from '../middlewares';
 import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
 const route = Router();
+const protectedRoute = Router();
+
+protectedRoute.use(middlewares.isAuth);
+protectedRoute.use(middlewares.attachCurrentUser);
+protectedRoute.use(middlewares.requireAnyRole([UserRole.CampusManager]));
 
 export default (app: Router) => {
   app.use('/floor', route);
+  app.use('/floor', protectedRoute);
 
   const controller = Container.get(config.controllers.floor.name) as IFloorController;
 
-  route.post(
+  protectedRoute.post(
     '',
     celebrate({
       body: Joi.object({
@@ -29,7 +37,7 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.put(
+  protectedRoute.put(
     '/:floorId',
     celebrate({
       body: Joi.object({
@@ -46,7 +54,7 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.patch(
+  protectedRoute.patch(
     '/:floorId',
     celebrate({
       body: Joi.object({
@@ -79,7 +87,7 @@ export default (app: Router) => {
 
   route.get('/:buildingCode', (req, res, next) => controller.getFloorsByBuildingCode(req, res, next));
 
-  route.patch(
+  protectedRoute.patch(
     '/:floorNumber/building/:buildingCode',
     celebrate({
       body: Joi.object({

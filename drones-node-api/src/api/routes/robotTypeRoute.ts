@@ -3,16 +3,24 @@ import { Router } from 'express';
 import { Container } from 'typedi';
 import config from '../../../config';
 import IRobotTypeController from '../../controllers/IControllers/IRobotTypeController';
+import { UserRole } from '../../domain/userRole.enum';
+import middlewares from '../middlewares';
 import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
 const route = Router();
+const protectedRoute = Router();
+
+protectedRoute.use(middlewares.isAuth);
+protectedRoute.use(middlewares.attachCurrentUser);
+protectedRoute.use(middlewares.requireAnyRole([UserRole.FleetManager]));
 
 export default (app: Router) => {
   app.use('/robotType', route);
+  app.use('/robotType', protectedRoute);
 
   const controller = Container.get(config.controllers.robotType.name) as IRobotTypeController;
 
-  route.post(
+  protectedRoute.post(
     '',
     celebrate({
       body: Joi.object({

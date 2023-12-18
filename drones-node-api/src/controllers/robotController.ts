@@ -16,7 +16,15 @@ export default class RobotController implements IRobotController {
 
   public async createRobot(req: Request, res: Response, next: NextFunction) {
     try {
-      const robotOrError = (await this.robotService.createRobot(req.body as IRobotDTO)) as Result<IRobotDTO>;
+      const robotRaw = req.body as IRobotDTO;
+      if (!('postion' in robotRaw)) {
+        robotRaw.position = {
+          floorNumber: 1,
+          buildingCode: 'A',
+          cellPosition: [0, 0],
+        };
+      }
+      const robotOrError = (await this.robotService.createRobot(robotRaw as IRobotDTO)) as Result<IRobotDTO>;
 
       if (robotOrError.isFailure) {
         return res.status(400).json({ message: robotOrError.error.toString() });

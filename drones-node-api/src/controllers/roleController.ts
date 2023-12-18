@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { Inject, Service } from 'typedi';
 import config from '../../config';
 
-import IRoleController from './IControllers/IRoleController';
-import IRoleService from '../services/IServices/IRoleService';
 import IRoleDTO from '../dto/IRoleDTO';
+import IRoleService from '../services/IServices/IRoleService';
+import IRoleController from './IControllers/IRoleController';
 
 import { Result } from '../core/logic/Result';
 
@@ -17,12 +17,12 @@ export default class RoleController implements IRoleController /* TODO: extends 
       const roleOrError = (await this.roleServiceInstance.createRole(req.body as IRoleDTO)) as Result<IRoleDTO>;
 
       if (roleOrError.isFailure) {
-        return res.status(402).send();
+        return res.status(400).json({ message: roleOrError.errorValue() });
       }
 
       const roleDTO = roleOrError.getValue();
 
-      return res.json(roleDTO).status(201);
+      return res.status(201).json(roleDTO);
     } catch (e) {
       return next(e);
     }

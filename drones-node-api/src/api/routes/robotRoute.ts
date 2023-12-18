@@ -3,16 +3,24 @@ import { Router } from 'express';
 import { Container } from 'typedi';
 import config from '../../../config';
 import IRobotController from '../../controllers/IControllers/IRobotController';
+import { UserRole } from '../../domain/userRole.enum';
+import middlewares from '../middlewares';
 import routeJoiErrorHandler from '../middlewares/routeJoiErrorHandler';
 
 const route = Router();
+const protectedRoute = Router();
+
+protectedRoute.use(middlewares.isAuth);
+protectedRoute.use(middlewares.attachCurrentUser);
+protectedRoute.use(middlewares.requireAnyRole([UserRole.FleetManager]));
 
 export default (app: Router) => {
   app.use('/robot', route);
+  app.use('/robot', protectedRoute);
 
   const controller = Container.get(config.controllers.robot.name) as IRobotController;
 
-  route.post(
+  protectedRoute.post(
     '',
     celebrate({
       body: Joi.object({
@@ -30,7 +38,7 @@ export default (app: Router) => {
     routeJoiErrorHandler,
   );
 
-  route.patch(
+  protectedRoute.patch(
     '/:robotCode/state',
     celebrate({
       body: Joi.object({

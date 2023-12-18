@@ -37,6 +37,11 @@ describe('RobotService and RobotController Tests', () => {
       serialNumber: 'A11',
       available: true,
       type: 'Type',
+      position: {
+        floorNumber: 2,
+        buildingCode: 'A',
+        cellPosition: [0, 0],
+      },
     };
     robotRawBad = {
       code: 'A11',
@@ -45,6 +50,11 @@ describe('RobotService and RobotController Tests', () => {
       serialNumber: 'A11',
       available: true,
       type: 'Type',
+      position: {
+        floorNumber: 2,
+        buildingCode: 'A',
+        cellPosition: [0, 0],
+      },
     };
     robotRaw = {
       code: Code.create('A11' as string).getValue(),
@@ -53,6 +63,11 @@ describe('RobotService and RobotController Tests', () => {
       serialNumber: SerialNumber.create('A11' as string).getValue(),
       available: true,
       type: Name.create('Type' as string).getValue(),
+      position: {
+        floorNumber: 2,
+        buildingCode: 'A',
+        cellPosition: [0, 0],
+      },
     };
 
     fakeRobotRepo = new FakeRobotRepo();
@@ -86,6 +101,7 @@ describe('RobotService and RobotController Tests', () => {
     expect(fakeRes.json).toHaveBeenCalled();
     expect(robot).toBeDefined();
     expect(robot.code.value).toBe(robotRawGood.code);
+    expect(robot.position).toEqual(robotRawGood.position);
   });
 
   it('should fail to create a new robot when input is incorrect', async () => {

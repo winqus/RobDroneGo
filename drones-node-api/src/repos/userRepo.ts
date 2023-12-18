@@ -48,6 +48,12 @@ export default class UserRepo implements IUserRepo {
       } else {
         userDocument.firstName = user.firstName;
         userDocument.lastName = user.lastName;
+        userDocument.email = user.email.value;
+        userDocument.phonenumber = user.phonenumber;
+        userDocument.taxpayernumber = user.taxpayernumber;
+        userDocument.isConfirmed = user.isConfirmed;
+        userDocument.password = user.password.value;
+        userDocument.role = user.role.id.toString();
         await userDocument.save();
 
         return user;
@@ -79,5 +85,20 @@ export default class UserRepo implements IUserRepo {
     } else {
       return null;
     }
+  }
+
+  public async getAll(): Promise<User[]> {
+    const users = await this.userSchema.find();
+
+    const usersDomain = await Promise.all(users.map(async (user) => await UserMap.toDomain(user)));
+
+    return usersDomain;
+  }
+
+  public async delete(user: User): Promise<boolean> {
+    const query = { domainId: user.id.toString() };
+    await this.userSchema.deleteOne(query);
+
+    return true;
   }
 }
