@@ -58,6 +58,8 @@ process.on('SIGINT', handleSigint);
 (async () => {
   await runScript('e2eTest:setEnv');
 
+  await runScript('e2eTest:seedDB');
+
   await runScript('e2eTest:start', { NODE_ENV: 'test' });
 
   if (!sigintReceived) {

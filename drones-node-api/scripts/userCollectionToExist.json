@@ -1,0 +1,97 @@
+[
+  {
+    "domainId": "someUser-e044-40b3-a191-000000000000",
+    "firstName": "JustUser",
+    "lastName": "Lastname",
+    "email": "iuser@isep.ipp.pt",
+    "phonenumber": "123456789",
+    "taxpayernumber": "003455678",
+    "password": "$argon2i$v=19$m=4096,t=3,p=1$AIYtmD9mMbzhMS0fPK/3YiZoRAO05OSDFSXrFIGhdfI$Py+BVMaWJm+KD/4AEpM7y5SyEL6qnEivaGIzyAHkxMM",
+    "salt": "",
+    "role": "User",
+    "isConfirmed": true,
+    "createdAt": {
+      "$date": "2023-12-06T17:04:42.546Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-09T12:43:41.767Z"
+    },
+    "__v": 0
+  },
+  {
+    "domainId": "someUser-e044-40b3-a191-000000000001",
+    "firstName": "SysAdmin",
+    "lastName": "Lastname2",
+    "email": "isystemadmin@isep.ipp.pt",
+    "phonenumber": "123456780",
+    "taxpayernumber": "",
+    "password": "$argon2i$v=19$m=4096,t=3,p=1$AIYtmD9mMbzhMS0fPK/3YiZoRAO05OSDFSXrFIGhdfI$Py+BVMaWJm+KD/4AEpM7y5SyEL6qnEivaGIzyAHkxMM",
+    "salt": "",
+    "role": "System Administrator",
+    "isConfirmed": true,
+    "createdAt": {
+      "$date": "2023-12-06T17:04:42.546Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-09T12:43:41.767Z"
+    },
+    "__v": 0
+  },
+  {
+    "domainId": "someUser-e044-40b3-a191-000000000002",
+    "firstName": "MeTaskManager",
+    "lastName": "Lastname3",
+    "email": "itaskmanager@isep.ipp.pt",
+    "phonenumber": "123456781",
+    "taxpayernumber": "",
+    "password": "$argon2i$v=19$m=4096,t=3,p=1$AIYtmD9mMbzhMS0fPK/3YiZoRAO05OSDFSXrFIGhdfI$Py+BVMaWJm+KD/4AEpM7y5SyEL6qnEivaGIzyAHkxMM",
+    "salt": "",
+    "role": "Task Manager",
+    "isConfirmed": true,
+    "createdAt": {
+      "$date": "2023-12-06T17:04:42.546Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-09T12:43:41.767Z"
+    },
+    "__v": 0
+  },
+  {
+    "domainId": "someUser-e044-40b3-a191-000000000003",
+    "firstName": "MeCampusManager",
+    "lastName": "Lastname4",
+    "email": "icampusmanager@isep.ipp.pt",
+    "phonenumber": "123456782",
+    "taxpayernumber": "",
+    "password": "$argon2i$v=19$m=4096,t=3,p=1$AIYtmD9mMbzhMS0fPK/3YiZoRAO05OSDFSXrFIGhdfI$Py+BVMaWJm+KD/4AEpM7y5SyEL6qnEivaGIzyAHkxMM",
+    "salt": "",
+    "role": "Campus Manager",
+    "isConfirmed": true,
+    "createdAt": {
+      "$date": "2023-12-06T17:04:42.546Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-09T12:43:41.767Z"
+    },
+    "__v": 0
+  },
+  {
+    "domainId": "someUser-e044-40b3-a191-000000000004",
+    "firstName": "MeFleetManager",
+    "lastName": "Lastname5",
+    "email": "ifleetmanager@isep.ipp.pt",
+    "phonenumber": "123456783",
+    "taxpayernumber": "",
+    "password": "$argon2i$v=19$m=4096,t=3,p=1$AIYtmD9mMbzhMS0fPK/3YiZoRAO05OSDFSXrFIGhdfI$Py+BVMaWJm+KD/4AEpM7y5SyEL6qnEivaGIzyAHkxMM",
+    "salt": "",
+    "role": "Fleet Manager",
+    "isConfirmed": true,
+    "createdAt": {
+      "$date": "2023-12-06T17:04:42.546Z"
+    },
+    "updatedAt": {
+      "$date": "2023-12-09T12:43:41.767Z"
+    },
+    "__v": 0
+  }
+]
