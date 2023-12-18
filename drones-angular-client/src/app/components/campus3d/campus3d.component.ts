@@ -151,7 +151,7 @@ export class Campus3dComponent implements OnInit, OnDestroy {
   ) {
     /* VISUALIZE THE ROBOT PATH */
     if (!environment.production) {
-      (window as any).SHOW_ROBOT_PATH = true;
+      (window as any).SHOW_ROBOT_PATH = true; // set to false if you don't want to see the robot path
     }
   }
 
@@ -600,7 +600,7 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     this.robotState.navigationState = 'ready';
     const nextNavigationPlan = this.robotState.navigationData?.mapPaths[this.robotState.navigationStep!]!;
     const { buildingCode, floorNumber } = nextNavigationPlan;
-    this.changeMaze(buildingCode, floorNumber, this.taskId!, this.robotState.navigationStep);
+    this.openConfirmationToChangeFloorModal(buildingCode, floorNumber);
   };
 
   // Not utilized at the moment
@@ -668,6 +668,27 @@ export class Campus3dComponent implements OnInit, OnDestroy {
         class: 'btn btn-primary',
         action: () => {
           this.router.navigate(['/task/list']);
+        },
+        shouldClose: true,
+      },
+    ]);
+  };
+
+  openConfirmationToChangeFloorModal = (buildingCode: string, floorNumber: number) => {
+    this.modalService.openModal('Change Floor', `Do you want to continue to building ${buildingCode}, floor ${floorNumber}?`, [
+      {
+        text: 'Go to task list',
+        class: 'btn',
+        action: () => {
+          this.router.navigate(['/task/list']);
+        },
+        shouldClose: true,
+      },
+      {
+        text: 'Continue',
+        class: 'btn btn-primary',
+        action: () => {
+          this.changeMaze(buildingCode, floorNumber, this.taskId!, this.robotState.navigationStep);
         },
         shouldClose: true,
       },
