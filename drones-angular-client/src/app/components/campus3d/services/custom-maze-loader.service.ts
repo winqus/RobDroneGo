@@ -1,6 +1,6 @@
 import { HttpClient, HttpEventType, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import Floor from 'src/app/core/models/floor.model';
+import { default as Floor, default as Floor } from 'src/app/core/models/floor.model';
 import { MapService } from 'src/app/services/map.service';
 import { environment } from 'src/environments/environment';
 import MazePartialConfig, { Base3dData, Elevator, MazeFullConfig } from '../interfaces/mazeData.interface';
@@ -15,6 +15,7 @@ export class CustomMazeLoaderService {
   ) {}
 
   baseMaze3DBody: any;
+  mapDataFromApiPreProcessor = (data: any, floorNumber: number[]) => data;
   mapDataFromApiPreProcessor = (data: any, floorNumber: number[]) => data;
   mazeDataPostProcessor = (data: any) => data;
 
