@@ -1,63 +1,64 @@
-// ***********************************************
-// This example namespace declaration will help
-// with Intellisense and code completion in your
-// IDE or Text Editor.
-// ***********************************************
+import LoginCredentials from './loginCreds.interface';
 
-// declare namespace Cypress {
-//   interface Chainable<Subject = any> {
-//     customCommand(param: any): typeof customCommand;
-//   }
-// }
+export function registerCommands() {
+  Cypress.Commands.add('login', (loginCreds: LoginCredentials) => {
+    cy.session(
+      [loginCreds],
+      () => {
+        const { email, password } = loginCreds;
 
-// function customCommand(param: any): void {
-//   console.warn(param);
-// }
+        cy.log(`Logging in as ${email}`);
 
+        cy.request({
+          method: 'POST',
+          url: '/api/auth/signin',
+          body: { email, password },
+        }).then(({ body }) => {
+          window.localStorage.setItem('JWT_TOKEN', body.token);
+        });
 
-//
-// NOTE: You can use it like so:
-// Cypress.Commands.add('customCommand', customCommand);
-//
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-Cypress.Commands.add('login' as any, (username, password) => {
-    cy.visit('/login')
-  
-    cy.get('input[name=username]').type(username as any)
-  
-    // {enter} causes the form to submit
-    cy.get('input[name=password]').type(`${password}{enter}`, { log: false })
-  
-    // we should be redirected to /dashboard
-    cy.url().should('include', '/dashboard')
-  
-    // our auth cookie should be present
-    cy.getCookie('your-session-cookie').should('exist')
-  
-    // UI should reflect this user being logged in
-    cy.get('h1').should('contain', username)
-  })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+        cy.wait(100);
+
+        // Save JWT Token after successful login
+        cy.window().then((window) => {
+          const token = window.localStorage.getItem('JWT_TOKEN');
+          Cypress.env('JWT_TOKEN', token); // Store token in Cypress environment
+        });
+      },
+      {
+        validate() {
+          cy.visit('/');
+          cy.url().should('include', '/dashboard');
+        },
+      },
+    );
+  });
+
+  Cypress.Commands.add('createBuilding', (buildingCode: string, floorSizeLength = 100, floorSizeWidth = 100) => {
+    cy.visit('/campus/building/create');
+
+    cy.get('#buildingCode').type(buildingCode);
+    cy.get('#buildingName').type('Building' + buildingCode);
+    cy.get('#buildingDescription').type('Description of Building ' + buildingCode);
+    cy.get('#floorSizeLength').type(floorSizeLength.toString());
+    cy.get('#floorSizeWidth').type(floorSizeWidth.toString());
+
+    cy.intercept('POST', '/api/building').as('createBuilding');
+    cy.contains('Create Building').click();
+    cy.wait('@createBuilding');
+    cy.visit('/');
+  });
+
+  Cypress.Commands.add('createFloor', (buildingCode: string, floorNumber: number) => {
+    cy.visit('/campus/floor/create');
+
+    cy.get('#buildingCode').select(buildingCode);
+    cy.get('#floorNumber').type(floorNumber.toString());
+    cy.get('#floorDescription').type('Floor ' + floorNumber);
+
+    cy.intercept('POST', '/api/floor').as('createFloor');
+    cy.contains('Create Floor').click();
+    cy.wait('@createFloor');
+    cy.visit('/');
+  });
+}

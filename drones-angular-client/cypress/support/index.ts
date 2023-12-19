@@ -1,4 +1,6 @@
-export {}
+import LoginCredentials from './loginCreds.interface';
+
+export {};
 
 declare global {
   namespace Cypress {
@@ -7,7 +9,11 @@ declare global {
        * Logs in E2E user
        * @returns void
        */
-      login: (username: string, password: string) => void;
+      login: (loginCreds: LoginCredentials) => void;
+
+      createBuilding: (buildingCode: string, floorSizeLength?: number, floorSizeWidth?: number) => void;
+
+      createFloor: (buildingCode: string, floorNumber: number) => void;
     }
   }
 }
