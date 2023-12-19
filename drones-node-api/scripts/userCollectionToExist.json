@@ -10,12 +10,6 @@
     "salt": "",
     "role": "User",
     "isConfirmed": true,
-    "createdAt": {
-      "$date": "2023-12-06T17:04:42.546Z"
-    },
-    "updatedAt": {
-      "$date": "2023-12-09T12:43:41.767Z"
-    },
     "__v": 0
   },
   {
@@ -29,12 +23,6 @@
     "salt": "",
     "role": "System Administrator",
     "isConfirmed": true,
-    "createdAt": {
-      "$date": "2023-12-06T17:04:42.546Z"
-    },
-    "updatedAt": {
-      "$date": "2023-12-09T12:43:41.767Z"
-    },
     "__v": 0
   },
   {
@@ -48,12 +36,6 @@
     "salt": "",
     "role": "Task Manager",
     "isConfirmed": true,
-    "createdAt": {
-      "$date": "2023-12-06T17:04:42.546Z"
-    },
-    "updatedAt": {
-      "$date": "2023-12-09T12:43:41.767Z"
-    },
     "__v": 0
   },
   {
@@ -67,12 +49,6 @@
     "salt": "",
     "role": "Campus Manager",
     "isConfirmed": true,
-    "createdAt": {
-      "$date": "2023-12-06T17:04:42.546Z"
-    },
-    "updatedAt": {
-      "$date": "2023-12-09T12:43:41.767Z"
-    },
     "__v": 0
   },
   {
@@ -86,12 +62,6 @@
     "salt": "",
     "role": "Fleet Manager",
     "isConfirmed": true,
-    "createdAt": {
-      "$date": "2023-12-06T17:04:42.546Z"
-    },
-    "updatedAt": {
-      "$date": "2023-12-09T12:43:41.767Z"
-    },
     "__v": 0
   }
 ]

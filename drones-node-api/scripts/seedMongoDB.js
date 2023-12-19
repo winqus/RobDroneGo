@@ -33,7 +33,13 @@ async function seedUsers() {
 
     const users = db.collection('users');
 
-    await users.insertMany(USER_MONGO_COLLECTION);
+    const usersToCreate = USER_MONGO_COLLECTION;
+
+    usersToCreate.forEach((user) => {
+      user.createdAt = new Date();
+      user.updatedAt = new Date();
+    });
+    await users.insertMany(usersToCreate);
 
     const userCount = await users.countDocuments();
     console.log(`🌱 Test DB (${dbName}) seeded with ${userCount} users!`);
