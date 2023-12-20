@@ -6,6 +6,7 @@
 :- use_module(library(date)).
 
 :- use_module('route_handler').
+:- use_module('taskPlanningRouteHandler').
 
 :- debug(http(request)).
 
