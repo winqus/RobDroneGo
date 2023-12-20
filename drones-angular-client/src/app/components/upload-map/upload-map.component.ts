@@ -155,7 +155,7 @@ export class UploadMapComponent implements OnInit {
 
     const buildingCode = this.uploadMapForm.get('buildingCode')!.value;
     const floorNumber = this.uploadMapForm.get('floorNumber')!.value;
-    let mapJson = null;
+    let mapJson: any = null;
     if (this.jsonData) {
       mapJson = this.jsonData;
     } else {

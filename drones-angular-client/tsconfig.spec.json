@@ -2,13 +2,13 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "noImplicitAny": false,
+    "allowJs": false,
     "outDir": "./out-tsc/spec",
-    "types": [
-      "jasmine"
-    ]
+    "types": ["jasmine", "node"]
+    // "typeRoots": ["./node_modules/@types/"]
   },
-  "include": [
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
-  ]
+  "exclude": [],
+  "files": [],
+  "include": ["src/**/*.spec.ts", "src/**/*.d.ts" /*, "cypress.config.ts"*/]
 }

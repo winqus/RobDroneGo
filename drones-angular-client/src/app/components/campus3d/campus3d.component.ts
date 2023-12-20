@@ -1,33 +1,30 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { error } from 'cypress/types/jquery/index.js';
-import { update } from 'lodash';
-import { Observable, Subscription, catchError, combineLatest, debounceTime, firstValueFrom, of, switchMap, tap, throwError } from 'rxjs';
-import { API_ROUTES } from 'src/api.config';
-import { FloorSelectorGUI } from 'src/app/ThreeDModule/floorSelectorGUI.js';
-import Building from 'src/app/core/models/building.model.js';
-import { DeliveryTask } from 'src/app/core/models/deliveryTask.model.js';
-import Floor from 'src/app/core/models/floor.model.js';
-import Map from 'src/app/core/models/map.model.js';
-import Room from 'src/app/core/models/room.model.js';
-import { TaskRequest } from 'src/app/core/models/taskRequest.model.js';
-import { environment } from 'src/environments/environment';
-import ThumbRaiser from '../../ThreeDModule/thumb_raiser.js';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subscription, catchError, combineLatest, debounceTime, of, switchMap, tap } from 'rxjs';
+import { API_ROUTES } from '../../../api.config';
+import { environment } from '../../../environments/environment';
+import Building from '../../core/models/building.model';
+import { DeliveryTask } from '../../core/models/deliveryTask.model';
+import Floor from '../../core/models/floor.model';
+import Map from '../../core/models/map.model';
+import Room from '../../core/models/room.model';
+import { TaskRequest } from '../../core/models/taskRequest.model';
 import { isDeliveryTask } from '../../core/utilities/task-utilities';
 import { FloorService } from '../../services/floor.service';
 import { ModalService } from '../../services/modal.service';
 import { RoomService } from '../../services/room.service';
 import { TaskRequestService } from '../../services/task-request.service';
-import { AppBuildingFloorDropdownListComponent } from '../app-building-floor-dropdown-list/app-building-floor-dropdown-list.component.js';
 import mockedDeliveryTaskRequest from './example/data/mockedDeliveryTaskRequest.mock';
-import NAVIGATION_DATA_EXAMPLE from './example/data/navigationData.example.json';
 import { CustomMazeLoaderParams } from './interfaces/customMazeLoaderParams.interface';
 import { MapCell } from './interfaces/mapCell.enum';
 import MazePartialConfig, { Destination, Elevator, ExitLocationEvent, MazeAndPlayerConfig, MazeFullConfig, Passage } from './interfaces/mazeData.interface';
 import { RobotState } from './interfaces/robotState.interface';
 import { CustomMazeLoaderService } from './services/custom-maze-loader.service';
 import * as thumberRaiserParams from './threeD.config';
+
+import { FloorSelectorGUI } from '../../ThreeDModule/floorSelectorGUI.js';
+import ThumbRaiser from '../../ThreeDModule/thumb_raiser.js';
 
 let thumbRaiser: any;
 let animationFrameId: number | null = null;
@@ -353,8 +350,8 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     const currentFloorRooms = this.currentFloorRooms;
 
     for (const room of currentFloorRooms || []) {
-      let mapCellX = null;
-      let mapCellY = null;
+      let mapCellX: any = null;
+      let mapCellY: any = null;
 
       for (let y = room.position.y; y <= room.position.y + room.size.length; y++) {
         for (let x = room.position.x; x <= room.position.x + room.size.width; x++) {
