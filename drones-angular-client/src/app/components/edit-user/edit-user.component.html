@@ -25,16 +25,6 @@
           <small *ngIf="userForm.controls['lastName']?.errors?.['maxlength']">{{ validationErrors.fieldLengthRange | errorMessage: lastNameArgs }}</small>
         </div>
 
-        <!-- Email Field -->
-        <div class="mb-4">
-          <label for="email">{{ props.emailLabel }}</label>
-          <input type="email" id="email" formControlName="email" class="mt-1 p-2 block w-full border rounded-md" />
-        </div>
-        <div *ngIf="userForm.controls['email']?.touched && userForm.controls['email']?.invalid" class="text-error">
-          <small *ngIf="userForm.controls['email']?.errors?.['required']">{{ validationErrors.requiredField }}</small>
-          <small *ngIf="userForm.controls['email']?.errors?.['email']">{{ validationErrors.invalidEmail }}</small>
-        </div>
-
         <!-- Phonenumber Field -->
         <div class="mb-4">
           <label for="phonenumber">{{ props.phonenumberLabel }}</label>
