@@ -12,6 +12,13 @@
 
 :- http_handler('/planning-api/planTasks', post_planTasks_handler, [method(post)]).
 :- http_handler('/planning-api/getPlanResults', get_planResults_handler, [method(get)]).
+:- http_handler('/planning-api/getPlanningStatus', get_planningStatus_handler, [method(get)]).
+
+log_message_ln(Message) :-
+  http_log('~p~n', [Message]).
+
+log_message(Message) :-
+  http_log('~p ', [Message]).
 
 % Initialize the planning state to "unstarted".
 :- assert(planning_state(unstarted)).
@@ -34,8 +41,9 @@ post_planTasks(Request) :-
   ->  retract(planning_state(State)),
       assert(planning_state(planning)),
       http_read_data(Request, Data, [content_type(text/plain), to(atom)]),
+      % http_read_data(Request, Data, []), if previous line stops working, try this
       taskPanningDataFile(TaskDataFile),
-      save_data_to_file(Data, TaskDataFile),
+      save_data_to_file(Data, TaskDataFile), % might or might not need some kind of processing
       thread_create(perform_planning, _, [detached(true)]),
       format('Content-type: application/json~n~n'),
       format('{"message": "Planning started", "state": "started"}')
@@ -44,17 +52,46 @@ post_planTasks(Request) :-
       format('{"message": "Planning is currently in progress", "state": "planning"}')
   ).
 
+get_planningStatus_handler(_Request) :-
+  planning_state(State),
+  (   State = unstarted
+  ->  format('Content-type: application/json~n~n'),
+      format('{"message": "Planning has not yet started", "state": "unstarted"}')
+  ;   State = planning
+  ->  format('Content-type: application/json~n~n'),
+      format('{"message": "Planning is currently in progress", "state": "planning"}')
+  ;   State = planned
+  ->  format('Content-type: application/json~n~n'),
+      format('{"message": "Planning has completed", "state": "planned"}')
+  ).
+
 get_planResults_handler(_Request) :-
-    taskPlanningOutputFile(OutputFile),
-(   exists_file(OutputFile)
-->  open(OutputFile, read, Stream),
-    read_file_to_string(Stream, Results, []),
-    close(Stream),
+  planning_state(State),
+  (   State = planned
+  ->  taskPlanningOutputFile(OutputFile),
+      (   exists_file(OutputFile)
+      ->  
+          log_message('Reading planning results from file: '), log_message_ln(OutputFile),
+          read_file_to_string(OutputFile, PlanningResultsListOfTermsAsString, []),
+          atom_to_term(PlanningResultsListOfTermsAsString, PlanningResultsListOfTerms, []),
+          log_message('Planning results read from file:'),
+          log_message_ln(PlanningResultsListOfTerms),
+
+          % TODO: modify this later to suit the new format
+          create_json_response(PlanningResultsListOfTerms, JsonResponse),
+
+
+          format('Content-type: application/json~n~n'),
+          json_write(current_output, JsonResponse)
+      ;   format('Content-type: application/json~n~n'),
+          format('{"error": "No planning results available"}')
+      )
+  ;   
+    format('Status: 400~n'),
     format('Content-type: application/json~n~n'),
-    format('~w', [Results])
-;   format('Content-type: application/json~n~n'),
-    format('{"error": "No planning results available"}')
-).
+    format('{"error": "Planning not yet completed"}')
+  ).
+
 
 process_data(Data) :-
   split_string(Data, "\n", "", Lines),
@@ -78,17 +115,17 @@ perform_planning :-
 
   % Read task data from file
   open(TaskDataFile, read, TaskDataStream),
-  read_stream_to_terms(TaskDataStream, TaskData),
+  read_stream_to_terms(TaskDataStream, _TaskData),
   close(TaskDataStream),
 
   % Process task data (placeholder logic)
-  sleep(5),
-  PlanningResult = "Some task planning result based on the data: ",
+  sleep(10),
+  PlanningResult = "[taskToTask('0001-0001', '0001-0002', 1), taskToTask('0001-0001', '0001-0003', 2), taskToTask('0001-0002', '0001-0003', 3), taskToTask('0001-0002', '0001-0001', 4), taskToTask('0001-0003', '0001-0001', 5), taskToTask('0001-0003', '0001-0002', 6), robotToTask('0000-0001', '0001-0001', 1), robotToTask('0000-0001', '0001-0002', 2), robotToTask('0000-0001', '0001-0003', 3)].",
 
   % Write the results to the output file
   open(OutputFile, write, StreamResults),
   write(StreamResults, PlanningResult),
-  write(StreamResults, TaskData),
+  % write(StreamResults, TaskData),
   close(StreamResults),
 
   % Update the planning state
@@ -125,3 +162,20 @@ ensure_directory_exists(FileName) :-
   ->  true
   ;   make_directory_path(Dir)
   ).
+
+
+% Add more JSON stuff if needed later
+taskToTask_to_json(taskToTask(A, B, C), _{type: "taskToTask", fromTaskId: A, toTaskId: B, cost: C}).
+robotToTask_to_json(robotToTask(A, B, C), _{type: "robotToTask", fromRobotId: A, toTaskId: B, cost: C}).
+
+terms_to_json_list([], []).
+terms_to_json_list([H|T], [JH|JT]) :-
+    (   H = taskToTask(_, _, _)
+    ->  taskToTask_to_json(H, JH)
+    ;   robotToTask_to_json(H, JH)
+    ),
+    terms_to_json_list(T, JT).
+
+create_json_response(ListOfTerms, JsonResponse) :-
+    terms_to_json_list(ListOfTerms, JsonList),
+    JsonResponse = _{data: JsonList}.
