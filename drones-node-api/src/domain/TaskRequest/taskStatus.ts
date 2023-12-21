@@ -4,4 +4,6 @@ export enum TaskStatus {
   In_Execution,
   Completed,
   Denied,
+  Planning,
+  Planned,
 }
