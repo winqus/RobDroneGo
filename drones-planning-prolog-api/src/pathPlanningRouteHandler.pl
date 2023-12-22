@@ -1,4 +1,4 @@
-:- module(route_handler, [get_route_handler/1, log_message/1, log_message_ln/1,
+:- module(pathPlanningRouteHandler, [get_route_handler/1, log_message/1, log_message_ln/1,
     same_floor_path/5, find_map_paths/7, pathAndTotalCostBetweenOriginDestination/4
   ]).
 

@@ -3,7 +3,7 @@
 
 :- use_module(library(http/json)).
 
-:- use_module(route_handler).
+:- use_module(pathPlanningRouteHandler).
 :- use_module(logic).
 :- use_module(navigationBuildingsFloors).
 :- use_module(graph_creation_for_maze_diagonal).
