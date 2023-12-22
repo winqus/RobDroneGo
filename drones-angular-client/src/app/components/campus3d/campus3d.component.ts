@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription, catchError, combineLatest, debounceTime, of, switchMap, tap } from 'rxjs';
+import { Observable, Subscription, catchError, combineLatest, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
 import { API_ROUTES } from '../../../api.config';
 import { environment } from '../../../environments/environment';
 import Building from '../../core/models/building.model';
@@ -10,6 +10,8 @@ import Floor from '../../core/models/floor.model';
 import Map from '../../core/models/map.model';
 import Room from '../../core/models/room.model';
 import { TaskRequest } from '../../core/models/taskRequest.model';
+import { error } from 'cypress/types/jquery/index.js';
+import { update } from 'lodash';
 import { isDeliveryTask } from '../../core/utilities/task-utilities';
 import { FloorService } from '../../services/floor.service';
 import { ModalService } from '../../services/modal.service';
@@ -120,7 +122,7 @@ export class Campus3dComponent implements OnInit, OnDestroy {
 
   sceneLoaded = false;
   assetsLoaded = false;
-  showLoadingScreen = true;
+  fadeOutLoadingScreen = false;
   renderLoadingScreenElement = true;
 
   currentElevator?: Elevator;
@@ -136,6 +138,11 @@ export class Campus3dComponent implements OnInit, OnDestroy {
   };
 
   currentTaskRequest?: TaskRequest;
+
+  private lastLoadedTaskId: string | null = null;
+  private lastLoadedBuildingCode: string | null = null;
+  private lastLoadedFloorNumber: number | null = null;
+  private initSetupDone = false;
 
   constructor(
     private router: Router,
@@ -156,83 +163,50 @@ export class Campus3dComponent implements OnInit, OnDestroy {
   // When buildingCode or floorNumber changes, the 3D scene is replaced with a new one.
   // Loads initial scene based on url params.
   ngOnInit(): void {
-    const combinedParams = combineLatest([this.route.paramMap, this.route.queryParams]);
+    this.paramsSubscription = combineLatest([this.route.paramMap, this.route.queryParams])
+      .pipe(
+        debounceTime(100),
+        distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
+      )
+      .subscribe(([params, queryParams]) => {
+        const buildingCode = params.get('buildingCode');
+        const floorNumber = params.get('floorNumber');
+        const taskId = queryParams['taskId'];
+        const taskStep = queryParams['step'];
 
-    this.paramsSubscription = combinedParams.pipe(debounceTime(100)).subscribe(([params, queryParams]) => {
-      // console.warn('CALLED PARAMS SUBSCRIPTION', params, queryParams);
+        if (!environment.production) {
+          console.log('thumbRaiser initialized?', thumbRaiser?.isInitialized() || false);
+        }
 
-      const buildingCode = params.get('buildingCode');
-      const floorNumber = params.get('floorNumber');
-      const taskId = queryParams['taskId'];
-      const taskStep = +queryParams['step'] || undefined;
+        if (taskId) {
+          this.processTask(taskId, taskStep);
+        } else {
+          this.processBuildingFloor(buildingCode, floorNumber);
+        }
+      });
+  }
 
-      if (buildingCode !== null) {
-        this.buildingCode = buildingCode;
-      }
-      if (floorNumber !== null) {
-        this.floorNumber = +floorNumber; // Convert string to number
-      }
+  ngOnDestroy(): void {
+    if (this.paramsSubscription) {
+      this.paramsSubscription.unsubscribe();
+    }
 
-      if (!environment.production) {
-        console.log('thumbRaiser initialized?', thumbRaiser?.isInitialized() || false);
-      }
+    window.removeEventListener('robotNavigationStepFinished', this.onRobotNavigationStepFinished);
+  }
 
-      if (taskId) {
-        // console.warn(`Task ID: ${taskId}`);
-        this.taskId = taskId;
+  initSetup = () => {
+    if (this.initSetupDone) {
+      return;
+    }
 
-        // this.taskService.getTaskRequestById(taskId).subscribe({
-        const mockedTaskRequest: TaskRequest = mockedDeliveryTaskRequest;
+    this.setupMazeLoaderService();
 
-        // TODO: Uncomment this line and remove mockedTaskRequest (and the line `of(mockedTas.....).subsc....` ) when integrating with backend.
-        // this.taskService.getTaskRequestById(taskId).subscribe({
-        of(mockedTaskRequest).subscribe({
-          next: (taskRequest) => {
-            if (isDeliveryTask(taskRequest)) {
-              console.warn('Loaded task request:', taskRequest.id);
-              const deliveryTask = taskRequest.task as DeliveryTask;
-              if (taskRequest.navigationData) {
-                this.robotState.navigationData = taskRequest.navigationData;
-                this.robotState.isAutoMoving = true;
+    window.addEventListener('robotNavigationStepFinished', this.onRobotNavigationStepFinished);
 
-                this.robotState.navigationStep = taskStep !== undefined ? Math.max(0, Math.min(taskStep, this.robotState.navigationData?.mapPaths.length - 1)) : 0;
-                this.robotState.numberOfNavigationSteps = this.robotState.navigationData?.mapPaths.length;
-                this.robotState.navigationState = this.robotState.navigationStep === 0 ? 'unstarted' : 'ready';
+    this.initSetupDone = true;
+  };
 
-                this.currentTaskRequest = taskRequest;
-                this.buildingCode = taskRequest.navigationData.mapPaths[this.robotState.navigationStep].buildingCode;
-                this.floorNumber = taskRequest.navigationData.mapPaths[this.robotState.navigationStep].floorNumber;
-
-                const currentUrl = this.router.url;
-                const routeArray = ['/3d/building', this.buildingCode, 'floor', this.floorNumber];
-                const queryParams = { taskId: taskId, step: this.robotState.navigationStep };
-                this.router.navigate(routeArray, {
-                  relativeTo: this.route,
-                  queryParams: queryParams,
-                  queryParamsHandling: 'merge',
-                  replaceUrl: true,
-                });
-
-                this.renderLoadingScreenElement = true;
-                this.load3dScene();
-              } else {
-                window.alert('No navigation data found for this task');
-              }
-            } else {
-              window.alert('Only delivery tasks are supported at the moment');
-            }
-          },
-          error: (error: any) => {
-            console.error('Error while getting task request by id:', error);
-            window.alert('Task could not be loaded..');
-          },
-        });
-      } else if (buildingCode && floorNumber) {
-        this.renderLoadingScreenElement = true;
-        this.load3dScene();
-      }
-    });
-
+  setupMazeLoaderService = () => {
     this.mazeLoaderService.loadMazeBase3DData(
       './assets/mazes/baseMaze3DSettings.json',
       (_data) => {
@@ -248,23 +222,114 @@ export class Campus3dComponent implements OnInit, OnDestroy {
 
     this.mazeLoaderService.mapDataFromApiPreProcessor = this.mapDataFromApiPreProcessor;
     this.mazeLoaderService.mazeDataPostProcessor = this.mazeDataPostProcessor;
+  };
 
-    window.addEventListener('robotNavigationStepFinished', this.onRobotNavigationStepFinished);
-  }
+  processBuildingFloor = (buildingCode: string | null, floorNumber: string | null): void => {
+    if (buildingCode && floorNumber) {
+      this.buildingCode = buildingCode;
+      this.floorNumber = +floorNumber;
 
-  ngOnDestroy(): void {
-    if (this.paramsSubscription) {
-      this.paramsSubscription.unsubscribe();
+      this.initSetup();
+
+      this.load3dScene();
+
+      this.lastLoadedBuildingCode = buildingCode;
+      this.lastLoadedFloorNumber = +floorNumber;
+    }
+  };
+
+  processTask = (taskId: string, taskStep: string | undefined): void => {
+    this.taskService.getTaskRequestById(taskId).subscribe({
+      next: (taskRequest) => {
+        if (isDeliveryTask(taskRequest)) {
+          if (taskRequest.navigationData) {
+            const updatedStep = taskStep !== undefined ? +taskStep : 0;
+            const updatedBuildingCode = taskRequest.navigationData.mapPaths[updatedStep].buildingCode;
+            const updatedFloorNumber = taskRequest.navigationData.mapPaths[updatedStep].floorNumber;
+
+            this.updateUrl(taskId, updatedBuildingCode, updatedFloorNumber, updatedStep).then((updated) => {
+              if (updated) {
+                return;
+              }
+              this.taskId = taskId;
+
+              this.lastLoadedBuildingCode = updatedBuildingCode;
+              this.lastLoadedFloorNumber = updatedFloorNumber;
+              this.lastLoadedTaskId = taskId;
+
+              this.buildingCode = updatedBuildingCode;
+              this.floorNumber = updatedFloorNumber;
+
+              this.robotState;
+
+              this.loadResources(taskRequest, updatedStep);
+            });
+          } else {
+            window.alert('No navigation data found for this task');
+          }
+        } else {
+          window.alert('Only delivery tasks are supported at the moment');
+        }
+      },
+      error: (error: any) => {
+        console.error('Error while getting task request by id:', error);
+        window.alert('Task could not be loaded..');
+      },
+    });
+  };
+
+  updateUrl = async (taskId: string, buildingCode: string, floorNumber: number, step: number): Promise<boolean> => {
+    if (this.lastLoadedBuildingCode === buildingCode && this.lastLoadedFloorNumber === floorNumber && this.lastLoadedTaskId === taskId && this.robotState.navigationStep === step) {
+      return Promise.resolve(false);
     }
 
-    window.removeEventListener('robotNavigationStepFinished', this.onRobotNavigationStepFinished);
-  }
+    const currentStep = this.route.snapshot.queryParams['step'] ? +this.route.snapshot.queryParams['step'] : undefined;
+    const currentTaskId = this.route.snapshot.queryParams['taskId'];
+    const currentBuildingCode = this.route.snapshot.params['buildingCode'];
+    const currentFloorNumber = this.route.snapshot.params['floorNumber'] ? +this.route.snapshot.params['floorNumber'] : undefined;
+
+    if (currentTaskId === taskId && currentStep === step && currentBuildingCode === buildingCode && currentFloorNumber === floorNumber) {
+      return Promise.resolve(false);
+    }
+
+    const routeArray = ['/3d/building', buildingCode, 'floor', floorNumber];
+    const queryParams = { taskId: taskId, step: step };
+
+    return this.router.navigate(routeArray, {
+      queryParams: queryParams,
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
+  };
+
+  loadResources = (taskRequest: TaskRequest, step: number) => {
+    this.initSetup();
+    // Example implementation - tailor this to your actual resource loading logic
+    if (taskRequest && taskRequest.navigationData) {
+      this.currentTaskRequest = taskRequest;
+      this.robotState.navigationData = taskRequest.navigationData;
+      this.robotState.isAutoMoving = true;
+      this.robotState.navigationStep = step;
+      this.robotState.numberOfNavigationSteps = this.robotState.navigationData?.mapPaths.length || 0;
+      this.robotState.navigationState = this.robotState.navigationStep === 0 ? 'unstarted' : 'ready';
+
+      this.load3dScene();
+
+      // Remember to update last loaded parameters
+      this.lastLoadedBuildingCode = this.buildingCode;
+      this.lastLoadedFloorNumber = this.floorNumber;
+    } else {
+      console.error('Invalid task request or missing navigation data');
+    }
+  };
 
   // Called by customMazeLoaderService when base maze 3D data is to be loaded (first thing that intercepts data from backend API)
   mapDataFromApiPreProcessor = (data: Map, floorsNumber: number[]): MazePartialConfig | MazeAndPlayerConfig => {
     const buildingCode = this.buildingCode;
     const floorNumber = this.floorNumber;
-    const initialPlayerPosition: [number, number] = [0.0, 0.0];
+    // const initialPlayerPosition: [number, number] = [0.0, 0.0];
+    // const initialPlayerPosition: [number, number] = [data.size.width / 2, data.size.height / 2];
+    const initialPlayerPosition: [number, number] = [data.size.height / 2, data.size.width / 2];
     const initialPlayerDirection = 90.0;
 
     let passages: Passage[] = [];
@@ -472,6 +537,9 @@ export class Campus3dComponent implements OnInit, OnDestroy {
 
   // Replaces 3D scene with a new one. Replaces the url used in map loading based on updated route params. Loads new maze in thumbRaiser.
   load3dScene() {
+    this.setFadeOutLoadingScreen(false);
+    this.setRenderLoadingScreenElement(true);
+
     const customMazeLoaderParams: CustomMazeLoaderParams = {
       customMazeloaderService: this.mazeLoaderService,
       mazeUrl: API_ROUTES.map.getMap(this.buildingCode, this.floorNumber),
@@ -492,7 +560,9 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     }
 
     if (!thumbRaiser?.isInitialized()) {
-      console.warn('Initializing thumbRaiser');
+      if (!environment.production) {
+        console.warn('Initializing thumbRaiser');
+      }
       initializeThumbRaiser(
         this.canvasContainer,
         customMazeLoaderParams,
@@ -511,7 +581,9 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     }
 
     this.loadRoomData().subscribe(() => {
-      console.warn('Loading 3D scene');
+      if (!environment.production) {
+        console.warn('Loading 3D scene');
+      }
 
       thumbRaiser.loadNewMaze(customMazeLoaderParams);
 
@@ -527,8 +599,6 @@ export class Campus3dComponent implements OnInit, OnDestroy {
 
     this.router.navigate(['/3d/building', buildingCode, 'floor', floorNumber], navigationExtras).then(() => {
       // handle something post navigation, if needed
-      this.renderLoadingScreenElement = true;
-      this.showLoadingScreen = true;
     });
   };
 
@@ -546,7 +616,9 @@ export class Campus3dComponent implements OnInit, OnDestroy {
 
   // Triggered in thumbRaiser.js when player manually reaches an exitLocation (that's check in maze.js)
   onSceneExitLocation = (exitLocation: ExitLocationEvent) => {
-    console.warn('Exit location:', exitLocation);
+    if (!environment.production) {
+      console.warn('Exit location:', exitLocation);
+    }
 
     this.previousBuildingCode = this.buildingCode;
     this.previousFloorNumber = this.floorNumber;
@@ -604,32 +676,42 @@ export class Campus3dComponent implements OnInit, OnDestroy {
   onGameIsRunning = () => {};
 
   onGameIsPaused = () => {
-    this.showLoadingScreen = true;
+    // this.setShowLoadingScreen(true);
   };
 
   onAssetsLoaded = () => {
-    console.log('Assets loaded');
-    this.assetsLoaded = true;
+    if (!environment.production) {
+      console.log('Assets loaded');
+    }
+    this.setAssetsLoaded(true);
   };
 
   onSceneLoaded = () => {
     const checkAssetsLoaded = setInterval(() => {
       if (this.assetsLoaded === true) {
         clearInterval(checkAssetsLoaded);
-        this.sceneLoaded = true;
-        this.showLoadingScreen = false;
 
         if (this.robotState.isAutoMoving) {
           window.dispatchEvent(new CustomEvent('enableAutoMove', { detail: true }));
         }
 
-        console.log('Scene loaded');
+        this.setFadeOutLoadingScreen(true);
+        this.setSceneLoaded(true);
+        if (!environment.production) {
+          console.log('Scene loaded');
+        }
       }
-    }, 100); // Check every 500 milliseconds
+    }, 100); // Check every 100 milliseconds
   };
 
   onLoadingAnimationDone = () => {
-    this.renderLoadingScreenElement = this.showLoadingScreen;
+    if (!this.fadeOutLoadingScreen) {
+      // console.log('Loading animation not done yet');
+      return;
+    }
+    // console.warn('Loading animation done');
+
+    this.setRenderLoadingScreenElement(false);
   };
 
   // Triggered when maze json in loaded in 3D scene
@@ -650,13 +732,34 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     console.error('Maze loading error:', error);
   };
 
+  private setSceneLoaded = (value: boolean) => {
+    this.sceneLoaded = value;
+    // console.log('🔧Setting sceneLoaded to:', value);
+  };
+
+  private setAssetsLoaded = (value: boolean) => {
+    this.assetsLoaded = value;
+    // console.log('🔧Setting assetsLoaded to:', value);
+  };
+
+  private setRenderLoadingScreenElement = (value: boolean) => {
+    this.renderLoadingScreenElement = value;
+    // console.log('🔧Setting renderLoadingScreenElement to:', value);
+  };
+
+  private setFadeOutLoadingScreen = (value: boolean) => {
+    this.fadeOutLoadingScreen = value;
+    // console.log('🔧Setting fadeOutLoadingScreen to:', value);
+  };
+
   openNavigationFullyFinishedModal = () => {
     this.modalService.openModal('Navigation Completed', 'The preview of task execution completed.', [
       {
         text: 'Close',
         class: 'btn',
         action: () => {
-          /* Any additional close logic */
+          this.robotState.isAutoMoving = false;
+          window.dispatchEvent(new CustomEvent('enableAutoMove', { detail: this.robotState.isAutoMoving }));
         },
         shouldClose: true,
       },

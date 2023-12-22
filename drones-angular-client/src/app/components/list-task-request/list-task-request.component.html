@@ -12,11 +12,15 @@
         <span *ngIf="taskRequest.requesterEmail" class="text-sm mb-2"><strong>Requester Email: </strong>{{ taskRequest.requesterEmail }}</span>
       </div>
       <div class="collapse-content">
+        <span class="text-sm mb-1"><strong>Task ID: </strong>{{ taskRequest.id}}</span>
         <p *ngIf="taskRequest.status" class="text-sm mb-1"><strong>Status: </strong>{{ taskRequest.status }}</p>
         <p *ngIf="taskRequest.requestCreatedDateTime" class="text-sm mb-2"><strong>Created At : </strong>{{ taskRequest.requestCreatedDateTime }}</p>
         <div *ngIf="isPending(taskRequest)" class="flex space-x-1">
           <button class="btn btn-xs btn-outline btn-success" (click)="approveRequest(taskRequest)">Approve</button>
           <button class="btn btn-xs btn-outline btn-error" (click)="denyRequest(taskRequest)">Deny</button>
+        </div>
+        <div *ngIf="hasNavigationData(taskRequest)" class="flex space-x-1">
+          <button class="btn btn-xs btn-outline btn-success" (click)="previewNavigationData(taskRequest)">Preview</button>
         </div>
       </div>
     </div>

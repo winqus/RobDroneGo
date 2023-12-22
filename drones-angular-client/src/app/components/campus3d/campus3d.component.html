@@ -12,7 +12,7 @@
   <div #canvasContainer id="canvasContainer" class="relative col-span-full md:col-span-10 border flex justify-center h-[80vh]">
     <div
       *ngIf="renderLoadingScreenElement"
-      [@fadeOut]="showLoadingScreen ? 'visible' : 'hidden'"
+      [@fadeOut]="!fadeOutLoadingScreen ? 'visible' : 'hidden'"
       (@fadeOut.done)="onLoadingAnimationDone()"
       id="loadingScreen"
       class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-base-content"
