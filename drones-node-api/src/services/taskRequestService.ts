@@ -1,4 +1,4 @@
-import http, { request } from 'http';
+import http from 'http';
 import querystring from 'querystring';
 import { Inject, Service } from 'typedi';
 import config from '../../config';
@@ -156,8 +156,10 @@ export default class TaskRequestService implements ITaskRequestService {
 
             response.on('end', () => {
               const navigation = NavigationDataMap.toDomain(JSON.parse(body));
-              taskRequest.navigationData = navigation.getValue();
-              this.taskRequestRepo.save(taskRequest);
+              if (navigation.isSuccess) {
+                taskRequest.navigationData = navigation.getValue();
+                this.taskRequestRepo.save(taskRequest);
+              }
             });
           });
           request.on('error', (error) => {
