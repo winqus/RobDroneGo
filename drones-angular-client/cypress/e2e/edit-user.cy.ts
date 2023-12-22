@@ -35,6 +35,13 @@ describe('Edit User Component', () => {
     cy.get('#phonenumber').clear().type('019263748');
     cy.contains('Update User').click();
     cy.wait('@updateUser').its('response.statusCode').should('eq', 200);
+
+    // Change back to original values
+    cy.get('#firstName').clear().type(userCreds.firstName);
+    cy.get('#lastName').clear().type(userCreds.lastName);
+    cy.get('#phonenumber').clear().type('019263748');
+    cy.contains('Update User').click();
+    cy.wait('@updateUser').its('response.statusCode').should('eq', 200);
   });
 
   it('should update the password', () => {
@@ -46,7 +53,7 @@ describe('Edit User Component', () => {
     cy.login(userCreds);
   });
 
-  it('should delete user and go to the sign-up page', () => {
+  it('should call delete user and go to the sign-up page', () => {
     cy.intercept(convertRouteToPath(API_ROUTES.user.delete), { statusCode: 200 }).as('deleteUserData');
     cy.contains('Delete user').click();
     cy.get('#my_modal_1 button.btn').contains('Yes, delete').click();

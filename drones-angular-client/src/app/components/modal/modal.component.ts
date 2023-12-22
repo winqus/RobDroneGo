@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ModalService } from 'src/app/services/modal.service';
+import { ModalService } from '../../services/modal.service';
 
 interface ModalButton {
   text: string;

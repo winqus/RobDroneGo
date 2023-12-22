@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import Robot from 'src/app/core/models/robot.model';
-import { RobotService } from 'src/app/services/robot.service';
+import Robot from '../../core/models/robot.model';
+import { RobotService } from '../../services/robot.service';
 
 @Component({
   selector: 'app-robot-list',

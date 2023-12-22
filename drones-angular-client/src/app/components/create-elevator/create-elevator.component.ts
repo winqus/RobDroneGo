@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import Building from 'src/app/core/models/building.model';
-import Floor from 'src/app/core/models/floor.model';
-import BuildingService from 'src/app/services/building.service';
-import { CreateElevatorData, ElevatorService } from 'src/app/services/elevator.service';
-import { FloorService } from 'src/app/services/floor.service';
+import Building from '../../core/models/building.model';
+import Floor from '../../core/models/floor.model';
+import BuildingService from '../../services/building.service';
+import { CreateElevatorData, ElevatorService } from '../../services/elevator.service';
+import { FloorService } from '../../services/floor.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface CreateElevatorProps {

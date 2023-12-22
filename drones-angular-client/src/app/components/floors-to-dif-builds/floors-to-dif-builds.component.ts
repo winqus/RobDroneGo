@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
-import Floor from 'src/app/core/models/floor.model';
-import { PassageService } from 'src/app/services/passage.service';
+import Floor from '../../core/models/floor.model';
+import { PassageService } from '../../services/passage.service';
 
 @Component({
   selector: 'app-floors-to-dif-builds',

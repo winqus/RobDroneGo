@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskRequest, TaskStatus } from 'src/app/core/models/taskRequest.model';
-import { TaskRequestService } from 'src/app/services/task-request.service';
+import { TaskRequest, TaskStatus } from '../../core/models/taskRequest.model';
+import { TaskRequestService } from '../../services/task-request.service';
 
 @Component({
   selector: 'app-list-task-request',

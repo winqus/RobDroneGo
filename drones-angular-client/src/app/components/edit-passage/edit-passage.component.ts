@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import Passage from 'src/app/core/models/passage.model';
-import { PassageService } from 'src/app/services/passage.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import Passage from '../../core/models/passage.model';
+import { PassageService } from '../../services/passage.service';
 import { CreatePassageProps } from '../create-passage/create-passage.component';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 

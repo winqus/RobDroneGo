@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import Building from 'src/app/core/models/building.model';
-import Passage from 'src/app/core/models/passage.model';
-import BuildingService from 'src/app/services/building.service';
-import { PassageService } from 'src/app/services/passage.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import Building from '../../core/models/building.model';
+import Passage from '../../core/models/passage.model';
+import BuildingService from '../../services/building.service';
+import { PassageService } from '../../services/passage.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface PassageListProps {

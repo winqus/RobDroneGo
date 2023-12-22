@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { CreateRobotTypeData, RobotService } from 'src/app/services/robot.service';
+import { CreateRobotTypeData, RobotService } from '../../services/robot.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface CreateRobotTypeProps {

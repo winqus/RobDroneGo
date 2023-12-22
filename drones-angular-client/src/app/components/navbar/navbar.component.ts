@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { User } from 'src/app/core/authentication/models/user.model';
-import { UserService } from 'src/app/core/authentication/services/user.service';
-import DropdownLink from 'src/app/core/models/shared/dropdownLink.interface';
-import Link from 'src/app/core/models/shared/link.interface';
+import { User } from '../../core/authentication/models/user.model';
+import { UserService } from '../../core/authentication/services/user.service';
+import DropdownLink from '../../core/models/shared/dropdownLink.interface';
+import Link from '../../core/models/shared/link.interface';
 
 interface NavbarProps {
   title: string;

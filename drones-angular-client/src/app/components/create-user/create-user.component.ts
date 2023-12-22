@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import RegisterCredentials from 'src/app/core/authentication/models/registerCredentials.model';
-import { UserRole } from 'src/app/core/authentication/models/user-roles.enum';
-import { SystemAdminService } from 'src/app/services/system-admin.service';
-import { environment } from 'src/environments/environment';
+import { SystemAdminService } from '../../services/system-admin.service';
+
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import { environment } from '../../../environments/environment';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface CreateUserProps {
@@ -118,7 +117,6 @@ export class CreateUserComponent implements OnInit {
   };
 
   onSubmit() {
-    // this.submitEvent.emit(this.createUserForm.value as RegisterCredentials);
     const formData = this.createUserForm.value;
     const credentials: CreateUserCredentials = {
       firstName: formData.firstName,

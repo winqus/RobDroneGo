@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import Robot from 'src/app/core/models/robot.model';
-import { RobotFilters } from 'src/app/core/models/shared/robotFilters.type';
-import { RobotService } from 'src/app/services/robot.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import Robot from '../../core/models/robot.model';
+import { RobotFilters } from '../../core/models/shared/robotFilters.type';
+import { RobotService } from '../../services/robot.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface SearchRobotProps {

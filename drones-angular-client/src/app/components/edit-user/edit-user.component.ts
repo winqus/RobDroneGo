@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UserRole } from 'src/app/core/authentication/models/user-roles.enum';
-import { User } from 'src/app/core/authentication/models/user.model';
-import { UserService } from 'src/app/core/authentication/services/user.service';
-import { environment } from 'src/environments/environment';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import { environment } from '../../../environments/environment';
+import { UserRole } from '../../core/authentication/models/user-roles.enum';
+import { User } from '../../core/authentication/models/user.model';
+import { UserService } from '../../core/authentication/services/user.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface EditUserProps {

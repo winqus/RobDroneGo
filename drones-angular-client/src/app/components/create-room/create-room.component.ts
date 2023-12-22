@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import Building from 'src/app/core/models/building.model';
-import Floor from 'src/app/core/models/floor.model';
-import Room from 'src/app/core/models/room.model';
-import BuildingService from 'src/app/services/building.service';
-import { FloorService } from 'src/app/services/floor.service';
-import { RoomService } from 'src/app/services/room.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import Building from '../../core/models/building.model';
+import Floor from '../../core/models/floor.model';
+import Room from '../../core/models/room.model';
+import BuildingService from '../../services/building.service';
+import { FloorService } from '../../services/floor.service';
+import { RoomService } from '../../services/room.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface CreateRoomProps {

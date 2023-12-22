@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserRole } from 'src/app/core/authentication/models/user-roles.enum';
-import { UserService } from 'src/app/core/authentication/services/user.service';
-import { FileInfo, FolderService } from 'src/app/services/folder.service';
+import { UserRole } from '../../core/authentication/models/user-roles.enum';
+import { UserService } from '../../core/authentication/services/user.service';
+import { FileInfo, FolderService } from '../../services/folder.service';
 
 @Component({
   selector: 'app-public-folder',
