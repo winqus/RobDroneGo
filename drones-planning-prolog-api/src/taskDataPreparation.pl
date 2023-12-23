@@ -3,6 +3,7 @@
   extract_all_tasks/2, extract_robots/2, extract_tasks_for_robot/3, 
   find_robot_to_task/3, find_task_to_task/2, find_all_task_to_task/3, 
   calculateTaskToTaskCosts/3, calculateRobotToTaskCosts/4,
+  filter_taskToTask_by_tasks/3, filter_robotToTask_by_robotId/3, filter_taskToTask_by_robotId/4,
   create_json_response/2
   ]).
 
@@ -134,8 +135,32 @@ calculateRobotToTaskCosts(RobotToTaskCombinations, Tasks, Robots, AllRobotToTask
     ), AllRobotToTaskCombinationsWithCostsList), !.
     
 
+%%% NOT USED
+filter_taskToTask_by_robotId(RobotId, Tasks, TaskToTaskCombinations, FilteredTaskToTaskCombinations) :- 
+    findall(FilteredTaskToTask, (
+        member(taskToTask(TaskId1, TaskId2, Cost), TaskToTaskCombinations),
+        member(task(RobotId, TaskId1, _, _, _), Tasks),
+        member(task(RobotId, TaskId2, _, _, _), Tasks),
+        FilteredTaskToTask = taskToTask(TaskId1, TaskId2, Cost)
+    ), FilteredTaskToTaskCombinations),!.
 
+%%% NOT USED
+filter_taskToTask_by_tasks(Tasks, TaskToTaskCombinations, FilteredTaskToTaskCombinations) :-
+    findall(FilteredTaskToTask, (
+        member(taskToTask(TaskId1, TaskId2, Cost), TaskToTaskCombinations),
+        member(task(_, TaskId1, _, _, _), Tasks),
+        member(task(_, TaskId2, _, _, _), Tasks),
+        FilteredTaskToTask = taskToTask(TaskId1, TaskId2, Cost)
+    ), FilteredTaskToTaskCombinations),!.
 
+%%% NOT USED
+filter_robotToTask_by_robotId(RobotId, RobotToTaskCombinations, FilteredRobotToTaskCombinations) :-
+    findall(FilteredRobotToTask, (
+        member(robotToTask(RobotId, TaskId, Cost), RobotToTaskCombinations),
+        FilteredRobotToTask = robotToTask(RobotId, TaskId, Cost)
+    ), FilteredRobotToTaskCombinations),!.
+
+%%% JSON response creation
 create_json_response(ListOfTerms, JsonResponse) :-
     terms_to_json_list(ListOfTerms, JsonList),
     JsonResponse = _{data: JsonList}.
@@ -144,10 +169,19 @@ taskToTask_to_json(taskToTask(A, B, C), _{type: "taskToTask", from: A, to: B, co
 
 robotToTask_to_json(robotToTask(A, B, C), _{type: "robotToTask", robot: A, task: B, cost: C}).
 
+taskPlan_to_json(taskPlan(RobotId, TaskList, Cost), JSON):-
+    with_output_to(string(RobotIdString), write(RobotId)),
+    with_output_to(string(TaskListString), write(TaskList)),
+    atom_number(Cost, CostNumber),
+    % success status if cost is 0 or more
+    (CostNumber >= 0 -> Status = "success"; Status = "failure"),
+    JSON = _{type: "taskPlan", robotId: RobotIdString, tasks: TaskListString, costOfChange: CostNumber, status: Status}.
+
 terms_to_json_list([], []).
 terms_to_json_list([H|T], [JH|JT]) :-
     (   H = taskToTask(_, _, _)
     ->  taskToTask_to_json(H, JH)
     ;   robotToTask_to_json(H, JH)
+    ;   taskPlan_to_json(H, JH)
     ),
     terms_to_json_list(T, JT).

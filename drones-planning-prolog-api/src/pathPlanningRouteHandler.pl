@@ -183,8 +183,8 @@ load_map_for_floor(BuildingCode, FloorNumber, MapWidth, MapHeight) :-
 find_and_format_best_path(IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber, MapPath) :-
   log_message('Finding best path with data [IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber]:'),
   log_message_ln([IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber]),
-  % (bestFirst(IntermediateOrigin, IntermediateDestination, Path, Cost); (Path = [], Cost = -404)),!,
-  (beamSearch(IntermediateOrigin, IntermediateDestination, Path, Cost); (Path = [], Cost = -404)),!,
+  % (bestFirst(IntermediateOrigin, IntermediateDestination, Path, Cost); (Path = [], Cost = -40404)),!,
+  (beamSearch(IntermediateOrigin, IntermediateDestination, Path, Cost); (Path = [], Cost = -40404)),!,
   log_message('found floor map path with beamSearch;'),
   remove_graph(),
   log_message('removed floor map graph;'),
