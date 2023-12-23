@@ -5,7 +5,7 @@
 :- use_module(library(http/http_log)).
 :- use_module(library(date)).
 
-:- use_module('route_handler').
+:- use_module('pathPlanningRouteHandler').
 :- use_module('taskPlanningRouteHandler').
 
 :- debug(http(request)).
