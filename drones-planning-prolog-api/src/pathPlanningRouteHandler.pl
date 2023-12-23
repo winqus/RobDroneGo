@@ -71,7 +71,8 @@ get_route_handler(Request) :-
 %%% Origin and destination on same floor
 pathAndTotalCostBetweenOriginDestination(Origin, Destination, TotalCost, JsonNavigationData) :-
   Origin = origin(BuildingCode, FloorNumber, OriginCell),
-  Destination = destination(BuildingCode, FloorNumber, DestinationCell),
+  Destination = destination(BuildingCode, FloorNumber, DestinationCell), !,
+  log_message('starting path finding on same floor...;'),
   same_floor_path(FloorNumber, BuildingCode, OriginCell, DestinationCell, Path),
   log_message('found same floor path;'),
   Path = json{buildingCode:_, cost:Cost, floorNumber:_, path:_},
@@ -87,14 +88,15 @@ pathAndTotalCostBetweenOriginDestination(Origin, Destination, TotalCost, JsonNav
   format(atom(OriginBuildingFloor), '~w::~w', [OriginBuildingCode, OriginFloorNumber]), % Format origin as Building::FloorFloorNumber
   format(atom(DestinationBuildingFloor), '~w::~w', [DestinationBuildingCode, DestinationFloorNumber]), % Format destination as Building::FloorNumber
   % Find the best path between floors
-  log_message('finding better path floors...;'),!,
+  log_message('starting better_path_floors...;'),!,
   better_path_floors(OriginBuildingFloor, DestinationBuildingFloor, Connections),
 % Calculate the cost of the connections (elevators and passages)
   connection_list_cost(Connections, ConnectionsCost),
-  log_message_ln('found better path floors'),
+  log_message('found better path floors; '),
   % Find the map paths
+  log_message('starting find_map_paths...;'),
   find_map_paths(0, Connections, OriginBuildingCode, OriginFloorNumber, OriginCell, DestinationCell, MapPaths),
-  log_message_ln('found floor map path(s)'),
+  log_message('found floor map path(s);'),
   length(MapPaths, MapPathsCount),
 % Calculate the total cost
   sum_costs(MapPaths, PathsCost),
@@ -106,26 +108,30 @@ pathAndTotalCostBetweenOriginDestination(Origin, Destination, TotalCost, JsonNav
 % When arguments origin and destination are swapped
 pathAndTotalCostBetweenOriginDestination(Destination, Origin, TotalCost, JsonNavigationData) :-
   Origin = origin(_, _, _),
-  Destination = destination(_, _, _),
+  Destination = destination(_, _, _),!,
+  log_message('detected swapped origin and destination;'),
   pathAndTotalCostBetweenOriginDestination(Origin, Destination, TotalCost, JsonNavigationData).
 % When arguments are origin and origin
 pathAndTotalCostBetweenOriginDestination(Origin, Destination, TotalCost, JsonNavigationData) :-
   Origin = origin(_, _, _),
-  Destination = origin(A, B, C),
+  Destination = origin(A, B, C),!,
+  log_message('detected origin and origin (instead of destination);'),
   pathAndTotalCostBetweenOriginDestination(Origin, destination(A, B, C), TotalCost, JsonNavigationData).
 % When arguments are destination and destination
 pathAndTotalCostBetweenOriginDestination(Origin, Destination, TotalCost, JsonNavigationData) :-
   Origin = destination(A, B, C),
   Destination = destination(_, _, _),
+  log_message('detected destination (instead of origin) and destination;'),
   pathAndTotalCostBetweenOriginDestination(origin(A, B, C), Destination, TotalCost, JsonNavigationData).
 
 same_floor_path(OriginFloorNumber, OriginBuildingCode, OriginCell, DestinationCell, MapPathJson) :-
   logic:load_map(OriginFloorNumber, OriginBuildingCode, MapWidth, MapHeight),
   create_graph(MapWidth, MapHeight),
+  find_and_format_best_path(OriginCell, DestinationCell, OriginBuildingCode, OriginFloorNumber, MapPathJson).
   % bestFirst(OriginCell, DestinationCell, Path, Cost),
-  beamSearch(OriginCell, DestinationCell, Path, Cost),
-  remove_graph(),
-  format_path_json(Path, Cost, OriginBuildingCode, OriginFloorNumber, MapPathJson).
+  % beamSearch(OriginCell, DestinationCell, Path, Cost),
+  % remove_graph(),
+  % format_path_json(Path, Cost, OriginBuildingCode, OriginFloorNumber, MapPathJson).
 
 printConnections([]).
 printConnections([H|T]) :-
