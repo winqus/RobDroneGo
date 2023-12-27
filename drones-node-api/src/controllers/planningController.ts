@@ -27,4 +27,18 @@ export default class PlanningController implements IPlanningController {
       return next(error);
     }
   }
+
+  public async planTasks(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result: Result<any> = await this.planningService.planTasks(req.body.taskRequestIds);
+
+      if (result.isFailure) {
+        return res.status(400).json({ message: result.error.toString() });
+      }
+
+      return res.status(201).json(result.getValue());
+    } catch (error) {
+      return next(error);
+    }
+  }
 }

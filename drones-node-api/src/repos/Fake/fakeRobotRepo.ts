@@ -32,6 +32,12 @@ export default class FakeRobotRepo extends BaseFakeRepo<Robot> implements IRobot
     return robot || null;
   }
 
+  public async findAvailable(): Promise<Robot[]> {
+    const robots = this._items.filter((r) => r.available === true);
+
+    return robots || null;
+  }
+
   public async findAll(): Promise<Robot[]> {
     return this._items;
   }

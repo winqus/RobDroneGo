@@ -187,4 +187,72 @@ export default (app: Router) => {
     errors(),
     routeJoiErrorHandler,
   );
+
+  route.post(
+    '/planTasks',
+    celebrate({
+      body: Joi.object({
+        taskRequestIds: Joi.array()
+          .items(Joi.string())
+          .required(),
+      }),
+    }),
+    (req, res, next) => {
+      planningController.planTasks(req, res, next);
+    },
+    errors(),
+    routeJoiErrorHandler,
+  );
+
+  route.get('/task-planning-status', async (req, res, _next) => {
+    const options = {
+      hostname: config.planningAPI.hostname,
+      port: config.planningAPI.port,
+      path: `${config.planningAPI.basePath}/getPlanningStatus`,
+      method: 'GET',
+    };
+
+    const request = http.request(options, (response) => {
+      let data = '';
+      response.on('data', (chunk) => {
+        data += chunk;
+      });
+      response.on('end', () => {
+        res.send(JSON.parse(data));
+      });
+    });
+
+    request.on('error', (error) => {
+      console.error('Error:', error);
+      res.status(500).send('An error occurred');
+    });
+
+    request.end();
+  });
+
+  route.get('/task-planning-results', async (req, res, _next) => {
+    const options = {
+      hostname: config.planningAPI.hostname,
+      port: config.planningAPI.port,
+      path: `${config.planningAPI.basePath}/getPlanResults`,
+      method: 'GET',
+    };
+
+    const request = http.request(options, (response) => {
+      let data = '';
+      response.on('data', (chunk) => {
+        data += chunk;
+      });
+      response.on('end', () => {
+        res.send(JSON.parse(data));
+      });
+    });
+
+    request.on('error', (error) => {
+      console.error('Error:', error);
+      res.status(500).send('An error occurred');
+    });
+
+    request.end();
+  });
 };

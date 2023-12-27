@@ -11,4 +11,6 @@ export default interface IFloorRepo extends Repo<Robot> {
   findAll(): Promise<Robot[]>;
 
   findByType(robotTypeName: string): Promise<Robot[]>;
+
+  findAvailable(): Promise<Robot[]>;
 }
