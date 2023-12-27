@@ -24,7 +24,7 @@ const taskManagerCreds = {
 const campusManagerCreds = {
   firstName: 'MeCampusManager',
   lastName: 'Lastname4',
-  email: 'icampusmanager@isep.ipp.pt',
+  email: 'icampus@isep.ipp.pt',
   password: 'GoodPass!1',
 };
 
