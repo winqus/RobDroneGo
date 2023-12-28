@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { API_ROUTES } from 'src/api.config';
+import { API_ROUTES } from '../../api.config';
 import { DeliveryTask } from '../core/models/deliveryTask.model';
 import { TaskFilters } from '../core/models/shared/taskFilters.type';
 import { SurveillanceTask } from '../core/models/surveillanceTask.model';
+import { PlanningError, TaskPlan, TaskPlanningStatus } from '../core/models/taskPlan.model';
 import { TaskRequest, TaskStatus } from '../core/models/taskRequest.model';
 
 export interface CreateTaskRequestDTO {
@@ -15,6 +16,17 @@ export interface CreateTaskRequestDTO {
 export interface UpdateTaskRequestStatusDTO {
   status: string;
 }
+
+export interface PostPlanTasksRequest {
+  taskRequestIds: string[];
+}
+
+export interface PostPlanTasksResponse {
+  message: string;
+  state: 'unstarted' | 'planning' | 'planned' | 'error';
+}
+
+export type PlanningResponse = TaskPlan | PlanningError;
 
 @Injectable({
   providedIn: 'root',
@@ -60,4 +72,25 @@ export class TaskRequestService {
 
   //   return filteredTasks;
   // }
+
+  requestTaskPlanning(taskRequestIDs: string[]): Observable<PostPlanTasksResponse> {
+    const route = API_ROUTES.taskRequest.requestPlanning;
+    const requestData: PostPlanTasksRequest = {
+      taskRequestIds: taskRequestIDs,
+    };
+
+    return this.http.post<PostPlanTasksResponse>(route, requestData);
+  }
+
+  getTaskPlanningStatus(): Observable<TaskPlanningStatus> {
+    const route = API_ROUTES.taskRequest.planningStatus;
+
+    return this.http.get<TaskPlanningStatus>(route);
+  }
+
+  getTaskPlanningResults(): Observable<PlanningResponse> {
+    const route = API_ROUTES.taskRequest.planningResults;
+
+    return this.http.get<PlanningResponse>(route);
+  }
 }

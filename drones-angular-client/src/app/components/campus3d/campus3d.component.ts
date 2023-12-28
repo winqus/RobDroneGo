@@ -1,6 +1,8 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { error } from 'cypress/types/jquery/index.js';
+import { update } from 'lodash';
 import { Observable, Subscription, catchError, combineLatest, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
 import { API_ROUTES } from '../../../api.config';
 import { environment } from '../../../environments/environment';
@@ -10,8 +12,6 @@ import Floor from '../../core/models/floor.model';
 import Map from '../../core/models/map.model';
 import Room from '../../core/models/room.model';
 import { TaskRequest } from '../../core/models/taskRequest.model';
-import { error } from 'cypress/types/jquery/index.js';
-import { update } from 'lodash';
 import { isDeliveryTask } from '../../core/utilities/task-utilities';
 import { FloorService } from '../../services/floor.service';
 import { ModalService } from '../../services/modal.service';
@@ -610,8 +610,13 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     this.previousBuildingCode = null;
     this.previousFloorNumber = null;
     this.previousExitLocation = null;
+    this.taskId = null;
+    this.robotState = {
+      isAutoMoving: false,
+    };
     // Call the changeMaze method with the selected building and floor
-    this.changeMaze(building.code, floorNumber);
+    // this.changeMaze(building.code, floorNumber);
+    this.router.navigate(['/3d/building', building.code, 'floor', floorNumber]);
   };
 
   // Triggered in thumbRaiser.js when player manually reaches an exitLocation (that's check in maze.js)

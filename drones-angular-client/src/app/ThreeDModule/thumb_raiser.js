@@ -1506,7 +1506,8 @@ export default class ThumbRaiser {
   uiSetup() {
     this.userInterface = new UserInterface(this);
     this.userInterface.checkBox = document.getElementById('user-interface');
-    this.userInterface.checkBox.checked = true;
+    this.userInterface.checkBox.checked = false; // was true
+    this.setUserInterfaceVisibility(false);
   }
 
   registerEventHandlers() {
