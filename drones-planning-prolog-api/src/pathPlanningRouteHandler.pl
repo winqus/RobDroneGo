@@ -2,6 +2,8 @@
     same_floor_path/5, find_map_paths/7, pathAndTotalCostBetweenOriginDestination/4
   ]).
 
+:- include('../config.pl').
+
 :- use_module(library(http/http_parameters)).
 :- use_module(library(http/http_client)).
 :- use_module(library(http/json)).
@@ -19,6 +21,7 @@
 
 :- http_handler('/planning-api/test', get_test_handler, []).
 :- http_handler('/planning-api/', get_test_handler, []).
+:- http_handler('/planning-api/clear-paths-cache', clear_cache_handler, []).
 :- http_handler('/', get_test_handler, []).
 
 log_message_ln(Message) :-
@@ -26,6 +29,10 @@ log_message_ln(Message) :-
 
 log_message(Message) :-
   http_log('~p ', [Message]).
+
+:- dynamic navigation_cache/3.
+:- dynamic pathCache/5.
+
 
 %%  Route route with parameters handler
 get_route_handler(Request) :-
@@ -68,6 +75,20 @@ get_route_handler(Request) :-
   json_write(current_output, JsonResponse),
       log_message_ln('finished with JsonResponse').
 
+
+
+
+%%% Try to find a path in the cache
+pathAndTotalCostBetweenOriginDestination(Origin, Destination, NavigationTotalCost, JsonNavigationData) :-
+  % log_message_ln('Trying to find a cached path...'),
+  get_cached_navigation(Origin, Destination, JsonData),
+  JsonData = json{estimatedTotalCost: TotalCost, floorsPaths: _, floorsConnectionsCost: _, mapPathCount: _, mapPaths: _},
+  TotalCost >= 0,
+  NavigationTotalCost = TotalCost,
+  JsonNavigationData = JsonData,
+  log_message_ln('CACHED navigation data found;'), !.
+
+
 %%% Origin and destination on same floor
 pathAndTotalCostBetweenOriginDestination(Origin, Destination, TotalCost, JsonNavigationData) :-
   Origin = origin(BuildingCode, FloorNumber, OriginCell),
@@ -77,7 +98,8 @@ pathAndTotalCostBetweenOriginDestination(Origin, Destination, TotalCost, JsonNav
   log_message('found same floor path;'),
   Path = json{buildingCode:_, cost:Cost, floorNumber:_, path:_},
   TotalCost is Cost,
-  JsonNavigationData = json{estimatedTotalCost: TotalCost, floorsPaths: [], floorsConnectionsCost: 0, mapPathCount: 1, mapPaths: [Path]}, !.
+  JsonNavigationData = json{estimatedTotalCost: TotalCost, floorsPaths: [], floorsConnectionsCost: 0, mapPathCount: 1, mapPaths: [Path]}, 
+  add_navigationResponse_to_cache(Origin, Destination, JsonNavigationData), !.
 
 %%% Origin and destination on different floors
 pathAndTotalCostBetweenOriginDestination(Origin, Destination, TotalCost, JsonNavigationData) :-
@@ -103,7 +125,8 @@ pathAndTotalCostBetweenOriginDestination(Origin, Destination, TotalCost, JsonNav
   TotalCost is ConnectionsCost + PathsCost,
 % Format the JSON response
   format_connections(Connections, JsonConnections),
-  JsonNavigationData = json{estimatedTotalCost: TotalCost, floorsPaths: JsonConnections, floorsConnectionsCost: ConnectionsCost, mapPathCount: MapPathsCount, mapPaths: MapPaths}, !.
+  JsonNavigationData = json{estimatedTotalCost: TotalCost, floorsPaths: JsonConnections, floorsConnectionsCost: ConnectionsCost, mapPathCount: MapPathsCount, mapPaths: MapPaths}, 
+  add_navigationResponse_to_cache(Origin, Destination, JsonNavigationData), !.
 
 % When arguments origin and destination are swapped
 pathAndTotalCostBetweenOriginDestination(Destination, Origin, TotalCost, JsonNavigationData) :-
@@ -183,13 +206,21 @@ load_map_for_floor(BuildingCode, FloorNumber, MapWidth, MapHeight) :-
 find_and_format_best_path(IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber, MapPath) :-
   log_message('Finding best path with data [IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber]:'),
   log_message_ln([IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber]),
-  % (bestFirst(IntermediateOrigin, IntermediateDestination, Path, Cost); (Path = [], Cost = -40404)),!,
-  (beamSearch(IntermediateOrigin, IntermediateDestination, Path, Cost); (Path = [], Cost = -40404)),!,
-  log_message('found floor map path with beamSearch;'),
+  % Check cache first
+  (   check_path_cache(IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber, Path, Cost)
+  ->  log_message('Loaded path from pathCache;')
+  ;   (beamSearch(IntermediateOrigin, IntermediateDestination, Path, Cost) -> true; (Path = [], Cost = -40404)),
+      (   Path \= [], Cost \= -40404
+      ->  add_to_path_cache(IntermediateOrigin, IntermediateDestination, BuildingCode, FloorNumber, (Path, Cost)),
+          log_message('found floor map path with beamSearch and updated pathCache;')
+      ;   log_message('No path found; not updating pathCache;')
+      )
+  ),
   remove_graph(),
   log_message('removed floor map graph;'),
   format_path_json(Path, Cost, BuildingCode, FloorNumber, MapPath),
   log_message_ln('finished format_path_json'), !.
+  
   
 set_intermediate_points(EntranceConnection, ExitConnection, MainOriginCell, MainDestinationCell, IntermediateOrigin, IntermediateDestination) :-
   %% Set Intermediate Origin
@@ -303,10 +334,50 @@ sum_costs([json{buildingCode:_, cost:Cost, floorNumber:_, path:_}|Rest], Accumul
   NewAccumulator is Accumulator + Cost,
   sum_costs(Rest, NewAccumulator, TotalCost).
 
+% Navigation data cache predicates
+get_cached_navigation(Origin, Destination, JsonResponse) :-
+  navigation_cache(Origin, Destination, JsonResponse).
 
+is_not_cached(Origin, Destination) :-
+  \+ navigation_cache(Origin, Destination, _).
 
+add_navigationResponse_to_cache(Origin, Destination, JsonResponse) :-
+  useNavigationCache(UseNavigationCache),
+  (is_not_cached(Origin, Destination),
+    UseNavigationCache,
+    assertz(navigation_cache(Origin, Destination, JsonResponse))
+  ; true).
+  
+remove_navigation_from_cache(Origin, Destination) :-
+  retractall(navigation_cache(Origin, Destination, _)).
 
+remove_all_navigationData_from_cache :-
+  retractall(navigation_cache(_, _, _)).
 
+% Path cache predicates
+add_to_path_cache(Origin, Destination, Building, Floor, Result) :-
+  usePathCache(UsePathCache),
+  (UsePathCache,
+    retractall(pathCache(Origin, Destination, Building, Floor, _)),
+    assert(pathCache(Origin, Destination, Building, Floor, Result))
+  ; true).
+
+check_path_cache(Origin, Destination, Building, Floor, Path, Cost) :-
+  pathCache(Origin, Destination, Building, Floor, Result),
+  Result = (Path, Cost).
+
+remove_from_path_cache(Origin, Destination, Building, Floor) :-
+  retractall(pathCache(Origin, Destination, Building, Floor, _)).
+
+clear_path_cache :-
+  retractall(pathCache(_, _, _, _, _)).
+
+% Cache clearing route handler
+clear_cache_handler(_Request) :-
+  remove_all_navigationData_from_cache,
+  clear_path_cache,
+  format('Content-type: application/json~n~n'),
+  format('{"message": "Cache cleared"}').
 
 % Test route handler that returns a simple JSON response
 get_test_handler(_Request) :-

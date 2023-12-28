@@ -8,3 +8,6 @@ taskPanningDataFile('vardata/planning_data.txt').
 taskPlanningStateFile('vardata/planning_state.txt').
 taskPlanningOutputFile('vardata/planning_output.txt').
 taskPlanningErrorFile('vardata/planning_error.txt').
+
+useNavigationCache(true).
+usePathCache(true).

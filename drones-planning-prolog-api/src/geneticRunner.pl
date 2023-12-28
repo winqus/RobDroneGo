@@ -44,9 +44,7 @@ runGeneticForARobot(Robot, TaskData, Result) :-
 
     length(Tasks, TasksCount),
     (TasksCount > 2,
-        /* TIME MEASUREMENT FOR GA COMPLEXITY ANALYSIS SHOULD START HERE */
         genetic:runGeneticAlgorithm(Tasks, TaskToTaskCombinations, RobotToTaskCombinations, BestIndividual),
-        /* TIME MEASUREMENT FOR GA COMPLEXITY ANALYSIS SHOULD END HERE */
         with_output_to(string(BestIndividualString), write(BestIndividual))
     ;
     TasksCount = 2, % FOR SOME REASON, GA DOES NOT WORK FOR 2 TASKS

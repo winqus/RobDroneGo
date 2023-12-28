@@ -201,6 +201,7 @@ sort_population(PopEval, PopEvalSorted):-
 
 generate_generation(G, G, Pop) :- !,
     config_writeToConsole(WriteToConsole),
+    % write('Final Generation '), write(G), write(':'), nl, write(Pop), nl,
     (WriteToConsole == true, !, write('Generation '), write(G), write(':'), nl, write(Pop), nl; true).
 
 %%% Modified to include partial elitism %%%
