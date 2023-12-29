@@ -1,45 +1,44 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 
-import { CreateRobotComponent } from './create-robot.component';
-import { RobotService } from '../../services/robot.service';
+import { CreateBuildingComponent } from './create-building.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
+import BuildingService from '../../services/building.service';
 import { StubFormErrorListComponent } from '../../../../cypress/utils/stubs/stub-form-error-list.component';
 import { StubSuccessFormMessageComponent } from '../../../../cypress/utils/stubs/stub-success-form-message.component';
 
 
-describe('CreateRobotComponent', () => {
-  let component: CreateRobotComponent;
-  let fixture: ComponentFixture<CreateRobotComponent>;
-  let robotServiceSpy: jasmine.SpyObj<RobotService>;
+describe('CreateBuildingComponent', () => {
+  let component: CreateBuildingComponent;
+  let fixture: ComponentFixture<CreateBuildingComponent>;
+  let buildingServiceSpy: jasmine.SpyObj<BuildingService>;
   let routerSpy: jasmine.SpyObj<Router>;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
 
   beforeEach(waitForAsync(() => {
-    const robotServiceSpyObj = jasmine.createSpyObj('RobotService', ['createRobot']);
+    const buildingServiceSpyObj = jasmine.createSpyObj('BuildingService', ['createBuilding']);
     const routerSpyObj = jasmine.createSpyObj('Router', ['navigate']);
     const activatedRouteSpyObj = jasmine.createSpyObj('ActivatedRoute', [], {
       queryParams: of({}),
     });
 
     TestBed.configureTestingModule({
-      declarations: [CreateRobotComponent, StubFormErrorListComponent,
-      StubSuccessFormMessageComponent, ],
+      declarations: [CreateBuildingComponent, StubFormErrorListComponent, StubSuccessFormMessageComponent],
       imports: [ReactiveFormsModule],
       providers: [
-        { provide: RobotService, useValue: robotServiceSpyObj },
+        { provide: BuildingService, useValue: buildingServiceSpyObj },
         { provide: Router, useValue: routerSpyObj },
         { provide: ActivatedRoute, useValue: activatedRouteSpyObj },
       ],
     });
 
-    robotServiceSpy = TestBed.inject(RobotService) as jasmine.SpyObj<RobotService>;
+    buildingServiceSpy = TestBed.inject(BuildingService) as jasmine.SpyObj<BuildingService>;
     routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     activatedRouteSpy = TestBed.inject(ActivatedRoute) as jasmine.SpyObj<ActivatedRoute>;
 
     TestBed.compileComponents().then(() => {
-    fixture = TestBed.createComponent(CreateRobotComponent);
+    fixture = TestBed.createComponent(CreateBuildingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     });
@@ -51,40 +50,32 @@ describe('CreateRobotComponent', () => {
 
   it('should initialize form with default values', () => {
     const defaultValues = {
+      name: '',
       code: '',
-      nickname: '',
-      serialNumber: '',
       description: '',
-      type: '',
+      floorSizeLength: '',
+      floorSizeWidth: '',
     };
 
-    expect(component.robotForm.value).toEqual(defaultValues);
+    expect(component.buildingForm.value).toEqual(defaultValues);
   });
 
-  it('should submit robot creation form', fakeAsync(() => {
+  it('should submit building creation form', fakeAsync(() => {
     spyOn(component, 'onSubmit').and.stub();
-  
-    const robotData = {
-      code: 'Robot123',
-      nickname: 'Bot',
-      serialNumber: 'SN123',
-      type: 'Service Bot',
-      description: 'A helpful service robot.',
+
+    const buildingData = {
+      name: 'Building 1',
+      code: 'B1',
+      description: 'Description for Building 1',
+      floorSizeLength: 100,
+      floorSizeWidth: 80,
     };
-  
-    component.robotForm.controls['code'].setValue(robotData.code);
-    component.robotForm.controls['nickname'].setValue(robotData.nickname);
-    component.robotForm.controls['serialNumber'].setValue(robotData.serialNumber);
-    component.robotForm.controls['type'].setValue(robotData.type);
-    component.robotForm.controls['description'].setValue(robotData.description);
-  
+
+    component.buildingForm.setValue(buildingData);
     component.onSubmit();
-  
+
     tick();
-  
+
     expect(component.onSubmit).toHaveBeenCalled();
-
   }));
-  
-
 });

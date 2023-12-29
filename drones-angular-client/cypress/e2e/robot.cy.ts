@@ -7,11 +7,12 @@ const userCreds = USER_CREDS.fleetManager;
 
 describe('Robot tests', () => {
     before(() => {
-        const robotCode = randomRobotCode();
-        Cypress.env('robot_randomRobotCode', robotCode);
+        
     });
 
     beforeEach(() => {
+        const robotCode = randomRobotCode();
+        Cypress.env('robot_randomRobotCode', robotCode);
 
         cy.login(userCreds);
         cy.visit('/');
