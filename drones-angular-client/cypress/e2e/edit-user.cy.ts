@@ -32,14 +32,14 @@ describe('Edit User Component', () => {
   it('should update the user when pressing the update user button', () => {
     cy.get('#firstName').clear().type('UpdatedFirstName');
     cy.get('#lastName').clear().type('UpdatedLastName');
-    cy.get('#phonenumber').clear().type('019263748');
+    cy.get('#phonenumber').clear().type('119263748');
     cy.contains('Update User').click();
     cy.wait('@updateUser').its('response.statusCode').should('eq', 200);
 
     // Change back to original values
     cy.get('#firstName').clear().type(userCreds.firstName);
     cy.get('#lastName').clear().type(userCreds.lastName);
-    cy.get('#phonenumber').clear().type('019263748');
+    cy.get('#phonenumber').clear().type('119263748');
     cy.contains('Update User').click();
     cy.wait('@updateUser').its('response.statusCode').should('eq', 200);
   });

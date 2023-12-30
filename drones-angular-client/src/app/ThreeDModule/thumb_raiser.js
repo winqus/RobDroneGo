@@ -1011,7 +1011,7 @@ export default class ThumbRaiser {
     } else {
       enabled = false;
     }
-    console.warn('Robot auto move:', enabled);
+    // console.warn('Robot auto move:', enabled);
     if (!enabled && this.player.robotState.navigationState == 'started') {
       this.player.robotState.navigationState = 'stopped';
       this.animations.fadeToAction('Idle', 0.2);

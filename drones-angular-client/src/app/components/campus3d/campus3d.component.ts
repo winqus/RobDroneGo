@@ -46,6 +46,12 @@ function stopAnimation() {
   }
 }
 
+function destroyThumbRaiser() {
+  thumbRaiser?.unregisterEventHandlers();
+  thumbRaiser = null;
+  stopAnimation();
+}
+
 // Creates the game object and initializes it with the given parameters
 function initializeThumbRaiser(
   canvasContainer: ElementRef,
@@ -57,6 +63,7 @@ function initializeThumbRaiser(
   sceneExitLocationCallback: (exitLocation: ExitLocationEvent) => void,
   isAutoMoving: RobotState,
 ) {
+  thumbRaiser?.unregisterEventHandlers();
   thumbRaiser = new ThumbRaiser(
     canvasContainer.nativeElement,
     customMazeLoaderParams,
@@ -192,6 +199,8 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     }
 
     window.removeEventListener('robotNavigationStepFinished', this.onRobotNavigationStepFinished);
+
+    destroyThumbRaiser();
   }
 
   initSetup = () => {
@@ -202,6 +211,13 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     this.setupMazeLoaderService();
 
     window.addEventListener('robotNavigationStepFinished', this.onRobotNavigationStepFinished);
+    window.addEventListener('enableAutoMove', (event: any) => {
+      if (event.detail) {
+        if (this.renderLoadingScreenElement) {
+          this.setFadeOutLoadingScreen(true);
+        }
+      }
+    });
 
     this.initSetupDone = true;
   };
@@ -696,14 +712,13 @@ export class Campus3dComponent implements OnInit, OnDestroy {
       if (this.assetsLoaded === true) {
         clearInterval(checkAssetsLoaded);
 
-        if (this.robotState.isAutoMoving) {
-          window.dispatchEvent(new CustomEvent('enableAutoMove', { detail: true }));
-        }
-
         this.setFadeOutLoadingScreen(true);
         this.setSceneLoaded(true);
         if (!environment.production) {
           console.log('Scene loaded');
+        }
+        if (this.robotState.isAutoMoving) {
+          window.dispatchEvent(new CustomEvent('enableAutoMove', { detail: true }));
         }
       }
     }, 100); // Check every 100 milliseconds

@@ -53,7 +53,7 @@
                   </div>
                   <div *ngIf="!isDelivery(taskRequest) && isSurveillanceTask(taskRequest.task)">
                     <p class="text-sm mb-1"><strong>Building: </strong>{{ taskRequest.task.buildingCode || 'None' }}</p>
-                    <p class="text-sm mb-1"><strong>Floors: </strong>{{ taskRequest.task.floorNumber.join(', ') || 'None' }}</p>
+                    <p class="text-sm mb-1"><strong>Surveilled floor(s): </strong>{{ taskRequest.task.floorNumber.join(', ') || 'None' }}</p>
                   </div>
                   <div *ngIf="hasNavigationData(taskRequest)" class="flex space-x-1">
                     <button class="btn btn-xs btn-outline btn-success" (click)="previewNavigationData(taskRequest)">Preview</button>
@@ -89,7 +89,7 @@
           </div>
           <div *ngIf="!isDelivery(taskRequest) && isSurveillanceTask(taskRequest.task)">
             <p class="text-sm mb-1"><strong>Building: </strong>{{ taskRequest.task.buildingCode || 'None' }}</p>
-            <p class="text-sm mb-1"><strong>Floors: </strong>{{ taskRequest.task.floorNumber.join(', ') || 'None' }}</p>
+            <p class="text-sm mb-1"><strong>Surveilled floor(s): </strong>{{ taskRequest.task.floorNumber.join(', ') || 'None' }}</p>
           </div>
           <div *ngIf="isPending(taskRequest)" class="flex space-x-1">
             <button class="btn btn-xs btn-outline btn-success" (click)="approveRequest(taskRequest)">Approve</button>

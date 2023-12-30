@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
+import { StubFormErrorListComponent } from '../../../../cypress/utils/stubs/stub-form-error-list.component';
+import { StubSuccessFormMessageComponent } from '../../../../cypress/utils/stubs/stub-success-form-message.component';
 import Building from '../../core/models/building.model';
 import Floor from '../../core/models/floor.model';
 import BuildingService from '../../services/building.service';
 import { ElevatorService } from '../../services/elevator.service';
 import { FloorService } from '../../services/floor.service';
-import { StubFormErrorListComponent } from '../create-robot/stubs/stub-form-error-list.component';
-import { StubSuccessFormMessageComponent } from '../create-robot/stubs/stub-success-form-message.component';
 import { CreateElevatorComponent } from './create-elevator.component';
 
 describe('CreateElevatorComponent', () => {

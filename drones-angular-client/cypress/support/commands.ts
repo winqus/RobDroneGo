@@ -40,6 +40,8 @@ export function registerCommands() {
   });
 
   Cypress.Commands.add('createBuilding', (buildingCode: string, floorSizeLength = 100, floorSizeWidth = 100) => {
+    cy.intercept('POST', '/api/building').as('createBuilding');
+
     cy.visit('/campus/building/create');
 
     cy.get('#buildingCode').type(buildingCode);
@@ -48,7 +50,6 @@ export function registerCommands() {
     cy.get('#floorSizeLength').type(floorSizeLength.toString());
     cy.get('#floorSizeWidth').type(floorSizeWidth.toString());
 
-    cy.intercept('POST', '/api/building').as('createBuilding');
     cy.contains('Create Building').click();
     let buildingId = '';
     cy.wait('@createBuilding');
@@ -62,13 +63,17 @@ export function registerCommands() {
   });
 
   Cypress.Commands.add('createFloor', (buildingCode: string, floorNumber: number) => {
+    cy.intercept(convertRouteToPath(API_ROUTES.building.getAll)).as('listBuildings');
+    cy.intercept('POST', '/api/floor').as('createFloor');
+
     cy.visit('/campus/floor/create');
+
+    cy.wait('@listBuildings');
 
     cy.get('#buildingCode').select(buildingCode);
     cy.get('#floorNumber').type(floorNumber.toString());
     cy.get('#floorDescription').type('Floor ' + floorNumber);
 
-    cy.intercept('POST', '/api/floor').as('createFloor');
     cy.contains('Create Floor').click();
     let floorId: string = '';
     cy.wait('@createFloor').then((interception) => {
@@ -79,29 +84,35 @@ export function registerCommands() {
     // return floorId;
   });
 
-  Cypress.Commands.add('createRoom', (floorId: string, roomName: string, size: [number, number], position: [number, number], category: string = 'Other') => {
-    const route = API_ROUTES.room.createRoom;
-    const postRoom = {
-      name: roomName,
-      description: randomName().repeat(3),
-      size: size,
-      position: position,
-      category: category,
-      floorId: floorId,
-    };
+  Cypress.Commands.add('createRoom', (buildingCode: string, floorNumber: number, roomName: string, size: [number, number], position: [number, number], category: string = 'Other') => {
+    cy.intercept(convertRouteToPath(API_ROUTES.building.getAll)).as('listBuildings');
+    cy.intercept(convertRouteToPath(API_ROUTES.floor.getByBuildingCode(buildingCode))).as('getBuildingFloors');
+    cy.intercept(convertRouteToPath(API_ROUTES.room.createRoom)).as('createRoom');
 
-    let roomId = '';
-    cy.request({
-      // url: convertRouteToPath(route),
-      url: 'http://localhost:4000/api/room',
-      method: 'POST',
-      body: postRoom,
-    }).then((response) => {
-      expect(response.status).to.eq(201);
-      roomId = response.body.id;
-    });
+    cy.visit('/campus/room/create');
+    cy.url().should('include', '/campus/room/create');
 
-    // return roomId;
+    cy.wait('@listBuildings');
+    // cy.wait(100);
+    cy.get('#buildingCode').select(buildingCode);
+    // cy.wait(100);
+
+    cy.wait('@getBuildingFloors');
+    cy.get('#floorNumber').select(`${floorNumber}`);
+
+    cy.get('#roomName').type(roomName);
+    cy.get('#roomDescription').type('Room ' + roomName + ' description');
+
+    cy.get('#roomSizeW').type(size[0].toString());
+    cy.get('#roomSizeL').type(size[1].toString());
+    cy.get('#roomPositionX').type(position[0].toString());
+    cy.get('#roomPositionY').type(position[1].toString());
+    cy.get('#roomCategory').select('Other');
+
+    cy.contains('Create Room').click();
+    cy.wait('@createRoom').its('response.statusCode').should('eq', 201);
+
+    cy.contains('Room Created').should('be.visible');
   });
 
   /*Cypress.Commands.add('createTaskRequest', (taskRequest: CreateTaskRequestDTO) => {

@@ -16,7 +16,7 @@ declare global {
 
       createFloor: (buildingCode: string, floorNumber: number) => void;
 
-      createRoom: (floorId: string, roomName: string, size: [number, number], position: [number, number], category?: string) => void;
+      createRoom: (buildingCode: string, floorNumber: number, roomName: string, size: [number, number], position: [number, number], category?: string) => void;
 
       createTaskRequest: (taskRequestDTO: CreateTaskRequestDTO) => void;
 
