@@ -80,6 +80,11 @@ Proccess view is diagrams are described for each user story. Each user story is 
 * [ID1050 - As a Campus manager, I intend to create a Building indicating](./US/ID-1050/README.md)
 * [ID1160 - As a Campus manager, I intend to list Building Floors served by Elevator](./US/ID-1160/README.md)
 
+### Integration Process Views
+
+* [ID710, ID730 - Campus and route data exchange between modules](./US/ID-710_ID-730/README.md)
+* [ID720, ID740 - Task, robot data exchange between modules for planning task execution](./US/ID-720_ID-740/README.md)
+
 ### Deployment View
 ![DV Lv1](diagrams/Deployment%20View.svg)
 
