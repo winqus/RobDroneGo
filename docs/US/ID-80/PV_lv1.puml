@@ -1,0 +1,15 @@
+@startuml SD Lv1
+
+actor "System Administrator" as user
+participant RobDroneGo as system
+
+user -> system : Go to /system/users SPA route
+activate  system
+
+system -> system : Check user's role\nand permissions
+
+user <-- system : Show list of system users
+
+deactivate system
+
+@enduml

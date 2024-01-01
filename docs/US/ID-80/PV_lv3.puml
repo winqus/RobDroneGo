@@ -1,0 +1,171 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+actor "System Administrator" as user
+box "RobDroneGo UI" #LightBlue
+
+    box "View"
+        participant "HTML + CSS + JS" as FrontEnd
+        participant "Users List Component" as UsersList
+    end box
+    participant "Data Model" as ModelFE
+    participant "Mapper" as UserMapperFE
+    participant "User Service" as UserServiceFE
+
+end box
+box "RobDroneGo Backend (User Management)"
+    participant "Routing" as UserRouteBE
+    participant "Controller" as UserControllerBE
+    participant "DTO" as UserDtoBE
+    participant "User \nService" as UserServiceBE
+    participant "Domain \n  Model" as UserDomainModelBE
+    participant "Repository" as UserRepositoryBE
+    participant "Persistance" as UserPersistanceBE
+    participant "Mapper" as UserMapperBE
+end box
+
+user -> FrontEnd : Go to /system/users SPA route
+activate FrontEnd
+
+    FrontEnd -> UsersList : Load System Users List
+    activate UsersList
+
+        UsersList -> UserServiceFE : Request List of System Users
+        activate UserServiceFE
+
+            UserServiceFE -> UserRouteBE : GET /users/list
+            activate UserRouteBE
+
+            UserRouteBE --> UserControllerBE : getAllUsers()
+
+            activate UserControllerBE
+            UserControllerBE -> UserServiceBE : getAllUsers()
+            activate UserServiceBE
+            
+            UserServiceBE -> UserRepositoryBE : getAll()
+            activate UserRepositoryBE
+
+            UserRepositoryBE -> UserPersistanceBE : find all
+            activate UserPersistanceBE
+            UserPersistanceBE --> UserRepositoryBE : return all
+            deactivate UserPersistanceBE
+
+            UserRepositoryBE -> UserMapperBE : map to Domain Model
+            activate UserMapperBE
+            UserMapperBE --> UserRepositoryBE : User Domain Models
+            deactivate UserMapperBE
+
+            UserRepositoryBE --> UserServiceBE : return User[]
+            deactivate UserRepositoryBE
+
+            UserServiceBE --> UserMapperBE : map to DTO
+            activate UserMapperBE
+            UserMapperBE --> UserServiceBE : return UserDto[]
+            deactivate UserMapperBE
+
+            UserServiceBE --> UserControllerBE : return UserDto[]
+            deactivate UserServiceBE
+
+            UserControllerBE --> UserRouteBE : return UserDto[]
+            deactivate UserControllerBE
+
+            UserRouteBE --> UserServiceFE : return UserDto[]
+            deactivate UserRouteBE
+
+        UserServiceFE -> UserMapperFE : map to Data Model
+        activate UserMapperFE
+        UserMapperFE --> UserServiceFE : return User[]
+        deactivate UserMapperFE
+
+        UserServiceFE --> UsersList : return User[]
+        deactivate UserServiceFE
+
+    UsersList --> FrontEnd : return User[]
+    deactivate UsersList
+
+FrontEnd --> user : Display System Users List
+deactivate FrontEnd
+
+' Level 2 diagram, use to write level 3
+' user -> UI : Toggle 'isConfirmed' on a user
+' activate UI
+' UI -> UserModule : Request change confirmation status
+' activate UserModule
+' UserModule -> DB : Update user's confirmation status
+' activate DB
+' DB --> UserModule : Confirmation status updated
+' deactivate DB
+' UserModule --> UI : Confirmation status updated
+' deactivate UserModule
+' UI --> user : Confirmation status updated
+' deactivate UI
+
+user -> FrontEnd : Toggle 'isConfirmed' on a user
+activate FrontEnd
+
+    FrontEnd -> UsersList : Request change confirmation status
+    activate UsersList
+
+        UsersList -> UserServiceFE : Request change confirmation status
+        activate UserServiceFE
+
+            UserServiceFE -> UserRouteBE : PATCH /users/confirm \n{email, isConfirmed}
+            activate UserRouteBE
+
+            UserRouteBE --> UserControllerBE : confirmUser()
+
+            activate UserControllerBE
+            UserControllerBE -> UserServiceBE : setUserConfirmation(email, isConfirmed)
+            activate UserServiceBE
+            
+            UserServiceBE -> UserRepositoryBE : findByEmail(email)
+            activate UserRepositoryBE
+
+            UserRepositoryBE -> UserPersistanceBE : find by email
+            activate UserPersistanceBE
+            UserPersistanceBE --> UserRepositoryBE : return User
+            deactivate UserPersistanceBE
+
+            UserRepositoryBE -> UserMapperBE : map to Domain Model
+            activate UserMapperBE
+            UserMapperBE --> UserRepositoryBE : User Domain Model
+            deactivate UserMapperBE
+            UserRepositoryBE --> UserServiceBE : return User
+            deactivate UserRepositoryBE
+
+            UserServiceBE -> UserRepositoryBE : save(User)
+            activate UserRepositoryBE
+
+            UserRepositoryBE -> UserPersistanceBE : update
+            activate UserPersistanceBE
+            UserPersistanceBE --> UserRepositoryBE : return updated
+            deactivate UserPersistanceBE
+
+            UserRepositoryBE -> UserMapperBE : map to Domain Model
+            activate UserMapperBE
+            UserMapperBE --> UserRepositoryBE : User Domain Model
+            deactivate UserMapperBE
+
+            UserRepositoryBE --> UserServiceBE : return User
+            deactivate UserRepositoryBE
+
+            UserServiceBE --> UserControllerBE : return Result.ok
+            deactivate UserServiceBE
+
+            UserControllerBE --> UserRouteBE : return 200 response
+            deactivate UserControllerBE
+
+            UserRouteBE --> UserServiceFE : return 200 response
+            deactivate UserRouteBE
+
+        UserServiceFE --> UsersList : update User isConfirmed status
+        deactivate UserServiceFE
+
+    UsersList --> FrontEnd : update User isConfirmed toggle
+    deactivate UsersList
+
+FrontEnd --> user : Display updated User\n isConfirmed status
+deactivate FrontEnd
+
+@enduml
