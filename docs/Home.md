@@ -9,7 +9,7 @@ The Software Architecture Document (SAD) describes the software architecture of 
 * [Views](Views.md)
 * [Mapping Between Views](Mapping.md)
 * [Referenced Materials](References.md)
-* [Glossary and Acronyms](Glossary&Acronyms.md)
+* [Glossary and Acronyms](Gloassary&Acronyms.md)
 
 The Scrum development process is described in the following sections:
 
@@ -20,6 +20,7 @@ The Scrum development process is described in the following sections:
 * [Testing Strategy](Testing%20Strategy.md)
 * [Sprint A Retrospective](Sprint%20A%20Retrospective.md)
 * [Sprint B Retrospective](Sprint%20B%20Retrospective.md)
+* [Sprint C Retrospective](Sprint%20C%20Retrospective.md)
 
 Other documentation:
 

@@ -55,6 +55,7 @@ For modeling/visually representing both what has been implemented and the consid
 
 Proccess view is diagrams are described for each user story. Each user story is described in its own section.
 
+* [ID80  - User approval](./US/ID-80/README.md)
 * [ID150 - Create building](./US/ID-150/README.md)
 * [ID160 - Edit building](./US/ID-160/README.md)
 * [ID170 - List all buildings](./US/ID-170/README.md)
@@ -77,6 +78,8 @@ Proccess view is diagrams are described for each user story. Each user story is 
 * [ID370 - Inhibit a robot](./US/ID-370/README.md)
 * [ID380 - Consult all robots in fleet](./US/ID-380/README.md)
 * [ID390 - Search robots by designation or task](./US/ID-390/README.md)
+* [ID460 - Create Task Request](./US/ID-460/README.md)
+* [ID500 - Execution sequence of tasks](./US/ID-500/README.md)
 * [ID1050 - As a Campus manager, I intend to create a Building indicating](./US/ID-1050/README.md)
 * [ID1160 - As a Campus manager, I intend to list Building Floors served by Elevator](./US/ID-1160/README.md)
 

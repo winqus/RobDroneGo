@@ -11,3 +11,5 @@
  UI - User Interface
  
  DTO - Data Transfer Object
+
+ AC - Acceptance Criteria
