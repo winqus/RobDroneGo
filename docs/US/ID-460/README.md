@@ -38,5 +38,3 @@ When requesting a task, you will need to indicate a pickup contact and a deliver
 
 ### Domain Model
 ![DM](../../diagrams/DM.png)
-
-## Observations

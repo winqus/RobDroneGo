@@ -1,0 +1,21 @@
+@startuml SD Lv1
+
+actor "Task Manager" as user
+participant RobDroneGo as system
+
+user -> system : Go to /task/list
+activate  system
+
+system -> system : Check user's role\nand permissions
+
+user <-- system : List tasks
+
+user -> system : Select 'Plan Tasks' button
+
+system -> system : Plan tasks
+
+user <-- system : List planned tasks
+
+deactivate system
+
+@enduml

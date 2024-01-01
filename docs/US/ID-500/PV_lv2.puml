@@ -1,0 +1,51 @@
+@startuml SD Lv2
+
+actor "Task Manager" as user
+box "RobDroneGo System" #LightBlue
+    participant "UI" as UI
+    participant "Planning \nModule" as PlanningModule
+    participant "User \nManagement" as UserModule
+    participant "DB" as DB
+end box
+
+user -> UI : Go to /task/list
+activate UI
+UI -> PlanningModule : Get task list
+activate PlanningModule
+PlanningModule -> DB : Get task list
+activate DB
+DB --> PlanningModule : Return task list
+deactivate DB
+PlanningModule --> UI : Return task list
+deactivate PlanningModule
+UI -> PlanningModule : Get planning status
+activate PlanningModule
+PlanningModule --> UI : Return planning status
+deactivate PlanningModule
+opt planning status is 'planned'
+    UI -> PlanningModule : Get planning results
+    activate PlanningModule
+    PlanningModule -> DB : Get planning results
+    activate DB
+    DB --> PlanningModule : Return planning results
+    deactivate DB
+    PlanningModule --> UI : Return planning results
+    deactivate PlanningModule
+end
+UI --> user : Show task list and\n planning results if any
+
+user -> UI : Select 'Plan Tasks' button
+UI -> PlanningModule : Tasks to plan list
+activate PlanningModule
+PlanningModule -> DB : Get tasks to plan list
+activate DB
+DB --> PlanningModule : Return tasks list
+deactivate DB
+PlanningModule ->> PlanningModule : Plan tasks
+PlanningModule --> UI : Return OK
+deactivate PlanningModule
+UI --> user : Show Planning in progress animation
+
+
+
+@enduml

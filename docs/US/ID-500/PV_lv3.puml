@@ -1,0 +1,146 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+actor "Task Manager" as user
+box "RobDroneGo UI" #LightBlue
+    box "View"
+        participant "HTML + CSS + JS" as FrontEnd
+        participant "Task List\n Component" as UIComponent
+    end box
+    participant "Data Model" as ModelFE
+    participant "Task Request\n Service" as TaskServiceFE
+    participant "Mapper" as TaskMapperFE
+end box
+
+box "RobDroneGo Backend (Task Management)"
+    participant "Routing" as TaskRouteBE
+    participant "Controller" as TaskControllerBE
+    participant "DTO" as TaskDtoBE
+    participant "Task \nService" as TaskServiceBE
+    participant "Domain \n  Model" as TaskDomainModelBE
+    participant "Repository" as TaskRepositoryBE
+    participant "Persistance" as TaskPersistanceBE
+    participant "Mapper" as TaskMapperBE
+end box
+box "RobDroneGo Backend (Planning Module)"
+    participant "Routing" as PlanningRouteBE
+    participant "Controller" as PlanningControllerBE
+    participant "DTO" as PlanningDtoBE
+    participant "Planning \nService" as PlanningServiceBE
+    participant "Domain \n  Model" as PlanningDomainModelBE
+    participant "Repository" as PlanningRepositoryBE
+    participant "Persistance" as PlanningPersistanceBE
+    participant "Mapper" as PlanningMapperBE
+end box
+
+user -> FrontEnd : Go to /task/list\n SPA route
+activate FrontEnd
+FrontEnd -> UIComponent : Get task list
+activate UIComponent
+UIComponent -> TaskServiceFE : Get task list
+activate TaskServiceFE
+TaskServiceFE -> TaskRouteBE : Get /taskRequest
+activate TaskRouteBE
+TaskRouteBE -> TaskControllerBE : getAll()
+activate TaskControllerBE
+TaskControllerBE -> TaskServiceBE : getAll()
+activate TaskServiceBE
+TaskServiceBE -> TaskRepositoryBE : getAll()
+activate TaskRepositoryBE
+TaskRepositoryBE -> TaskPersistanceBE : find()
+activate TaskPersistanceBE
+TaskPersistanceBE --> TaskRepositoryBE : Return task list
+deactivate TaskPersistanceBE
+TaskRepositoryBE -> TaskMapperBE : map to Domain Model
+activate TaskMapperBE
+TaskMapperBE --> TaskRepositoryBE : Return TaskRequest list
+deactivate TaskMapperBE
+TaskRepositoryBE --> TaskServiceBE : Return TaskRequest list
+deactivate TaskRepositoryBE
+TaskServiceBE -> TaskMapperBE : map to DTO
+activate TaskMapperBE
+TaskMapperBE --> TaskServiceBE : Return TaskDto list
+deactivate TaskMapperBE
+TaskServiceBE --> TaskControllerBE : Return TaskDto list
+deactivate TaskServiceBE
+TaskControllerBE --> TaskRouteBE : Return TaskDto list
+deactivate TaskControllerBE
+TaskRouteBE --> TaskServiceFE : Return TaskDto list
+deactivate TaskRouteBE
+TaskServiceFE --> TaskMapperFE : map to Model
+activate TaskMapperFE
+TaskMapperFE --> TaskServiceFE : Return TaskModel list
+deactivate TaskMapperFE
+TaskServiceFE --> UIComponent : Return TaskModel list
+deactivate TaskServiceFE
+UIComponent --> FrontEnd : Update with Task list
+deactivate UIComponent
+
+FrontEnd -> UIComponent : Get planning status
+activate UIComponent
+UIComponent -> TaskServiceFE : Get planning status
+activate TaskServiceFE
+TaskServiceFE -> PlanningRouteBE : Get /planning/task-planning-status
+activate PlanningRouteBE
+PlanningRouteBE -> PlanningControllerBE : getTaskPlanningStatus()
+activate PlanningControllerBE
+PlanningControllerBE -> PlanningServiceBE : getTaskPlanningStatus()
+activate PlanningServiceBE
+PlanningServiceBE --> PlanningControllerBE : Return planning status
+deactivate PlanningServiceBE
+PlanningControllerBE --> PlanningRouteBE : Return planning status message
+deactivate PlanningControllerBE
+PlanningRouteBE --> TaskServiceFE : Return planning status message
+deactivate PlanningRouteBE
+TaskServiceFE --> UIComponent : Return planning status message
+deactivate TaskServiceFE
+UIComponent --> FrontEnd : Update with planning status message
+
+opt planning status is 'planned'
+UIComponent -> TaskServiceFE : Get planning results
+activate TaskServiceFE
+TaskServiceFE -> PlanningRouteBE : Get /planning/task-planning-results
+activate PlanningRouteBE
+PlanningRouteBE -> PlanningControllerBE : getTaskPlanningResults()
+activate PlanningControllerBE
+PlanningControllerBE -> PlanningServiceBE : getTaskPlanningResults()
+activate PlanningServiceBE
+PlanningServiceBE -> PlanningRepositoryBE : getTaskPlanningResults()
+activate PlanningRepositoryBE
+PlanningRepositoryBE -> PlanningPersistanceBE : getPlanningResults()
+activate PlanningPersistanceBE
+PlanningPersistanceBE --> PlanningRepositoryBE : Return planning results
+deactivate PlanningPersistanceBE
+PlanningRepositoryBE -> PlanningMapperBE : map to Domain Model
+activate PlanningMapperBE
+PlanningMapperBE --> PlanningRepositoryBE : Return planning results
+deactivate PlanningMapperBE
+PlanningRepositoryBE --> PlanningServiceBE : Return planning results
+deactivate PlanningRepositoryBE
+PlanningServiceBE -> PlanningMapperBE : map to DTO
+activate PlanningMapperBE
+PlanningMapperBE --> PlanningServiceBE : Return planning results
+deactivate PlanningMapperBE
+PlanningServiceBE --> PlanningControllerBE : Return planning results
+deactivate PlanningServiceBE
+PlanningControllerBE --> PlanningRouteBE : Return planning results
+deactivate PlanningControllerBE
+PlanningRouteBE --> TaskServiceFE : Return planning results
+deactivate PlanningRouteBE
+TaskServiceFE -> TaskMapperFE : map to Model
+activate TaskMapperFE
+TaskMapperFE --> TaskServiceFE : Return planning results model
+deactivate TaskMapperFE
+TaskServiceFE --> UIComponent : Return planning results model
+deactivate PlanningRouteBE
+TaskServiceFE --> UIComponent : Update task list\n with planning results
+deactivate TaskServiceFE
+UIComponent --> FrontEnd : Update with planning results
+deactivate UIComponent
+end
+
+FrontEnd --> user : Show Task list and\n planning results if any
+deactivate FrontEnd
+
+@enduml
