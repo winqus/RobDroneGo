@@ -2,7 +2,7 @@
 
 ## Diagrams
 ### Process View
-![PV](../../Sprint%20B%20diagrams/ID720_ID740_PV.svg)
+![PV](./ID720_ID740_PV.svg)
 
 ## Data Models
 ### taskDTO

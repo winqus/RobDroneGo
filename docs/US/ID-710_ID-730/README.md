@@ -1,11 +1,8 @@
 # ID710, ID730 - Campus and route data exchange between modules
 
-
-
-
 ## Diagrams
 ### Process View
-![PV](../../Sprint%20B%20diagrams/ID710_ID730_PV.svg)
+![PV](./ID710_ID730_PV.svg)
 
 ## Data Models
 ### buildingDTO
