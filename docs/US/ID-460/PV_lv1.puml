@@ -1,0 +1,15 @@
+@startuml SD Lv1
+
+actor "User" as user
+participant RobDroneGo as system
+
+user -> system : Go to /task/request-task
+activate  system
+
+system -> system : Check user's role\nand permissions
+
+user <-- system : Show request creation form
+
+deactivate system
+
+@enduml

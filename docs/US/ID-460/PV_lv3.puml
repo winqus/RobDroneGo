@@ -1,0 +1,182 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+actor "User" as user
+box "RobDroneGo UI" #LightBlue
+    box "View"
+        participant "HTML + CSS + JS" as FrontEnd
+        participant "Task Request\n Form Component" as UIComponent
+    end box
+    participant "Data Model" as ModelFE
+    participant "Task Request\n Service" as TaskServiceFE
+    participant "Campus Request\n Service" as CampusServiceFE
+    participant "Mapper" as TaskMapperFE
+end box
+box "RobDroneGo Backend (Task Management)"
+    participant "Routing" as TaskRouteBE
+    participant "Controller" as TaskControllerBE
+    participant "DTO" as TaskDtoBE
+    participant "Task \nService" as TaskServiceBE
+    participant "Domain \n  Model" as TaskDomainModelBE
+    participant "Repository" as TaskRepositoryBE
+    participant "Persistance" as TaskPersistanceBE
+    participant "Mapper" as TaskMapperBE
+end box
+
+participant "Campus Management API" as CampusAPI
+  
+
+
+' user -> UI : Go to /task/request-task\n SPA route
+' activate UI
+' UI -> UserModule : Verify user's role and permissions
+' activate UserModule
+' UserModule --> UI : Permissions validated
+' deactivate UserModule
+' UI --> user : Show task request form
+' user -> UI : Select task type
+' UI -> CampusModule : Request building, floor and room list
+' activate CampusModule
+' CampusModule -> DB : Query building, floor and room list
+' activate DB
+' DB --> CampusModule : List of buildings, floors and rooms
+' deactivate DB
+' CampusModule --> UI : List of buildings, floors and rooms
+' deactivate CampusModule
+' UI --> user : Show task request form\n with selected task type
+' user -> UI : Fill in task request form\n and submit
+' UI -> TaskModule : Create task request
+' activate TaskModule
+' TaskModule -> DB : Insert task request
+' activate DB
+' DB --> TaskModule : Task request created
+' deactivate DB
+' TaskModule --> UI : Created TaskRequest
+' deactivate TaskModule
+' UI --> user : Show 'task request created'\n and clear form
+
+
+
+user -> FrontEnd : Go to /task/request-task\n SPA route
+activate FrontEnd
+
+FrontEnd -> UIComponent : Load task request form
+activate UIComponent
+UIComponent --> FrontEnd : Task request form loaded
+FrontEnd --> user : Show task request form
+user -> FrontEnd : Select task type
+FrontEnd -> UIComponent : Update selected task type
+
+UIComponent -> CampusServiceFE : Request building list
+activate CampusServiceFE
+CampusServiceFE -> CampusAPI : Request building list
+note right
+    Building list 
+    request is
+    continued in 
+    ID170 diagram
+end note
+activate CampusAPI
+CampusAPI --> CampusServiceFE : List of buildings
+deactivate CampusAPI
+CampusServiceFE -> TaskMapperFE : Map building list to model
+activate TaskMapperFE
+TaskMapperFE --> CampusServiceFE : List of buildings\n mapped to model
+deactivate TaskMapperFE
+CampusServiceFE --> UIComponent : List of buildings
+deactivate CampusServiceFE
+
+UIComponent -> CampusServiceFE : Request floor list
+activate CampusServiceFE
+CampusServiceFE -> CampusAPI : Request floor list
+note right
+    Floor list 
+    request is
+    continued in 
+    ID210 diagram
+end note
+activate CampusAPI
+CampusAPI --> CampusServiceFE : List of floors
+deactivate CampusAPI
+CampusServiceFE -> TaskMapperFE : Map floor list to model
+activate TaskMapperFE
+TaskMapperFE --> CampusServiceFE : List of floors\n mapped to model
+deactivate TaskMapperFE
+CampusServiceFE --> UIComponent : List of floors
+deactivate CampusServiceFE
+
+UIComponent -> CampusServiceFE : Request room list
+activate CampusServiceFE
+CampusServiceFE -> CampusAPI : Request room list
+note right
+    Room list 
+    request is
+    continued in 
+    ID310 diagram
+end note
+activate CampusAPI
+CampusAPI --> CampusServiceFE : List of rooms
+deactivate CampusAPI
+CampusServiceFE -> TaskMapperFE : Map room list to model
+activate TaskMapperFE
+TaskMapperFE --> CampusServiceFE : List of rooms\n mapped to model
+deactivate TaskMapperFE
+CampusServiceFE --> UIComponent : List of rooms
+deactivate CampusServiceFE
+
+
+UIComponent --> FrontEnd : Task request form with\n selected task type and\n building, floor and room lists
+deactivate UIComponent
+FrontEnd --> user : Show task request form
+
+user -> FrontEnd : Fill in task request form\n and submit
+FrontEnd -> UIComponent : Submit task request form
+activate UIComponent
+UIComponent -> TaskMapperFE : Form Data to CreateTaskRequestDTO
+activate TaskMapperFE
+TaskMapperFE --> UIComponent : CreateTaskRequestDTO
+deactivate TaskMapperFE
+UIComponent -> TaskServiceFE : CreateTaskRequestDTO
+
+activate TaskServiceFE
+TaskServiceFE -> TaskRouteBE : POST /api/taskRequest\n with CreateTaskRequestDTO
+activate TaskRouteBE
+TaskRouteBE -> TaskControllerBE : create
+activate TaskControllerBE
+TaskControllerBE -> TaskServiceBE : create(CreateTaskRequestDTO)
+activate TaskServiceBE
+TaskServiceBE -> TaskMapperBE : CreateTaskRequestDTO to \nTaskRequest Domain Model
+activate TaskMapperBE
+TaskMapperBE --> TaskServiceBE : TaskRequest Domain Model
+deactivate TaskMapperBE
+TaskServiceBE -> TaskRepositoryBE : save(TaskRequest)
+activate TaskRepositoryBE
+TaskRepositoryBE -> TaskPersistanceBE : save(TaskRequest)
+activate TaskPersistanceBE
+TaskPersistanceBE --> TaskRepositoryBE : TaskRequest
+deactivate TaskPersistanceBE
+TaskRepositoryBE --> TaskServiceBE : TaskRequest
+deactivate TaskRepositoryBE
+TaskServiceBE --> TaskMapperBE : Map to TaskRequestDTO
+activate TaskMapperBE
+TaskMapperBE --> TaskServiceBE : TaskRequestDTO
+deactivate TaskMapperBE
+TaskServiceBE --> TaskControllerBE : TaskRequestDTO
+deactivate TaskServiceBE
+TaskControllerBE --> TaskRouteBE : TaskRequestDTO
+deactivate TaskControllerBE
+
+TaskRouteBE --> TaskServiceFE : TaskRequestDTO
+deactivate TaskRouteBE
+TaskServiceFE -> TaskMapperFE : Map to TaskRequest model
+activate TaskMapperFE
+TaskMapperFE --> TaskServiceFE : TaskRequest model
+deactivate TaskMapperFE
+TaskServiceFE --> UIComponent : TaskRequest model
+deactivate TaskServiceFE
+UIComponent --> FrontEnd : TaskRequest model
+deactivate UIComponent
+FrontEnd --> user : Show 'task request created'\n and clear form
+
+@enduml
