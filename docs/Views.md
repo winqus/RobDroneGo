@@ -49,7 +49,12 @@ For modeling/visually representing both what has been implemented and the consid
 ![LV Lv2](Sprint_C_diagrams/Logical_View_Lv2.svg)
 
 ### Logical View Lv3
-![LV Lv3](diagrams/level3/Logical%20View%20Lv3%20(Campus%20Management).svg)
+![LV Lv3 - Campus Management](Sprint_C_diagrams/LVL3_CampusManagement.svg)
+![LV Lv3 - Fleet Management](Sprint_C_diagrams/LVL3_FleetManagement.svg)
+![LV Lv3 - Task Management](Sprint_C_diagrams/LVL3_TaskManagement.svg)
+![LV Lv3 - User Management](Sprint_C_diagrams/LVL3_UserManagement.svg)
+
+![SPA](Sprint_C_diagrams/SPA_LVL3.svg)
 
 ## Process Views
 
@@ -89,7 +94,13 @@ Proccess view is diagrams are described for each user story. Each user story is 
 * [ID720, ID740 - Task, robot data exchange between modules for planning task execution](./US/ID-720_ID-740/README.md)
 
 ### Deployment View
-![DV Lv1](diagrams/Deployment%20View.svg)
+![Deployment View](Sprint_C_diagrams/Physical_View.svg)
+
+### Implementation View Lv2
+![Implementation View Lv2](Sprint_C_diagrams/Implementation_View_Lv2.svg)
+
+### Implementation View Lv3
+![Implementation View Lv3](Sprint_C_diagrams/Implementation_UI_View_lv3.svg)
 
 ## Scenario View (Use Cases)
 ![UseCase](diagrams/UseCase.jpg)

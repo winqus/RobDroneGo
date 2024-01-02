@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="964px" preserveAspectRatio="none" style="width:912px;height:964px;background:#FFFFFF;" version="1.1" viewBox="0 0 912 964" width="912px" zoomAndPan="magnify"><defs/><g><!--MD5=[8a509646a725e4b29ac3346bf48b9d0c]
+cluster local--><g id="cluster_local"><polygon fill="#99DDFF" points="358,16,368,6,514,6,514,185,504,195,358,195,358,16" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="504" x2="514" y1="16" y2="6"/><line style="stroke:#181818;stroke-width:1.0;" x1="358" x2="504" y1="16" y2="16"/><line style="stroke:#181818;stroke-width:1.0;" x1="504" x2="504" y1="16" y2="195"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="39" x="412.5" y="33.5332">client</text></g><!--MD5=[8699c0c8e953ee53654a072cc875bfb4]
+cluster Browser--><g id="cluster_Browser"><rect fill="#99DDFF" height="100" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:1.0;" width="84" x="398" y="63"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:1.0;" width="15" x="462" y="68"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="460" y="70"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="460" y="74"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="59" x="410.5" y="90.5332">Browser</text></g><!--MD5=[da1343c312cc520ff5027d899b18df0c]
+cluster server1--><g id="cluster_server1"><polygon fill="#99DDFF" points="194,540,204,530,398,530,398,641,388,651,194,651,194,540" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="388" x2="398" y1="540" y2="530"/><line style="stroke:#181818;stroke-width:1.0;" x1="194" x2="388" y1="540" y2="540"/><line style="stroke:#181818;stroke-width:1.0;" x1="388" x2="388" y1="540" y2="651"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="128" x="228" y="557.5332">cluster server1:80</text></g><!--MD5=[a9c83c87e0eb36f75a71543853428e21]
+cluster server2--><g id="cluster_server2"><polygon fill="#99DDFF" points="438,540,448,530,642,530,642,641,632,651,438,651,438,540" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="632" x2="642" y1="540" y2="530"/><line style="stroke:#181818;stroke-width:1.0;" x1="438" x2="632" y1="540" y2="540"/><line style="stroke:#181818;stroke-width:1.0;" x1="632" x2="632" y1="540" y2="651"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="128" x="472" y="557.5332">cluster server2:80</text></g><!--MD5=[cab17a09d23fc61601dce9ed7286e19b]
+cluster server3--><g id="cluster_server3"><polygon fill="#99DDFF" points="16,727,26,717,454,717,454,937,444,947,16,947,16,727" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="444" x2="454" y1="727" y2="717"/><line style="stroke:#181818;stroke-width:1.0;" x1="16" x2="444" y1="727" y2="727"/><line style="stroke:#181818;stroke-width:1.0;" x1="444" x2="444" y1="727" y2="947"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="91" x="185.5" y="744.5332">server3:4000</text></g><!--MD5=[712b83cd5dd2a1f2db4c480698e73b7c]
+cluster server4--><g id="cluster_server4"><polygon fill="#99DDFF" points="682,540,692,530,895,530,895,641,885,651,682,651,682,540" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="885" x2="895" y1="540" y2="530"/><line style="stroke:#181818;stroke-width:1.0;" x1="682" x2="885" y1="540" y2="540"/><line style="stroke:#181818;stroke-width:1.0;" x1="885" x2="885" y1="540" y2="651"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="91" x="739" y="557.5332">server4:4400</text></g><!--MD5=[bf1b4add2ee2e1b53e65912b20fb7ef4]
+entity ui--><g id="elem_ui"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="52" x="414" y="99"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="446" y="104"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="444" y="106"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="444" y="110"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="12" x="429" y="133.5332">UI</text></g><!--MD5=[a3b6e82a564b0c1f96fe5061f9deda86]
+entity DeiVpnGateway--><g id="elem_DeiVpnGateway"><polygon fill="#99DDFF" points="266,277,276,267,466,267,466,304.6094,456,314.6094,266,314.6094,266,277" style="stroke:#181818;stroke-width:0.5;"/><line style="stroke:#181818;stroke-width:0.5;" x1="456" x2="466" y1="277" y2="267"/><line style="stroke:#181818;stroke-width:0.5;" x1="266" x2="456" y1="277" y2="277"/><line style="stroke:#181818;stroke-width:0.5;" x1="456" x2="456" y1="277" y2="314.6094"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="160" x="281" y="301.5332">DEI VPN Gateway:80/443</text></g><!--MD5=[c05fcadc036a699206cfdfa4a4fdb889]
+entity controller--><g id="elem_controller"><polygon fill="#99DDFF" points="291.5,403,301.5,393,440.5,393,440.5,448.2188,430.5,458.2188,291.5,458.2188,291.5,403" style="stroke:#181818;stroke-width:0.5;"/><line style="stroke:#181818;stroke-width:0.5;" x1="430.5" x2="440.5" y1="403" y2="393"/><line style="stroke:#181818;stroke-width:0.5;" x1="291.5" x2="430.5" y1="403" y2="403"/><line style="stroke:#181818;stroke-width:0.5;" x1="430.5" x2="430.5" y1="403" y2="458.2188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="105" x="306.5" y="427.5332">cluster controller</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="88" x="306.5" y="445.1426">server:80/443</text></g><!--MD5=[4e3ea98eaebe44b58f6d00ef2792bdcf]
+entity ui1--><g id="elem_ui1"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="52" x="322" y="579"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="354" y="584"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="352" y="586"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="352" y="590"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="12" x="337" y="613.5332">UI</text></g><!--MD5=[60a9e707a68d26d1e9d580c46e983260]
+entity ui2--><g id="elem_ui2"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="52" x="523" y="579"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="555" y="584"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="553" y="586"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="553" y="590"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="12" x="538" y="613.5332">UI</text></g><!--MD5=[3e07a568b62044ba0b5bb5049cca03d3]
+entity fleet--><g id="elem_fleet"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="158" x="40" y="766"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="178" y="771"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="176" y="773"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="176" y="777"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="118" x="55" y="800.5332">Fleet Management</text></g><!--MD5=[592d3444d354cda923ca8734cab94937]
+entity campus--><g id="elem_campus"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="178" x="233" y="766"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="391" y="771"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="389" y="773"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="389" y="777"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="138" x="248" y="800.5332">Campus Management</text></g><!--MD5=[c77a7a9f565a0b8e82ce4b35a94c8a45]
+entity task--><g id="elem_task"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="157" x="40.5" y="875"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="177.5" y="880"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="175.5" y="882"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="175.5" y="886"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="117" x="55.5" y="909.5332">Task Management</text></g><!--MD5=[8fc3522a43f8c7199df5e09e5bb0188e]
+entity user--><g id="elem_user"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="155" x="232.5" y="875"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="367.5" y="880"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="365.5" y="882"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="365.5" y="886"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="115" x="247.5" y="909.5332">User Management</text></g><!--MD5=[5985c08783457a6fda14e0062bcfc5bc]
+entity planning--><g id="elem_planning"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="145" x="725.5" y="579"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="850.5" y="584"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="848.5" y="586"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="848.5" y="590"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="105" x="740.5" y="613.5332">Planning Module</text></g><!--MD5=[f9ba5bf973e7832d2ce5ed59077b93f7]
+entity DB--><g id="elem_DB"><path d="M478.5,885.5 C478.5,875.5 498,875.5 498,875.5 C498,875.5 517.5,875.5 517.5,885.5 L517.5,912.1094 C517.5,922.1094 498,922.1094 498,922.1094 C498,922.1094 478.5,922.1094 478.5,912.1094 L478.5,885.5 " fill="#99DDFF" style="stroke:#181818;stroke-width:0.5;"/><path d="M478.5,885.5 C478.5,895.5 498,895.5 498,895.5 C498,895.5 517.5,895.5 517.5,885.5 " fill="none" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="19" x="488.5" y="914.0332">DB</text></g><!--MD5=[dba0c87089d34163a503ecad8989b06e]
+link local to DeiVpnGateway--><g id="link_local_DeiVpnGateway"><path d="M366,195.0957 C366,195.3366 366,195.5776 366,195.8187 C366,196.301 366,196.7838 366,197.267 C366,199.2 366,201.14 366,203.083 C366,210.8548 366,218.6726 366,226.263 C366,241.4438 366,255.715 366,266.89 " fill="none" id="local-DeiVpnGateway" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="367" y="233.4951">http/s</text></g><!--MD5=[cc7970933e99bb2ee3cd1fd69973438a]
+link DeiVpnGateway to controller--><g id="link_DeiVpnGateway_controller"><path d="M366,315.08 C366,336.58 366,368.83 366,392.75 " fill="none" id="DeiVpnGateway-controller" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="367" y="359.4951">http/s</text></g><!--MD5=[6d8b83de283b304255c5e26e6766fa59]
+link controller to server1--><g id="link_controller_server1"><path d="M339.69,458.37 C327.79,474.23 314.53,494.21 306,514 C304.0825,518.45 302.3508,523.1127 300.788,527.8712 C300.5926,528.466 300.3999,529.0623 300.2098,529.6599 " fill="none" id="controller-server1" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="321" y="502.4951">http/s</text></g><!--MD5=[91f2b97d5991129afd13837e2a1282f5]
+link controller to server2--><g id="link_controller_server2"><path d="M380.49,458.28 C391.835,483.175 407.8825,518.38 421.255,547.715 C424.5981,555.0488 427.7741,562.0156 430.6675,568.3628 C432.1143,571.5364 433.4904,574.5551 434.7815,577.3872 C435.427,578.8033 436.0513,580.1727 436.6526,581.4916 C436.9532,582.151 437.248,582.7978 437.5369,583.4315 C437.6813,583.7483 437.8243,584.0618 437.9657,584.372 " fill="none" id="controller-server2" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="402" y="502.4951">http/s</text></g><!--MD5=[6e06fe010d71f40e3869c7944773e1db]
+link server1 to server3--><g id="link_server1_server3"><path d="M295.2841,651.0129 C295.3754,651.2176 295.4678,651.4218 295.5611,651.6255 C295.9346,652.4405 296.3241,653.2478 296.7304,654.0457 C297.543,655.6415 298.4225,657.1994 299.3746,658.7052 C301.2786,661.7169 303.4725,664.52 306,667 C310.98,671.89 422.22,695.91 427,701 C430.32,704.53 433.1145,708.4955 435.4622,712.7392 C436.0491,713.8001 436.6081,714.8784 437.1403,715.9717 C437.2734,716.245 437.4048,716.5192 437.5345,716.7944 " fill="none" id="server1-server3" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="400" y="689.4951">http/s</text></g><!--MD5=[40059543903b02b4750d8799b5dd92c9]
+link server2 to server3--><g id="link_server2_server3"><path d="M446,651.0908 C446,651.4004 446,651.7109 446,652.0222 C446,653.2676 446,654.527 446,655.7994 C446,658.344 446,660.9399 446,663.5769 C446,674.1249 446,685.3297 446,696.5338 C446,702.1358 446,707.7376 446,713.2571 C446,713.9471 446,714.6357 446,715.3229 C446,715.6665 446,716.0098 446,716.3526 C446,716.524 446,716.6954 446,716.8666 " fill="none" id="server2-server3" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="447" y="689.4951">http/s</text></g><!--MD5=[be58c53c153e1605877929644b62de94]
+link server3 to DB--><g id="link_server3_DB"><path d="M454.098,807.6633 C454.1503,807.771 454.2029,807.8792 454.2556,807.9877 C454.6774,808.8558 455.1111,809.7485 455.5557,810.6636 C457.3342,814.324 459.2869,818.3428 461.3475,822.5838 C469.59,839.5475 479.56,860.065 487.02,875.41 " fill="none" id="server3-DB" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="14" x="468.1879" y="864.515">db</text></g><!--MD5=[116db286e9f29585409e55278430e13b]
+link server4 to server3--><g id="link_server4_server3"><path d="M681.5586,610.4006 C681.3724,610.5417 681.1835,610.685 680.9918,610.8304 C680.225,611.4118 679.4137,612.0269 678.5599,612.6743 C671.7292,617.8536 662.1709,625.101 650.7942,633.727 C628.0409,650.9791 598.0144,673.7456 567.9888,696.5113 C537.9631,719.2769 507.9384,742.0416 485.1889,759.2898 C473.8141,767.914 464.2582,775.159 457.4303,780.3355 C456.5768,780.9826 455.7659,781.5973 454.9994,782.1784 C454.8078,782.3237 454.619,782.4668 454.4329,782.6079 C454.3399,782.6784 454.2476,782.7484 454.156,782.8178 " fill="none" id="server4-server3" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="590" y="689.4951">http/s</text></g><!--MD5=[13db3367f195113765d75cb67759ee43]
+@startuml Physical View
+
+<style>
+node {
+    BackgroundColor #99ddff
+}
+component {
+    BackgroundColor #99ddff
+}
+database {
+    BackgroundColor #99ddff
+}
+</style>
+
+node "client" as local {
+    component Browser{
+        component UI as ui
+    }
+}
+
+node "DEI VPN Gateway:80/443" as DeiVpnGateway{
+}
+node "cluster controller \nserver:80/443" as controller{
+}
+node "cluster server1:80" as server1{
+    component UI as ui1
+}
+node "cluster server2:80" as server2{
+    component UI as ui2
+}
+
+node "server3:4000" as server3{
+    component "Fleet Management" as fleet
+    component "Campus Management" as campus
+    component "Task Management" as task
+    component "User Management" as user
+}
+
+node "server4:4400" as server4{
+    component "Planning Module" as planning
+}
+
+database DB
+local - - DeiVpnGateway : http/s
+DeiVpnGateway - - controller : http/s
+controller - - server1 : http/s
+controller - - server2 : http/s
+server1 - - server3 : http/s
+server2 - - server3 : http/s
+server3 - - "db" DB
+server4 - - server3 : http/s
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 BST 2022)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) Client VM
+Default Encoding: Cp1252
+Language: en
+Country: US
+--></g></svg>

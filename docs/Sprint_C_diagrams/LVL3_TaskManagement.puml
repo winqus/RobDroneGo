@@ -1,0 +1,77 @@
+@startuml LVL3_TaskManagement
+
+<style>
+component {
+    BackgroundColor #99ddff
+}
+</style>
+
+interface "API" as API
+interface "UI API" as UI_API
+
+component "Task Management" as campus{
+    
+    interface "Persistence API" as PER_API
+    package "Framework And Drivers Layer" #00ffff {
+        component Routing
+        component Persistence
+    }
+
+    interface "Controller API" as CRTL_API
+    interface "Repo API" as REPO_API
+    package "Interface Adapters Layer" #77ffaa{
+        component Controller
+        component Repository
+    }
+
+    interface "App Service API" as APP_API
+    package "Application Business Rules" #ff6666 {
+        component "Application Services" as Application
+    }
+
+    interface "Model API" as MODEL_API
+    package "Enterprise Business Rules" #eeddaa {
+        component "Domain Model" as Domain
+    }
+    
+    interface "Data Model API" as DATA_API
+    component "Data Model" as DATA
+    
+    interface "DTO API" as DTO_API
+    component "DTO" as DTO
+
+    DTO -right- DTO_API
+    DATA -left- DATA_API
+
+    Domain -up- MODEL_API
+    Application -up- APP_API
+    Controller -up- CRTL_API
+    Repository -down-( REPO_API
+    Persistence -down- PER_API
+
+    Application -down-( MODEL_API
+    Repository -down-( MODEL_API
+
+    Controller -down-( APP_API
+
+    Controller -down-( DTO_API
+    Application -up-( DTO_API
+
+    Routing -down-( CRTL_API
+
+    Application -up- REPO_API
+
+    Repository -up-( PER_API
+
+    Repository -up-( DATA_API
+    Persistence -down-( DATA_API
+    
+
+}
+Persistence -up-( DMS
+Routing -up- API
+Routing -up- UI_API
+
+
+
+@enduml

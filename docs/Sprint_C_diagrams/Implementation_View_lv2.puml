@@ -1,4 +1,4 @@
-@startuml Logical View Lv2
+@startuml Implementation_View_lv2
 
 <style>
 component {

@@ -1,4 +1,4 @@
-@startuml UI_LV_lvl3
+@startuml Implementation_UI_View_lv3
 
 <style>
 component {

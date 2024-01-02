@@ -1,4 +1,4 @@
-@startuml Physical View
+@startuml Physical_View
 
 <style>
 node {
@@ -18,7 +18,9 @@ node "client" as local {
     }
 }
 
-node "cluster controller \nserver:80" as controller{
+node "DEI VPN Gateway:80/443" as DeiVpnGateway{
+}
+node "cluster controller \nserver:80/443" as controller{
 }
 node "cluster server1:80" as server1{
     component UI as ui1
@@ -39,8 +41,8 @@ node "server4:4400" as server4{
 }
 
 database DB
-
-local --  controller : http/s
+local -- DeiVpnGateway : http/s
+DeiVpnGateway -- controller : http/s
 controller -- server1 : http/s
 controller -- server2 : http/s
 server1 -- server3 : http/s
