@@ -9,6 +9,7 @@
 :- use_module(taskDataPreparation).
 :- use_module(geneticRunner).
 :- use_module(genetic).
+:- use_module(permutationRunner).
 
 fake_find_task_to_task(Tasks, TaskToTaskTerms) :-
     findall(TaskToTask, (
@@ -31,7 +32,7 @@ fake_find_robot_to_task(Robots, Tasks, RobotToTaskTerms) :-
         ), RobotToTaskTerms), !.
 
 
-initialize :-
+test_genetic :-
     %  MODIFY TaskData (in geneticTestData.pl) FOR TESTING FOR COMPLEXITY ANALYSIS (use only one robot)  %
     % USE MORE THAN 2 TASKS %
     % USE ONLY ONE ROBOT %
@@ -65,10 +66,37 @@ initialize :-
     /* TIME MEASUREMENT FOR GA COMPLEXITY ANALYSIS SHOULD END HERE */
     !.
 
+test_perm :- 
+    % max 8 tasks, after that it happens scack limit exceeded
+    testTaskData(TaskData),
+    taskDataPreparation:extract_robots(TaskData, Robots),
+    logic:load_info(),
+    Robots = [Robot|_],
+    Robot = robot(RobotId, _),
+    taskDataPreparation:extract_tasks_for_robot(RobotId, TaskData, Tasks),
+    length(Tasks, TaskCount),
+    write('> Task count: '), write(TaskCount), nl,
+    fake_find_task_to_task(Tasks, TaskToTaskTerms),
+    length(TaskToTaskTerms, TaskToTaskCount),
+    write('> Task to task combinations: '), write(TaskToTaskCount), nl,
+    fake_find_robot_to_task(Robots, Tasks, RobotToTaskTerms),!,
 
-:- initialize.
-
-
+    /* TIME MEASUREMENT FOR GA COMPLEXITY ANALYSIS SHOULD START HERE */
+    TaskToTaskCombinations = TaskToTaskTerms,
+    RobotToTaskCombinations = RobotToTaskTerms,
+    get_time(StartTime),
+    permutationRunner:runPermutation(Tasks, TaskToTaskCombinations, RobotToTaskCombinations, BestIndividual),
+    write(BestIndividual),
+    get_time(EndTime),
+    ExecutionTime is EndTime - StartTime,
+    ExecutionTimeRounded is round(ExecutionTime * 10000) / 10000,
+    % write('> Best Individual: '), write(BestIndividual), nl,
+    with_output_to(string(BestIndividualString), write(BestIndividual)),
+    split_string(BestIndividualString, "*", " ", [_, CostString]),
+    write('> Best Individual: '), write('[task....]*'), write(CostString), nl,
+    format('\e[1;32m> Execution Time: ~w seconds\e[0m', [ExecutionTimeRounded]), nl,
+    /* TIME MEASUREMENT FOR GA COMPLEXITY ANALYSIS SHOULD END HERE */
+    !.
 
 
 % usage example of pathAndTotalCostBetweenOriginDestination:
