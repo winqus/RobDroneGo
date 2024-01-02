@@ -1,0 +1,22 @@
+@startuml SD Lv2
+
+participant " "
+box "RobDroneGo" #LightBlue
+    participant "Task Management" as task
+    participant "DB" as DB
+end box
+
+[o-> task : Post
+activate task
+
+task -> task : create task request
+
+task -> DB : save task request
+activate DB
+DB --> task : Success
+deactivate DB
+
+[o<--o task : Success
+deactivate task
+
+@enduml
