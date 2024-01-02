@@ -54,6 +54,12 @@ component "UI" as ui{
     driver -down- Driver_API
     service -up-( Driver_API
 
+    component "DTO" as dto
+    interface " " as DTO_API
+    dto -left-( DTO_API
+    service -right-( DTO_API
+    driver -down-( DTO_API
+
 }
 
 html -up- campus
