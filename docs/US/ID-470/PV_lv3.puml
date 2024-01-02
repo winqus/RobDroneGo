@@ -1,0 +1,84 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+actor "User" as user
+box "RobDroneGo UI" #LightBlue
+    box "View"
+        participant "HTML + CSS + JS" as FrontEnd
+        participant "Task Request\n Form Component" as UIComponent
+    end box
+    participant "Data Model" as ModelFE
+    participant "Task Request\n Service" as TaskServiceFE
+    participant "Mapper" as TaskMapperFE
+end box
+box "RobDroneGo Backend (Task Management)"
+    participant "Routing" as TaskRouteBE
+    participant "Controller" as TaskControllerBE
+    participant "DTO" as TaskDtoBE
+    participant "Task \nService" as TaskServiceBE
+    participant "Domain \n  Model" as TaskDomainModelBE
+    participant "Repository" as TaskRepositoryBE
+    participant "Persistance" as TaskPersistanceBE
+    participant "Mapper" as TaskMapperBE
+end box
+
+participant "Campus Management API" as CampusAPI
+  
+user -> FrontEnd : Go to /task/request-task\n SPA route
+activate FrontEnd
+note right
+    this user story uses the
+    list of tasks from user story ID-480
+end note
+
+user -> FrontEnd : click on "approve" button or "reject" button
+FrontEnd -> UIComponent : approve or reject action
+activate UIComponent
+UIComponent -> TaskServiceFE : updateTaskRequestStatus(taskRequestId, status)
+activate TaskServiceFE
+TaskServiceFE -> TaskRouteBE : PATCH /task-requests/:id/status
+activate TaskRouteBE
+TaskRouteBE -> TaskControllerBE : updateTaskRequestStatus(taskRequestId, status)
+activate TaskControllerBE
+TaskControllerBE -> TaskServiceBE : updateTaskRequestStatus(taskRequestId, status)
+activate TaskServiceBE
+TaskServiceBE -> TaskRepositoryBE : getTaskRequestById(taskRequestId)
+activate TaskRepositoryBE
+TaskRepositoryBE -> TaskPersistanceBE : getTaskRequestById(taskRequestId)
+activate TaskPersistanceBE
+TaskPersistanceBE --> TaskRepositoryBE : taskRequest
+deactivate TaskPersistanceBE
+TaskRepositoryBE --> TaskServiceBE : taskRequest
+deactivate TaskRepositoryBE
+TaskServiceBE -> TaskServiceBE : taskRequest.status = status
+TaskServiceBE -> TaskRepositoryBE : save(taskRequest)
+activate TaskRepositoryBE
+TaskRepositoryBE -> TaskPersistanceBE : save(taskRequest)
+activate TaskPersistanceBE
+TaskPersistanceBE --> TaskRepositoryBE : taskRequest
+deactivate TaskPersistanceBE
+TaskRepositoryBE --> TaskServiceBE : taskRequest
+deactivate TaskRepositoryBE
+TaskServiceBE -> TaskMapperBE : ToDto(taskRequest)
+activate TaskMapperBE
+TaskMapperBE --> TaskServiceBE : taskRequestDto
+deactivate TaskMapperBE
+TaskServiceBE -> TaskControllerBE : taskRequestDto
+deactivate TaskServiceBE
+TaskControllerBE -> TaskRouteBE : taskRequestDto
+deactivate TaskControllerBE
+TaskRouteBE -> TaskServiceFE : taskRequestDto
+deactivate TaskRouteBE
+TaskServiceFE -> TaskMapperFE : ToModel(taskRequestDto)
+activate TaskMapperFE
+TaskMapperFE --> TaskServiceFE : taskRequest
+deactivate TaskMapperFE
+TaskServiceFE --> UIComponent : taskRequest
+deactivate TaskServiceFE
+UIComponent --> FrontEnd : taskRequest
+deactivate UIComponent
+FrontEnd --> user : update information taskRequest
+deactivate FrontEnd
+
+@enduml
