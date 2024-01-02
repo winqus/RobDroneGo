@@ -37,7 +37,7 @@ When requesting a task, you will need to indicate a pickup contact and a deliver
 ![SD Lv3](./SD%20Lv3.svg)
 
 ### Implementation View Lv2
-![IV Lv2](../../Sprint_C_diagrams/Implementation_View_Lv2.svg)
+![IV Lv2](../../Sprint_C_diagrams/Implementation_View_lv2.svg)
 
 ### Implementation View Lv3 (MD)
 ![IV Lv3](../../Sprint_C_diagrams/Implementation_MD_View_lv3.svg)
