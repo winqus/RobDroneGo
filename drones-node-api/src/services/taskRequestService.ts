@@ -1,24 +1,26 @@
+import http from 'http';
+import querystring from 'querystring';
 import { Inject, Service } from 'typedi';
 import config from '../../config';
 import { Result } from '../core/logic/Result';
 import { DeliveryTask } from '../domain/DeliveryTask/deliveryTask';
-import { SurveillanceTask } from '../domain/SurveillanceTask/surveillanceTask';
 import { NavigationData } from '../domain/TaskRequest/navigationData';
 import { TaskRequest } from '../domain/TaskRequest/taskRequest';
 import { TaskStatus } from '../domain/TaskRequest/taskStatus';
-import { IDeliveryTaskDTO } from '../dto/IDeliveryTaskDTO';
-import { ISurveillanceTaskDTO } from '../dto/ISurveillanceTaskDTO';
 import { ITaskRequestDTO } from '../dto/ITaskRequestDTO';
 import { DeliveryTaskMap } from '../mappers/deliveryTaskMap';
+import { NavigationDataMap } from '../mappers/navigationDataMap';
 import { SurveillanceTaskMap } from '../mappers/surveillanceTaskMap';
 import { TaskRequestMap } from '../mappers/taskRequestMap';
-import { DeliveryTask as DeliveryTaskSchema } from '../persistence/schemas/deliveryTaskSchema';
-import { SurveillanceTask as SurveillanceTaskSchema } from '../persistence/schemas/surveillanceTaskSchema';
 import ITaskRequestService from './IServices/ITaskRequestService';
 
 @Service()
 export default class TaskRequestService implements ITaskRequestService {
-  constructor(@Inject(config.repos.taskRequest.name) private taskRequestRepo) {}
+  constructor(
+    @Inject(config.repos.taskRequest.name) private taskRequestRepo,
+    @Inject(config.repos.room.name) private roomRepo,
+    @Inject(config.repos.floor.name) private floorRepo,
+  ) {}
 
   async addNavigationData(
     taskRequestId: string,
@@ -100,7 +102,75 @@ export default class TaskRequestService implements ITaskRequestService {
         return Result.fail<ITaskRequestDTO>(taskRequestOrError.errorValue().toString());
       }
 
-      await this.taskRequestRepo.save(taskRequestOrError.getValue());
+      const taskRequest = taskRequestOrError.getValue();
+
+      try {
+        if (
+          taskRequest.status === TaskStatus.Approved &&
+          taskRequest.task instanceof DeliveryTask &&
+          taskRequest.navigationData == null
+        ) {
+          let room = await this.roomRepo.findById(taskRequest.task.pickUpRoomId);
+          let floor = await this.floorRepo.findById(room.floorId);
+
+          const origin_building_code = floor.buildingCode.value;
+          const origin_floor_number = floor.floorNumber;
+
+          room = await this.roomRepo.findById(taskRequest.task.deliveryRoomId);
+          floor = await this.floorRepo.findById(room.floorId);
+
+          const destination_building_code = floor.buildingCode.value;
+          const destination_floor_number = floor.floorNumber;
+
+          const data = {
+            origin_building_code: origin_building_code,
+            origin_floor_number: origin_floor_number,
+            origin_room: taskRequest.task.pickUpRoomId.toString(),
+            destination_building_code: destination_building_code,
+            destination_floor_number: destination_floor_number,
+            destination_room: taskRequest.task.deliveryRoomId.toString(),
+            minimize_elevator_uses: true,
+            minimize_building_count: false,
+          };
+
+          const path = `${config.api.prefix}/planning/calculate-cells`;
+
+          const queryString = querystring.stringify(data as any);
+
+          const options = {
+            hostname: '127.0.0.1',
+            port: config.port,
+            path: `${path}?${queryString}`,
+            method: 'GET',
+          };
+
+          const request = http.request(options, (response) => {
+            if (response.headers['content-type']) {
+            }
+
+            let body = '';
+
+            response.on('data', (chunk) => {
+              body += chunk;
+            });
+
+            response.on('end', () => {
+              const navigation = NavigationDataMap.toDomain(JSON.parse(body));
+              if (navigation.isSuccess) {
+                taskRequest.navigationData = navigation.getValue();
+                this.taskRequestRepo.save(taskRequest);
+              }
+            });
+          });
+          request.on('error', (error) => {
+            console.error(`Problem with request: ${error.message}`);
+          });
+
+          request.end();
+        }
+      } catch (ignored) {}
+
+      await this.taskRequestRepo.save(taskRequest);
 
       const taskRequestDTOResult = TaskRequestMap.toDTO(taskRequestOrError.getValue()) as ITaskRequestDTO;
 
