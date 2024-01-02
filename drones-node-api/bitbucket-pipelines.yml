@@ -56,23 +56,14 @@ pipelines:
                 - npm run lint:js || true
     deploy-main:
       - step:
-          name: Test Node
-          runs-on:
-            - self.hosted
-            - linux
+          name: Build & Test Node for Production
+          # runs-on:
+          #   - self.hosted
+          #   - linux
           caches:
             - node
           script:
             - npm install
-            - npx jest
-      - step:
-          name: Deploy to Production
-          runs-on:
-            - self.hosted
-            - linux
-          script:
-            - echo "Deploying to Production Server"
-            # Create .env file and copy to server
             - echo "MONGODB_URI=$MONGO_DB_URI" > .env
             - echo "JWT_SECRET=$JWT_SECRET" >> .env
             - echo "PLANNING_API_HOSTNAME=$PLANNING_API_HOSTNAME" >> .env
@@ -80,37 +71,40 @@ pipelines:
             - echo "PLANNING_API_BASE_PATH=$PLANNING_API_BASE_PATH" >> .env
             - echo "NODE_ENV=production" >> .env
             - echo "PORT=4000" >> .env
-            - scp -P $SERVER_SSH_PORT ./.env $SERVER_USERNAME@$SERVER_HOSTNAME:/home/www/node-app/production/
-            # SSH into the server and execute deployment commands
+            - npm run build
+            - npx jest
+          artifacts:
+            - build
+      - step:
+          name: Deploy to Production
+          # runs-on:
+          #   - self.hosted
+          #   - linux
+          script:
+            - pipe: atlassian/sftp-deploy:0.8.0
+              variables:
+                USER: '$SERVER_USERNAME'
+                SERVER: '$SERVER_HOSTNAME'
+                REMOTE_PATH: '/home/www/node-app/production/'
+                LOCAL_PATH: 'build'
+                DEBUG: 'true'
+                EXTRA_ARGS: '-oPort=$SERVER_SSH_PORT -P $SERVER_SSH_PORT'
             - ssh -tt -p $SERVER_SSH_PORT $SERVER_USERNAME@$SERVER_HOSTNAME << EOF
             - set -euxo pipefail;
-            - cd /home/www/node-app/production/;
-            - (git clone --branch $BITBUCKET_BRANCH $BITBUCKET_GIT_HTTP_ORIGIN ./ || (git pull origin $BITBUCKET_BRANCH));
-            - npm install;
-            - npm run build;
             - npm run restart:prod;
             - set +e;
             - exit 0
             - EOF
     deploy-develop:
       - step:
-          name: Test Node
-          runs-on:
-            - self.hosted
-            - linux
+          name: Build & Test Node
+          # runs-on:
+          #   - self.hosted
+          #   - linux
           caches:
             - node
           script:
             - npm install
-            - npx jest
-      - step:
-          name: Deploy to Development
-          runs-on:
-            - self.hosted
-            - linux
-          script:
-            - echo "Deploying to Development Server"
-            # Create .env file and copy to server
             - echo "MONGODB_URI='$MONGO_DB_URI'" > .env;
             - echo "JWT_SECRET='$JWT_SECRET'" >> .env;
             - echo "PLANNING_API_HOSTNAME='$PLANNING_API_HOSTNAME'" >> .env;
@@ -118,14 +112,26 @@ pipelines:
             - echo "PLANNING_API_BASE_PATH='$PLANNING_API_BASE_PATH'" >> .env;
             - echo "NODE_ENV=development" >> .env;
             - echo "PORT=4001" >> .env;
-            - scp -P $SERVER_SSH_PORT ./.env $SERVER_USERNAME@$SERVER_HOSTNAME:/home/www/node-app/development/
-             # SSH into the server and execute deployment commands
+            - npm run build
+            - npx jest
+          artifacts:
+            - build
+      - step:
+          name: Deploy to Development
+          # runs-on:
+          #   - self.hosted
+          #   - linux
+          script:
+            - pipe: atlassian/sftp-deploy:0.8.0
+              variables:
+                USER: '$SERVER_USERNAME'
+                SERVER: '$SERVER_HOSTNAME'
+                REMOTE_PATH: '/home/www/node-app/development/'
+                LOCAL_PATH: 'build'
+                DEBUG: 'true'
+                EXTRA_ARGS: '-oPort=$SERVER_SSH_PORT -P $SERVER_SSH_PORT'
             - ssh -tt -p $SERVER_SSH_PORT $SERVER_USERNAME@$SERVER_HOSTNAME << EOF
             - set -euxo pipefail;
-            - cd /home/www/node-app/development/;
-            - (git clone --branch $BITBUCKET_BRANCH $BITBUCKET_GIT_HTTP_ORIGIN ./ || (git pull origin $BITBUCKET_BRANCH));
-            - npm install;
-            - npm run build;
             - npm run restart:dev;
             - set +e;
             - exit 0
