@@ -5,18 +5,13 @@
 	- [Level 2](#level-2)
 		- [Logical View - Implementation View](#logical-view---implementation-view-1)
 		- [Implementation View - Physical View](#implementation-view---physical-view-1)
-	- [Level 3 (MDR)](#level-3-mdr)
+	- [Level 3 (BE)](#level-3-be)
 		- [Logical View - Implementation View](#logical-view---implementation-view-2)
 		- [Implementation View - Physical View](#implementation-view---physical-view-2)
 	- [Level 3 (UI)](#level-3-ui)
 		- [Logical View - Implementation View](#logical-view---implementation-view-3)
 		- [Implementation View - Physical View](#implementation-view---physical-view-3)
-	- [Level 3 (MDV)](#level-3-mdv)
-		- [Logical View - Implementation View](#logical-view---implementation-view-4)
-		- [Implementation View - Physical View](#implementation-view---physical-view-4)
-	- [Level 3 (Planning)](#level-3-planning)
-		- [Logical View - Implementation View](#logical-view---implementation-view-5)
-		- [Implementation View - Physical View](#implementation-view---physical-view-5)
+
 
 # Mapping between Views
 
