@@ -1,0 +1,33 @@
+@startuml SD Lv2
+
+actor "Task Manager" as taskmanager
+box "RobDroneGo System" #LightBlue
+    participant "UI" as UI
+    participant "Task \nManagement" as TaskModule
+    participant "User\nManagement" as UserModule
+    participant "DB" as DB
+end box
+
+taskmanager -> UI : Go to /task/search\n SPA route
+
+activate UI
+UI -> UserModule : Verify taskmanager's role and permissions
+activate UserModule
+UserModule --> UI : Permissions validated
+deactivate UserModule
+UI --> taskmanager : Show task request form
+taskmanager -> UI : Select task request status, user email and/or device
+
+UI -> TaskModule : Request list of task requests
+activate TaskModule
+TaskModule -> DB : Query task requests
+activate DB
+DB --> TaskModule : List of task requests
+deactivate DB
+TaskModule --> UI : List of task requests
+deactivate TaskModule
+UI --> taskmanager : Show list of task requests
+
+
+
+@enduml

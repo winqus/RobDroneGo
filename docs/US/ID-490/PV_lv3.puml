@@ -1,0 +1,93 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+actor "Task Manager" as user
+box "RobDroneGo UI" #LightBlue
+
+    box "View"
+        participant "HTML + CSS + JS" as FrontEnd
+        participant "Search task component" as SearchTask
+    end box
+    participant "Data Model" as ModelFE
+    participant "Mapper" as TaskMapperFE
+    participant "Task Service" as TaskServiceFE
+
+end box
+box "RobDroneGo Backend (Task Management)"
+    participant "Routing" as TaskRouteBE
+    participant "Controller" as TaskControllerBE
+    participant "DTO" as TaskDtoBE
+    participant "Task \nService" as TaskServiceBE
+    participant "Domain \n  Model" as TaskDomainModelBE
+    participant "Repository" as TaskRepositoryBE
+    participant "Persistance" as TaskPersistanceBE
+    participant "Mapper" as TaskMapperBE
+
+   
+end box
+
+user -> FrontEnd : Go to /task/search SPA route
+activate FrontEnd
+
+    FrontEnd -> SearchTask : Load Task Request search form
+    activate SearchTask
+
+        SearchTask -> TaskServiceFE : Request List of task requests
+        activate TaskServiceFE
+
+            TaskServiceFE -> TaskRouteBE : GET /tasks/list
+            activate TaskRouteBE
+
+            TaskRouteBE --> TaskControllerBE : getAllTaskRequest()
+
+            activate TaskControllerBE
+            TaskControllerBE -> TaskServiceBE : getAllTaskRequest()
+            activate TaskServiceBE
+            
+            TaskServiceBE -> TaskRepositoryBE : getAll()
+            activate TaskRepositoryBE
+
+            TaskRepositoryBE -> TaskPersistanceBE : find all
+            activate TaskPersistanceBE
+            TaskPersistanceBE --> TaskRepositoryBE : return all
+            deactivate TaskPersistanceBE
+
+            TaskRepositoryBE -> TaskMapperBE : map to Domain Model
+            activate TaskMapperBE
+            TaskMapperBE --> TaskRepositoryBE : Task Domain Models
+            deactivate TaskMapperBE
+
+            TaskRepositoryBE --> TaskServiceBE : return Task[]
+            deactivate TaskRepositoryBE
+
+            TaskServiceBE --> TaskMapperBE : map to DTO
+            activate TaskMapperBE
+            TaskMapperBE --> TaskServiceBE : return TaskDto[]
+            deactivate TaskMapperBE
+
+            TaskServiceBE --> TaskControllerBE : return TaskDto[]
+            deactivate TaskServiceBE
+
+            TaskControllerBE --> TaskRouteBE : return TaskDto[]
+            deactivate TaskControllerBE
+
+            TaskRouteBE --> TaskServiceFE : return TaskDto[]
+            deactivate TaskRouteBE
+
+        TaskServiceFE -> TaskMapperFE : map to Data Model
+        activate TaskMapperFE
+        TaskMapperFE --> TaskServiceFE : return Task[]
+        deactivate TaskMapperFE
+
+        TaskServiceFE --> TasksList : return Task[]
+        deactivate TaskServiceFE
+
+    TasksList --> FrontEnd : return Task[]
+    deactivate TasksList
+
+FrontEnd --> user : Display Task Request  List
+deactivate FrontEnd
+
+
+@enduml
