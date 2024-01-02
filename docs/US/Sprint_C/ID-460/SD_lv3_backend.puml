@@ -1,0 +1,79 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant " "
+box "Task Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "TaskRequest Persistence" as Schema
+    end box
+
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "TaskRequest Repository" as Repository
+    end box
+
+    participant DTO
+    participant TaskRequestMap as Map
+    box "Application Business Rules" #ff6666
+        participant "TaskRequest Service" as TaskS
+    end box
+
+    box "Enterprise Business Rules" #eeddaa
+        participant TaskRequest
+    end box
+end box
+
+
+[o-> Routing : Post
+activate Routing
+
+    Routing -> Controller : create()
+    activate Controller
+    Routing -> Controller : createTaskRequest()
+        Controller -> TaskS : create()
+        activate TaskS
+            Controller -> TaskS : createTaskRequest(ITaskRequestDTO)
+            TaskS -> TaskS: taskRequestDTO.status = "pending"
+            TaskS -> TaskS: taskRequestDTO.requestCreatedDateTime = \nnew Date().toISOString()
+            TaskS -> Map : toDomain(taskRequestDTO)
+
+            activate Map
+                Map -> TaskRequest ** : create(...)
+                Map --> TaskS : TaskRequestOrError
+            deactivate Map
+            
+            TaskS -> Repository : save(TaskRequestResult)
+            activate Repository
+
+                Repository -> Map : toPersistence(taskRequest)
+                activate Map
+                    Map --> Repository : rawTaskRequest
+                deactivate Map
+
+                Repository -> Schema : create(rawTaskRequest)
+                activate Schema
+                    Schema --> Repository : taskRequestCreated
+                deactivate Schema
+
+                Repository --> TaskS : TaskRequestMap.toDomain(taskRequestCreated) ? \nTaskRequestMap.toDomain(taskRequestCreated).getValue() : \nnull
+
+            deactivate Repository
+
+            TaskS -> Map : toDTO(taskRequestResult))
+            activate Map
+                Map --> TaskS : TaskRequestDTOResult
+            deactivate Map
+            TaskS --> Controller : Result.ok<ITaskRequestDTO>(taskRequestDTOResult)
+        deactivate TaskS
+
+    Controller --> Routing : res.status(201).json(taskRequestDTO)
+    deactivate Controller
+
+[o<--o Routing : Success
+deactivate Routing
+
+
+@enduml
