@@ -1,0 +1,31 @@
+@startuml Implementation_MD_View_lv3
+
+<style>
+component {
+    BackgroundColor #99ddff
+}
+</style>
+
+interface "Campus API" as campus_API
+interface "Fleet API" as fleet_API
+interface "Task API" as task_API
+interface "Planning API" as planning_API
+interface "Planning Module API" as planning_module_API
+interface "User API" as user_API
+
+component MD {
+    component "BE" as be
+    component "DB" as db
+
+    be -(0- db
+}
+be -up- fleet_API
+be -up- campus_API
+be -up-( planning_module_API
+be -up- task_API
+be -up- user_API
+be -up- planning_API
+
+
+
+@enduml

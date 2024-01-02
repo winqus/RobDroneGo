@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="282px" preserveAspectRatio="none" style="width:720px;height:282px;background:#FFFFFF;" version="1.1" viewBox="0 0 720 282" width="720px" zoomAndPan="magnify"><defs/><g><!--MD5=[5811b25a55944475dd63195b77327fcf]
+cluster MD--><g id="cluster_MD"><rect fill="#99DDFF" height="208" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:1.0;" width="92" x="296" y="68"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:1.0;" width="15" x="368" y="73"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="366" y="75"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="366" y="79"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="23" x="330.5" y="95.5332">MD</text></g><!--MD5=[7a3792b038281ded935de378231f6f23]
+entity be--><g id="elem_be"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="58" x="313" y="104"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="351" y="109"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="349" y="111"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="349" y="115"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="18" x="328" y="138.5332">BE</text></g><!--MD5=[7468467f3b6b392f1d176d828c753b77]
+entity db--><g id="elem_db"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="59" x="312.5" y="212"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="351.5" y="217"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="349.5" y="219"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="349.5" y="223"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="19" x="327.5" y="246.5332">DB</text></g><!--MD5=[158ea2335862f9e39c4dfc5bc73a84c8]
+entity campus_API--><g id="elem_campus_API"><ellipse cx="568" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="77" x="529.5" y="45.5332">Campus API</text></g><!--MD5=[b80c9d42756b824c47bcd5294851a72a]
+entity fleet_API--><g id="elem_fleet_API"><ellipse cx="685" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="57" x="656.5" y="45.5332">Fleet API</text></g><!--MD5=[ec5166ecce83118c788a0c49d9acefab]
+entity task_API--><g id="elem_task_API"><ellipse cx="270" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="242" y="45.5332">Task API</text></g><!--MD5=[7f552f5e175c62f1df18e1e21eab6335]
+entity planning_API--><g id="elem_planning_API"><ellipse cx="46" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="80" x="6" y="45.5332">Planning API</text></g><!--MD5=[cb67b72c62630d75d69fb69763b9677d]
+entity planning_module_API--><g id="elem_planning_module_API"><ellipse cx="414" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="130" x="349" y="45.5332">Planning Module API</text></g><!--MD5=[7597baf1e0669f42e986acf1068ffc9e]
+entity user_API--><g id="elem_user_API"><ellipse cx="164" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="137" y="45.5332">User API</text></g><!--MD5=[d0aeb77f98b04fc383b319ab788a390b]
+link be to db--><g id="link_be_db"><path d="M342,152 C342,169.66 342,193.94 342,211.68 " fill="none" id="be-db" style="stroke:#181818;stroke-width:1.0;"/><path d="M349.0711,174.7389 A10,10 0 0 0 334.9289 174.7389" fill="none" style="stroke:#181818;stroke-width:1.5;"/><ellipse cx="342" cy="181.81" fill="#FFFFFF" rx="6" ry="6" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[ecfc2fc761b0c5ce2b080f4439ce2d71]
+link fleet_API to be--><g id="link_fleet_API_be"><path d="M675.93,20.78 C665.61,27.16 648.11,37.39 632,44 C539.72,81.9 424.19,109.36 371.12,120.92 " fill="none" id="fleet_API-be" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[671d0eca7f2f60988a83e608ffb36091]
+link campus_API to be--><g id="link_campus_API_be"><path d="M558.86,19.53 C527.4,35.12 422.67,87.02 371.15,112.56 " fill="none" id="campus_API-be" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[bedb807bcc2e8b0cac91cb6d220b414f]
+reverse link planning_module_API to be--><g id="link_planning_module_API_be"><path d="M403.36,31.55 C391.1,50.63 370.86,82.11 357,103.67 " fill="none" id="planning_module_API-backto-be" style="stroke:#181818;stroke-width:1.0;"/><path d="M400.0423,21.0622 A9,9 0 0 0 414.2664 30.2149" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[f0619fe424da9a30ee9669bdbd868e30]
+link task_API to be--><g id="link_task_API_be"><path d="M275.18,23.05 C285.88,39.71 310.8,78.47 327,103.67 " fill="none" id="task_API-be" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[75b61bde70951fe1e2968ebf02fb8650]
+link user_API to be--><g id="link_user_API_be"><path d="M173.07,20.71 C198.58,36.76 271.73,82.79 312.92,108.7 " fill="none" id="user_API-be" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[691063c3dfa66a2c445df7e9583f3e6b]
+link planning_API to be--><g id="link_planning_API_be"><path d="M55.16,19.35 C67.67,25.22 90.82,35.89 111,44 C182.76,72.85 268.88,102.51 312.93,117.33 " fill="none" id="planning_API-be" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[a895d5fe1c0b639b16c8e1a463e15fbe]
+@startuml Implementation_MD_View_lv3
+
+<style>
+component {
+    BackgroundColor #99ddff
+}
+</style>
+
+interface "Campus API" as campus_API
+interface "Fleet API" as fleet_API
+interface "Task API" as task_API
+interface "Planning API" as planning_API
+interface "Planning Module API" as planning_module_API
+interface "User API" as user_API
+
+component MD {
+    component "BE" as be
+    component "DB" as db
+
+    be -(0- db
+}
+be -up- fleet_API
+be -up- campus_API
+be -up-( planning_module_API
+be -up- task_API
+be -up- user_API
+be -up- planning_API
+
+
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 BST 2022)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) Client VM
+Default Encoding: Cp1252
+Language: en
+Country: US
+--></g></svg>

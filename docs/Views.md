@@ -99,7 +99,10 @@ Proccess view is diagrams are described for each user story. Each user story is 
 ### Implementation View Lv2
 ![Implementation View Lv2](Sprint_C_diagrams/Implementation_View_Lv2.svg)
 
-### Implementation View Lv3
+### Implementation View Lv3 (MD)
+![Implementation View Lv3](Sprint_C_diagrams/Implementation_MD_View_lv3.svg)
+
+### Implementation View Lv3 (SPA)
 ![Implementation View Lv3](Sprint_C_diagrams/Implementation_UI_View_lv3.svg)
 
 ## Scenario View (Use Cases)
