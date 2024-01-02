@@ -30,13 +30,12 @@ component RobDroneGo {
     UI -(0- campus
     UI -(0- fleet
     UI -(0- task
-    UI -(0- planning
     UI -(0- user
 
-    ' component "DMS" as dms
-    ' dms -0)- fleet
-    ' dms -0)- task
-    ' dms -0)- campus
+    component "DMS" as dms
+    dms -0)- fleet
+    dms -0)- task
+    dms -0)- campus
 }
 fleet -down- fleet_API
 campus -up- campus_API
