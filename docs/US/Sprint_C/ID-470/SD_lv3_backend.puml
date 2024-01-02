@@ -1,0 +1,71 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+
+participant " "
+box "Task Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Task Request Persistence" as Schema
+    end box
+
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Task Request Repository" as Repository
+    end box
+
+    participant DTO
+    participant TaskRequestMap as Map
+    box "Application Business Rules" #ff6666
+        participant "Task Request Service" as TaskS
+    end box
+
+end box
+
+
+[o-> Routing : Patch
+activate Routing
+
+    Routing -> Controller : create()
+    activate Controller
+    Routing -> Controller : changeState(req, res, next)
+        Controller -> TaskS : create()
+        activate TaskS
+            Controller -> TaskS : changeState(updatedTaskRequestDTO)
+
+            TaskS -> Repository : findById\n(updatedTaskRequestDTO.id)
+
+            activate Repository
+                Repository --> TaskS : taskResult.getValue()
+            deactivate Repository
+
+                TaskS -> Map : toDomain(updatedTaskRequestData)
+                activate Map
+                    Map --> TaskS : taskRequestOrError
+                deactivate Map
+
+                TaskS -> Schema : save(taskRequestOrError.getValue())
+
+                activate Schema
+                    Schema --> TaskS : taskRequest
+                deactivate Schema
+
+            deactivate Repository
+
+            TaskS -> Map : toDTO(taskResult))
+            activate Map
+                Map --> TaskS : TaskRequestDTOResult
+            deactivate Map
+            TaskS --> Controller : Result.ok<ITaskRequestDTO>(taskRequestDTOResult)
+        deactivate TaskS
+
+    Controller --> Routing : res.status(201).json(taskRequestDTO)
+    deactivate Controller
+
+[o<--o Routing : Success
+deactivate Routing
+
+
+@enduml

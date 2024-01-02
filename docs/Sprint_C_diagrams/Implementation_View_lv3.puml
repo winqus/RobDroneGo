@@ -1,0 +1,71 @@
+@startuml UI_LV_lvl3
+
+<style>
+component {
+    BackgroundColor #99ddff
+}
+</style>
+
+
+interface "Campus UI" as campus
+interface "Fleet UI" as fleet
+interface "Planning UI" as planning
+interface "Task UI" as task
+interface "User UI" as user
+
+interface "Campus API" as campus_API
+interface "Fleet API" as fleet_API
+interface "Planning API" as planning_API
+interface "Task API" as task_API
+interface "User API" as user_API
+
+component "UI" as ui{
+
+    interface "Model API" as Model_API
+    interface "Service API" as Service_API
+    interface "HTTP Driver API" as Driver_API
+    
+    component "Component" as x {
+        interface "CTRL API" as CTRL_API
+        interface "Observer API" as Observer_API
+
+        component "HTML + CSS + JS" as html
+        component "Component" as component
+
+        component -up- CTRL_API
+        html -down-( CTRL_API
+
+        html -down- Observer_API
+        component -up-( Observer_API
+    
+    }
+
+    component "service" as service
+    component "HTTP Driver" as driver 
+    component "Model" as model
+
+    component -down-( Service_API
+    service -up- Service_API
+    driver -left-( Model_API
+    html -right-( Model_API
+    component -right-( Model_API
+    service -right-( Model_API
+    model -left-( Model_API
+    driver -down- Driver_API
+    service -up-( Driver_API
+
+}
+
+html -up- campus
+html -up- fleet
+html -up- planning
+html -up- task
+html -up- user
+
+driver -up-( campus_API
+driver -up-( fleet_API
+driver -up-( planning_API
+driver -up-( task_API
+driver -up-( user_API
+
+@enduml

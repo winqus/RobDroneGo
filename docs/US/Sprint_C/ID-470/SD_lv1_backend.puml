@@ -1,0 +1,12 @@
+@startuml SD Lv1
+
+participant RobDroneGo as system
+[o-> system : Patch
+activate system
+
+system -> system : Change task status
+
+[o<--o system : Success
+deactivate system
+
+@enduml
