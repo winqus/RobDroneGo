@@ -21,7 +21,7 @@ component "UI" as ui{
     interface "Service API" as Service_API
     interface "HTTP Driver API" as Driver_API
     
-    component "x" as x {
+    component "Component" as x {
         interface "CTRL API" as CTRL_API
         interface "Observer API" as Observer_API
 
