@@ -91,6 +91,7 @@ pipelines:
                 EXTRA_ARGS: '-oPort=$SERVER_SSH_PORT -P $SERVER_SSH_PORT'
             - ssh -tt -p $SERVER_SSH_PORT $SERVER_USERNAME@$SERVER_HOSTNAME << EOF
             - set -euxo pipefail;
+            - cd /home/www/node-app/production/;
             - npm run restart:prod;
             - set +e;
             - exit 0
@@ -132,6 +133,7 @@ pipelines:
                 EXTRA_ARGS: '-oPort=$SERVER_SSH_PORT -P $SERVER_SSH_PORT'
             - ssh -tt -p $SERVER_SSH_PORT $SERVER_USERNAME@$SERVER_HOSTNAME << EOF
             - set -euxo pipefail;
+            - cd /home/www/node-app/development/;
             - npm run restart:dev;
             - set +e;
             - exit 0
