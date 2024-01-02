@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import Elevator from 'src/app/core/models/elevator.model';
-import { ElevatorService } from 'src/app/services/elevator.service';
+import Elevator from '../../core/models/elevator.model';
+import { ElevatorService } from '../../services/elevator.service';
 
 @Component({
   selector: 'app-elevator-list',

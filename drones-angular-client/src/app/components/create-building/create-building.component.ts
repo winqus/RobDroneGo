@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import BuildingService, { CreateBuildingData } from 'src/app/services/building.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import BuildingService, { CreateBuildingData } from '../../services/building.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface CreateBuildingProps {

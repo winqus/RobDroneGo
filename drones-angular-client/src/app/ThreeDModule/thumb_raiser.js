@@ -491,15 +491,16 @@ export default class ThumbRaiser {
 
     // Create the maze
     // this.maze = new Maze(this.mazeParameters, this.customMazeLoaderParams);
-    this.initializeMaze(this.mazeParameters);
+    // this.initializeMaze(this.mazeParameters);
 
-    this.pickHelper = new PickHelper(this.maze);
+    this.pickHelper = undefined;
+    // this.pickHelper = new PickHelper(this.maze);
 
     // Create the player
     this.player = new Player(this.playerParameters);
     // this.player.robotState = this.robotState;
-    // this.player.robotState = this.robotState.clone();
     this.player.robotState = JSON.parse(JSON.stringify(this.robotState));
+    this.player.robotState.isAutoMoving = this.robotState.isAutoMoving;
     this.player.pathPoints = [];
     this.player.enableAutoMove = false;
 
@@ -648,6 +649,7 @@ export default class ThumbRaiser {
     console.log('Loading a maze...');
 
     this.player.robotState = JSON.parse(JSON.stringify(this.robotState));
+    this.player.robotState.isAutoMoving = this.robotState.isAutoMoving;
 
     // this.initializeMaze(this.mazeParameters);
     this.initializeMaze({
@@ -693,7 +695,7 @@ export default class ThumbRaiser {
     while (table.rows.length > 1) {
       table.deleteRow(-1);
     }
-    [this.audio.credits, this.cubeTexture.credits, this.maze.designCredits, this.maze.texturesCredits, this.player.credits].forEach((element) => {
+    [this.audioParameters.credits, this.cubeTexture.credits, this.mazeParameters.designCredits, this.mazeParameters.texturesCredits, this.playerParameters.credits].forEach((element) => {
       if (element != '') {
         const row = table.insertRow(-1);
         const cell = row.insertCell(-1);
@@ -1009,7 +1011,7 @@ export default class ThumbRaiser {
     } else {
       enabled = false;
     }
-    console.warn('Robot auto move:', enabled);
+    // console.warn('Robot auto move:', enabled);
     if (!enabled && this.player.robotState.navigationState == 'started') {
       this.player.robotState.navigationState = 'stopped';
       this.animations.fadeToAction('Idle', 0.2);
@@ -1504,7 +1506,8 @@ export default class ThumbRaiser {
   uiSetup() {
     this.userInterface = new UserInterface(this);
     this.userInterface.checkBox = document.getElementById('user-interface');
-    this.userInterface.checkBox.checked = true;
+    this.userInterface.checkBox.checked = false; // was true
+    this.setUserInterfaceVisibility(false);
   }
 
   registerEventHandlers() {
@@ -1584,7 +1587,7 @@ export default class ThumbRaiser {
     }
     /* Update the player */
 
-    if (!this.player.enableAutoMove && !this.player.robotState.isAutoMoving) {
+    if (!this.player.enableAutoMove && !this.robotState.isAutoMoving) {
       // Check if the player found any exit
       const exitLocation = this.maze.foundSomeExit(this.player.position);
       if (exitLocation) {

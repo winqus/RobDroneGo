@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TaskFilters } from 'src/app/core/models/shared/taskFilters.type';
-import { TaskRequest } from 'src/app/core/models/taskRequest.model';
-import { TaskRequestService } from 'src/app/services/task-request.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import { TaskFilters } from '../../core/models/shared/taskFilters.type';
+import { TaskRequest } from '../../core/models/taskRequest.model';
+import { TaskRequestService } from '../../services/task-request.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface SearchTaskProps {

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import Robot from 'src/app/core/models/robot.model';
-import { RobotService } from 'src/app/services/robot.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import Robot from '../../core/models/robot.model';
+import { RobotService } from '../../services/robot.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface ChangeRobotStateProps {
@@ -60,10 +60,8 @@ export class ChangeRobotStateComponent {
     const availableControl = this.robotForm.get('available');
     const robotCodeControl = this.robotForm.get('robotCode');
 
-    if (availableControl && availableControl.valid && 
-      robotCodeControl && robotCodeControl.valid) {
-
-      const availableValue = availableControl.value === 'true';
+    if (availableControl && availableControl.valid && robotCodeControl && robotCodeControl.valid) {
+      const availableValue = availableControl.value === 'true';
       const robotCodeValue = robotCodeControl.value;
 
       this.robotService.changeRobotState(robotCodeValue, availableValue).subscribe({
@@ -78,7 +76,6 @@ export class ChangeRobotStateComponent {
           this.isLoading = false;
         },
       });
-  }
+    }
   }
 }
-

@@ -81,5 +81,8 @@ export const API_ROUTES = {
     getByFilter: (filters: any) => `${API_BASE}/task/search?${new URLSearchParams(filters as any).toString()}`,
     getById: (id: string) => `${API_BASE}/taskRequest/${id}`,
     updateStatus: (id: string) => `${API_BASE}/taskRequest/${id}/status`,
+    requestPlanning: `${API_BASE}/planning/planTasks`,
+    planningStatus: `${API_BASE}/planning/task-planning-status`,
+    planningResults: `${API_BASE}/planning/task-planning-results`,
   },
 };

@@ -1,18 +1,17 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UserRole } from 'src/app/core/authentication/models/user-roles.enum';
-import { User } from 'src/app/core/authentication/models/user.model';
-import { UserService } from 'src/app/core/authentication/services/user.service';
-import { environment } from 'src/environments/environment';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import { environment } from '../../../environments/environment';
+import { UserRole } from '../../core/authentication/models/user-roles.enum';
+import { User } from '../../core/authentication/models/user.model';
+import { UserService } from '../../core/authentication/services/user.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface EditUserProps {
   user: User;
   firstNameLabel: string;
   lastNameLabel: string;
-  emailLabel: string;
   phonenumberLabel: string;
   passwordLabel: string;
   confirmPasswordLabel: string;
@@ -28,7 +27,6 @@ export interface EditUserProps {
 interface UpdateUserData {
   firstName: string;
   lastName: string;
-  email: string;
   phonenumber: string;
   password: string;
 }
@@ -69,7 +67,6 @@ export class EditUserComponent implements OnChanges, OnInit {
       {
         firstName: new FormControl('', [Validators.required, Validators.minLength(this.firstNameArgs.min), Validators.maxLength(this.firstNameArgs.max)]),
         lastName: new FormControl('', [Validators.required, Validators.minLength(this.lastNameArgs.min), Validators.maxLength(this.lastNameArgs.max)]),
-        email: new FormControl('', [Validators.required, Validators.email, this.emailDomainValidator()]),
         phonenumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{9}$')]),
         password: new FormControl('', [Validators.required, Validators.minLength(10), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&.,#^+])[A-Za-z\d@$!%*?&.,#^+]{10,}$/)]),
         confirmPassword: new FormControl('', Validators.required),
@@ -90,7 +87,6 @@ export class EditUserComponent implements OnChanges, OnInit {
       } as User,
       firstNameLabel: 'First Name',
       lastNameLabel: 'Last Name',
-      emailLabel: 'Email',
       phonenumberLabel: 'Phone number',
       passwordLabel: 'Password',
       confirmPasswordLabel: 'Confirm Password',
@@ -111,7 +107,6 @@ export class EditUserComponent implements OnChanges, OnInit {
       this.userForm.patchValue({
         firstName: this.props.user.firstName,
         lastName: this.props.user.lastName,
-        email: this.props.user.email,
         phonenumber: this.props.user.phonenumber,
         taxpayernumber: this.props.user.taxpayernumber,
       });
@@ -127,7 +122,6 @@ export class EditUserComponent implements OnChanges, OnInit {
           this.userForm.patchValue({
             firstName: this.userData.firstName,
             lastName: this.userData.lastName,
-            email: this.userData.email,
             phonenumber: this.userData.phonenumber,
           });
         } else {
@@ -175,7 +169,6 @@ export class EditUserComponent implements OnChanges, OnInit {
     const updatedUserData: UpdateUserData = {
       firstName: this.userForm.value.firstName,
       lastName: this.userForm.value.lastName,
-      email: this.userForm.value.email,
       phonenumber: this.userForm.value.phonenumber,
       password: this.userForm.value.password || undefined,
     };

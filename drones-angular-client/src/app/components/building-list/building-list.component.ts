@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import Building from 'src/app/core/models/building.model';
-import Floor from 'src/app/core/models/floor.model';
-import BuildingService from 'src/app/services/building.service';
-import { FloorService } from 'src/app/services/floor.service';
+import Building from '../../core/models/building.model';
+import BuildingService from '../../services/building.service';
 
 @Component({
   selector: 'app-building-list',
@@ -16,7 +13,6 @@ export class BuildingListComponent implements OnInit {
 
   constructor(
     private buildingService: BuildingService,
-    private floorService: FloorService,
     private router: Router,
   ) {}
 

@@ -292,6 +292,11 @@
               "displayForRoles": ["Task Manager", "User"]
             },
             {
+              "label": "List Tasks",
+              "href": "task/list",
+              "displayForRoles": ["Task Manager"]
+            },
+            {
               "label": "Search",
               "href": "task/search",
               "displayForRoles": ["Task Manager"]
@@ -299,16 +304,6 @@
             {
               "label": "Find Route",
               "href": "task/route",
-              "displayForRoles": ["Task Manager"]
-            },
-            {
-              "label": "Complexity Analysis",
-              "href": "task/analysis",
-              "displayForRoles": ["Task Manager"]
-            },
-            {
-              "label": "List Tasks",
-              "href": "task/list",
               "displayForRoles": ["Task Manager"]
             }
           ]
@@ -364,16 +359,12 @@
         "name": "Nameholder Surholder",
         "links": [
           {
-            "label": "Data",
-            "href": "#data"
+            "label": "Profile",
+            "href": "/auth/user"
           },
           {
             "label": "Logout",
             "href": "/auth/logout"
-          },
-          {
-            "label": "Edit",
-            "href": "/auth/user"
           }
         ]
       }

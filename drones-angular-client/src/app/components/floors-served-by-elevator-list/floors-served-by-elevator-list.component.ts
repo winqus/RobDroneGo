@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import Floor from 'src/app/core/models/floor.model';
-import { FloorService } from 'src/app/services/floor.service';
+import Floor from '../../core/models/floor.model';
+import { FloorService } from '../../services/floor.service';
 
 @Component({
   selector: 'app-floors-served-by-elevator-list',

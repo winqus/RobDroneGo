@@ -1,22 +1,103 @@
 <div class="p-2 px-4">
-  <div class="flex items-center pb-2">
-    <input type="checkbox" id="pending" class="checkbox checkbox-sm" (change)="onPendingToggle($event)" />
-    <label for="pending" class="ml-2 text-sm">Show only pending requests</label>
+  <div class="flex justify-between pb-2">
+    <div class="flex items-center">
+      <input type="checkbox" id="pending" class="checkbox checkbox-sm" (change)="onPendingToggle($event)" />
+      <label for="pending" class="ml-2 text-sm">Show only pending requests</label>
+    </div>
+    <button *ngIf="!showOnlyPending" class="btn btn-xs btn-neutral px-4 min-w-[100px]" (click)="planTasks()" [disabled]="isPlanningInProgress$ | async">
+      <div *ngIf="!(isPlanningInProgress$ | async)">Plan Tasks</div>
+      <span *ngIf="isPlanningInProgress$ | async" class="loading loading-spinner loading-sm"></span>
+    </button>
   </div>
-  <div *ngIf="taskRequests.length; else loading" class="daisy-flex daisy-flex-col">
-    <div *ngFor="let taskRequest of taskRequests" class="collapse collapse-arrow bg-base-200 mb-2">
+  <div class="mb-2 ml-3">
+    <div class="tooltip" data-tip="Expand All">
+      <button class="btn btn-xs btn-outline w-10 mr-2" (click)="toggleExpandedAllTasks(true)">+</button>
+    </div>
+    <div class="tooltip" data-tip="Collape All">
+      <button class="btn btn-xs btn-outline w-10" (click)="toggleExpandedAllTasks(false)">-</button>
+    </div>
+  </div>
+  <div *ngIf="plannedTaskGroups.length > 0 && !showOnlyPending">
+    <div class="collapse bg-base-200 collapse-plus">
       <input type="checkbox" />
-      <div class="collapse-title text-lg font-medium">
-        <span *ngIf="isDelivery(taskRequest)" class="text-sm mb-1">Delivery Task </span>
-        <span *ngIf="!isDelivery(taskRequest)" class="text-sm mb-1">Surveillance Task </span>
-        <span *ngIf="taskRequest.requesterEmail" class="text-sm mb-2"><strong>Requester Email: </strong>{{ taskRequest.requesterEmail }}</span>
+      <div class="collapse-title text-xl font-medium">
+        <h1 class="text-xl md:text-2xl text-center font-semibold text-blue-600 uppercase">Planned Tasks</h1>
+        <p class="text-sm text-center font-normal">expand to see task execution plans</p>
       </div>
       <div class="collapse-content">
-        <p *ngIf="taskRequest.status" class="text-sm mb-1"><strong>Status: </strong>{{ taskRequest.status }}</p>
-        <p *ngIf="taskRequest.requestCreatedDateTime" class="text-sm mb-2"><strong>Created At : </strong>{{ taskRequest.requestCreatedDateTime }}</p>
-        <div *ngIf="isPending(taskRequest)" class="flex space-x-1">
-          <button class="btn btn-xs btn-outline btn-success" (click)="approveRequest(taskRequest)">Approve</button>
-          <button class="btn btn-xs btn-outline btn-error" (click)="denyRequest(taskRequest)">Deny</button>
+        <div>
+          <div *ngFor="let taskGroup of plannedTaskGroups; let i = index" class="relative border bg-base-300 border-blue-500 p-2 rounded-2xl mt-4">
+            <!-- Text at the top middle of the border -->
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-11/12 sm:w-95 md:w-auto text-center">
+              <span class="bg-base-200 rounded-xl px-2"
+                >Task Plan - Robot <b>{{ taskGroup.robot.nickname }}</b></span
+              >
+            </div>
+
+            <!-- Content of the div -->
+            <div class="mt-3">
+              <div *ngFor="let taskRequest of taskGroup.taskRequests; let ti = index" class="collapse collapse-arrow bg-base-200 mb-2">
+                <input type="checkbox" id="taskItemCheckbox" />
+                <div class="collapse-title text-lg font-medium">
+                  <span class="badge badge-outline mr-2 badge-sm">{{ ti + 1 }}</span>
+                  <span *ngIf="isDelivery(taskRequest)" class="badge text-sm mb-1 mr-2">Delivery Task</span>
+                  <span *ngIf="!isDelivery(taskRequest)" class="badge text-sm mb-1 mr-2">Surveillance Task</span>
+                  <span *ngIf="taskRequest.requesterEmail" class="text-sm mb-2"><strong>Requester: </strong>{{ taskRequest.requesterEmail }}</span>
+                </div>
+                <div class="collapse-content">
+                  <p class="text-sm mb-1"><strong>Task Code: </strong>{{ taskRequest.id }}</p>
+                  <p *ngIf="taskRequest.status" class="text-sm mb-1"><strong>Status: </strong>Planned</p>
+                  <p *ngIf="taskRequest.requestCreatedDateTime" class="text-sm mb-1"><strong>Created At : </strong>{{ taskRequest.requestCreatedDateTime | date: 'full' }}</p>
+                  <div *ngIf="isDelivery(taskRequest) && isDeliveryTask(taskRequest.task)">
+                    <p class="text-sm mb-1"><strong>Description: </strong>{{ taskRequest.task.description || 'None' }}</p>
+                  </div>
+                  <div *ngIf="!isDelivery(taskRequest) && isSurveillanceTask(taskRequest.task)">
+                    <p class="text-sm mb-1"><strong>Building: </strong>{{ taskRequest.task.buildingCode || 'None' }}</p>
+                    <p class="text-sm mb-1"><strong>Surveilled floor(s): </strong>{{ taskRequest.task.floorNumber.join(', ') || 'None' }}</p>
+                  </div>
+                  <div *ngIf="hasNavigationData(taskRequest)" class="flex space-x-1">
+                    <button class="btn btn-xs btn-outline btn-success" (click)="previewNavigationData(taskRequest)">Preview</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">OTHER TASK REQUESTS</div>
+  </div>
+  <div *ngIf="taskRequests.length; else loading" class="daisy-flex daisy-flex-col">
+    <div *ngFor="let taskRequest of nonPlannedTaskRequests" class="">
+      <div class="collapse collapse-arrow bg-base-200 mb-2">
+        <input type="checkbox" id="taskItemCheckbox" />
+        <div class="collapse-title text-lg font-medium">
+          <span *ngIf="isDelivery(taskRequest)" class="badge text-sm mb-1 mr-2">Delivery Task</span>
+          <span *ngIf="!isDelivery(taskRequest)" class="badge text-sm mb-1 mr-2">Surveillance Task</span>
+          <span *ngIf="taskRequest.requesterEmail" class="text-sm mb-2 mr-2"><strong>Requester: </strong>{{ taskRequest.requesterEmail }}</span>
+          <span *ngIf="isPending(taskRequest)" class="badge badge-outline badge-sm mr-2 border-info text-info">pending </span>
+          <span *ngIf="isDenied(taskRequest)" class="badge badge-outline badge-sm mr-2 border-error text-error">denied </span>
+          <span *ngIf="isApproved(taskRequest)" class="badge badge-outline badge-sm mr-2 border-success text-success">approved</span>
+        </div>
+        <div class="collapse-content">
+          <p class="text-sm mb-1"><strong>Task Code: </strong>{{ taskRequest.id }}</p>
+          <p *ngIf="taskRequest.status" class="text-sm mb-1"><strong>Status: </strong>{{ taskRequest.status }}</p>
+          <p *ngIf="taskRequest.requestCreatedDateTime" class="text-sm mb-1"><strong>Created At : </strong>{{ taskRequest.requestCreatedDateTime | date: 'full' }}</p>
+          <div *ngIf="isDelivery(taskRequest) && isDeliveryTask(taskRequest.task)">
+            <p class="text-sm mb-1"><strong>Description: </strong>{{ taskRequest.task.description || 'None' }}</p>
+          </div>
+          <div *ngIf="!isDelivery(taskRequest) && isSurveillanceTask(taskRequest.task)">
+            <p class="text-sm mb-1"><strong>Building: </strong>{{ taskRequest.task.buildingCode || 'None' }}</p>
+            <p class="text-sm mb-1"><strong>Surveilled floor(s): </strong>{{ taskRequest.task.floorNumber.join(', ') || 'None' }}</p>
+          </div>
+          <div *ngIf="isPending(taskRequest)" class="flex space-x-1">
+            <button class="btn btn-xs btn-outline btn-success" (click)="approveRequest(taskRequest)">Approve</button>
+            <button class="btn btn-xs btn-outline btn-error" (click)="denyRequest(taskRequest)">Deny</button>
+          </div>
+          <div *ngIf="hasNavigationData(taskRequest)" class="flex space-x-1">
+            <button class="btn btn-xs btn-outline btn-success" (click)="previewNavigationData(taskRequest)">Preview</button>
+          </div>
         </div>
       </div>
     </div>

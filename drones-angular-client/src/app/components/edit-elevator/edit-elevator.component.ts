@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import Elevator from 'src/app/core/models/elevator.model';
-import { ElevatorService } from 'src/app/services/elevator.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import Elevator from '../../core/models/elevator.model';
+import { ElevatorService } from '../../services/elevator.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface EditElevatorProps {

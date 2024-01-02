@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { at, map } from 'lodash';
-import BuildingService from 'src/app/services/building.service';
-import { FloorService } from 'src/app/services/floor.service';
-import { MapService } from 'src/app/services/map.service';
 import Building from '../../core/models/building.model';
 import Floor from '../../core/models/floor.model';
+import BuildingService from '../../services/building.service';
+import { FloorService } from '../../services/floor.service';
+import { MapService } from '../../services/map.service';
 
 interface UploadMapComponentProps {
   buildingCodeLabel: string;
@@ -155,7 +155,7 @@ export class UploadMapComponent implements OnInit {
 
     const buildingCode = this.uploadMapForm.get('buildingCode')!.value;
     const floorNumber = this.uploadMapForm.get('floorNumber')!.value;
-    let mapJson = null;
+    let mapJson: any = null;
     if (this.jsonData) {
       mapJson = this.jsonData;
     } else {

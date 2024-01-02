@@ -2,11 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import Building from 'src/app/core/models/building.model';
-import Floor from 'src/app/core/models/floor.model';
-import BuildingService from 'src/app/services/building.service';
-import { FloorService } from 'src/app/services/floor.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import Building from '../../core/models/building.model';
+import Floor from '../../core/models/floor.model';
+import BuildingService from '../../services/building.service';
+import { FloorService } from '../../services/floor.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface BuildingMinMaxListProps {

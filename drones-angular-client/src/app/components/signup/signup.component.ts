@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import RegisterCredentials from 'src/app/core/authentication/models/registerCredentials.model';
-import { environment } from 'src/environments/environment';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import { environment } from '../../../environments/environment';
+import RegisterCredentials from '../../core/authentication/models/registerCredentials.model';
 
 export interface SignupProps {
   firstNameLabel: string;

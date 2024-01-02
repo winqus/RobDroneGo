@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/core/authentication/models/user.model';
-import { UserService } from 'src/app/core/authentication/services/user.service';
+import { User } from '../../core/authentication/models/user.model';
+import { UserService } from '../../core/authentication/services/user.service';
 
 @Component({
   selector: 'app-user-list',

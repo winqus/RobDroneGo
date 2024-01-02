@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import Robot from 'src/app/core/models/robot.model';
-import RobotType from 'src/app/core/models/robotType.model';
-import { CreateRobotData, RobotService } from 'src/app/services/robot.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import Robot from '../../core/models/robot.model';
+import RobotType from '../../core/models/robotType.model';
+import { CreateRobotData, RobotService } from '../../services/robot.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface CreateRobotProps {
@@ -36,7 +36,6 @@ export interface CreateRobotProps {
   styleUrls: ['./create-robot.component.css'],
 })
 export class CreateRobotComponent {
-
   @Input() props: CreateRobotProps = content.components.robot || this.getDefaultProps();
 
   errorResponse: any;

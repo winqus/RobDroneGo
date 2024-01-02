@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { User } from 'src/app/core/authentication/models/user.model';
-import { UserService } from 'src/app/core/authentication/services/user.service';
-import Building from 'src/app/core/models/building.model';
-import { DeliveryTask } from 'src/app/core/models/deliveryTask.model';
-import Floor from 'src/app/core/models/floor.model';
-import Room from 'src/app/core/models/room.model';
-import { SurveillanceTask } from 'src/app/core/models/surveillanceTask.model';
-import { TaskRequest } from 'src/app/core/models/taskRequest.model';
-import BuildingService from 'src/app/services/building.service';
-import { FloorService } from 'src/app/services/floor.service';
-import { RoomService } from 'src/app/services/room.service';
-import { CreateTaskRequestDTO, TaskRequestService } from 'src/app/services/task-request.service';
+import { User } from '../../core/authentication/models/user.model';
+import { UserService } from '../../core/authentication/services/user.service';
+import Building from '../../core/models/building.model';
+import { DeliveryTask } from '../../core/models/deliveryTask.model';
+import Floor from '../../core/models/floor.model';
+import Room from '../../core/models/room.model';
+import { SurveillanceTask } from '../../core/models/surveillanceTask.model';
+import { TaskRequest } from '../../core/models/taskRequest.model';
+import BuildingService from '../../services/building.service';
+import { FloorService } from '../../services/floor.service';
+import { RoomService } from '../../services/room.service';
+import { CreateTaskRequestDTO, TaskRequestService } from '../../services/task-request.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 @Component({

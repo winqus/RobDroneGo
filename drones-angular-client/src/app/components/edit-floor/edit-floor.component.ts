@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import Floor from 'src/app/core/models/floor.model';
-import { FloorService } from 'src/app/services/floor.service';
 import { TEXT_TOKENS as content } from '../../../assets/i18n/_textTokens';
+import Floor from '../../core/models/floor.model';
+import { FloorService } from '../../services/floor.service';
 import { SuccessMessage } from '../shared/success-form-message/success-form-message.component';
 
 export interface EditFloorProps {
