@@ -18,9 +18,9 @@ pipelines:
     deploy-main:
       - step:
           name: "Build for Production"
-          runs-on:
-            - self.hosted
-            - linux
+          #runs-on:
+          #  - self.hosted
+          #  - linux
           caches:
             - node
           script:
