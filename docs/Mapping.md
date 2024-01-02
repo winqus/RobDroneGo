@@ -33,35 +33,31 @@ n/a
 ## Level 2
 ### Logical View - Implementation View 
 
-![N2-VLxVI](diagramas/nivel2/N2-VLxVI.png)
+![Map IVL2 to LVL2](Sprint_C_diagrams/Mappings/Map_IVL2_LVL2.png)
 
 ### Implementation View - Physical View
-![N2-VIxVF](diagramas/nivel2/N2-VIxVF.png)
+![Map IVL2 to PV](Sprint_C_diagrams/Mappings/Map_IVL2_Physical.svg)
+<!-- ![N2-VIxVF](diagramas/nivel2/N2-VIxVF.png) -->
 
-## Level 3 (MDR)
+## Level 3 (MD)
 ### Logical View - Implementation View
-TBD
+![Map IVL3 to LVL3](Sprint_C_diagrams/Mappings/Map_MD_IVL3_LVL3.png)
 
 ### Implementation View - Physical View
 TBD
 
 ## Level 3 (UI)
 ### Logical View - Implementation View
-TBD
+![Map IVL3 to LVL3](Sprint_C_diagrams/Mappings/Map_UI_IVL3_LVL3.png)
+
 
 ### Implementation View - Physical View
 TBD
 
-## Level 3 (MDV)
+
+<!-- ## Level 3 (Planning)
 ### Logical View - Implementation View
 TBD
 
 ### Implementation View - Physical View
-TBD
-
-## Level 3 (Planning)
-### Logical View - Implementation View
-TBD
-
-### Implementation View - Physical View
-TBD
+TBD -->
