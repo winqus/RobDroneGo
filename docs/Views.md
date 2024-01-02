@@ -43,10 +43,10 @@ For modeling/visually representing both what has been implemented and the consid
 ![DomainDesign](diagrams/DM.svg)
 
 ### Logical View Lv1
-![LV Lv1](diagrams/level1/Logical%20View%20Lv1.svg)
+![LV Lv1](Sprint_C_diagrams/Logical_View_Lv1.svg)
 
 ### Logical View Lv2
-![LV Lv2](diagrams/level2/Logical%20View%20Lv2.svg)
+![LV Lv2](Sprint_C_diagrams/Logical_View_Lv2.svg)
 
 ### Logical View Lv3
 ![LV Lv3](diagrams/level3/Logical%20View%20Lv3%20(Campus%20Management).svg)
