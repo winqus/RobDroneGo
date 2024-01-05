@@ -58,8 +58,9 @@ export default class PickHelper {
         let toolTipInfoAssigned = false;
 
         if (this.pickedObject.name === 'passage') {
-          for (let i = 0; i < this.pickedObject.parent.mazeData.exitLocations.passages.length; i++) {
-            const passageInfo = this.pickedObject.parent.mazeData.exitLocations.passages[i];
+          const mazeData = this.maze.mazeData;
+          for (let i = 0; i < mazeData.exitLocations.passages.length; i++) {
+            const passageInfo = mazeData.exitLocations.passages[i];
             const isAdjacentCell = Math.abs(cellPosition[0] - passageInfo.cellPosition[0]) <= 1 && Math.abs(cellPosition[1] - passageInfo.cellPosition[1]) <= 1;
 
             if (isAdjacentCell) {
@@ -68,12 +69,13 @@ export default class PickHelper {
             }
           }
         } else if (this.pickedObject.name === 'elevator') {
-          for (let i = 0; i < this.pickedObject.parent.mazeData.exitLocations.elevators.length; i++) {
-            const elevatorInfo = this.pickedObject.parent.mazeData.exitLocations.elevators[i];
+          const mazeData = this.maze.mazeData;
+          for (let i = 0; i < mazeData.exitLocations.elevators.length; i++) {
+            const elevatorInfo = mazeData.exitLocations.elevators[i];
             const isAdjacentCell = Math.abs(cellPosition[0] - elevatorInfo.cellPosition[0]) <= 1 && Math.abs(cellPosition[1] - elevatorInfo.cellPosition[1]) <= 1;
 
             // Join the floors elevator shows, exclude the one you're in
-            const excludedFloorNumber = this.pickedObject.parent.mazeData.floorNumber;
+            const excludedFloorNumber = mazeData.floorNumber;
             const filteredFloorNumbers = elevatorInfo.connectedFloorNumbers.filter((floorNumber) => floorNumber !== excludedFloorNumber);
             const showElevatorInfo = filteredFloorNumbers.join(', ');
 
@@ -83,7 +85,8 @@ export default class PickHelper {
             }
           }
         } else if (this.pickedObject.name === 'door') {
-          for (const roomInfo of this.pickedObject.parent.roomData) {
+          const roomData = this.maze.roomData;
+          for (const roomInfo of roomData) {
             if (!roomInfo.doorPosition) {
               continue;
             }

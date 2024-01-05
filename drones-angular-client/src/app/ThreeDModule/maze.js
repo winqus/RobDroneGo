@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OBB } from 'three/addons/math/OBB.js';
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 import globalAssetManager from './assetLoadingManager.js';
@@ -6,6 +7,7 @@ import Ground from './ground.js';
 import MapCell from './mapCell.js';
 import { merge } from './merge.js';
 import Wall from './wall.js';
+
 /*
  * parameters = {
  *  url: String,
@@ -112,6 +114,7 @@ export default class Maze extends THREE.Group {
 
       // Create a wall
       var wall = new Wall({
+        heightScale: 1.5,
         groundHeight: configData.ground.size.height,
         segments: new THREE.Vector2(configData.wall.segments.width, configData.wall.segments.height),
         materialParameters: {
@@ -400,48 +403,264 @@ export default class Maze extends THREE.Group {
       }
 
       // Door walls
-      if (doorGeometriesExist) {
-        for (let i = 0; i < 2; i++) {
-          mergedGeometry = BufferGeometryUtils.mergeGeometries(doorGeometries[i], false);
-          mesh = new THREE.Mesh(mergedGeometry, doorWall.materials[i]);
-          mesh.castShadow = true;
-          mesh.receiveShadow = true;
-          mesh.name = 'door';
-          this.add(mesh);
-        }
-      }
+      // if (doorGeometriesExist) {
+      //   for (let i = 0; i < 2; i++) {
+      //     mergedGeometry = BufferGeometryUtils.mergeGeometries(doorGeometries[i], false);
+      //     mesh = new THREE.Mesh(mergedGeometry, doorWall.materials[i]);
+      //     mesh.castShadow = true;
+      //     mesh.receiveShadow = true;
+      //     mesh.name = 'door';
+      //     this.add(mesh);
+      //   }
+      // }
 
       // Passage walls
-      if (passageGeometriesExist) {
-        for (let i = 0; i < 2; i++) {
-          mergedGeometry = BufferGeometryUtils.mergeGeometries(passageGeometries[i], false);
-          mesh = new THREE.Mesh(mergedGeometry, passageWall.materials[i]);
-          mesh.castShadow = true;
-          mesh.receiveShadow = true;
-          mesh.name = 'passage';
-          this.add(mesh);
-        }
-      }
+      // if (passageGeometriesExist) {
+      //   for (let i = 0; i < 2; i++) {
+      //     mergedGeometry = BufferGeometryUtils.mergeGeometries(passageGeometries[i], false);
+      //     mesh = new THREE.Mesh(mergedGeometry, passageWall.materials[i]);
+      //     mesh.castShadow = true;
+      //     mesh.receiveShadow = true;
+      //     mesh.name = 'passage';
+      //     this.add(mesh);
+      //   }
+      // }
 
       // Elevator walls
-      if (elevatorGeometriesExist) {
-        for (let i = 0; i < 2; i++) {
-          mergedGeometry = BufferGeometryUtils.mergeGeometries(elevatorGeometries[i], false);
-          mesh = new THREE.Mesh(mergedGeometry, elevatorWall.materials[i]);
-          mesh.castShadow = true;
-          mesh.receiveShadow = true;
-          mesh.name = 'elevator';
-          this.add(mesh);
-        }
-      }
+      // if (elevatorGeometriesExist) {
+      //   for (let i = 0; i < 2; i++) {
+      //     mergedGeometry = BufferGeometryUtils.mergeGeometries(elevatorGeometries[i], false);
+      //     mesh = new THREE.Mesh(mergedGeometry, elevatorWall.materials[i]);
+      //     mesh.castShadow = true;
+      //     mesh.receiveShadow = true;
+      //     mesh.name = 'elevator';
+      //     this.add(mesh);
+      //   }
+      // }
 
       // Store the player's initial position and direction
-      // TODO refactor initial player position and direction if needed
       this.initialPosition = this.cellToCartesian(configData.player.initialPosition);
       this.initialDirection = configData.player.initialDirection;
 
-      this.loaded = true;
-      globalAssetManager.finishedLoading();
+      const elevatorLoader = new GLTFLoader();
+      const elevatorModelUrl = './assets/models/gltf/Elevator/modified_simple_elevator.glb';
+      elevatorLoader.load(
+        elevatorModelUrl,
+        (gltf) => {
+          const elevatorModel = gltf.scene;
+
+          elevatorModel.traverse((node) => {
+            const nameWhitelist = ['Cube003', 'Cube003_1', 'LeftOutsideDoor', 'RightOutsideDoor', 'LeftInteriorDoor', 'RightInteriorDoor', 'ElevatorOutsideArmature'];
+            if (node.isMesh) {
+              if (['Plane002'].includes(node.name)) {
+                node.name = 'elevator';
+              }
+
+              if (nameWhitelist.includes(node.name) === false) {
+                return;
+              }
+
+              node.castShadow = true;
+              node.receiveShadow = true;
+              node.name = 'elevator';
+            }
+          });
+
+          for (let i = 0; i <= this.size.depth; i++) {
+            for (let j = 0; j <= this.size.width; j++) {
+              if ([MapCell.ElevatorNorth, MapCell.ElevatorSouth, MapCell.ElevatorWest, MapCell.ElevatorEast].includes(this.map[i][j])) {
+                let orientation = new THREE.Matrix4();
+                let position = new THREE.Vector3(j - this.halfSize.width, 0.0, i - this.halfSize.depth + 0.5);
+
+                let rotation = 0.0;
+                let rotationOffset = 0.0;
+                const positionOffset = 0.05; // 0.1
+                let positionAddition = new THREE.Vector3(0.0, 0.0, 0.0);
+                if (this.map[i][j] === MapCell.ElevatorWest) {
+                  rotation = Math.PI + rotationOffset;
+                  positionAddition = new THREE.Vector3(0.0, 0.0, -0.025);
+                } else if (this.map[i][j] === MapCell.ElevatorEast) {
+                  rotation = 0.0 + rotationOffset;
+                  positionAddition = new THREE.Vector3(1.0, 0.0, 0.0);
+                } else if (this.map[i][j] === MapCell.ElevatorNorth) {
+                  rotation = Math.PI / 2.0 + rotationOffset;
+                  positionAddition = new THREE.Vector3(0.0, 0.0, -positionOffset);
+                } else if (this.map[i][j] === MapCell.ElevatorSouth) {
+                  rotation = -Math.PI / 2.0 + rotationOffset;
+                  positionAddition = new THREE.Vector3(0.475, 0.0, 0.5);
+                }
+
+                orientation.makeRotationY(rotation);
+                position.add(positionAddition);
+
+                let elevatorInstance = elevatorModel.clone();
+                elevatorInstance.applyMatrix4(orientation);
+                elevatorInstance.position.copy(position);
+
+                const scale = 0.35; // 0.345
+                elevatorInstance.scale.set(scale, scale * 0.6, scale); //0.8
+
+                elevatorInstance.name = 'elevator';
+
+                this.add(elevatorInstance);
+              }
+            }
+          }
+
+          const passageLoader = new GLTFLoader();
+          const passageModelUrl = './assets/models/gltf/Passage/passageDoor.glb';
+          passageLoader.load(
+            passageModelUrl,
+            (gltf) => {
+              const passageModel = gltf.scene;
+              // clone with json parsing 
+              const doorModel = passageModel.clone(true);
+
+              doorModel.traverse((node) => {
+                const nameWhitelist = ['Object_2', 'Object_3', 'Object_4', 'Object_5', 'Object_6'];
+                if (node.isMesh) {
+                  if (node.material) {
+                    // node.material.color.multiplyScalar(0.1); // Darker
+                  }
+                  if (nameWhitelist.includes(node.name) === false) {
+                    // node.name = 'door';
+                    return;
+                  }
+                  // node.name = 'door';
+                  node.castShadow = true;
+                  node.receiveShadow = true;
+                }
+              });
+
+              for (let i = 0; i <= this.size.depth; i++) {
+                for (let j = 0; j <= this.size.width; j++) {
+                  if ([MapCell.DoorNorth, MapCell.DoorWest].includes(this.map[i][j])) {
+                    let orientation = new THREE.Matrix4();
+                    let position = new THREE.Vector3(j - this.halfSize.width, -configData.ground.size.height, i - this.halfSize.depth + 0.5);
+
+                    let rotation = 0.0;
+                    let rotationOffset = 0.0;
+                    let positionAddition = new THREE.Vector3(0.0, 0.0, 0.0);
+                    if (this.map[i][j] === MapCell.DoorNorth) {
+                      rotation = Math.PI + rotationOffset;
+                        positionAddition = new THREE.Vector3(0.5, 0.0, -0.5);
+                    } else if (this.map[i][j] === MapCell.DoorWest) {
+                      rotation = Math.PI / 2 + rotationOffset + Math.PI;
+                      positionAddition = new THREE.Vector3(0.0, 0.0, 0.0);
+                    }
+
+                    orientation.makeRotationY(rotation);
+                    position.add(positionAddition);
+
+                    let doorInstance = doorModel.clone();
+                    doorInstance.traverse((node) => {
+                      if (node.isMesh) {
+                        const nameWhitelist = ['Object_2', 'Object_3', 'Object_4', 'Object_5', 'Object_6'];
+                        // Clone the material and modify its color for this specific instance
+                        node.material = node.material.clone();
+                        if (node.name === 'Object_7') {
+                          node.material.color.set(new THREE.Color(0x5C4033));
+                          node.material.color.multiplyScalar(0.2);
+                        }
+                        if (nameWhitelist.includes(node.name) === false) {
+                          node.name = 'door';
+                          return;
+                        }
+                        node.name = 'door';
+                        node.material.color.set(new THREE.Color(0x5C4033));
+                      }
+                    });
+                    doorInstance.applyMatrix4(orientation);
+                    doorInstance.position.copy(position);
+
+                    const scale = 0.0065; // 0.0065
+                    doorInstance.scale.set(scale, scale * 0.595, scale);
+
+                    doorInstance.name = 'door';
+
+                    this.add(doorInstance);
+                  }
+                }
+              }
+
+              passageModel.traverse((node) => {
+                const nameWhitelist = ['Object_2', 'Object_3', 'Object_4', 'Object_5', 'Object_6'];
+                if (node.isMesh) {
+                  if (node.material && node.name === 'Object_7') {
+                    node.material.color.multiplyScalar(0.2);
+                  } 
+                  if (nameWhitelist.includes(node.name) === false) {
+                    node.name = 'passage';
+                    return;
+                  }
+                  node.material.color.multiplyScalar(0.1);
+                  node.name = 'passage';
+                  node.castShadow = true;
+                  node.receiveShadow = true;
+                }
+              });
+
+              for (let i = 0; i <= this.size.depth; i++) {
+                for (let j = 0; j <= this.size.width; j++) {
+                  if ([MapCell.PassageWest, MapCell.PassageNorth].includes(this.map[i][j])) {
+                    let orientation = new THREE.Matrix4();
+                    let position = new THREE.Vector3(j - this.halfSize.width, -configData.ground.size.height, i - this.halfSize.depth + 0.5);
+
+                    let rotation = 0.0;
+                    let rotationOffset = 0.0;
+                    let positionAddition = new THREE.Vector3(0.0, 0.0, 0.0);
+                    if (this.map[i][j] === MapCell.PassageNorth) {
+                      if (i == 0) { // PassageNorth first row
+                        rotation = Math.PI + rotationOffset;
+                        positionAddition = new THREE.Vector3(0.5, 0.0, -0.5);
+                      } else {
+                        // PassageNorth last row
+                        rotation = 0.0 + rotationOffset;
+                        positionAddition = new THREE.Vector3(0.5, 0.0, -0.45);
+
+                      }
+                    } else if (this.map[i][j] === MapCell.PassageWest) {
+                      if (j == 0) { // PassageWest first column
+                        rotation = Math.PI / 2 + rotationOffset + Math.PI;
+                        positionAddition = new THREE.Vector3(0.0, 0.0, 0.0);
+                      } else {
+                        // PassageWest last column
+                        rotation = Math.PI / 2 + rotationOffset;
+                        positionAddition = new THREE.Vector3(0.05, 0.0, 0.0);
+                      }
+                    }
+
+                    orientation.makeRotationY(rotation);
+                    position.add(positionAddition);
+
+                    let passageInstance = passageModel.clone();
+                    passageInstance.applyMatrix4(orientation);
+                    passageInstance.position.copy(position);
+
+                    const scale = 0.0065; // 0.0065
+                    passageInstance.scale.set(scale, scale * 0.595, scale);
+
+                    passageInstance.name = 'passage';
+
+                    this.add(passageInstance);
+                  }
+                }
+              }
+
+              this.loaded = true;
+              globalAssetManager.finishedLoading();
+            },
+            undefined,
+            (error) => {
+              console.error('An error happened loading passage model', error);
+            },
+          );
+        },
+        undefined,
+        (error) => {
+          console.error('An error happened loading elevator model', error);
+        },
+      );
     };
 
     // TODO remove resource % loaded loggging if needed
@@ -626,8 +845,8 @@ export default class Maze extends THREE.Group {
     }
 
     // Check passages
-    let passageDetectionRadiusX = 0.2 * this.scale.x;
-    let passageDetectionRadiusZ = 0.2 * this.scale.z;
+    let passageDetectionRadiusX = 0.3 * this.scale.x;
+    let passageDetectionRadiusZ = 0.3 * this.scale.z;
     for (const passage of this.exitLocations.passages) {
       if (Math.abs(position.x - passage.entrancePosition3d.x) < passageDetectionRadiusX && Math.abs(position.z - passage.entrancePosition3d.z) < passageDetectionRadiusZ) {
         return { type: 'passage', details: passage, exitFloorNumber: this.mazeData.floorNumber, exitBuildingCode: this.mazeData.buildingCode };
@@ -635,8 +854,8 @@ export default class Maze extends THREE.Group {
     }
 
     // Check elevators
-    let elevatorDetectionRadiusX = 0.2 * this.scale.x;
-    let elevatorDetectionRadiusZ = 0.2 * this.scale.z;
+    let elevatorDetectionRadiusX = 0.4 * this.scale.x;
+    let elevatorDetectionRadiusZ = 0.4 * this.scale.z;
     for (const elevator of this.exitLocations.elevators) {
       if (Math.abs(position.x - elevator.entrancePosition3d.x) < elevatorDetectionRadiusX && Math.abs(position.z - elevator.entrancePosition3d.z) < elevatorDetectionRadiusZ) {
         return { type: 'elevator', details: elevator, exitFloorNumber: this.mazeData.floorNumber, exitBuildingCode: this.mazeData.buildingCode };

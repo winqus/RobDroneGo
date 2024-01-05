@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 @Injectable()
 export class LoggingInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!environment.logHttpRequests) {
+    if (environment.logHttpRequests) {
       const started = Date.now();
       console.log(`Request started: ${request.method} ${request.urlWithParams}`);
 

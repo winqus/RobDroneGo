@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js";
-import { merge } from "./merge.js";
+import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 import MultiTexturedMaterial from "./material.js";
+import { merge } from './merge.js';
 
 /*
  * parameters = {
@@ -41,6 +41,8 @@ export default class Wall extends THREE.Group {
         this.geometries = [];
         this.materials = [];
 
+        this.heightScale = this.heightScale || 1.0;
+
         // Create the materials
         const primaryMaterial = new MultiTexturedMaterial(this.materialParameters);
         const secondaryMaterial = new THREE.MeshStandardMaterial({ color: this.secondaryColor });
@@ -50,21 +52,25 @@ export default class Wall extends THREE.Group {
         // Create an array of geometries
         let geometries = [];
 
+        const geometryHeight = 0.5 * this.heightScale + this.groundHeight;
+        const heightDiff = geometryHeight - (0.5 + this.groundHeight);
+        const applyMatrix4_makeTransitionY = -halfGroundHeight + heightDiff * 0.5;
+
         // Create the front face (a rectangle)
-        let geometry = new THREE.PlaneGeometry(0.95, 0.5 + this.groundHeight, this.segments.x, this.segments.y);
+        let geometry = new THREE.PlaneGeometry(0.95, geometryHeight, this.segments.x, this.segments.y);
         let uv = geometry.getAttribute("uv");
         let uv1 = uv.clone();
         geometry.setAttribute("uv1", uv1); // The aoMap requires a second set of UVs: https://threejs.org/docs/index.html?q=meshstand#api/en/materials/MeshStandardMaterial.aoMap
-        geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0.0, -halfGroundHeight, 0.025));
+        geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0.0, applyMatrix4_makeTransitionY, 0.025));
         geometries.push(geometry);
 
         // Create the rear face (a rectangle)
-        geometry = new THREE.PlaneGeometry(0.95, 0.5 + this.groundHeight, this.segments.x, this.segments.y);
+        geometry = new THREE.PlaneGeometry(0.95, geometryHeight, this.segments.x, this.segments.y);
         uv = geometry.getAttribute("uv");
         uv1 = uv.clone();
         geometry.setAttribute("uv1", uv1); // The aoMap requires a second set of UVs: https://threejs.org/docs/index.html?q=meshstand#api/en/materials/MeshStandardMaterial.aoMap
         geometry.applyMatrix4(new THREE.Matrix4().makeRotationY(Math.PI));
-        geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0.0, -halfGroundHeight, -0.025));
+        geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0.0, applyMatrix4_makeTransitionY, -0.025));
         geometries.push(geometry);
 
         this.geometries.push(BufferGeometryUtils.mergeGeometries(geometries, false));
@@ -74,14 +80,15 @@ export default class Wall extends THREE.Group {
         geometries = [];
 
         // Create the two left faces (a four-triangle mesh)
+        const leftFaceTopY = 0.25 + heightDiff;
         let points = new Float32Array([
             -0.475, -0.25 - this.groundHeight, 0.025,
-            -0.475, 0.25, 0.025,
-            -0.5, 0.25, 0.0,
+            -0.475, leftFaceTopY, 0.025,
+            -0.5, leftFaceTopY, 0.0,
             -0.5, -0.25 - this.groundHeight, 0.0,
 
-            -0.5, 0.25, 0.0,
-            -0.475, 0.25, -0.025,
+            -0.5, leftFaceTopY, 0.0,
+            -0.475, leftFaceTopY, -0.025,
             -0.475, -0.25 - this.groundHeight, -0.025,
             -0.5, -0.25 - this.groundHeight, 0.0
         ]);
@@ -113,13 +120,14 @@ export default class Wall extends THREE.Group {
         geometries.push(geometry);
 
         // Create the top face (a four-triangle mesh)
+        const topFaceTopY = 0.25 + heightDiff;
         points = new Float32Array([
-            -0.5, 0.25, 0.0,
-            -0.475, 0.25, 0.025,
-            -0.475, 0.25, -0.025,
-            0.475, 0.25, 0.025,
-            0.475, 0.25, -0.025,
-            0.5, 0.25, 0.0
+            -0.5, topFaceTopY, 0.0,
+            -0.475, topFaceTopY, 0.025,
+            -0.475, topFaceTopY, -0.025,
+            0.475, topFaceTopY, 0.025,
+            0.475, topFaceTopY, -0.025,
+            0.5, topFaceTopY, 0.0
         ]);
         normals = new Float32Array([
             0.0, 1.0, 0.0,

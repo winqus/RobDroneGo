@@ -42,10 +42,10 @@
     "primaryColor": "0xffffff",
     "maps": {
       "color": {
-        "url": "https://robdrongoassets.blob.core.windows.net/angular-assets/textures/concrete_0007_2k_xtGY5J/concrete_0007_color_2k.jpg"
+        "url": "./assets/textures/photos_2022_10_21_fst_gray-rough-wall.jpg"
       },
       "ao": {
-        "url": "https://robdrongoassets.blob.core.windows.net/angular-assets/textures/concrete_0007_2k_xtGY5J/concrete_0007_ao_2k.jpg",
+        "url": "",
         "intensity": 1.0
       },
       "displacement": {
@@ -54,7 +54,7 @@
         "bias": 0.0
       },
       "normal": {
-        "url": "https://robdrongoassets.blob.core.windows.net/angular-assets/textures/concrete_0007_2k_xtGY5J/concrete_0007_normal_opengl_2k.png",
+        "url": "",
         "type": 0,
         "scale": { "x": 2.0, "y": 2.0 }
       },
@@ -63,7 +63,7 @@
         "scale": 1.0
       },
       "roughness": {
-        "url": "https://robdrongoassets.blob.core.windows.net/angular-assets/textures/concrete_0007_2k_xtGY5J/concrete_0007_roughness_2k.jpg",
+        "url": "",
         "rough": 1.0
       }
     },
