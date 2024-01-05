@@ -366,9 +366,11 @@ export class Campus3dComponent implements OnInit, OnDestroy {
     let elevators: Elevator[] = [];
     if (data.exitLocations?.elevators) {
       elevators = data.exitLocations?.elevators.map((elevator) => {
-        let entrance: [number, number] = [-0.5, 0];
+        // let entrance: [number, number] = [-0.5, 0];
+        let entrance: [number, number] = [0.0, 0.0];
         if (data.map[elevator.cellPosition[0]][elevator.cellPosition[1]] === MapCell.ElevatorEast || data.map[elevator.cellPosition[0]][elevator.cellPosition[1]] === MapCell.ElevatorWest) {
-          entrance = [0, -0.5];
+          // entrance = [0, -0.5];
+          entrance = [0.0, 0.0];
         }
         return {
           cellPosition: elevator.cellPosition,
@@ -507,31 +509,31 @@ export class Campus3dComponent implements OnInit, OnDestroy {
 
         if (destinationElevator) {
           let mapValue = data.maze.map[destinationElevator.cellPosition[0]][destinationElevator.cellPosition[1]];
+          let entranceOffset: [number, number] = [0.0, 0.0];
+
           switch (mapValue) {
             case MapCell.ElevatorNorth:
-              // Elevator entrance/exit facing north
-              destinationPlayerPosition = [
-                destinationElevator.cellPosition[0] + destinationElevator.entracePositionOffset[0] * 2,
-                destinationElevator.cellPosition[1] + destinationElevator.entracePositionOffset[1] * 2,
-              ];
+              // Elevator exit facing north
+              entranceOffset = [-1.0, 0.0];
+              destinationPlayerPosition = [destinationElevator.cellPosition[0] + entranceOffset[0], destinationElevator.cellPosition[1] + entranceOffset[1]];
               destinationPlayerDirection = 180;
               break;
             case MapCell.ElevatorEast:
-              // Elevator entrance/exit facing west
-              destinationPlayerPosition = [destinationElevator.cellPosition[0], destinationElevator.cellPosition[1]];
+              // Elevator exit facing west
+              entranceOffset = [0.0, 1.0];
+              destinationPlayerPosition = [destinationElevator.cellPosition[0] + entranceOffset[0], destinationElevator.cellPosition[1] + entranceOffset[1]];
               destinationPlayerDirection = 90;
               break;
             case MapCell.ElevatorSouth:
-              // Elevator entrance/exit facing south
-              destinationPlayerPosition = [destinationElevator.cellPosition[0], destinationElevator.cellPosition[1]];
+              // Elevator exit facing south
+              entranceOffset = [1.0, 0.0];
+              destinationPlayerPosition = [destinationElevator.cellPosition[0] + entranceOffset[0], destinationElevator.cellPosition[1] + entranceOffset[1]];
               destinationPlayerDirection = 0;
               break;
             case MapCell.ElevatorWest:
-              // Elevator entrance/exit facing east
-              destinationPlayerPosition = [
-                destinationElevator.cellPosition[0] + destinationElevator.entracePositionOffset[0] * 2,
-                destinationElevator.cellPosition[1] + destinationElevator.entracePositionOffset[1] * 2,
-              ];
+              // Elevator exit facing east
+              entranceOffset = [0.0, -1.0];
+              destinationPlayerPosition = [destinationElevator.cellPosition[0] + entranceOffset[0], destinationElevator.cellPosition[1] + entranceOffset[1]];
               destinationPlayerDirection = 270;
               break;
             default:

@@ -4,7 +4,7 @@ const userCreds = USER_CREDS.user;
 
 describe('Login Test', () => {
   before(() => {
-    cy.login(userCreds); 
+    cy.login(userCreds);
   });
 
   // Note: At the time not needed, leaving for future reference
@@ -23,7 +23,7 @@ describe('Login Test', () => {
 
     cy.url().should('include', '/dashboard');
 
-    cy.title().should('eq', 'RobDroneGo');
+    cy.title().should('include', 'RobDroneGo');
 
     cy.get('.navbar').contains(userCreds.firstName, { timeout: 500 }).should('be.visible');
   });

@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://10.9.23.48:4000/api',
+  apiUrl: 'https://robdronego.pro/api',
   emailDomain: 'isep.ipp.pt',
   logHttpRequests: false,
 };
