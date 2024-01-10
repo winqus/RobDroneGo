@@ -1,3 +1,6 @@
+# About
+A distributed, full-stack information system for virtual campus robot management. Developed iteratively using Agile Scrum and CI/CD practices. Built with Onion DDD architecture, it integrates advanced pathfinding algorithms and is deployed on a VM cluster with redundancy and load balancing within a virtual private network. The back-end is powered by Node.js (Express.js) and ASP\.NET, while the front-end leverages Angular with Three.js for 3D visualizations. Automated testing is implemented using Cypress, Jest, Mocha, and Postman. Prolog is used for web API logic and pathfinding algorithms. Project management and CI/CD pipelines were originally handled with Jira and Bitbucket.
+
 # RobDroneGo Wiki
 
 This is a wiki for the RobDroneGo project. It contains the following sections:
