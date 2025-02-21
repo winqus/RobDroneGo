@@ -1,0 +1,61 @@
+@startuml SD Lv3
+
+
+!pragma teoz true
+
+actor "Fleet manager" as fleet
+box "Fleet Management UI" #LightBlue
+
+    box "View"
+        participant "HTML + CSS + JS" as html
+        participant "Component" as component
+    end box
+    participant "Service" as service
+    participant "API Routes" as API_ROUTES
+    participant "Http driver" as http
+
+end box
+participant "Fleet Management API" as fleetAPI
+
+fleet -> html : enter URL
+activate html
+fleet -> html : input robot info
+fleet -> html : submit the form
+
+    html -> component : create robot
+    activate component
+
+        component -> service : create robot
+        activate service
+
+            service -> API_ROUTES : robot.createRobot()
+            activate API_ROUTES
+
+            API_ROUTES --> service : api route
+            deactivate API_ROUTES
+
+            service -> http : POST(api route, robot info)
+            activate http
+
+                http -> fleetAPI : send request
+                activate fleetAPI
+
+                    fleetAPI -> fleetAPI : create robot
+                    
+                fleetAPI --> http : return response
+                deactivate fleetAPI
+
+            http --> service : return response
+            deactivate http
+
+        service --> component : return response
+        deactivate service
+
+    component --> html : robot created
+    deactivate component
+
+html --> fleet : robot created\nsuccessfully
+deactivate html
+
+
+@enduml

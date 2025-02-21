@@ -1,0 +1,71 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Passage Persistence" as Persistence
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant PassageController as Controller
+        participant "Passage Repository" as Repository
+    end box
+
+    participant "Passage DTO" as PassageDTO
+    participant "Passage Mapper" as PassageMapper
+    box "Application Business Rules" #ff6666
+        participant "Passage Service" as PassageService
+    end box
+
+    ' box "Enterprise Business Rules" #eeddaa
+    '     participant Passage
+    ' end box
+end box
+
+[o-> Routing : GET /passages?building1={code1}&building2={code2}
+activate Routing
+
+    Routing -> Controller : getPassagesBetweenBuildings(code1, code2)
+    activate Controller
+
+        Controller -> PassageService : getPassagesBetweenBuildings(code1, code2)
+        activate PassageService
+        
+            PassageService -> Repository : findAllByBuildingCodes(code1, code2)
+            activate Repository
+
+                Repository -> Persistence : query passages between buildings
+                activate Persistence
+
+                Persistence --> Repository : passages[]
+                deactivate Persistence
+
+            Repository --> PassageService : passages[]
+            deactivate Repository
+
+            PassageService -> PassageMapper : toDTO(passages[])
+            activate PassageMapper
+            
+                PassageMapper -> PassageDTO : map domain to DTO
+                activate PassageDTO
+
+                PassageDTO --> PassageMapper : passagesDTO[]
+                deactivate PassageDTO
+
+            PassageMapper --> PassageService : passagesDTO[]
+            deactivate PassageMapper
+
+        PassageService --> Controller : passagesDTO[]
+        deactivate PassageService
+
+    Controller --> Routing : passagesDTO[]
+    deactivate Controller
+
+[o<--o Routing : passagesDTO[]
+deactivate Routing
+
+@enduml

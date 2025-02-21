@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="567px" preserveAspectRatio="none" style="width:1413px;height:567px;background:#FFFFFF;" version="1.1" viewBox="0 0 1413 567" width="1413px" zoomAndPan="magnify"><defs/><g><rect fill="#ADD8E6" height="555.8438" style="stroke:#181818;stroke-width:0.5;" width="1104" x="303.5" y="6"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="138" x="786.5" y="19.4951">Campus Management</text><rect fill="#00FFFF" height="534.4922" style="stroke:#181818;stroke-width:0.5;" width="228" x="303.5" y="27.3516"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="189" x="323" y="40.8467">Framework And Drivers Layer</text><rect fill="#77FFAA" height="534.4922" style="stroke:#181818;stroke-width:0.5;" width="290" x="639.5" y="27.3516"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="156" x="706.5" y="40.8467">Interface Adapters Layer</text><rect fill="#FF6666" height="534.4922" style="stroke:#181818;stroke-width:0.5;" width="194" x="1213.5" y="27.3516"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="170" x="1225.5" y="40.8467">Application Business Rules</text><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="339" x2="339" y1="80.3125" y2="523.2344"/><rect fill="#FFFFFF" height="394.5703" style="stroke:#181818;stroke-width:1.0;" width="10" x="334" y="110.6641"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="454" x2="454" y1="80.3125" y2="523.2344"/><rect fill="#FFFFFF" height="30.3516" style="stroke:#181818;stroke-width:1.0;" width="10" x="449" y="232.0703"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="590.5" x2="590.5" y1="80.3125" y2="523.2344"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="709" x2="709" y1="80.3125" y2="523.2344"/><rect fill="#FFFFFF" height="333.8672" style="stroke:#181818;stroke-width:1.0;" width="10" x="704" y="141.0156"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="855" x2="855" y1="80.3125" y2="523.2344"/><rect fill="#FFFFFF" height="91.0547" style="stroke:#181818;stroke-width:1.0;" width="10" x="850" y="201.7188"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="997" x2="997" y1="80.3125" y2="523.2344"/><rect fill="#FFFFFF" height="30.3516" style="stroke:#181818;stroke-width:1.0;" width="10" x="992" y="353.4766"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="1147" x2="1147" y1="80.3125" y2="523.2344"/><rect fill="#FFFFFF" height="91.0547" style="stroke:#181818;stroke-width:1.0;" width="10" x="1142" y="323.125"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="1310.5" x2="1310.5" y1="80.3125" y2="523.2344"/><rect fill="#FFFFFF" height="273.1641" style="stroke:#181818;stroke-width:1.0;" width="10" x="1305.5" y="171.3672"/><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="63" x="307.5" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="49" x="314.5" y="69.2363">Routing</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="147" x="380.5" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="133" x="387.5" y="69.2363">Passage Persistence</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="86" x="547.5" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72" x="554.5" y="69.2363">Data Model</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="131" x="643.5" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="117" x="650.5" y="69.2363">PassageController</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="141" x="784.5" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="127" x="791.5" y="69.2363">Passage Repository</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="103" x="945.5" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="89" x="952.5" y="69.2363">Passage DTO</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="121" x="1086.5" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="107" x="1093.5" y="69.2363">Passage Mapper</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="120" x="1250.5" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="1257.5" y="69.2363">Passage Service</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="63" x="307.5" y="523.2344"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="49" x="314.5" y="544.7676">Routing</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="147" x="380.5" y="523.2344"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="133" x="387.5" y="544.7676">Passage Persistence</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="86" x="547.5" y="523.2344"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72" x="554.5" y="544.7676">Data Model</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="131" x="643.5" y="523.2344"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="117" x="650.5" y="544.7676">PassageController</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="141" x="784.5" y="523.2344"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="127" x="791.5" y="544.7676">Passage Repository</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="103" x="945.5" y="523.2344"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="89" x="952.5" y="544.7676">Passage DTO</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="121" x="1086.5" y="523.2344"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="107" x="1093.5" y="544.7676">Passage Mapper</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="120" x="1250.5" y="523.2344"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="1257.5" y="544.7676">Passage Service</text><ellipse cx="10.5" cy="109.9141" fill="none" rx="4" ry="4" style="stroke:#181818;stroke-width:1.5;"/><polygon fill="#181818" points="322,106.6641,332,110.6641,322,114.6641,326,110.6641" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="15" x2="328" y1="110.6641" y2="110.6641"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="310" x="18" y="105.8076">GET /passages?building1={code1}&amp;building2={code2}</text><polygon fill="#181818" points="692,137.0156,702,141.0156,692,145.0156,696,141.0156" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="344" x2="698" y1="141.0156" y2="141.0156"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="265" x="351" y="136.1592">getPassagesBetweenBuildings(code1, code2)</text><polygon fill="#181818" points="1293.5,167.3672,1303.5,171.3672,1293.5,175.3672,1297.5,171.3672" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="714" x2="1299.5" y1="171.3672" y2="171.3672"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="265" x="721" y="166.5107">getPassagesBetweenBuildings(code1, code2)</text><polygon fill="#181818" points="871,197.7188,861,201.7188,871,205.7188,867,201.7188" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="865" x2="1304.5" y1="201.7188" y2="201.7188"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="220" x="877" y="196.8623">findAllByBuildingCodes(code1, code2)</text><polygon fill="#181818" points="470,228.0703,460,232.0703,470,236.0703,466,232.0703" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="464" x2="849" y1="232.0703" y2="232.0703"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="199" x="476" y="227.2139">query passages between buildings</text><polygon fill="#181818" points="838,258.4219,848,262.4219,838,266.4219,842,262.4219" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="459" x2="844" y1="262.4219" y2="262.4219"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="64" x="466" y="257.5654">passages[]</text><polygon fill="#181818" points="1293.5,288.7734,1303.5,292.7734,1293.5,296.7734,1297.5,292.7734" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="860" x2="1299.5" y1="292.7734" y2="292.7734"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="64" x="867" y="287.917">passages[]</text><polygon fill="#181818" points="1163,319.125,1153,323.125,1163,327.125,1159,323.125" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="1157" x2="1304.5" y1="323.125" y2="323.125"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="109" x="1169" y="318.2686">toDTO(passages[])</text><polygon fill="#181818" points="1013,349.4766,1003,353.4766,1013,357.4766,1009,353.4766" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="1007" x2="1141" y1="353.4766" y2="353.4766"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="116" x="1019" y="348.6201">map domain to DTO</text><polygon fill="#181818" points="1130,379.8281,1140,383.8281,1130,387.8281,1134,383.8281" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="1002" x2="1136" y1="383.8281" y2="383.8281"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="90" x="1009" y="378.9717">passagesDTO[]</text><polygon fill="#181818" points="1293.5,410.1797,1303.5,414.1797,1293.5,418.1797,1297.5,414.1797" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="1152" x2="1299.5" y1="414.1797" y2="414.1797"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="90" x="1159" y="409.3232">passagesDTO[]</text><polygon fill="#181818" points="725,440.5313,715,444.5313,725,448.5313,721,444.5313" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="719" x2="1304.5" y1="444.5313" y2="444.5313"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="90" x="731" y="439.6748">passagesDTO[]</text><polygon fill="#181818" points="355,470.8828,345,474.8828,355,478.8828,351,474.8828" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="349" x2="703" y1="474.8828" y2="474.8828"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="90" x="361" y="470.0264">passagesDTO[]</text><ellipse cx="10.5" cy="504.4844" fill="none" rx="4" ry="4" style="stroke:#181818;stroke-width:1.5;"/><polygon fill="#181818" points="27.5,501.2344,17.5,505.2344,27.5,509.2344,23.5,505.2344" style="stroke:#181818;stroke-width:1.0;"/><ellipse cx="333.5" cy="504.4844" fill="none" rx="4" ry="4" style="stroke:#181818;stroke-width:1.5;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="25.5" x2="329" y1="505.2344" y2="505.2344"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="90" x="28" y="500.3779">passagesDTO[]</text><!--MD5=[87216ac9208dcf5d38c1adf7987a8363]
+@startuml SD Lv3
+
+!pragma teoz true
+
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Passage Persistence" as Persistence
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant PassageController as Controller
+        participant "Passage Repository" as Repository
+    end box
+
+    participant "Passage DTO" as PassageDTO
+    participant "Passage Mapper" as PassageMapper
+    box "Application Business Rules" #ff6666
+        participant "Passage Service" as PassageService
+    end box
+
+    ' box "Enterprise Business Rules" #eeddaa
+    '     participant Passage
+    ' end box
+end box
+
+[o-> Routing : GET /passages?building1={code1}&building2={code2}
+activate Routing
+
+    Routing -> Controller : getPassagesBetweenBuildings(code1, code2)
+    activate Controller
+
+        Controller -> PassageService : getPassagesBetweenBuildings(code1, code2)
+        activate PassageService
+        
+            PassageService -> Repository : findAllByBuildingCodes(code1, code2)
+            activate Repository
+
+                Repository -> Persistence : query passages between buildings
+                activate Persistence
+
+                Persistence - -> Repository : passages[]
+                deactivate Persistence
+
+            Repository - -> PassageService : passages[]
+            deactivate Repository
+
+            PassageService -> PassageMapper : toDTO(passages[])
+            activate PassageMapper
+            
+                PassageMapper -> PassageDTO : map domain to DTO
+                activate PassageDTO
+
+                PassageDTO - -> PassageMapper : passagesDTO[]
+                deactivate PassageDTO
+
+            PassageMapper - -> PassageService : passagesDTO[]
+            deactivate PassageMapper
+
+        PassageService - -> Controller : passagesDTO[]
+        deactivate PassageService
+
+    Controller - -> Routing : passagesDTO[]
+    deactivate Controller
+
+[o<- -o Routing : passagesDTO[]
+deactivate Routing
+
+@enduml
+
+@startuml SD Lv3
+
+!pragma teoz true
+
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Passage Persistence" as Persistence
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant PassageController as Controller
+        participant "Passage Repository" as Repository
+    end box
+
+    participant "Passage DTO" as PassageDTO
+    participant "Passage Mapper" as PassageMapper
+    box "Application Business Rules" #ff6666
+        participant "Passage Service" as PassageService
+    end box
+
+end box
+
+[o-> Routing : GET /passages?building1={code1}&building2={code2}
+activate Routing
+
+    Routing -> Controller : getPassagesBetweenBuildings(code1, code2)
+    activate Controller
+
+        Controller -> PassageService : getPassagesBetweenBuildings(code1, code2)
+        activate PassageService
+        
+            PassageService -> Repository : findAllByBuildingCodes(code1, code2)
+            activate Repository
+
+                Repository -> Persistence : query passages between buildings
+                activate Persistence
+
+                Persistence - -> Repository : passages[]
+                deactivate Persistence
+
+            Repository - -> PassageService : passages[]
+            deactivate Repository
+
+            PassageService -> PassageMapper : toDTO(passages[])
+            activate PassageMapper
+            
+                PassageMapper -> PassageDTO : map domain to DTO
+                activate PassageDTO
+
+                PassageDTO - -> PassageMapper : passagesDTO[]
+                deactivate PassageDTO
+
+            PassageMapper - -> PassageService : passagesDTO[]
+            deactivate PassageMapper
+
+        PassageService - -> Controller : passagesDTO[]
+        deactivate PassageService
+
+    Controller - -> Routing : passagesDTO[]
+    deactivate Controller
+
+[o<- -o Routing : passagesDTO[]
+deactivate Routing
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 BST 2022)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) Client VM
+Default Encoding: Cp1252
+Language: en
+Country: US
+--></g></svg>

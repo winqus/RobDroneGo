@@ -1,0 +1,161 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Room Persistence" as Persistence
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Room Repository" as RoomRepository
+        participant "Floor Repository" as FloorRepository
+    end box
+
+    participant "Room DTO" as RoomDTO
+    participant "Room Mapper" as RoomMapper
+    box "Application Business Rules" #ff6666
+        participant "Room Service" as RoomService
+    end box
+
+    box "Enterprise Business Rules" #eeddaa
+        participant Room
+    end box
+end box
+
+[o-> Routing : POST /room
+activate Routing
+
+    Routing -> Controller : createRoom(input)
+    activate Controller
+
+        Controller -> RoomDTO : input as RoomDTO
+        activate RoomDTO
+
+        RoomDTO --> Controller : roomDTO
+        deactivate RoomDTO
+
+        Controller -> RoomService : createRoom(roomDTO)
+        activate RoomService
+
+            RoomService -> RoomRepository : exists(roomDTO)
+            activate RoomRepository
+
+                RoomRepository -> Persistence : exists(roomDTO)
+                activate Persistence
+
+                Persistence --> RoomRepository : roomExists
+                deactivate Persistence
+
+            RoomRepository --> RoomService : roomExists
+            deactivate RoomRepository
+
+            alt if room does not exist
+
+                RoomService -> FloorRepository : findById(roomDTO.floorId)
+                activate FloorRepository
+
+                    FloorRepository -> Persistence : findById(roomDTO.floorId)
+                    activate Persistence
+
+                    Persistence --> FloorRepository : floorExists
+                    deactivate Persistence
+
+                FloorRepository --> RoomService : floorExists
+                deactivate FloorRepository
+
+                alt if floor exists
+
+                    RoomService -> RoomService : validateFitInFloor(roomDTO, floorExists.buildingCode)
+                    activate RoomService #FFBBBB
+
+                    RoomService --> RoomService : fitsInFloor
+                    deactivate RoomService #FFBBBB
+
+                    RoomService -> RoomService : validateNoRoomOverlap(roomDTO)
+                    activate RoomService #FFBBBB
+
+                    RoomService --> RoomService : noRoomOverlap
+                    deactivate RoomService #FFBBBB
+
+                    alt if fitsInFloor and noRoomOverlap
+                    
+                        RoomService -> Room : create(roomDTO)
+                        activate Room
+
+                        Room --> RoomService : room
+                        deactivate Room
+
+                        RoomService -> RoomRepository : save(room)
+                        activate RoomRepository
+
+                            RoomRepository -> Persistence : save(room)
+                            activate Persistence
+
+                            Persistence --> RoomRepository : Success
+                            deactivate Persistence
+
+                        RoomRepository --> RoomService : Success
+                        deactivate RoomRepository
+
+                        RoomService -> RoomMapper : toDTO(room)
+                        activate RoomMapper
+
+                            RoomMapper -> RoomDTO : room as DTO
+                            activate RoomDTO
+
+                            RoomDTO --> RoomMapper : roomDTO
+                            deactivate RoomDTO
+
+                        RoomMapper --> RoomService : roomDTO
+                        deactivate RoomMapper
+
+                        RoomService --> Controller : roomDTO
+                        deactivate RoomService
+
+                        Controller --> Routing : roomDTO
+                        deactivate Controller
+
+                        [o<--o Routing : roomDTO
+
+                    else validation fails
+                        RoomService --> Controller : Failure(validation error message)
+                        deactivate RoomService
+
+                        Controller --> Routing : Failure(validation error message)
+                        deactivate Controller
+
+                        [o<--o Routing : Failure(validation error message)
+                    end
+
+                else floor does not exist
+                    RoomService --> Controller : Failure(Floor does not exist)
+                    deactivate RoomService
+
+                    Controller --> Routing : Failure(Floor does not exist)
+                    deactivate Controller
+
+                    [o<--o Routing : Failure(Floor does not exist)
+                end
+
+            else room exists
+                RoomService --> Controller : Failure(Room already exists)
+                deactivate RoomService
+
+                Controller --> Routing : Failure(Room already exists)
+                deactivate Controller
+
+                [o<--o Routing : Failure(Room already exists)
+            end
+            
+        deactivate RoomService
+
+    deactivate Controller
+
+deactivate Routing
+
+@enduml

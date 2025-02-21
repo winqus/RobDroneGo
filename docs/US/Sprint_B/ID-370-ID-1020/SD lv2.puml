@@ -1,0 +1,31 @@
+@startuml SD Lv2
+
+actor "Fleet Manager" as user
+box "RobDroneGo" #LightBlue
+    participant UI as ui
+    participant "Fleet Management" as fleet
+    participant "DB" as DB
+end box
+
+user -> ui : enter URL
+user -> ui : enter robot and \nnew state
+
+ui -> fleet : change robot state
+activate fleet
+
+fleet -> DB : find robot by code
+
+DB --> fleet : robot
+
+fleet -> fleet : change state
+
+fleet -> DB : save robot
+activate DB
+DB --> fleet : Success
+deactivate DB
+
+ui<-- fleet : Success
+ui -> user : show success\n message
+deactivate fleet
+
+@enduml

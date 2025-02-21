@@ -1,0 +1,41 @@
+@startuml SD Lv2
+
+actor "User" as user
+box "RobDroneGo System" #LightBlue
+    participant "UI" as UI
+    participant "Task \nManagement" as TaskModule
+    participant "User \nManagement" as UserModule
+    participant "DB" as DB
+end box
+
+user -> UI : Go to /task/list\n SPA route
+
+activate UI
+UI -> UserModule : Verify user's role and permissions
+activate UserModule
+UserModule --> UI : Permissions validated
+deactivate UserModule
+
+UI -> TaskModule : List Tasks Request
+activate TaskModule
+TaskModule -> DB : Get all task request
+activate DB
+DB --> TaskModule : Return Task request list
+deactivate DB
+TaskModule --> UI : Return Task request list
+deactivate TaskModule
+UI --> user : Show all 'task request'
+
+user -> UI : Click on 'approve' button or 'reject' button
+UI -> TaskModule : Approve or Reject Task Request
+activate TaskModule
+TaskModule -> DB : Update task request status
+activate DB
+DB --> TaskModule : Return updated task request
+deactivate DB
+TaskModule --> UI : Return updated task request
+deactivate TaskModule
+UI --> user : Show updated task request
+deactivate UI
+
+@enduml

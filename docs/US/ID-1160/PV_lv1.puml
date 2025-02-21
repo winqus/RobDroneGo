@@ -1,0 +1,15 @@
+@startuml SD Lv1
+
+actor "Campus Manager" as user
+participant RobDroneGo as system
+
+user -> system : GET /campus/floor/served-by-elevator
+activate system
+
+system -> system : Check user's role\nand permissions
+
+user <-- system : Show list of floors served by elevator
+
+deactivate system
+
+@enduml

@@ -1,0 +1,82 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Building Persistence" as BuildingPersistence
+        participant "Floor Persistence" as FloorPersistence
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant BuildingController as Controller
+        participant "Building Repository" as BuildingRepo
+        participant "Floor Repository" as FloorRepo
+    end box
+
+    participant "Building DTO" as BuildingDTO
+    participant "Building Mapper" as BuildingMapper
+    box "Application Business Rules" #ff6666
+        participant "Building Service" as BuildingService
+    end box
+
+end box
+
+[o-> Routing : GET /building?minFloor={minFloor}\n\t&maxFloor={maxFloor}
+activate Routing
+
+    Routing -> Controller : getBuildingByFloorRange(minFloor, maxFloor)
+    activate Controller
+
+        Controller -> BuildingService : getBuildingsByFloorRange(minFloor, maxFloor)
+        activate BuildingService
+        
+            BuildingService -> FloorRepo : findByBuildingCode(buildingCode)
+            activate FloorRepo
+
+                FloorRepo -> FloorPersistence : query floors by building code
+                activate FloorPersistence
+
+                FloorPersistence --> FloorRepo : floors[]
+                deactivate FloorPersistence
+
+            FloorRepo --> BuildingService : floors[]
+            deactivate FloorRepo
+
+            BuildingService -> BuildingRepo : findByCode(buildingCode)
+            activate BuildingRepo
+
+                BuildingRepo -> BuildingPersistence : query building by code
+                activate BuildingPersistence
+
+                BuildingPersistence --> BuildingRepo : building
+                deactivate BuildingPersistence
+
+            BuildingRepo --> BuildingService : building
+            deactivate BuildingRepo
+
+            BuildingService -> BuildingMapper : toDTO(buildings)
+            activate BuildingMapper
+            
+                BuildingMapper -> BuildingDTO : map domain to DTO
+                activate BuildingDTO
+
+                BuildingDTO --> BuildingMapper : buildingDTOs[]
+                deactivate BuildingDTO
+
+            BuildingMapper --> BuildingService : buildingDTOs[]
+            deactivate BuildingMapper
+
+        BuildingService --> Controller : buildingDTOs[]
+        deactivate BuildingService
+
+    Controller --> Routing : buildingDTOs[]
+    deactivate Controller
+
+[o<--o Routing : buildingDTOs[]
+deactivate Routing
+
+@enduml

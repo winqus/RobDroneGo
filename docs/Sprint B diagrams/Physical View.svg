@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="695px" preserveAspectRatio="none" style="width:738px;height:695px;background:#FFFFFF;" version="1.1" viewBox="0 0 738 695" width="738px" zoomAndPan="magnify"><defs/><g><!--MD5=[8a509646a725e4b29ac3346bf48b9d0c]
+cluster local--><g id="cluster_local"><polygon fill="#99DDFF" points="378,16,388,6,540,6,540,185,530,195,378,195,378,16" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="530" x2="540" y1="16" y2="6"/><line style="stroke:#181818;stroke-width:1.0;" x1="378" x2="530" y1="16" y2="16"/><line style="stroke:#181818;stroke-width:1.0;" x1="530" x2="530" y1="16" y2="195"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="86" x="412" y="33.5332">localhost:??</text></g><!--MD5=[8699c0c8e953ee53654a072cc875bfb4]
+cluster Browser--><g id="cluster_Browser"><rect fill="#99DDFF" height="100" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:1.0;" width="84" x="422" y="63"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:1.0;" width="15" x="486" y="68"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="484" y="70"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="484" y="74"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="59" x="434.5" y="90.5332">Browser</text></g><!--MD5=[da1343c312cc520ff5027d899b18df0c]
+cluster server1--><g id="cluster_server1"><polygon fill="#99DDFF" points="220,271,230,261,387,261,387,372,377,382,220,382,220,271" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="377" x2="387" y1="271" y2="261"/><line style="stroke:#181818;stroke-width:1.0;" x1="220" x2="377" y1="271" y2="271"/><line style="stroke:#181818;stroke-width:1.0;" x1="377" x2="377" y1="271" y2="382"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="91" x="254" y="288.5332">server1:4200</text></g><!--MD5=[a9c83c87e0eb36f75a71543853428e21]
+cluster server2--><g id="cluster_server2"><polygon fill="#99DDFF" points="16,458,26,448,454,448,454,668,444,678,16,678,16,458" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="444" x2="454" y1="458" y2="448"/><line style="stroke:#181818;stroke-width:1.0;" x1="16" x2="444" y1="458" y2="458"/><line style="stroke:#181818;stroke-width:1.0;" x1="444" x2="444" y1="458" y2="678"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="91" x="185.5" y="475.5332">server2:4000</text></g><!--MD5=[cab17a09d23fc61601dce9ed7286e19b]
+cluster server3--><g id="cluster_server3"><polygon fill="#99DDFF" points="508,271,518,261,721,261,721,372,711,382,508,382,508,271" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="711" x2="721" y1="271" y2="261"/><line style="stroke:#181818;stroke-width:1.0;" x1="508" x2="711" y1="271" y2="271"/><line style="stroke:#181818;stroke-width:1.0;" x1="711" x2="711" y1="271" y2="382"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="91" x="565" y="288.5332">server3:4400</text></g><!--MD5=[bf1b4add2ee2e1b53e65912b20fb7ef4]
+entity ui--><g id="elem_ui"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="52" x="438" y="99"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="470" y="104"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="468" y="106"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="468" y="110"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="12" x="453" y="133.5332">UI</text></g><!--MD5=[c42ed81cef7fdd2e33758127945b9a5b]
+entity UI--><g id="elem_UI"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="52" x="311" y="310"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="343" y="315"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="341" y="317"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="341" y="321"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="12" x="326" y="344.5332">UI</text></g><!--MD5=[3e07a568b62044ba0b5bb5049cca03d3]
+entity fleet--><g id="elem_fleet"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="158" x="40" y="497"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="178" y="502"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="176" y="504"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="176" y="508"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="118" x="55" y="531.5332">Fleet Management</text></g><!--MD5=[592d3444d354cda923ca8734cab94937]
+entity campus--><g id="elem_campus"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="178" x="233" y="497"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="391" y="502"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="389" y="504"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="389" y="508"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="138" x="248" y="531.5332">Campus Management</text></g><!--MD5=[c77a7a9f565a0b8e82ce4b35a94c8a45]
+entity task--><g id="elem_task"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="157" x="40.5" y="606"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="177.5" y="611"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="175.5" y="613"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="175.5" y="617"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="117" x="55.5" y="640.5332">Task Management</text></g><!--MD5=[8fc3522a43f8c7199df5e09e5bb0188e]
+entity user--><g id="elem_user"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="155" x="232.5" y="606"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="367.5" y="611"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="365.5" y="613"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="365.5" y="617"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="115" x="247.5" y="640.5332">User Management</text></g><!--MD5=[5985c08783457a6fda14e0062bcfc5bc]
+entity planning--><g id="elem_planning"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="145" x="551.5" y="310"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="676.5" y="315"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="674.5" y="317"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="674.5" y="321"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="105" x="566.5" y="344.5332">Planning Module</text></g><!--MD5=[f9ba5bf973e7832d2ce5ed59077b93f7]
+entity DB--><g id="elem_DB"><path d="M478.5,616.5 C478.5,606.5 498,606.5 498,606.5 C498,606.5 517.5,606.5 517.5,616.5 L517.5,643.1094 C517.5,653.1094 498,653.1094 498,653.1094 C498,653.1094 478.5,653.1094 478.5,643.1094 L478.5,616.5 " fill="#99DDFF" style="stroke:#181818;stroke-width:0.5;"/><path d="M478.5,616.5 C478.5,626.5 498,626.5 498,626.5 C498,626.5 517.5,626.5 517.5,616.5 " fill="none" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="19" x="488.5" y="645.0332">DB</text></g><!--MD5=[1779e53d700568d0a2a52f9024daad36]
+link local to server1--><g id="link_local_server1"><path d="M377.732,134.8495 C377.6287,134.9526 377.5248,135.0563 377.4203,135.1606 C370.7338,141.8394 361.7088,151.2075 351.86,162.4175 C332.1625,184.8375 309.17,214.625 295,245 C292.9513,249.3913 291.12,254.0094 289.4836,258.735 C289.2791,259.3257 289.0776,259.9181 288.8791,260.512 C288.8295,260.6604 288.78,260.809 288.7308,260.9576 " fill="none" id="local-server1" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="310" y="233.4951">http/s</text></g><!--MD5=[258fdaeaeba89341789d82024af5fe88]
+link local to server2--><g id="link_local_server2"><path d="M399.4353,196.4969 C399.5224,197.1016 399.6098,197.7089 399.6976,198.3189 C399.8732,199.5388 400.0503,200.7691 400.2289,202.0095 C400.9431,206.9712 401.6805,212.0942 402.4379,217.3556 C403.9526,227.8783 405.5469,238.9544 407.1944,250.3992 C410.4893,273.289 413.9966,297.6541 417.5038,322.0188 C421.0109,346.3834 424.518,370.7477 427.8126,393.6359 C429.4599,405.08 431.0541,416.1551 432.5686,426.6766 C433.3258,431.9374 434.0631,437.0598 434.7772,442.0208 C434.9557,443.2611 435.1328,444.4912 435.3084,445.7109 C435.3961,446.3208 435.4835,446.928 435.5706,447.5326 " fill="none" id="local-server2" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="428" y="339.4951">http/s</text></g><!--MD5=[9146f7b4de25443b4dd8ec84eceb47fb]
+link server1 to server2--><g id="link_server1_server2"><path d="M284.4501,382.2861 C284.4962,382.3883 284.5426,382.4904 284.5892,382.5924 C284.9621,383.4081 285.3509,384.2163 285.7564,385.0151 C286.5674,386.6128 287.445,388.1732 288.3946,389.6819 C290.2939,392.6992 292.4813,395.51 295,398 C324.61,427.27 344.51,414.32 385,424 C403.48,428.42 413.4,418.73 427,432 C430.5238,435.4388 433.468,439.3636 435.9219,443.6029 C436.5354,444.6627 437.1183,445.7421 437.6719,446.8386 C437.8103,447.1127 437.9469,447.3878 438.0816,447.664 " fill="none" id="server1-server2" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="386" y="420.4951">http/s</text></g><!--MD5=[f8f8d9885b2fdbf7f426b66be895b38c]
+link server2 to DB--><g id="link_server2_DB"><path d="M454.098,538.6633 C454.1503,538.771 454.2029,538.8792 454.2556,538.9877 C454.6774,539.8558 455.1111,540.7485 455.5557,541.6636 C457.3342,545.324 459.2869,549.3428 461.3475,553.5838 C469.59,570.5475 479.56,591.065 487.02,606.41 " fill="none" id="server2-DB" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="14" x="468.1879" y="595.515">db</text></g><!--MD5=[40d4de165e440216a2cfbde2d33f4289]
+link server3 to server2--><g id="link_server3_server2"><path d="M507.8629,356.5008 C507.5082,357.4382 507.1443,358.3999 506.7717,359.3848 C506.0263,361.3544 505.2461,363.4165 504.4347,365.5608 C497.9437,382.7147 489.4638,405.1256 480.985,427.5338 C472.5063,449.9419 464.0288,472.3472 457.5428,489.4898 C456.7321,491.6327 455.9524,493.6933 455.2078,495.6614 C454.8355,496.6454 454.472,497.6064 454.1176,498.5429 " fill="none" id="server3-server2" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[ef79a38d5119528f258e8094cac85df4]
+@startuml Physical View
+
+<style>
+node {
+    BackgroundColor #99ddff
+}
+component {
+    BackgroundColor #99ddff
+}
+database {
+    BackgroundColor #99ddff
+}
+</style>
+
+node "localhost:??" as local {
+    component Browser{
+        component UI as ui
+    }
+}
+
+node "server1:4200" as server1{
+    component UI
+}
+
+node "server2:4000" as server2{
+    component "Fleet Management" as fleet
+    component "Campus Management" as campus
+    component "Task Management" as task
+    component "User Management" as user
+}
+
+node "server3:4400" as server3{
+    component "Planning Module" as planning
+}
+
+database DB
+
+local - -  server1 : http/s
+local - - server2 : http/s
+server1 - - server2 : http/s
+server2 - - "db" DB
+server3 - - server2
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 BST 2022)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: Cp1252
+Language: pt
+Country: PT
+--></g></svg>

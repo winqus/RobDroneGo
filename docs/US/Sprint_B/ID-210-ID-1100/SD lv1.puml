@@ -1,0 +1,15 @@
+@startuml SD Lv1
+
+actor "Campus Manager" as user
+participant RobDroneGo as system
+
+user -> system : enter URL
+activate system
+user -> system : choose a building
+
+system -> system : Retrieve floors info
+
+user <-- system : Show all floors of \nthe chosen building
+deactivate system
+
+@enduml

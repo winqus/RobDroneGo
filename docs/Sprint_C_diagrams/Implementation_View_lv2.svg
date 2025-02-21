@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="402px" preserveAspectRatio="none" style="width:866px;height:402px;background:#FFFFFF;" version="1.1" viewBox="0 0 866 402" width="866px" zoomAndPan="magnify"><defs/><g><!--MD5=[1478444cbd0d707d5292787239839939]
+cluster RobDroneGo--><g id="cluster_RobDroneGo"><rect fill="#99DDFF" height="322" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:1.0;" width="214" x="94.5" y="74"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:1.0;" width="15" x="288.5" y="79"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="286.5" y="81"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="286.5" y="85"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="91" x="156" y="101.5332">RobDroneGo</text></g><!--MD5=[bf1b4add2ee2e1b53e65912b20fb7ef4]
+entity ui--><g id="elem_ui"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="52" x="207.5" y="110"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="239.5" y="115"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="237.5" y="117"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="237.5" y="121"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="12" x="222.5" y="144.5332">UI</text></g><!--MD5=[5985c08783457a6fda14e0062bcfc5bc]
+entity planning--><g id="elem_planning"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="181" x="111" y="332"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="272" y="337"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="270" y="339"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="270" y="343"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="141" x="126" y="366.5332">Planning Management</text></g><!--MD5=[a98b032d8afbcc8dc0270292879415fa]
+entity md--><g id="elem_md"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="117" x="175" y="224"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="272" y="229"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="270" y="231"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="270" y="235"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="77" x="190" y="258.5332">Master Data</text></g><!--MD5=[57a99112f6d1208a6f04538cb04b16c8]
+entity campus_ui--><g id="elem_campus_ui"><ellipse cx="452.5" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="68" x="418.5" y="45.5332">Campus UI</text></g><!--MD5=[60d6369f5241044f0137070d6fcc237b]
+entity fleet_ui--><g id="elem_fleet_ui"><ellipse cx="343.5" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="48" x="319.5" y="45.5332">Fleet UI</text></g><!--MD5=[f09b44e228694ddb454ecb360dacb0d0]
+entity planning_ui--><g id="elem_planning_ui"><ellipse cx="233.5" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71" x="198" y="45.5332">Planning UI</text></g><!--MD5=[f8ac3713c14a1957b0bb23e9374380ec]
+entity task_ui--><g id="elem_task_ui"><ellipse cx="124.5" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47" x="101" y="45.5332">Task UI</text></g><!--MD5=[ed367408bb97ba5bbb37ab34413024c8]
+entity user_ui--><g id="elem_user_ui"><ellipse cx="28.5" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="45" x="6" y="45.5332">User UI</text></g><!--MD5=[158ea2335862f9e39c4dfc5bc73a84c8]
+entity campus_API--><g id="elem_campus_API"><ellipse cx="713.5" cy="134" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="77" x="675" y="165.5332">Campus API</text></g><!--MD5=[b80c9d42756b824c47bcd5294851a72a]
+entity fleet_API--><g id="elem_fleet_API"><ellipse cx="830.5" cy="134" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="57" x="802" y="165.5332">Fleet API</text></g><!--MD5=[ec5166ecce83118c788a0c49d9acefab]
+entity task_API--><g id="elem_task_API"><ellipse cx="596.5" cy="134" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="568.5" y="165.5332">Task API</text></g><!--MD5=[7f552f5e175c62f1df18e1e21eab6335]
+entity planning_API--><g id="elem_planning_API"><ellipse cx="477.5" cy="134" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="80" x="437.5" y="165.5332">Planning API</text></g><!--MD5=[7597baf1e0669f42e986acf1068ffc9e]
+entity user_API--><g id="elem_user_API"><ellipse cx="359.5" cy="134" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="332.5" y="165.5332">User API</text></g><!--MD5=[bac6d6e11a5fdd0c68fc83344951ed63]
+link ui to md--><g id="link_ui_md"><path d="M233.5,158.21 C233.5,177.43 233.5,204.61 233.5,223.82 " fill="none" id="ui-md" style="stroke:#181818;stroke-width:1.0;"/><path d="M240.5711,183.9477 A10,10 0 0 0 226.4289 183.9477" fill="none" style="stroke:#181818;stroke-width:1.5;"/><ellipse cx="233.5" cy="191.0188" fill="#FFFFFF" rx="6" ry="6" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[03aa5dfd39ad94f650b60cf5405e2c9f]
+link md to planning--><g id="link_md_planning"><path d="M215.83,272 C207.82,289.66 200.47,313.94 197.77,331.68 " fill="none" id="md-planning" style="stroke:#181818;stroke-width:1.0;"/><path d="M213.6249,297.0904 A10,10 0 0 0 200.0891 292.9938" fill="none" style="stroke:#181818;stroke-width:1.5;"/><ellipse cx="204.8087" cy="301.81" fill="#FFFFFF" rx="6" ry="6" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[330404d44811978bfc7ce4fccc7a03b2]
+link planning to md--><g id="link_planning_md"><path d="M219.95,331.68 C228.11,313.94 235.42,289.66 237.91,272 " fill="none" id="planning-md" style="stroke:#181818;stroke-width:1.0;"/><path d="M222.2473,306.5431 A10,10 0 0 0 235.7894 310.619" fill="none" style="stroke:#181818;stroke-width:1.5;"/><ellipse cx="231.0562" cy="301.81" fill="#FFFFFF" rx="6" ry="6" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[b5bfd87587859b6b69c8aa0d4b8d86ef]
+link fleet_API to md--><g id="link_fleet_API_md"><path d="M821.2,141.41 C810.96,148.14 793.8,158.49 777.5,164 C607.35,221.53 393.73,239.32 292.24,244.72 " fill="none" id="fleet_API-md" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[4c1d7e80e5090e7363477174c1917f0d]
+link campus_API to md--><g id="link_campus_API_md"><path d="M704.38,140.03 C692.37,146.46 670.43,157.53 650.5,164 C526.06,204.4 374.03,228.65 292.28,239.74 " fill="none" id="campus_API-md" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[754200307e14a8c46f4172c7bd01c079]
+link task_API to md--><g id="link_task_API_md"><path d="M587.45,140.83 C577.15,147.25 559.66,157.52 543.5,164 C458.81,197.94 355.63,222.42 292.26,235.65 " fill="none" id="task_API-md" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[5ed690ef4c452428cb562331b1212d4f]
+link planning_API to md--><g id="link_planning_API_md"><path d="M468.23,139.25 C438.42,152.94 343.45,196.53 283.84,223.89 " fill="none" id="planning_API-md" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[a0d5aa263f924e11b1d2e90445bae49b]
+link user_API to md--><g id="link_user_API_md"><path d="M350.44,143.05 C331.65,159.76 287.83,198.7 259.5,223.89 " fill="none" id="user_API-md" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[65822e84358692ab668e937a86c33b8a]
+link campus_ui to ui--><g id="link_campus_ui_ui"><path d="M443.16,20.34 C431.75,26.7 411.7,37.28 393.5,44 C356.49,57.66 342.25,47.32 307.5,66 C286.74,77.16 267.15,95.37 253.35,109.99 " fill="none" id="campus_ui-ui" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[1b23ab5ef17eff08c0cb597618c4843f]
+link fleet_ui to ui--><g id="link_fleet_ui_ui"><path d="M335.94,23.11 C319.53,40.71 280.14,82.96 255.27,109.65 " fill="none" id="fleet_ui-ui" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[022156f15758f155648853dc56c33c2c]
+link planning_ui to ui--><g id="link_planning_ui_ui"><path d="M233.5,23.11 C233.5,40.71 233.5,82.96 233.5,109.65 " fill="none" id="planning_ui-ui" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[e7c1f4bc4cda3b7b1a36896e9ff6b8c1]
+link task_ui to ui--><g id="link_task_ui_ui"><path d="M131.99,23.11 C148.25,40.71 187.28,82.96 211.93,109.65 " fill="none" id="task_ui-ui" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[cf6acc5b1a0a93371f9e163149639fa8]
+link user_ui to ui--><g id="link_user_ui_ui"><path d="M37.8,20.89 C47.23,26.83 62.29,36.21 75.5,44 C121.46,71.11 175.83,101.34 207.32,118.67 " fill="none" id="user_ui-ui" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[845dc32f5e6157a3909b214b916fdd62]
+@startuml Implementation_View_lv2
+
+<style>
+component {
+    BackgroundColor #99ddff
+}
+</style>
+
+interface "Campus UI" as campus_ui
+interface "Fleet UI" as fleet_ui
+interface "Planning UI" as planning_ui
+interface "Task UI" as task_ui
+interface "User UI" as user_ui
+
+interface "Campus API" as campus_API
+interface "Fleet API" as fleet_API
+interface "Task API" as task_API
+interface "Planning API" as planning_API
+interface "User API" as user_API
+
+component RobDroneGo {
+    component "UI" as ui
+    component "Planning Management" as planning
+    component "Master Data" as md
+
+    ui -(0- md
+    md -(0- planning
+    planning -(0- md
+}
+md -up- fleet_API
+md -up- campus_API
+md -up- task_API
+md -up- planning_API
+md -up- user_API
+
+ui -up- campus_ui
+ui -up- fleet_ui
+ui -up- planning_ui
+ui -up- task_ui
+ui -up- user_ui
+
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 BST 2022)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) Client VM
+Default Encoding: Cp1252
+Language: en
+Country: US
+--></g></svg>

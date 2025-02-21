@@ -1,0 +1,33 @@
+@startuml SD Lv2
+
+actor "Campus Manager" as user
+box "RobDroneGo System" #LightBlue
+    participant "UI" as UI
+    participant "Auth Service" as Auth
+    participant "Campus Management" as CampusMgmt
+    participant "DB" as DB
+end box
+
+user -> UI : GET /campus/floor/served-by-elevator
+
+activate UI
+UI -> Auth : Verify user's role and permissions
+activate Auth
+Auth --> UI : Permissions validated
+deactivate Auth
+
+UI -> CampusMgmt : Request list of floors served by elevator
+activate CampusMgmt
+
+CampusMgmt -> DB : Query elevator served floors
+activate DB
+DB --> CampusMgmt : List of floors
+deactivate DB
+
+CampusMgmt --> UI : List of floors served by elevator
+deactivate CampusMgmt
+
+UI --> user : Show list of floors served by elevator
+deactivate UI
+
+@enduml

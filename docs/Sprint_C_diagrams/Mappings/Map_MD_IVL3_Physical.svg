@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="1167px" preserveAspectRatio="none" style="width:1582px;height:1167px;background:#FFFFFF;" version="1.1" viewBox="0 0 1582 1167" width="1582px" zoomAndPan="magnify"><defs/><g><!--MD5=[8a509646a725e4b29ac3346bf48b9d0c]
+cluster local--><g id="cluster_local"><polygon fill="#99DDFF" points="1022,16,1032,6,1178,6,1178,185,1168,195,1022,195,1022,16" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="1168" x2="1178" y1="16" y2="6"/><line style="stroke:#181818;stroke-width:1.0;" x1="1022" x2="1168" y1="16" y2="16"/><line style="stroke:#181818;stroke-width:1.0;" x1="1168" x2="1168" y1="16" y2="195"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="39" x="1076.5" y="33.5332">client</text></g><!--MD5=[8699c0c8e953ee53654a072cc875bfb4]
+cluster Browser--><g id="cluster_Browser"><rect fill="#99DDFF" height="100" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:1.0;" width="84" x="1062" y="63"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:1.0;" width="15" x="1126" y="68"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="1124" y="70"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="1124" y="74"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="59" x="1074.5" y="90.5332">Browser</text></g><!--MD5=[da1343c312cc520ff5027d899b18df0c]
+cluster server1--><g id="cluster_server1"><polygon fill="#99DDFF" points="858,540,868,530,1062,530,1062,641,1052,651,858,651,858,540" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="1052" x2="1062" y1="540" y2="530"/><line style="stroke:#181818;stroke-width:1.0;" x1="858" x2="1052" y1="540" y2="540"/><line style="stroke:#181818;stroke-width:1.0;" x1="1052" x2="1052" y1="540" y2="651"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="128" x="892" y="557.5332">cluster server1:80</text></g><!--MD5=[a9c83c87e0eb36f75a71543853428e21]
+cluster server2--><g id="cluster_server2"><polygon fill="#99DDFF" points="1102,540,1112,530,1306,530,1306,641,1296,651,1102,651,1102,540" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="1296" x2="1306" y1="540" y2="530"/><line style="stroke:#181818;stroke-width:1.0;" x1="1102" x2="1296" y1="540" y2="540"/><line style="stroke:#181818;stroke-width:1.0;" x1="1296" x2="1296" y1="540" y2="651"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="128" x="1136" y="557.5332">cluster server2:80</text></g><!--MD5=[cab17a09d23fc61601dce9ed7286e19b]
+cluster server3--><g id="cluster_server3"><polygon fill="#99DDFF" points="16,727,26,717,1049,717,1049,996.5,1039,1006.5,16,1006.5,16,727" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="1039" x2="1049" y1="727" y2="717"/><line style="stroke:#181818;stroke-width:1.0;" x1="16" x2="1039" y1="727" y2="727"/><line style="stroke:#181818;stroke-width:1.0;" x1="1039" x2="1039" y1="727" y2="1006.5"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="91" x="483" y="744.5332">server3:4000</text></g><!--MD5=[712b83cd5dd2a1f2db4c480698e73b7c]
+cluster server4--><g id="cluster_server4"><polygon fill="#99DDFF" points="1089,895.5,1099,885.5,1302,885.5,1302,996.5,1292,1006.5,1089,1006.5,1089,895.5" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="1292" x2="1302" y1="895.5" y2="885.5"/><line style="stroke:#181818;stroke-width:1.0;" x1="1089" x2="1292" y1="895.5" y2="895.5"/><line style="stroke:#181818;stroke-width:1.0;" x1="1292" x2="1292" y1="895.5" y2="1006.5"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="91" x="1146" y="913.0332">server4:4400</text></g><!--MD5=[10e7aed38d998cc13ec8524fa7c99f6f]
+cluster DMS--><g id="cluster_DMS"><path d="M1342,889 C1342,879 1453.5,879 1453.5,879 C1453.5,879 1565,879 1565,889 L1565,1140.5 C1565,1150.5 1453.5,1150.5 1453.5,1150.5 C1453.5,1150.5 1342,1150.5 1342,1140.5 L1342,889 " fill="#99DDFF" style="stroke:#181818;stroke-width:1.0;"/><path d="M1342,889 C1342,899 1453.5,899 1453.5,899 C1453.5,899 1565,899 1565,889 " fill="none" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="32" x="1437.5" y="915.5332">DMS</text></g><!--MD5=[bf1b4add2ee2e1b53e65912b20fb7ef4]
+entity ui--><g id="elem_ui"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="52" x="1078" y="99"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="1110" y="104"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="1108" y="106"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="1108" y="110"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="12" x="1093" y="133.5332">UI</text></g><!--MD5=[a3b6e82a564b0c1f96fe5061f9deda86]
+entity DeiVpnGateway--><g id="elem_DeiVpnGateway"><polygon fill="#99DDFF" points="930,277,940,267,1130,267,1130,304.6094,1120,314.6094,930,314.6094,930,277" style="stroke:#181818;stroke-width:0.5;"/><line style="stroke:#181818;stroke-width:0.5;" x1="1120" x2="1130" y1="277" y2="267"/><line style="stroke:#181818;stroke-width:0.5;" x1="930" x2="1120" y1="277" y2="277"/><line style="stroke:#181818;stroke-width:0.5;" x1="1120" x2="1120" y1="277" y2="314.6094"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="160" x="945" y="301.5332">DEI VPN Gateway:80/443</text></g><!--MD5=[c05fcadc036a699206cfdfa4a4fdb889]
+entity controller--><g id="elem_controller"><polygon fill="#99DDFF" points="955.5,403,965.5,393,1104.5,393,1104.5,448.2188,1094.5,458.2188,955.5,458.2188,955.5,403" style="stroke:#181818;stroke-width:0.5;"/><line style="stroke:#181818;stroke-width:0.5;" x1="1094.5" x2="1104.5" y1="403" y2="393"/><line style="stroke:#181818;stroke-width:0.5;" x1="955.5" x2="1094.5" y1="403" y2="403"/><line style="stroke:#181818;stroke-width:0.5;" x1="1094.5" x2="1094.5" y1="403" y2="458.2188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="105" x="970.5" y="427.5332">cluster controller</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="88" x="970.5" y="445.1426">server:80/443</text></g><!--MD5=[4e3ea98eaebe44b58f6d00ef2792bdcf]
+entity ui1--><g id="elem_ui1"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="52" x="986" y="579"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="1018" y="584"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="1016" y="586"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="1016" y="590"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="12" x="1001" y="613.5332">UI</text></g><!--MD5=[60a9e707a68d26d1e9d580c46e983260]
+entity ui2--><g id="elem_ui2"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="52" x="1187" y="579"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="1219" y="584"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="1217" y="586"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="1217" y="590"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="12" x="1202" y="613.5332">UI</text></g><!--MD5=[21f5c52b2cd06c3864764fccdea43e13]
+entity a_fleet--><g id="elem_a_fleet"><rect fill="#99DDFF" height="40.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="211" x="794.5" y="766"/><polygon fill="#99DDFF" points="988.5,771,988.5,785,1000.5,785,1000.5,777,994.5,771,988.5,771" style="stroke:#181818;stroke-width:0.5;"/><line style="stroke:#181818;stroke-width:0.5;" x1="994.5" x2="994.5" y1="771" y2="777"/><line style="stroke:#181818;stroke-width:0.5;" x1="1000.5" x2="994.5" y1="777" y2="777"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="181" x="804.5" y="793.5332">«artifact» Fleet Management</text></g><!--MD5=[7e4f23ae3161799779c458edd94125fa]
+entity a_campus--><g id="elem_a_campus"><rect fill="#99DDFF" height="40.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="231" x="528.5" y="766"/><polygon fill="#99DDFF" points="742.5,771,742.5,785,754.5,785,754.5,777,748.5,771,742.5,771" style="stroke:#181818;stroke-width:0.5;"/><line style="stroke:#181818;stroke-width:0.5;" x1="748.5" x2="748.5" y1="771" y2="777"/><line style="stroke:#181818;stroke-width:0.5;" x1="754.5" x2="748.5" y1="777" y2="777"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="201" x="538.5" y="793.5332">«artifact» Campus Management</text></g><!--MD5=[a163312de0940cd91b13a5bbd3f5e542]
+entity a_task--><g id="elem_a_task"><rect fill="#99DDFF" height="40.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="210" x="283" y="766"/><polygon fill="#99DDFF" points="476,771,476,785,488,785,488,777,482,771,476,771" style="stroke:#181818;stroke-width:0.5;"/><line style="stroke:#181818;stroke-width:0.5;" x1="482" x2="482" y1="771" y2="777"/><line style="stroke:#181818;stroke-width:0.5;" x1="488" x2="482" y1="777" y2="777"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="180" x="293" y="793.5332">«artifact» Task Management</text></g><!--MD5=[2e443cf9e6e8565968b32f2953d47e1f]
+entity a_user--><g id="elem_a_user"><rect fill="#99DDFF" height="40.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="208" x="40" y="766"/><polygon fill="#99DDFF" points="231,771,231,785,243,785,243,777,237,771,231,771" style="stroke:#181818;stroke-width:0.5;"/><line style="stroke:#181818;stroke-width:0.5;" x1="237" x2="237" y1="771" y2="777"/><line style="stroke:#181818;stroke-width:0.5;" x1="243" x2="237" y1="777" y2="777"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="178" x="50" y="793.5332">«artifact» User Management</text></g><!--MD5=[34db8ee1c60152a57663bc58907501f6]
+entity c_be--><g id="elem_c_be"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="148" x="442" y="934.5"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="570" y="939.5"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="568" y="941.5"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="568" y="945.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="108" x="457" y="969.0332">«component» BE</text></g><!--MD5=[5985c08783457a6fda14e0062bcfc5bc]
+entity planning--><g id="elem_planning"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="145" x="1132.5" y="934.5"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="1257.5" y="939.5"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="1255.5" y="941.5"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="1255.5" y="945.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="105" x="1147.5" y="969.0332">Planning Module</text></g><!--MD5=[ebe46283e455e487d213c01667312086]
+entity a_db--><g id="elem_a_db"><rect fill="#99DDFF" height="40.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="155" x="1385.5" y="938"/><polygon fill="#99DDFF" points="1523.5,943,1523.5,957,1535.5,957,1535.5,949,1529.5,943,1523.5,943" style="stroke:#181818;stroke-width:0.5;"/><line style="stroke:#181818;stroke-width:0.5;" x1="1529.5" x2="1529.5" y1="943" y2="949"/><line style="stroke:#181818;stroke-width:0.5;" x1="1535.5" x2="1529.5" y1="949" y2="949"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="125" x="1395.5" y="965.5332">«artifact» MongoDB</text></g><!--MD5=[78cd5172c05089514538e74e361df404]
+entity c_db--><g id="elem_c_db"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="149" x="1388.5" y="1078.5"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="1517.5" y="1083.5"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="1515.5" y="1085.5"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="1515.5" y="1089.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="1403.5" y="1113.0332">«component» DB</text></g><!--MD5=[93dae48947546b2e30e2ecd8050c751c]
+link a_fleet to c_be--><g id="link_a_fleet_c_be"><path d="M855.95,807 C786.17,837.89 650.23,898.08 573.07,932.23 " fill="none" id="a_fleet-to-c_be" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#181818" points="568.08,934.45,577.9289,934.4557,572.6502,932.422,574.684,927.1433,568.08,934.45" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="63" x="787" y="851.4951">«manifest»</text></g><!--MD5=[1d29493ae1e2ebf12293ea3ea882d6e8]
+link a_campus to c_be--><g id="link_a_campus_c_be"><path d="M629.32,807 C606.47,837.34 562.36,895.92 536.43,930.37 " fill="none" id="a_campus-to-c_be" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#181818" points="533.36,934.45,541.9682,929.6648,536.3669,930.4552,535.5765,924.8538,533.36,934.45" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="63" x="607" y="851.4951">«manifest»</text></g><!--MD5=[5a7ea902557a21c947e50a5e39976ab4]
+link a_task to c_be--><g id="link_a_task_c_be"><path d="M402.68,807 C425.53,837.34 469.64,895.92 495.57,930.37 " fill="none" id="a_task-to-c_be" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#181818" points="498.64,934.45,496.4235,924.8538,495.6331,930.4552,490.0318,929.6648,498.64,934.45" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="63" x="437" y="851.4951">«manifest»</text></g><!--MD5=[bd64d6c10e99468630eef1b866ed262b]
+link a_user to c_be--><g id="link_a_user_c_be"><path d="M186.67,807 C254.27,837.89 385.97,898.08 460.71,932.23 " fill="none" id="a_user-to-c_be" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#181818" points="465.55,934.45,459.0206,927.0766,461.0006,932.3756,455.7016,934.3556,465.55,934.45" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="63" x="286" y="851.4951">«manifest»</text></g><!--MD5=[4a57eee4f0ac13565207bc0ac57f7cbd]
+link a_db to c_db--><g id="link_a_db_c_db"><path d="M1463,979.24 C1463,1003.64 1463,1045.31 1463,1073.13 " fill="none" id="a_db-to-c_db" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#181818" points="1463,1078.15,1467,1069.15,1463,1073.15,1459,1069.15,1463,1078.15" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="63" x="1464" y="1044.9951">«manifest»</text></g><!--MD5=[dba0c87089d34163a503ecad8989b06e]
+link local to DeiVpnGateway--><g id="link_local_DeiVpnGateway"><path d="M1030,195.0957 C1030,195.3366 1030,195.5776 1030,195.8187 C1030,196.301 1030,196.7838 1030,197.267 C1030,199.2 1030,201.14 1030,203.083 C1030,210.8548 1030,218.6726 1030,226.263 C1030,241.4438 1030,255.715 1030,266.89 " fill="none" id="local-DeiVpnGateway" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="1031" y="233.4951">http/s</text></g><!--MD5=[cc7970933e99bb2ee3cd1fd69973438a]
+link DeiVpnGateway to controller--><g id="link_DeiVpnGateway_controller"><path d="M1030,315.08 C1030,336.58 1030,368.83 1030,392.75 " fill="none" id="DeiVpnGateway-controller" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="1031" y="359.4951">http/s</text></g><!--MD5=[6d8b83de283b304255c5e26e6766fa59]
+link controller to server1--><g id="link_controller_server1"><path d="M1003.69,458.37 C991.79,474.23 978.53,494.21 970,514 C968.0825,518.45 966.3508,523.1127 964.788,527.8712 C964.5926,528.466 964.3999,529.0623 964.2098,529.6599 " fill="none" id="controller-server1" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="984" y="502.4951">http/s</text></g><!--MD5=[91f2b97d5991129afd13837e2a1282f5]
+link controller to server2--><g id="link_controller_server2"><path d="M1044.49,458.28 C1055.835,483.175 1071.8825,518.38 1085.255,547.715 C1088.5981,555.0487 1091.7741,562.0156 1094.6675,568.3628 C1096.1143,571.5364 1097.4904,574.5551 1098.7815,577.3872 C1099.427,578.8033 1100.0513,580.1727 1100.6526,581.4916 C1100.9532,582.151 1101.248,582.7978 1101.5369,583.4315 C1101.6813,583.7483 1101.8243,584.0618 1101.9657,584.372 " fill="none" id="controller-server2" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="1066" y="502.4951">http/s</text></g><!--MD5=[6e06fe010d71f40e3869c7944773e1db]
+link server1 to server3--><g id="link_server1_server3"><path d="M961.1458,651.0933 C961.2334,651.303 961.3217,651.5123 961.4108,651.7214 C961.589,652.1395 961.7702,652.5564 961.9544,652.9719 C962.6914,654.634 963.4775,656.274 964.3159,657.8796 C965.9927,661.0906 967.8788,664.1637 970,667 C986.54,689.11 1006.26,678.31 1022,701 C1024.6563,704.83 1026.9478,708.9716 1028.9241,713.2931 C1029.4181,714.3734 1029.8925,715.4651 1030.3479,716.5659 C1030.4048,716.7035 1030.4615,716.8412 1030.5178,716.9791 " fill="none" id="server1-server3" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="1015" y="689.4951">http/s</text></g><!--MD5=[40059543903b02b4750d8799b5dd92c9]
+link server2 to server3--><g id="link_server2_server3"><path d="M1101.9786,625.0946 C1101.629,626.0142 1101.2703,626.9577 1100.9029,627.9239 C1100.1683,629.8563 1099.3991,631.8793 1098.5994,633.983 C1092.2013,650.8122 1083.8425,672.7994 1075.485,694.7838 C1067.1275,716.7681 1058.7713,738.7497 1052.3781,755.5677 C1051.579,757.6699 1050.8105,759.6915 1050.0766,761.6223 C1049.7096,762.5877 1049.3512,763.5304 1049.002,764.4491 " fill="none" id="server2-server3" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="1082" y="689.4951">http/s</text></g><!--MD5=[c9d07ceb4bf2d1792dcdf1610fc5b77b]
+link server3 to DMS--><g id="link_server3_DMS"><path d="M1049.1955,787.8382 C1049.3459,787.8462 1049.4983,787.8544 1049.6526,787.8628 C1054.589,788.1304 1061.4759,788.5855 1069.8873,789.3505 C1086.7103,790.8803 1109.6319,793.6494 1135.2463,798.6363 C1186.475,808.61 1248.475,827.455 1294,863 C1312.94,877.79 1326.8025,900.9125 1335.9975,920.5825 C1337.1469,923.0413 1338.2233,925.4461 1339.2276,927.7739 C1339.7298,928.9378 1340.2139,930.0825 1340.6801,931.2051 C1340.9132,931.7663 1341.1418,932.3221 1341.366,932.872 C1341.478,933.1469 1341.589,933.4203 1341.6988,933.6923 C1341.7538,933.8283 1341.8084,933.9638 1341.8628,934.0991 " fill="none" id="server3-DMS" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="14" x="1335.99" y="954.9451">db</text></g><!--MD5=[09f1d8238176507c64af30b2ba9fd5c3]
+link server3 to server4--><g id="link_server3_server4"><path d="M1049.0643,811.9785 C1049.1414,812.2126 1049.2189,812.4479 1049.2968,812.6845 C1049.6085,813.6307 1049.9269,814.597 1050.2514,815.5822 C1055.4441,831.345 1062.2281,851.9388 1069.0113,872.53 C1075.7944,893.1212 1082.5766,913.71 1087.7655,929.4628 C1088.0898,930.4474 1088.4079,931.413 1088.7193,932.3586 C1088.7972,932.595 1088.8747,932.8302 1088.9517,933.064 " fill="none" id="server3-server4" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33" x="1063" y="851.4951">http/s</text></g><!--MD5=[ecc95b01f1ffcd4cd51a33ce5d17012d]
+@startuml Map_MD_IVL3_Physical
+
+<style>
+node {
+    BackgroundColor #99ddff
+}
+component {
+    BackgroundColor #99ddff
+}
+database {
+    BackgroundColor #99ddff
+}
+artifact {
+    BackgroundColor #99ddff
+}
+
+</style>
+
+node "client" as local {
+    component Browser{
+        component UI as ui
+    }
+}
+
+node "DEI VPN Gateway:80/443" as DeiVpnGateway{
+}
+node "cluster controller \nserver:80/443" as controller{
+}
+node "cluster server1:80" as server1{
+    component UI as ui1 {
+        ' artifact "<<artifact>> UI" as a_ui1
+    }
+}
+node "cluster server2:80" as server2{
+    component UI as ui2 {
+        ' artifact "<<artifact>> UI" as a_ui2
+    }
+}
+
+node "server3:4000" as server3{
+    artifact "<<artifact>> Fleet Management" as a_fleet
+    artifact "<<artifact>> Campus Management" as a_campus
+    artifact "<<artifact>> Task Management" as a_task
+    artifact "<<artifact>> User Management" as a_user
+
+    component "<<component>> BE" as c_be
+
+    a_fleet -[dashed]-> c_be : <<manifest>>
+    a_campus -[dashed]-> c_be : <<manifest>>
+    a_task -[dashed]-> c_be : <<manifest>>
+    a_user -[dashed]-> c_be : <<manifest>>
+}
+
+node "server4:4400" as server4{
+    component "Planning Module" as planning {
+        ' artifact "<<artifact>> Planning Module" as a_planning
+    }
+}
+
+database DMS {
+    artifact "<<artifact>> MongoDB" as a_db
+    component "<<component>> DB" as c_db
+
+    a_db -[dashed]-> c_db : <<manifest>>
+}
+local - - DeiVpnGateway : http/s
+DeiVpnGateway - - controller : http/s
+controller - - server1 : http/s
+controller - - server2 : http/s
+server1 - - server3 : http/s
+server2 - - server3 : http/s
+server3 - - "db" DMS
+server4 -up- server3 : http/s
+
+@enduml
+
+@startuml Map_MD_IVL3_Physical
+
+<style>
+node {
+    BackgroundColor #99ddff
+}
+component {
+    BackgroundColor #99ddff
+}
+database {
+    BackgroundColor #99ddff
+}
+artifact {
+    BackgroundColor #99ddff
+}
+
+</style>
+
+node "client" as local {
+    component Browser{
+        component UI as ui
+    }
+}
+
+node "DEI VPN Gateway:80/443" as DeiVpnGateway{
+}
+node "cluster controller \nserver:80/443" as controller{
+}
+node "cluster server1:80" as server1{
+    component UI as ui1 {
+    }
+}
+node "cluster server2:80" as server2{
+    component UI as ui2 {
+    }
+}
+
+node "server3:4000" as server3{
+    artifact "<<artifact>> Fleet Management" as a_fleet
+    artifact "<<artifact>> Campus Management" as a_campus
+    artifact "<<artifact>> Task Management" as a_task
+    artifact "<<artifact>> User Management" as a_user
+
+    component "<<component>> BE" as c_be
+
+    a_fleet -[dashed]-> c_be : <<manifest>>
+    a_campus -[dashed]-> c_be : <<manifest>>
+    a_task -[dashed]-> c_be : <<manifest>>
+    a_user -[dashed]-> c_be : <<manifest>>
+}
+
+node "server4:4400" as server4{
+    component "Planning Module" as planning {
+    }
+}
+
+database DMS {
+    artifact "<<artifact>> MongoDB" as a_db
+    component "<<component>> DB" as c_db
+
+    a_db -[dashed]-> c_db : <<manifest>>
+}
+local - - DeiVpnGateway : http/s
+DeiVpnGateway - - controller : http/s
+controller - - server1 : http/s
+controller - - server2 : http/s
+server1 - - server3 : http/s
+server2 - - server3 : http/s
+server3 - - "db" DMS
+server4 -up- server3 : http/s
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 BST 2022)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) Client VM
+Default Encoding: Cp1252
+Language: en
+Country: US
+--></g></svg>

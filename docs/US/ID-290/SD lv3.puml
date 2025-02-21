@@ -1,0 +1,71 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Elevator Persistence" as ElevatorSchema
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant "Building Controller" as Controller
+        participant "Building Repository" as BuildingRepository
+    end box
+
+    participant "Elevator DTO" as ElevatorDTO
+    participant "Elevator Map" as ElevatorMap
+    box "Application Business Rules" #ff6666
+        participant "Building Service" as Service
+    end box
+
+end box
+
+[o-> Routing : GET /building/:code/elevators
+activate Routing
+
+    Routing -> Controller : listElevatorsInBuilding(req, res, next)
+    activate Controller
+        Controller -> Service : getBuildingByCode(buildingCode)
+        activate Service
+            Service -> BuildingRepository : findByCode(buildingCode)
+            activate BuildingRepository
+                BuildingRepository -> ElevatorSchema : find()
+                ElevatorSchema --> BuildingRepository : building?
+            deactivate BuildingRepository
+            Service --> Controller : buildingResult
+        deactivate Service
+
+        alt if building not found
+            Controller --> Routing : res.status(404).json({ message: "Building not found" })
+        else building found
+            Controller -> Service : listElevatorsInBuilding(buildingCode)
+            activate Service
+                Service -> BuildingRepository : findElevatorsInBuilding(buildingCode)
+                activate BuildingRepository
+                    BuildingRepository -> ElevatorSchema : findElevators()
+                    ElevatorSchema --> BuildingRepository : elevators
+                deactivate BuildingRepository
+
+                Service -> ElevatorMap : toDTO(elevators)
+                activate ElevatorMap
+                    ElevatorMap -> ElevatorDTO : createDTOs()
+                    activate ElevatorDTO
+                    ElevatorDTO --> ElevatorMap : elevatorDTOs
+                    deactivate ElevatorDTO
+                    ElevatorMap --> Service : elevatorDTOs
+                deactivate ElevatorMap
+
+                Service --> Controller : Result.ok<IElevatorDTO[]>(elevatorDTOs)
+            deactivate Service
+
+            Controller --> Routing : res.status(200).json(elevatorDTOs)
+        end
+    deactivate Controller
+
+[o<--o Routing : List of elevators or error message
+deactivate Routing
+
+@enduml

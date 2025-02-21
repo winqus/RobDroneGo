@@ -1,0 +1,15 @@
+@startuml Logical View Lv1
+
+<style>
+component {
+    BackgroundColor #99ddff
+}
+</style>
+
+interface API
+interface "UI Interface" as UI
+[RobDroneGo] as system
+system -up- API
+system -up- UI
+
+@enduml

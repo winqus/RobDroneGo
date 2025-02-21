@@ -1,0 +1,35 @@
+@startuml SD Lv2
+
+box "RobDroneGo" #LightBlue
+    participant "Campus Management" as campus
+    participant "DB" as DB
+end box
+
+[o-> campus : PUT /building/{code}/elevator
+activate campus
+
+campus -> DB : find building by code
+activate DB
+DB --> campus : building data / not found
+deactivate DB
+
+alt if building and elevator found
+
+    campus -> campus : update elevator properties within building
+
+    campus -> DB : save updated building with elevator
+    activate DB
+    DB --> campus : operation result
+    deactivate DB
+
+    [o<--o campus : update result for elevator
+    deactivate campus
+
+else if building not found or elevator not found
+
+    [o<--o campus : error "Building or Elevator not found"
+    deactivate campus
+
+end
+
+@enduml

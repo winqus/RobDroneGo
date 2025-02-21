@@ -1,0 +1,59 @@
+@startuml SD Lv2
+
+participant "Campus Management" as campusManager
+box "RobDroneGo" #LightBlue
+    participant "Campus Management UI" as campusUI
+    participant "Campus Management API" as campusAPI
+    participant "DB" as DB
+end box
+
+campusManager -> campusUI : open route
+activate campusUI
+
+    campusUI -> campusAPI : load all buildings
+    activate campusAPI
+
+    campusAPI -> DB : get all buildings
+    activate DB
+    DB --> campusAPI : list of buildings
+    deactivate DB
+
+    campusAPI --> campusUI : list of buildings
+    deactivate campusAPI
+
+campusManager <-- campusUI : show list of all buildings
+
+campusManager -> campusUI : select building
+
+    campusUI -> campusAPI : load all floors of building
+    activate campusAPI
+
+    campusAPI -> DB : get all floors of building
+    activate DB
+    DB --> campusAPI : list of floors
+    deactivate DB
+
+    campusAPI --> campusUI : list of floors
+    deactivate campusAPI
+
+campusManager <-- campusUI : show list of floors
+
+campusManager -> campusUI : select floor
+
+campusManager -> campusUI : upload map
+    
+        campusUI -> campusAPI : upload map
+        activate campusAPI
+    
+        campusAPI -> DB : save map
+        activate DB
+        DB --> campusAPI : map uploaded
+        deactivate DB
+    
+        campusAPI --> campusUI : map uploaded
+        deactivate campusAPI
+    
+campusManager <-- campusUI : map uploaded successfully
+deactivate campusUI
+
+@enduml

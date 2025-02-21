@@ -1,0 +1,21 @@
+@startuml SD Lv1
+
+actor "User" as user
+participant RobDroneGo as system
+
+user -> system : Go to /task/list
+activate  system
+
+system -> system : Check user's role\nand permissions
+
+user <-- system : Show all taskRequest
+
+user -> system : Click on "approve" button or "reject" button
+
+system -> system : update taskRequest status
+
+user <-- system : Show taskRequest status updated
+
+deactivate system
+
+@enduml

@@ -1,0 +1,117 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant " "
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Floor Persistence" as FloorPers
+        participant "Building Persistence" as BuildingPers
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Floor Repository" as FloorRepo
+        participant "Building Repository" as BuildingRepo
+    end box
+
+    participant "Floor DTO" as FloorDTO
+    participant "Floor Mapper" as FloorMapper
+    box "Application Business Rules" #ff6666
+        participant "Floor Service" as FloorService
+    end box
+
+    box "Enterprise Business Rules" #eeddaa
+        participant Building
+        participant Floor
+        participant Map
+    end box
+end box
+
+
+[o-> Routing : Patch 
+activate Routing
+
+    Routing -> Controller : loadMap(req, res, next)
+    activate Controller
+
+        Controller -> FloorService : loadMap(buildingCode, floorNumber, mapInfo)
+        activate FloorService
+
+            FloorService -> FloorRepo : findByCode(buildingCode)
+            activate FloorRepo
+
+                FloorRepo -> FloorPers : findByCode(buildingCode)
+                activate FloorPers
+
+                FloorPers --> FloorRepo : building
+                deactivate FloorPers
+
+            FloorRepo --> FloorService : building
+            deactivate FloorRepo
+
+            FloorService -> FloorService : building.floorSize >= mapInfo.size
+
+            FloorService -> FloorRepo : findByCode(buildingCode, floorNumber)
+            activate FloorRepo
+
+                FloorRepo -> FloorPers : findByCode(buildingCode, floorNumber)
+                activate FloorPers
+
+                FloorPers --> FloorRepo : floor
+                deactivate FloorPers
+
+            FloorRepo --> FloorService : floor
+            deactivate FloorRepo
+
+
+            FloorService -> Map: create(mapInfo)
+            activate Map
+
+            Map --> FloorService : map
+            deactivate Map
+
+            FloorService -> Floor : floor.map = map
+            activate Floor
+
+            Floor --> FloorService : Success
+            deactivate Floor
+
+            FloorService -> FloorRepo : save(floor)
+            activate FloorRepo
+
+                FloorRepo -> FloorPers : save(floor)
+                activate FloorPers
+
+                FloorPers --> FloorRepo : Success
+                deactivate FloorPers
+
+            FloorRepo --> FloorService : Success
+            deactivate FloorRepo
+
+            FloorService --> FloorMapper : toDTO(floor)
+            activate FloorMapper
+
+                FloorMapper -> FloorDTO : floor as DTO
+                activate FloorDTO
+
+                FloorDTO --> FloorMapper : floorDTO
+                deactivate FloorDTO
+
+            FloorMapper --> FloorService : floorDTO
+            deactivate FloorMapper
+
+        FloorService --> Controller : floorDTO
+        deactivate FloorService
+
+    Controller --> Routing : floorDTO
+    deactivate Controller
+
+[o<--o Routing : floorDTO
+deactivate Routing
+
+
+@enduml

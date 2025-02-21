@@ -1,0 +1,101 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Building Persistence" as Persistence
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Building Repository" as Repository
+    end box
+
+    participant "Elevator DTO" as ElevatorDTO
+    participant "Building Mapper" as BuildingMapper
+    box "Application Business Rules" #ff6666
+        participant "Elevator Service" as ElevatorService
+    end box
+
+    box "Enterprise Business Rules" #eeddaa
+        participant Elevator
+    end box
+end box
+
+[o-> Routing : PUT /building/{code}/elevator
+activate Routing
+
+    Routing -> Controller : updateElevator(input, code)
+    activate Controller
+
+        Controller -> ElevatorDTO : input as ElevatorDTO
+        activate ElevatorDTO
+
+        ElevatorDTO --> Controller : elevatorDTO
+        deactivate ElevatorDTO
+
+        Controller -> ElevatorService : updateElevator(elevatorDTO, code)
+        activate ElevatorService
+        
+            ElevatorService -> Repository : findByCode(code)
+            activate Repository
+
+                Repository -> Persistence : findByCode(code)
+                activate Persistence
+
+                Persistence --> Repository : building
+                deactivate Persistence
+
+            Repository --> ElevatorService : building
+            deactivate Repository
+
+            alt if building and elevator are found
+
+                ElevatorService -> Elevator : setProperties(elevatorDTO)
+                activate Elevator
+
+                Elevator --> ElevatorService : updatedElevator
+                deactivate Elevator
+
+                ElevatorService -> Repository : save(building with updatedElevator)
+                activate Repository
+
+                    Repository -> Persistence : save(building with updatedElevator)
+                    activate Persistence
+
+                    Persistence --> Repository : Success
+                    deactivate Persistence
+
+                Repository --> ElevatorService : Success
+                deactivate Repository
+
+                ElevatorService -> BuildingMapper : toDTO(building with updatedElevator)
+                activate BuildingMapper
+                
+                    BuildingMapper -> ElevatorDTO : updatedElevator as DTO
+                    activate ElevatorDTO
+
+                    ElevatorDTO --> BuildingMapper : buildingDTO with updatedElevator
+                    deactivate ElevatorDTO
+
+                BuildingMapper --> ElevatorService : buildingDTO with updatedElevator
+                deactivate BuildingMapper
+
+                ElevatorService --> Controller : buildingDTO with updatedElevator
+                deactivate ElevatorService
+
+            else if building not found or elevator not found
+                ElevatorService --> Controller : Failure(Building or Elevator not found)
+            end
+
+    Controller --> Routing : buildingDTO with updatedElevator / error message
+    deactivate Controller
+
+[o<--o Routing : buildingDTO with updatedElevator / error message
+deactivate Routing
+
+@enduml

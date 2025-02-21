@@ -1,0 +1,20 @@
+@startuml SD Lv1
+
+participant RobDroneGo as system
+[o-> system : PUT building/{id}
+activate system
+
+alt if building exists
+
+    system -> system : Update building
+
+    [o<--o system : update result
+
+else if building does not exist
+
+    [o<--o system : error "Building not found"
+
+end
+deactivate system
+
+@enduml

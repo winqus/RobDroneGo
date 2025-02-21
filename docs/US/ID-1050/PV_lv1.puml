@@ -1,0 +1,21 @@
+@startuml SD Lv1
+
+actor "Campus Manager" as user
+participant RobDroneGo as system
+
+user -> system : GET /campus/building/create
+activate system
+
+system -> system : Check user's role\nand permissions
+
+user <-- system : Show building creation menu
+
+user -> system : Submit building creation form
+
+system -> system : Create building
+
+user <-- system : Show building creation status message
+
+deactivate system
+
+@enduml

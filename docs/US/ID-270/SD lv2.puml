@@ -1,0 +1,28 @@
+@startuml SD Lv2
+
+participant " "
+box "RobDroneGo" #LightBlue
+    participant "Campus Management" as campus
+    participant "DB" as DB
+end box
+
+[o-> campus : Post (elevator info)
+activate campus
+
+campus -> DB : load building
+activate DB
+DB --> campus : building
+deactivate DB
+
+campus -> campus : create elevator
+campus -> campus : add elevator\nto building
+
+campus -> DB : save building
+activate DB
+DB --> campus : building
+deactivate DB
+
+[o<--o campus : building
+deactivate campus
+
+@enduml

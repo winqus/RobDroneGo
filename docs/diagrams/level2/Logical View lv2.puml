@@ -1,0 +1,32 @@
+@startuml Logical View Lv2
+
+<style>
+component {
+    BackgroundColor #99ddff
+}
+</style>
+
+interface API
+interface "UI Interface" as UI_int
+component RobDroneGo {
+    component UI
+    component "Campus Management" as campus
+    component "Fleet Management" as fleet
+    component "Task Planning" as planning
+    component "DB" as DB
+    interface " " as DBinter
+    UI -(0- fleet
+    UI -(0- campus
+    UI -(0- planning
+    DB - DBinter
+    fleet --( DBinter
+    campus --( DBinter
+    planning --( DBinter
+}
+UI - UI_int
+fleet -- API
+campus -- API
+planning -- API
+
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml SD Lv2
+
+box "RobDroneGo" #LightBlue
+    participant "Campus Management" as Campus
+    participant "Database" as DB
+end box
+
+[o-> Campus : GET /building?minFloor={minFloor}\n\t&maxFloor={maxFloor}
+activate Campus
+
+Campus -> DB : Query buildings with floor range
+activate DB
+DB --> Campus : Buildings in floor range
+deactivate DB
+
+[o<--o Campus : List of buildings
+deactivate Campus
+
+@enduml

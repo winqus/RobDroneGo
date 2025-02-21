@@ -1,0 +1,232 @@
+@startuml "Domain Model"
+
+
+hide methods
+left to right direction
+
+skinparam classAttributeIconSize 0
+
+skinparam class {
+    LifeLineBorderColor DodgerBlue
+    LifeLineBackgroundColor APPLICATION
+    BackgroundColor #D8F5FF
+    ArrowColor DodgerBlue
+    BorderColor DodgerBlue
+}
+
+skinparam packageStyle rectangle
+
+skinparam card {
+    LifeLineBorderColor DodgerBlue
+    LifeLineBackgroundColor APPLICATION
+    BackgroundColor #D8F5FF
+    ArrowColor DodgerBlue
+    BorderColor DodgerBlue
+}
+
+package "Robot Aggregate" {
+
+    entity Robot <<entity>><<root>>{
+        id
+        fullName
+        shortName
+        ?location?
+    }
+
+}
+
+package "RobotType Aggregate"{
+    entity RobotType <<entity>>{
+            brand
+            model
+            name
+     }
+}
+
+package "Building Aggregate" {
+
+    entity Building <<entity>><<root>>{
+        floorDimensions
+    }
+
+    card Name <<Value Object>>{
+    }
+
+    card Description <<Value Object>>{
+    }
+
+    card Code <<Value Object>>{
+    }
+
+    entity Elevator <<Entity>>{
+    }
+
+    Building "1" --> "1" Elevator
+    Building --> Name
+    Building --> Description
+    Building --> Code
+
+}
+
+package "Floor Aggregate"{
+
+    entity Floor <<entity>> <<root>>{
+        code
+        description
+        served by elevator
+    }
+
+    card Map <<Value Object>>{
+    }
+
+    Floor --> Map : has
+
+}
+
+package "BaseUser Aggregate"{
+
+    entity BaseUser <<Entity>>{
+    }
+    card PhoneNumber <<Value Object>>{
+    }
+    card Email <<Value Object>>{
+    }
+    card Password <<Value Object>>{
+    }
+
+    BaseUser --> PhoneNumber
+    BaseUser --> Email
+    BaseUser --> Password
+}
+
+package "Task Aggregate"{
+
+    entity Task <<Entity>>{
+
+    }
+
+    enum TaskStatus {
+        Pending
+        Approved
+        In execution
+        Completed
+        Denied
+    }
+
+    Task --> TaskStatus
+}
+
+
+package "Task Type Aggregate" {
+    entity TaskType <<entity>>{
+
+    }
+    enum Types {
+        Surveillance
+        Delivery
+    }
+
+    TaskType -> Types
+}
+
+package "Fleet Manager Aggregate"{
+
+    entity FleetManager <<entity>> <<root>>{
+    }
+
+}
+
+package "Task Manager Aggregate"{
+
+    entity TaskManager <<entity>> <<root>>{
+    }
+
+}
+
+package "Campus Aggregate"{
+
+    entity Campus <<entity>>{
+    }
+
+}
+
+package "Surveillance Task Aggregate"{
+
+    entity SurveillanceTask <<entity>> <<root>>{
+    }
+
+    card Phone_Number <<Value Object>> {
+    }
+
+    SurveillanceTask --> Phone_Number
+}
+
+package "Delivery Task Aggregate"{
+    entity DeliveryTask <<entity>> <<root>>{
+        pickUpRoom
+        deliveryRoom
+        namePickUp
+        phonePickUp
+        phoneDelivery
+        confirmationCode
+        descriptionOfContents
+    }
+}
+
+package "Room Aggregate"{
+
+    entity Room <<Entity>><<root>>{
+        code
+        category
+        description
+        dimension
+    }
+
+    enum RoomCategory{
+        Office
+        Amphitheater
+        Laboratory
+        Other
+    }
+    Room --> RoomCategory
+}
+
+package "Passage Aggregate"{
+
+    entity Passage <<Entity>> <<root>>{
+    }
+
+}
+
+package "User" {
+    entity User<<Entity>><<root>>{
+    }
+}
+
+Passage "*" --> "1" Floor : connects
+Passage "*" --> "1" Floor : connects
+Floor "1..*" --> "1" Building : is in
+Robot "*" --> "1" RobotType : has
+RobotType "1..*" ---> "1..*" TaskType : has
+Task "*" --> "1" TaskType : has
+FleetManager "1" --> "*" Robot : "manages"
+FleetManager "1" ---> "*" TaskType : "manages"
+FleetManager "1" --> "*" RobotType : "manages"
+FleetManager "1" --> "1" BaseUser : is
+TaskManager "1"--> "1" BaseUser : is
+TaskManager "1" --> "*" Task : "manages"
+Campus "1" ---> "1..*" Robot : has
+Campus "1" --> "1..*" Building : contains
+Robot "*" ---> "1" Floor : is on
+SurveillanceTask "*" ----> "1..*" Floor : is performed on
+DeliveryTask "*" ---> "1" Room : has (origin)
+DeliveryTask "*" ---> "1" Room : has (destination)
+User "1" --> "1" BaseUser : is
+DeliveryTask "*" --> "1" BaseUser : mentions (Owner)
+DeliveryTask "*" --> "1" BaseUser : mentions (reciver)
+Room "1..*" --> "1" Floor : is on
+SurveillanceTask "1" --> "1" Task
+DeliveryTask "1" --> "1" Task
+Task "*" ---> "1" User  : requested by
+
+@enduml

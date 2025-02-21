@@ -1,0 +1,99 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant "Campus manager" as Campus
+box "Campus Management UI" #LightBlue
+
+    box "View"
+        participant "HTML + CSS + JS" as html
+        participant "Component" as component
+    end box
+    participant "Passage Service" as passageService
+    participant "API Routes" as API_ROUTES
+    participant "Http driver" as http
+
+end box
+participant "Campus Management API" as CampusAPI
+
+
+Campus -> html : load route
+activate html
+
+    html -> component : load all passages
+    activate component
+
+        component -> passageService : get all passages
+        activate passageService
+
+            passageService -> API_ROUTES : passage.getPassages
+            activate API_ROUTES
+
+            API_ROUTES --> passageService : api route
+            deactivate API_ROUTES
+
+            passageService -> http : get(api route)
+            activate http
+
+                http -> CampusAPI : send request
+                activate CampusAPI
+
+                    CampusAPI -> CampusAPI : list all passages
+                    note right : procedures in the\nuser story ID240
+                    
+                CampusAPI --> http : return list
+                deactivate CampusAPI
+
+            http --> passageService : return list
+            deactivate http
+
+        passageService --> component : return list
+        deactivate passageService
+
+    component --> html : return passages
+    deactivate component
+
+html --> Campus : show list passages
+
+Campus --> html : select passage
+
+Campus -> html : input new passage information
+
+    html -> component : new passage information
+    activate component
+
+        component -> passageService : updatePassage(passage)
+        activate passageService
+
+            passageService -> API_ROUTES : passage.updatePassage
+            activate API_ROUTES
+
+            API_ROUTES --> passageService : api route
+            deactivate API_ROUTES
+
+            passageService -> http : put(api route, new passage)
+            activate http
+
+                http -> CampusAPI : send request
+                activate CampusAPI
+
+                    CampusAPI -> CampusAPI : update passage
+                    note right : procedures in the\nuser story ID270
+                    
+                CampusAPI --> http : return passage
+                deactivate CampusAPI
+
+            http --> passageService : return passage
+            deactivate http
+
+        passageService --> component : return passage
+        deactivate passageService
+
+    component --> html : return updated passage successfully
+    deactivate component
+
+html --> Campus : show updated passage successfully
+deactivate html
+
+
+@enduml

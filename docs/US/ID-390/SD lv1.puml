@@ -1,0 +1,13 @@
+@startuml SD Lv1
+
+participant "RobDroneGo" as system
+
+[o-> system : GET /robot?query
+activate system
+
+system -> system : Retrieve robots based on query
+[o<--o system : robots list
+
+deactivate system
+
+@enduml

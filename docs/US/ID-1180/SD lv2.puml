@@ -1,0 +1,45 @@
+@startuml SD Lv2
+
+participant "Campus Management" as campusManager
+box "RobDroneGo" #LightBlue
+    participant "Campus Management UI" as campusUI
+    participant "Campus Management API" as campusAPI
+    participant "DB" as DB
+end box
+
+campusManager -> campusUI : open route
+activate campusUI
+
+    campusUI -> campusAPI : load all passages
+    activate campusAPI
+
+    campusAPI -> DB : get all passages
+    activate DB
+    DB --> campusAPI : list of passages
+    deactivate DB
+
+    campusAPI --> campusUI : list of passages
+    deactivate campusAPI
+
+campusManager <-- campusUI : show list of all passages
+
+campusManager -> campusUI : select passage
+
+campusManager -> campusUI : input new passage information
+
+        campusUI -> campusAPI : new passage information
+        activate campusAPI
+        campusAPI -> campusAPI : update passage
+    
+        campusAPI -> DB : save passage
+        activate DB
+        DB --> campusAPI : passage saved
+        deactivate DB
+    
+        campusAPI --> campusUI : updated passage
+        deactivate campusAPI
+    
+campusManager <-- campusUI : passage updated successfully
+deactivate campusUI
+
+@enduml

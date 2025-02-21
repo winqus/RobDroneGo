@@ -1,0 +1,82 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+box "Fleet Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant "Request Handling" as Routing
+        participant "Robot Persistence" as RobotPersistence
+        participant "RobotType Persistence" as RobotTypePersistence
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant RobotController as Controller
+        participant "Robot Repository" as RobotRepo
+        participant "RobotType Repository" as RobotTypeRepo
+    end box
+
+    participant "Robot DTO" as RobotDTO
+    participant "Robot Mapper" as RobotMapper
+    box "Application Business Rules" #ff6666
+        participant "Robot Service" as RobotService
+    end box
+
+end box
+
+[o-> Routing : GET /robot?query
+activate Routing
+
+    Routing -> Controller : getByType(robotTypeQuery)
+    activate Controller
+
+        Controller -> RobotService : findRobotByType(robotTypeQuery)
+        activate RobotService
+        
+            RobotService -> RobotTypeRepo : findByMultiple(attributes)
+            activate RobotTypeRepo
+
+                RobotTypeRepo -> RobotTypePersistence : query robot types
+                activate RobotTypePersistence
+
+                RobotTypePersistence --> RobotTypeRepo : robotTypes[]
+                deactivate RobotTypePersistence
+
+            RobotTypeRepo --> RobotService : robotTypes[]
+            deactivate RobotTypeRepo
+
+            RobotService -> RobotRepo : findByType(type)
+            activate RobotRepo
+
+                RobotRepo -> RobotPersistence : query robots by type
+                activate RobotPersistence
+
+                RobotPersistence --> RobotRepo : robots[]
+                deactivate RobotPersistence
+
+            RobotRepo --> RobotService : robots[]
+            deactivate RobotRepo
+
+            RobotService -> RobotMapper : toDTO(robots[])
+            activate RobotMapper
+            
+                RobotMapper -> RobotDTO : map domain to DTO
+                activate RobotDTO
+
+                RobotDTO --> RobotMapper : robotDTOs[]
+                deactivate RobotDTO
+
+            RobotMapper --> RobotService : robotDTOs[]
+            deactivate RobotMapper
+
+        RobotService --> Controller : robotDTOs[]
+        deactivate RobotService
+
+    Controller --> Routing : robotDTOs[]
+    deactivate Controller
+
+[o<--o Routing : robotDTOs[]
+deactivate Routing
+
+@enduml

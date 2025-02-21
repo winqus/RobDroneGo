@@ -1,0 +1,49 @@
+@startuml SD Lv2
+
+box "RobDroneGo" #LightBlue
+    participant "Campus Management" as campus
+    participant "DB" as DB
+end box
+
+[o-> campus : POST /room
+activate campus
+
+campus -> DB : check if room exists
+activate DB
+DB --> campus : room exists / does not exist
+deactivate DB
+
+alt if room does not exist
+
+    campus -> DB : check if floor exists
+    activate DB
+    DB --> campus : floor exists / does not exist
+    deactivate DB
+
+    alt if floor exists
+        campus -> campus : validate room within floor
+        campus -> campus : check room overlap
+
+        alt if validations pass
+            campus -> campus : create new room
+
+            campus -> DB : save new room
+            activate DB
+            DB --> campus : success
+            deactivate DB
+
+            [o<--o campus : room result
+        else
+            [o<--o campus : error message (validation failure)
+        end
+    else
+        [o<--o campus : error message (floor does not exist)
+    end
+
+else
+    [o<--o campus : error message (room exists)
+end
+
+deactivate campus
+
+@enduml

@@ -1,0 +1,14 @@
+@startuml SD Lv1
+
+actor "Task Manager" as user
+participant RobDroneGo as system
+user -> system : enter URL
+activate system
+user -> system : enter robot and \nnew state
+
+system -> system : Activate/deactivate\nrobot
+
+user <-- system : Success
+deactivate system
+
+@enduml

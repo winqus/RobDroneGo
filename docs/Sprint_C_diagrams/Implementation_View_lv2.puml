@@ -1,0 +1,43 @@
+@startuml Implementation_View_lv2
+
+<style>
+component {
+    BackgroundColor #99ddff
+}
+</style>
+
+interface "Campus UI" as campus_ui
+interface "Fleet UI" as fleet_ui
+interface "Planning UI" as planning_ui
+interface "Task UI" as task_ui
+interface "User UI" as user_ui
+
+interface "Campus API" as campus_API
+interface "Fleet API" as fleet_API
+interface "Task API" as task_API
+interface "Planning API" as planning_API
+interface "User API" as user_API
+
+component RobDroneGo {
+    component "UI" as ui
+    component "Planning Management" as planning
+    component "Master Data" as md
+
+    ui -(0- md
+    md -(0- planning
+    planning -(0- md
+}
+md -up- fleet_API
+md -up- campus_API
+md -up- task_API
+md -up- planning_API
+md -up- user_API
+
+ui -up- campus_ui
+ui -up- fleet_ui
+ui -up- planning_ui
+ui -up- task_ui
+ui -up- user_ui
+
+
+@enduml

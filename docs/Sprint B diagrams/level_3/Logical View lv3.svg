@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="666px" preserveAspectRatio="none" style="width:909px;height:666px;background:#FFFFFF;" version="1.1" viewBox="0 0 909 666" width="909px" zoomAndPan="magnify"><defs/><g><!--MD5=[64e2e010ba86d7988e5cd73bd64f61f9]
+cluster ui--><g id="cluster_ui"><rect fill="#99DDFF" height="600" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:1.0;" width="585" x="110" y="60"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:1.0;" width="15" x="675" y="65"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="673" y="67"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="673" y="71"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="14" x="395.5" y="87.5332">UI</text></g><!--MD5=[4fbb2de34ef8f4fac253a0393825e7c4]
+cluster x--><g id="cluster_x"><rect fill="#99DDFF" height="328" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:1.0;" width="245" x="134" y="104"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:1.0;" width="15" x="359" y="109"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="357" y="111"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:1.0;" width="4" x="357" y="115"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="8" x="252.5" y="131.5332">x</text></g><!--MD5=[c8d8015be4a68b67333a67fa62ed69cb]
+entity Model_API--><g id="elem_Model_API"><ellipse cx="404" cy="392" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63" x="372.5" y="423.5332">Model API</text></g><!--MD5=[c546ec13c67f65a000291015be95df60]
+entity Service_API--><g id="elem_Service_API"><ellipse cx="314" cy="506" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72" x="278" y="537.5332">Service API</text></g><!--MD5=[d77bd114a1edc5aeb59e77136cc27393]
+entity Driver_API--><g id="elem_Driver_API"><ellipse cx="559" cy="506" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="103" x="507.5" y="537.5332">HTTP Driver API</text></g><!--MD5=[38bfa9dc6018363cafe15f923a4b8db9]
+entity service--><g id="elem_service"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="85" x="361.5" y="596"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="426.5" y="601"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="424.5" y="603"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="424.5" y="607"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="45" x="376.5" y="630.5332">service</text></g><!--MD5=[20e8a0d1c10cbe4476c06f9d600054d8]
+entity driver--><g id="elem_driver"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="118" x="561" y="368"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="659" y="373"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="657" y="375"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="657" y="379"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="78" x="576" y="402.5332">HTTP Driver</text></g><!--MD5=[76aeba0ab875879ea5d21554d0007a3a]
+entity model--><g id="elem_model"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="78" x="448" y="368"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="506" y="373"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="504" y="375"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="504" y="379"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="38" x="463" y="402.5332">Model</text></g><!--MD5=[a4bef2a96bb219a766147d28812d6e12]
+entity CTRL_API--><g id="elem_CTRL_API"><ellipse cx="324" cy="278" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="62" x="293" y="309.5332">CTRL API</text></g><!--MD5=[dec20bbd6eccb7aeac4b15cb93c10c67]
+entity Observer_API--><g id="elem_Observer_API"><ellipse cx="200" cy="278" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84" x="158" y="309.5332">Observer API</text></g><!--MD5=[0a2bd27fccdac7a369aac2b428719809]
+entity html--><g id="elem_html"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="152" x="211" y="140"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="343" y="145"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="341" y="147"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="341" y="151"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="226" y="174.5332">HTML + CSS + JS</text></g><!--MD5=[5f175ec018c225c86e8e77149e6345d4]
+entity component--><g id="elem_component"><rect fill="#99DDFF" height="47.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="113" x="246.5" y="368"/><rect fill="#99DDFF" height="10" style="stroke:#181818;stroke-width:0.5;" width="15" x="339.5" y="373"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="337.5" y="375"/><rect fill="#99DDFF" height="2" style="stroke:#181818;stroke-width:0.5;" width="4" x="337.5" y="379"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="73" x="261.5" y="402.5332">Component</text></g><!--MD5=[592d3444d354cda923ca8734cab94937]
+entity campus--><g id="elem_campus"><ellipse cx="396" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="68" x="362" y="45.5332">Campus UI</text></g><!--MD5=[3e07a568b62044ba0b5bb5049cca03d3]
+entity fleet--><g id="elem_fleet"><ellipse cx="287" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="48" x="263" y="45.5332">Fleet UI</text></g><!--MD5=[5985c08783457a6fda14e0062bcfc5bc]
+entity planning--><g id="elem_planning"><ellipse cx="177" cy="14" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71" x="141.5" y="45.5332">Planning UI</text></g><!--MD5=[158ea2335862f9e39c4dfc5bc73a84c8]
+entity campus_API--><g id="elem_campus_API"><ellipse cx="864" cy="278" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="77" x="825.5" y="309.5332">Campus API</text></g><!--MD5=[b80c9d42756b824c47bcd5294851a72a]
+entity fleet_API--><g id="elem_fleet_API"><ellipse cx="747" cy="278" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="57" x="718.5" y="309.5332">Fleet API</text></g><!--MD5=[7f552f5e175c62f1df18e1e21eab6335]
+entity planning_API--><g id="elem_planning_API"><ellipse cx="46" cy="278" fill="#F1F1F1" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="80" x="6" y="309.5332">Planning API</text></g><!--MD5=[8aa26f412012269f687d2ab539c49e09]
+link CTRL_API to component--><g id="link_CTRL_API_component"><path d="M322.49,287.05 C319.37,303.71 312.1,342.47 307.38,367.67 " fill="none" id="CTRL_API-component" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[f87030dc261c4364b533f362fb670db3]
+link html to CTRL_API--><g id="link_html_CTRL_API"><path d="M294.67,188.21 C301.64,209.3 311.77,239.98 318.12,259.2 " fill="none" id="html-to-CTRL_API" style="stroke:#181818;stroke-width:1.0;"/><path d="M328.3524,263.2113 A9,9 0 0 0 312.2939 268.5239" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[96be26d1526a0906b72b7ebc0abedf9b]
+link html to Observer_API--><g id="link_html_Observer_API"><path d="M268.97,188.21 C249.46,213.32 219.4,252.03 206.38,268.79 " fill="none" id="html-Observer_API" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[6cc3c2b8dad38626771c247df1004110]
+reverse link Observer_API to component--><g id="link_Observer_API_component"><path d="M214.27,294.52 C231.7,313.48 261.36,345.72 281.54,367.67 " fill="none" id="Observer_API-backto-component" style="stroke:#181818;stroke-width:1.0;"/><path d="M203.2634,295.0379 A9,9 0 0 0 215.721 283.5963" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[3863ab9945c021dcd14ba0a589ad59fb]
+link component to Service_API--><g id="link_component_Service_API"><path d="M305.28,416.21 C307.33,437.1 310.31,467.41 312.2,486.66 " fill="none" id="component-to-Service_API" style="stroke:#181818;stroke-width:1.0;"/><path d="M321.3084,492.9052 A9,9 0 0 0 304.4738 494.5476" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[4c2cd143a5b14194490f1db554303f4b]
+link Service_API to service--><g id="link_Service_API_service"><path d="M320.47,515.05 C333.85,531.71 365,570.47 385.25,595.67 " fill="none" id="Service_API-service" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[4979f28dc93759ec8758a5b8b3f8db3b]
+reverse link Model_API to driver--><g id="link_Model_API_driver"><path d="M413.36,373.75 C420.94,361.13 432.92,345.35 448.5,338 C479.85,323.21 493.02,329.03 526.5,338 C548.59,343.92 570.86,356.46 588.12,367.97 " fill="none" id="Model_API-backto-driver" style="stroke:#181818;stroke-width:1.0;"/><path d="M417.3161,384.0075 A9,9 0 0 0 402.5404 375.7746" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[21d6abc6ec62a4e01174638df07fb171]
+link html to Model_API--><g id="link_html_Model_API"><path d="M323.92,188.19 C344.06,202.84 367.56,223.59 381,248 C403.29,288.46 405.43,344.48 404.87,372.9 " fill="none" id="html-to-Model_API" style="stroke:#181818;stroke-width:1.0;"/><path d="M413.0779,380.1738 A9,9 0 0 0 396.1734 379.5934" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[54a52d229ed90bd4443cfa0e57caf434]
+link component to Model_API--><g id="link_component_Model_API"><path d="M359.81,392 C368.08,392 376.34,392 384.6,392 " fill="none" id="component-to-Model_API" style="stroke:#181818;stroke-width:1.0;"/><path d="M391.6018,383.5428 A9,9 0 0 0 391.6018 400.4572" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[05664ad65aca7efa959b3f90b2cea08d]
+link service to Model_API--><g id="link_service_Model_API"><path d="M404,595.68 C404,550.47 404,451.78 404,411.09 " fill="none" id="service-to-Model_API" style="stroke:#181818;stroke-width:1.0;"/><path d="M395.5428,404.1182 A9,9 0 0 0 412.4572 404.1182" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[3e66bac0b36954210a048dde2546fc86]
+reverse link Model_API to model--><g id="link_Model_API_model"><path d="M423.09,392 C431.31,392 439.52,392 447.73,392 " fill="none" id="Model_API-backto-model" style="stroke:#181818;stroke-width:1.0;"/><path d="M416.1582,400.4572 A9,9 0 0 0 416.1582 383.5428" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[1d4f3f06c864885db964c48db5c1949c]
+link driver to Driver_API--><g id="link_driver_Driver_API"><path d="M607.36,416.21 C593.68,441.32 572.6,480.03 563.47,496.79 " fill="none" id="driver-Driver_API" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[b8dc16e8ccfd685e1afb9bcb50bc81f5]
+reverse link Driver_API to service--><g id="link_Driver_API_service"><path d="M541.43,519.69 C515.87,538.16 468.01,572.75 436.07,595.83 " fill="none" id="Driver_API-backto-service" style="stroke:#181818;stroke-width:1.0;"/><path d="M542.32,508.6205 A9,9 0 0 0 552.2312 522.3269" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[3bdc80032e28c87c6fdafb75e93bff74]
+link campus to html--><g id="link_campus_html"><path d="M389.83,23.38 C373.52,45.52 328.87,106.15 304.11,139.77 " fill="none" id="campus-html" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[1ed04ed2d637e3ba4e2ec9c4d6686fb4]
+link fleet to html--><g id="link_fleet_html"><path d="M287,23.38 C287,45.52 287,106.15 287,139.77 " fill="none" id="fleet-html" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[32011aee5cc1f744bc4bc3f72c345257]
+link planning to html--><g id="link_planning_html"><path d="M183.23,23.38 C199.68,45.52 244.74,106.15 269.74,139.77 " fill="none" id="planning-html" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[3035fb9674067287ac6c8f6b456580b2]
+reverse link campus_API to driver--><g id="link_campus_API_driver"><path d="M845.24,287.64 C832.71,293.41 815.87,301.17 801,308 C756.86,328.28 706.66,351.3 670.33,367.94 " fill="none" id="campus_API-backto-driver" style="stroke:#181818;stroke-width:1.0;"/><path d="M848.2755,276.9367 A9,9 0 0 0 855.3529 292.2993" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[7919e4f6993190feae797e6af31317d6]
+reverse link fleet_API to driver--><g id="link_fleet_API_driver"><path d="M730.23,293.79 C708.79,312.7 671.42,345.66 646.2,367.89 " fill="none" id="fleet_API-backto-driver" style="stroke:#181818;stroke-width:1.0;"/><path d="M729.9675,282.743 A9,9 0 0 0 741.1552 295.429" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[1e46b3cf46415db74842ee7d97eb6dd9]
+reverse link planning_API to driver--><g id="link_planning_API_driver"><path d="M64.72,286.22 C82.35,292.77 109.63,302.25 134,308 C313.24,350.31 364.26,327.88 544,368 C549.52,369.23 555.22,370.66 560.9,372.19 " fill="none" id="planning_API-backto-driver" style="stroke:#181818;stroke-width:1.0;"/><path d="M54.9841,291.5793 A9,9 0 0 0 60.9734 275.7607" fill="none" style="stroke:#181818;stroke-width:1.5;"/></g><!--MD5=[80cf5bbaf520940c36a6c5924859ae45]
+@startuml UI_LV_lvl3
+
+<style>
+component {
+    BackgroundColor #99ddff
+}
+</style>
+
+
+interface "Campus UI" as campus
+interface "Fleet UI" as fleet
+interface "Planning UI" as planning
+
+interface "Campus API" as campus_API
+interface "Fleet API" as fleet_API
+interface "Planning API" as planning_API
+
+component "UI" as ui{
+
+    interface "Model API" as Model_API
+    interface "Service API" as Service_API
+    interface "HTTP Driver API" as Driver_API
+    
+    component "x" as x {
+        interface "CTRL API" as CTRL_API
+        interface "Observer API" as Observer_API
+
+        component "HTML + CSS + JS" as html
+        component "Component" as component
+
+        component -up- CTRL_API
+        html -down-( CTRL_API
+
+        html -down- Observer_API
+        component -up-( Observer_API
+    
+    }
+
+    component "service" as service
+    component "HTTP Driver" as driver 
+    component "Model" as model
+
+    component -down-( Service_API
+    service -up- Service_API
+    driver -left-( Model_API
+    html -right-( Model_API
+    component -right-( Model_API
+    service -right-( Model_API
+    model -left-( Model_API
+    driver -down- Driver_API
+    service -up-( Driver_API
+
+}
+
+html -up- campus
+html -up- fleet
+html -up- planning
+
+driver -up-( campus_API
+driver -up-( fleet_API
+driver -up-( planning_API
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 BST 2022)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: Cp1252
+Language: pt
+Country: PT
+--></g></svg>

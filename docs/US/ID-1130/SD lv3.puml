@@ -1,0 +1,138 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant "Campus manager" as Campus
+box "Campus Management UI" #LightBlue
+
+    box "View"
+        participant "HTML + CSS + JS" as html
+        participant "Component" as component
+    end box
+    participant "Building Service" as buildingService
+    participant "Floor Service" as floorService
+    participant "Elevator Service" as elevatorService
+    participant "API Routes" as API_ROUTES
+    participant "Http driver" as http
+
+end box
+participant "Campus Management API" as CampusAPI
+
+
+Campus -> html : load route
+activate html
+
+    html -> component : load all buildings
+    activate component
+
+        component -> buildingService : get all buildings
+        activate buildingService
+
+            buildingService -> API_ROUTES : building.getAll
+            activate API_ROUTES
+
+            API_ROUTES --> buildingService : api route
+            deactivate API_ROUTES
+
+            buildingService -> http : get(api route)
+            activate http
+
+                http -> CampusAPI : send request
+                activate CampusAPI
+
+                    CampusAPI -> CampusAPI : list all buildings
+                    note right : procedures in the\nuser story ID170
+                    
+                CampusAPI --> http : return list
+                deactivate CampusAPI
+
+            http --> buildingService : return list
+            deactivate http
+
+        buildingService --> component : return list
+        deactivate buildingService
+
+    component --> html : return buildings
+    deactivate component
+
+html --> Campus : show list buildings
+
+Campus --> html : select building
+
+    html -> component : load all floors
+    activate component
+
+        component -> floorService : get getFloorsByBuildingCode(buildingCode)
+        activate floorService
+
+            floorService -> API_ROUTES : floor.getByBuildingCode(buildingCode)
+            activate API_ROUTES
+
+            API_ROUTES --> floorService : api route
+            deactivate API_ROUTES
+
+            floorService -> http : get(api route)
+            activate http
+
+                http -> CampusAPI : send request
+                activate CampusAPI
+
+                    CampusAPI -> CampusAPI : list all floors
+                    note right : procedures in the\nuser story ID210
+                    
+                CampusAPI --> http : return list
+                deactivate CampusAPI
+
+            http --> floorService : return list
+            deactivate http
+
+        floorService --> component : return list
+        deactivate floorService
+    
+    component --> html : return floors
+    deactivate component
+
+html --> Campus : show list floors
+
+Campus --> html : select floors
+
+Campus -> html : input elevator information
+
+    html -> component : elevator information
+    activate component
+
+        component -> elevatorService : uploadelevator(elevator)
+        activate elevatorService
+
+            elevatorService -> API_ROUTES : elevator.createElevator(buildingCode)
+            activate API_ROUTES
+
+            API_ROUTES --> elevatorService : api route
+            deactivate API_ROUTES
+
+            elevatorService -> http : post(api route, elevator)
+            activate http
+
+                http -> CampusAPI : send request
+                activate CampusAPI
+
+                    CampusAPI -> CampusAPI : create elevator
+                    note right : procedures in the\nuser story ID270
+                    
+                CampusAPI --> http : return elevator
+                deactivate CampusAPI
+
+            http --> elevatorService : return elevator
+            deactivate http
+
+        elevatorService --> component : return elevator
+        deactivate elevatorService
+
+    component --> html : return created elevator successfully
+    deactivate component
+
+html --> Campus : show created elevator successfully
+deactivate html
+
+
+@enduml

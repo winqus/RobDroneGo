@@ -1,0 +1,114 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+box "Campus Management" #LightBlue
+
+    box "Framework And Drivers Layer" #00ffff
+        participant Routing
+        participant "Floor Persistence" as Persistence
+    end box
+
+    participant "Data Model" as Data
+    box "Interface Adapters Layer" #77ffaa
+        participant Controller
+        participant "Floor Repository" as Repository
+        participant "Building Service" as BuildingSvc
+    end box
+
+    participant "Floor DTO" as FloorDTO
+    participant "Floor Mapper" as FloorMapper
+    box "Application Business Rules" #ff6666
+        participant "Floor Service" as FloorService
+    end box
+
+    box "Enterprise Business Rules" #eeddaa
+        participant Floor
+    end box
+end box
+
+[o-> Routing : PUT /floor/{floorId}
+activate Routing
+
+    Routing -> Controller : updateFloor(input)
+    activate Controller
+
+        Controller -> FloorDTO : input as FloorDTO
+        activate FloorDTO
+
+        FloorDTO --> Controller : floorDTO
+        deactivate FloorDTO
+
+        Controller -> FloorService : updateFloor(floorDTO)
+        activate FloorService
+        
+            FloorService -> Repository : exists(floorDTO)
+            activate Repository
+
+                Repository -> Persistence : exists(floorDTO)
+                activate Persistence
+
+                Persistence --> Repository : floorExistsResponse
+                deactivate Persistence
+
+            Repository --> FloorService : floorExistsResponse
+            deactivate Repository
+
+            alt if floor exists and building is valid
+
+                FloorService -> BuildingSvc : getBuildingByCode(floorDTO.buildingCode)
+                activate BuildingSvc
+
+                    BuildingSvc --> FloorService : buildingValidationResult
+                    deactivate BuildingSvc
+
+                FloorService -> FloorMapper : toDomain(floorDTO)
+                activate FloorMapper
+
+                    FloorMapper -> Floor : create from DTO
+                    activate Floor
+
+                    Floor --> FloorMapper : domainFloor
+                    deactivate Floor
+
+                FloorMapper --> FloorService : domainFloor
+                deactivate FloorMapper
+
+                FloorService -> Repository : save(domainFloor)
+                activate Repository
+
+                    Repository -> Persistence : save(domainFloor)
+                    activate Persistence
+
+                    Persistence --> Repository : updateConfirmation
+                    deactivate Persistence
+
+                Repository --> FloorService : updateConfirmation
+                deactivate Repository
+
+                FloorService -> FloorMapper : toDTO(domainFloor)
+                activate FloorMapper
+                
+                    FloorMapper -> FloorDTO : domainFloor as DTO
+                    activate FloorDTO
+
+                    FloorDTO --> FloorMapper : updatedFloorDTO
+                    deactivate FloorDTO
+
+                FloorMapper --> FloorService : updatedFloorDTO
+                deactivate FloorMapper
+
+                FloorService --> Controller : updatedFloorDTO
+                deactivate FloorService
+
+            else if floor does not exist or building is invalid
+                FloorService --> Controller : updateRejection(reason)
+            end
+
+    Controller --> Routing : DTOWithUpdateStatus / updateRejectionReason
+    deactivate Controller
+
+[o<--o Routing : DTOWithUpdateStatus / updateRejectionReason
+deactivate Routing
+
+@enduml

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="392px" preserveAspectRatio="none" style="width:528px;height:392px;background:#FFFFFF;" version="1.1" viewBox="0 0 528 392" width="528px" zoomAndPan="magnify"><defs/><g><rect fill="#FFFFFF" height="200.1094" style="stroke:#181818;stroke-width:1.0;" width="10" x="59" y="92.6094"/><rect fill="#FFFFFF" height="177.7578" style="stroke:#181818;stroke-width:1.0;" width="10" x="305" y="114.9609"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="64" x2="64" y1="82.6094" y2="310.7188"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="310" x2="310" y1="82.6094" y2="310.7188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="5" y="79.5332">Campus Manager</text><ellipse cx="64" cy="13.5" fill="#E2E2F0" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><path d="M64,21.5 L64,48.5 M51,29.5 L77,29.5 M64,48.5 L51,63.5 M64,48.5 L77,63.5 " fill="none" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="5" y="324.252">Campus Manager</text><ellipse cx="64" cy="335.8281" fill="#E2E2F0" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/><path d="M64,343.8281 L64,370.8281 M51,351.8281 L77,351.8281 M64,370.8281 L51,385.8281 M64,370.8281 L77,385.8281 " fill="none" style="stroke:#181818;stroke-width:0.5;"/><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="98" x="261" y="50"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84" x="268" y="71.5332">RobDroneGo</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="98" x="261" y="309.7188"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84" x="268" y="331.252">RobDroneGo</text><rect fill="#FFFFFF" height="200.1094" style="stroke:#181818;stroke-width:1.0;" width="10" x="59" y="92.6094"/><rect fill="#FFFFFF" height="177.7578" style="stroke:#181818;stroke-width:1.0;" width="10" x="305" y="114.9609"/><polygon fill="#181818" points="293,110.9609,303,114.9609,293,118.9609,297,114.9609" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="69" x2="299" y1="114.9609" y2="114.9609"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="153" x="76" y="110.1045">GET /campus/room/create</text><line style="stroke:#181818;stroke-width:1.0;" x1="315" x2="357" y1="145.3125" y2="145.3125"/><line style="stroke:#181818;stroke-width:1.0;" x1="357" x2="357" y1="145.3125" y2="158.3125"/><line style="stroke:#181818;stroke-width:1.0;" x1="316" x2="357" y1="158.3125" y2="158.3125"/><polygon fill="#181818" points="326,154.3125,316,158.3125,326,162.3125,322,158.3125" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="199" x="322" y="140.4561">Check user's role and permissions</text><polygon fill="#181818" points="80,184.6641,70,188.6641,80,192.6641,76,188.6641" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="74" x2="304" y1="188.6641" y2="188.6641"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="151" x="86" y="183.8076">Show room creation menu</text><polygon fill="#181818" points="293,215.0156,303,219.0156,293,223.0156,297,219.0156" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="69" x2="299" y1="219.0156" y2="219.0156"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="153" x="76" y="214.1592">Submit room creation form</text><line style="stroke:#181818;stroke-width:1.0;" x1="315" x2="357" y1="249.3672" y2="249.3672"/><line style="stroke:#181818;stroke-width:1.0;" x1="357" x2="357" y1="249.3672" y2="262.3672"/><line style="stroke:#181818;stroke-width:1.0;" x1="316" x2="357" y1="262.3672" y2="262.3672"/><polygon fill="#181818" points="326,258.3672,316,262.3672,326,266.3672,322,262.3672" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="71" x="322" y="244.5107">Create room</text><polygon fill="#181818" points="75,288.7188,65,292.7188,75,296.7188,71,292.7188" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="69" x2="309" y1="292.7188" y2="292.7188"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="212" x="81" y="287.8623">Show room creation status message</text><!--MD5=[6bbf787356bfc44aaba8dde70625f8ad]
+@startuml SD Lv1
+
+actor "Campus Manager" as campusManager
+participant RobDroneGo as system
+
+activate campusManager
+
+campusManager -> system : GET /campus/room/create
+activate system
+system -> system : Check user's role and permissions
+campusManager <- - system : Show room creation menu
+campusManager -> system : Submit room creation form
+system -> system : Create room
+campusManager <- - system : Show room creation status message
+
+deactivate system
+
+deactivate campusManager
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 17:01:30 GMT 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: Cp1252
+Language: fi
+Country: FI
+--></g></svg>

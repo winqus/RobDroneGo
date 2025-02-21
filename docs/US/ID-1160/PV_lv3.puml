@@ -1,0 +1,73 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+actor "Campus Manager" as user
+box "RobDroneGo UI" #LightBlue
+
+    box "View"
+        participant "HTML + CSS + JS" as FrontEnd
+        participant "List Component" as List
+    end box
+    participant "UI Service" as UIService
+    participant "API Routes" as API_ROUTES
+    participant "HTTP Client" as HttpClient
+
+end box
+box "RobDroneGo Backend"
+    participant "Authentication API" as AuthAPI
+    participant "Campus Management API" as CampusAPI
+end box
+
+
+user -> FrontEnd : Request Elevator Served Floors Page
+activate FrontEnd
+
+    FrontEnd -> List : Load Elevator Served Floors List
+    activate List
+
+        List -> UIService : Request Elevator Served Floors
+        activate UIService
+
+            UIService -> API_ROUTES : Fetch Auth and Elevator Floors APIs
+            activate API_ROUTES
+
+            API_ROUTES --> UIService : API Endpoints
+            deactivate API_ROUTES
+
+            UIService -> HttpClient : GET /campus/floor/served-by-elevator
+            activate HttpClient
+
+                HttpClient -> AuthAPI : Validate User Permissions
+                activate AuthAPI
+
+                    AuthAPI -> AuthAPI : Check User Role and Permissions
+
+                AuthAPI --> HttpClient : Permission Validation Result
+                deactivate AuthAPI
+
+                HttpClient -> CampusAPI : Request Elevator Served Floors
+                activate CampusAPI
+
+                    CampusAPI -> CampusAPI : Retrieve Floors Data
+                    note right
+                        Elevator Served Floor Retrieval Logic
+                        detailed in US ID300
+                    end note
+
+                CampusAPI --> HttpClient : Elevator Served Floors List
+                deactivate CampusAPI
+
+            HttpClient --> UIService : Elevator Served Floors Data
+            deactivate HttpClient
+
+        UIService --> List : Display Floors List
+        deactivate UIService
+
+    List --> FrontEnd : Show Elevator Served Floors List
+    deactivate List
+
+FrontEnd --> user : Display Elevator Served Floors
+deactivate FrontEnd
+
+@enduml

@@ -1,0 +1,20 @@
+@startuml SD Lv2
+
+participant " "
+box "RobDroneGo" #LightBlue
+    participant "Campus Management" as campus
+    participant "DB" as DB
+end box
+
+[o-> campus : Get
+activate campus
+
+campus -> DB : find buildings
+activate DB
+DB --> campus : buildings
+deactivate DB
+
+[o<--o campus : List with buildings
+deactivate campus
+
+@enduml

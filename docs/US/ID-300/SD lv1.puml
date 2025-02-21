@@ -1,0 +1,17 @@
+@startuml SD Lv1
+
+participant "RobDroneGo" as system
+
+[o-> system : GET /passages?building1={code1}\n\t&building2={code2}
+activate system
+
+alt if passages exist between buildings
+    system -> system : Retrieve passages
+    [o<--o system : passages list
+else
+    [o<--o system : empty list
+end
+
+deactivate system
+
+@enduml

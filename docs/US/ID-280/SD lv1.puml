@@ -1,0 +1,21 @@
+@startuml SD Lv1
+
+participant RobDroneGo as system
+
+[o-> system : PUT /building/{code}/elevator
+activate system
+
+alt if building and elevator exist
+
+    system -> system : Update elevator in building
+
+    [o<--o system : update result for elevator
+
+else if building does not exist or elevator does not exist
+
+    [o<--o system : error "Building or Elevator not found"
+
+end
+deactivate system
+
+@enduml

@@ -1,0 +1,57 @@
+@startuml SD Lv3
+!pragma teoz true
+
+actor "Campus manager" as user
+box "Campus Management UI" #LightBlue
+
+    box "View"
+        participant "HTML + CSS + JS" as html
+        participant "Component" as component
+    end box
+    participant "Service" as service
+    participant "API Routes" as API_ROUTES
+    participant "Http driver" as http
+
+end box
+participant "Campus Management" as campus
+
+user -> html : click list all buildings
+activate html
+
+    html -> component : list all buildings
+    activate component
+
+        component -> service : list all buildings
+        activate service
+
+            service -> API_ROUTES : building.getAll()
+            activate API_ROUTES
+
+            API_ROUTES --> service : api route
+            deactivate API_ROUTES
+
+            service -> http : GET(api route)
+            activate http
+
+                http -> campus : send request
+                activate campus
+
+                    campus -> campus : list buildings
+                    
+                campus --> http : return list of buildings
+                deactivate campus
+
+            http --> service : return list of buildings
+            deactivate http
+
+        service --> component : return list of buildings
+        deactivate service
+
+    component --> html : return list of buildings
+    deactivate component
+
+html --> user : show buildings
+deactivate html
+
+
+@enduml

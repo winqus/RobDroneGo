@@ -1,0 +1,59 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+actor "Campus manager" as campus
+box "Campus Management UI" #LightBlue
+
+    box "View"
+        participant "HTML + CSS + JS" as html
+        participant "Component" as component
+    end box
+    participant "Service" as service
+    participant "API Routes" as API_ROUTES
+    participant "Http driver" as http
+
+end box
+participant "Campus Management API" as campusAPI
+
+campus -> html : input floor info
+activate html
+campus -> html : submit the form
+
+    html -> component : create floor
+    activate component
+
+        component -> service : create floor
+        activate service
+
+            service -> API_ROUTES : floor.createFloor()
+            activate API_ROUTES
+
+            API_ROUTES --> service : api route
+            deactivate API_ROUTES
+
+            service -> http : POST(api route, floor info)
+            activate http
+
+                http -> campusAPI : send request
+                activate campusAPI
+
+                    campusAPI -> campusAPI : create floor
+                    
+                campusAPI --> http : return response
+                deactivate campusAPI
+
+            http --> service : return response
+            deactivate http
+
+        service --> component : return response
+        deactivate service
+
+    component --> html : floor created
+    deactivate component
+
+html --> campus : floor created\nsuccessfully
+deactivate html
+
+
+@enduml

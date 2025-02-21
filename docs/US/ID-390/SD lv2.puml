@@ -1,0 +1,19 @@
+@startuml SD Lv2
+
+box "RobDroneGo" #LightBlue
+    participant "Fleet Management" as RobotService
+    participant "DB" as DB
+end box
+
+[o-> RobotService : GET /robot?query
+activate RobotService
+
+RobotService -> DB : find robots by type query
+activate DB
+DB --> RobotService : robots list
+deactivate DB
+
+[o<--o RobotService : robots list
+deactivate RobotService
+
+@enduml

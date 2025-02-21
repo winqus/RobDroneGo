@@ -1,0 +1,15 @@
+@startuml SD Lv1
+
+actor "Task Manager" as taskmanager
+participant RobDroneGo as system
+
+taskmanager -> system : Go to task/search
+activate  system
+
+system -> system : Check user's role\nand permissions
+
+taskmanager <-- system : Show task search form
+
+deactivate system
+
+@enduml

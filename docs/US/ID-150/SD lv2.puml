@@ -1,0 +1,34 @@
+@startuml SD Lv2
+
+box "RobDroneGo" #LightBlue
+    participant "Campus Management" as campus
+    participant "DB" as DB
+end box
+
+[o-> campus : POST /building
+activate campus
+
+campus -> DB : check if building with code exists
+activate DB
+DB --> campus : building exists / does not exist
+deactivate DB
+
+alt if building with code does not exist
+
+    campus -> campus : create new building
+
+    campus -> DB : save new building
+    activate DB
+    DB --> campus : success
+    deactivate DB
+
+    [o<--o campus : building result
+
+else if building with code exists
+
+    [o<--o campus : error message
+
+end
+deactivate campus
+
+@enduml

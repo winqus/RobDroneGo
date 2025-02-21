@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="1007px" preserveAspectRatio="none" style="width:1385px;height:1007px;background:#FFFFFF;" version="1.1" viewBox="0 0 1385 1007" width="1385px" zoomAndPan="magnify"><defs/><g><rect fill="#ADD8E6" height="995.1172" style="stroke:#181818;stroke-width:0.5;" width="796" x="239" y="6"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="155" x="559.5" y="19.4951">Campus Management UI</text><rect fill="#DDDDDD" height="973.7656" style="stroke:#181818;stroke-width:0.5;" width="360.5" x="239" y="27.3516"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="32" x="403.25" y="40.8467">View</text><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="68" x2="68" y1="80.3125" y2="962.5078"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="306" x2="306" y1="80.3125" y2="962.5078"/><rect fill="#FFFFFF" height="833.8438" style="stroke:#181818;stroke-width:1.0;" width="10" x="301" y="110.6641"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="552" x2="552" y1="80.3125" y2="962.5078"/><rect fill="#FFFFFF" height="325.8672" style="stroke:#181818;stroke-width:1.0;" width="10" x="547" y="141.0156"/><rect fill="#FFFFFF" height="325.8672" style="stroke:#181818;stroke-width:1.0;" width="10" x="547" y="588.2891"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="728" x2="728" y1="80.3125" y2="962.5078"/><rect fill="#FFFFFF" height="265.1641" style="stroke:#181818;stroke-width:1.0;" width="10" x="723" y="171.3672"/><rect fill="#FFFFFF" height="265.1641" style="stroke:#181818;stroke-width:1.0;" width="10" x="723" y="618.6406"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="900" x2="900" y1="80.3125" y2="962.5078"/><rect fill="#FFFFFF" height="30.3516" style="stroke:#181818;stroke-width:1.0;" width="10" x="895" y="201.7188"/><rect fill="#FFFFFF" height="30.3516" style="stroke:#181818;stroke-width:1.0;" width="10" x="895" y="648.9922"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="991.5" x2="991.5" y1="80.3125" y2="962.5078"/><rect fill="#FFFFFF" height="143.7578" style="stroke:#181818;stroke-width:1.0;" width="10" x="986.5" y="262.4219"/><rect fill="#FFFFFF" height="143.7578" style="stroke:#181818;stroke-width:1.0;" width="10" x="986.5" y="709.6953"/><line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="1139.5" x2="1139.5" y1="80.3125" y2="962.5078"/><rect fill="#FFFFFF" height="83.0547" style="stroke:#181818;stroke-width:1.0;" width="10" x="1134.5" y="292.7734"/><rect fill="#FFFFFF" height="83.0547" style="stroke:#181818;stroke-width:1.0;" width="10" x="1134.5" y="740.0469"/><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="126" x="5" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="12" y="69.2363">Campus manager</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="126" x="243" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="250" y="69.2363">HTML + CSS + JS</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="87" x="508.5" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="73" x="515.5" y="69.2363">Component</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="120" x="668" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="675" y="69.2363">Passage Service</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="84" x="858" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70" x="865" y="69.2363">API Routes</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="79" x="952" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65" x="959" y="69.2363">Http driver</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="177" x="1051" y="47.7031"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="163" x="1058" y="69.2363">Campus Management API</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="126" x="5" y="962.5078"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="12" y="984.041">Campus manager</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="126" x="243" y="962.5078"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112" x="250" y="984.041">HTML + CSS + JS</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="87" x="508.5" y="962.5078"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="73" x="515.5" y="984.041">Component</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="120" x="668" y="962.5078"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="675" y="984.041">Passage Service</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="84" x="858" y="962.5078"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70" x="865" y="984.041">API Routes</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="79" x="952" y="962.5078"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65" x="959" y="984.041">Http driver</text><rect fill="#E2E2F0" height="31.6094" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="177" x="1051" y="962.5078"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="163" x="1058" y="984.041">Campus Management API</text><polygon fill="#181818" points="289,106.6641,299,110.6641,289,114.6641,293,110.6641" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="68" x2="295" y1="110.6641" y2="110.6641"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="57" x="75" y="105.8076">load route</text><polygon fill="#181818" points="535,137.0156,545,141.0156,535,145.0156,539,141.0156" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="311" x2="541" y1="141.0156" y2="141.0156"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="101" x="318" y="136.1592">load all passages</text><polygon fill="#181818" points="711,167.3672,721,171.3672,711,175.3672,715,171.3672" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="557" x2="717" y1="171.3672" y2="171.3672"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="95" x="564" y="166.5107">get all passages</text><polygon fill="#181818" points="883,197.7188,893,201.7188,883,205.7188,887,201.7188" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="733" x2="889" y1="201.7188" y2="201.7188"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="129" x="740" y="196.8623">passage.getPassages</text><polygon fill="#181818" points="744,228.0703,734,232.0703,744,236.0703,740,232.0703" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="738" x2="894" y1="232.0703" y2="232.0703"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="50" x="750" y="227.2139">api route</text><polygon fill="#181818" points="974.5,258.4219,984.5,262.4219,974.5,266.4219,978.5,262.4219" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="733" x2="980.5" y1="262.4219" y2="262.4219"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="76" x="740" y="257.5654">get(api route)</text><polygon fill="#181818" points="1122.5,288.7734,1132.5,292.7734,1122.5,296.7734,1126.5,292.7734" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="996.5" x2="1128.5" y1="292.7734" y2="292.7734"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="75" x="1003.5" y="287.917">send request</text><line style="stroke:#181818;stroke-width:1.0;" x1="1144.5" x2="1186.5" y1="323.125" y2="323.125"/><line style="stroke:#181818;stroke-width:1.0;" x1="1186.5" x2="1186.5" y1="323.125" y2="336.125"/><line style="stroke:#181818;stroke-width:1.0;" x1="1145.5" x2="1186.5" y1="336.125" y2="336.125"/><polygon fill="#181818" points="1155.5,332.125,1145.5,336.125,1155.5,340.125,1151.5,336.125" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="94" x="1151.5" y="318.2686">list all passages</text><path d="M1257.5,305.7734 L1257.5,347.7734 L1378.5,347.7734 L1378.5,315.7734 L1368.5,305.7734 L1257.5,305.7734 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><path d="M1368.5,305.7734 L1368.5,315.7734 L1378.5,315.7734 L1368.5,305.7734 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="100" x="1263.5" y="324.2686">procedures in the</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="95" x="1263.5" y="340.6201">user story ID240</text><polygon fill="#181818" points="1007.5,371.8281,997.5,375.8281,1007.5,379.8281,1003.5,375.8281" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="1001.5" x2="1133.5" y1="375.8281" y2="375.8281"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="54" x="1013.5" y="370.9717">return list</text><polygon fill="#181818" points="744,402.1797,734,406.1797,744,410.1797,740,406.1797" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="738" x2="985.5" y1="406.1797" y2="406.1797"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="54" x="750" y="401.3232">return list</text><polygon fill="#181818" points="568,432.5313,558,436.5313,568,440.5313,564,436.5313" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="562" x2="722" y1="436.5313" y2="436.5313"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="54" x="574" y="431.6748">return list</text><polygon fill="#181818" points="322,462.8828,312,466.8828,322,470.8828,318,466.8828" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="316" x2="546" y1="466.8828" y2="466.8828"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="93" x="328" y="462.0264">return passages</text><polygon fill="#181818" points="79,493.2344,69,497.2344,79,501.2344,75,497.2344" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="73" x2="300" y1="497.2344" y2="497.2344"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="111" x="85" y="492.3779">show list passages</text><polygon fill="#181818" points="289,523.5859,299,527.5859,289,531.5859,293,527.5859" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="68" x2="295" y1="527.5859" y2="527.5859"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="88" x="75" y="522.7295">select passage</text><polygon fill="#181818" points="289,553.9375,299,557.9375,289,561.9375,293,557.9375" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="68" x2="295" y1="557.9375" y2="557.9375"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="175" x="75" y="553.0811">input new passage information</text><polygon fill="#181818" points="535,584.2891,545,588.2891,535,592.2891,539,588.2891" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="311" x2="541" y1="588.2891" y2="588.2891"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="143" x="318" y="583.4326">new passage information</text><polygon fill="#181818" points="711,614.6406,721,618.6406,711,622.6406,715,618.6406" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="557" x2="717" y1="618.6406" y2="618.6406"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="147" x="564" y="613.7842">updatePassage(passage)</text><polygon fill="#181818" points="883,644.9922,893,648.9922,883,652.9922,887,648.9922" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="733" x2="889" y1="648.9922" y2="648.9922"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="143" x="740" y="644.1357">passage.updatePassage</text><polygon fill="#181818" points="744,675.3438,734,679.3438,744,683.3438,740,679.3438" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="738" x2="894" y1="679.3438" y2="679.3438"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="50" x="750" y="674.4873">api route</text><polygon fill="#181818" points="974.5,705.6953,984.5,709.6953,974.5,713.6953,978.5,709.6953" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="733" x2="980.5" y1="709.6953" y2="709.6953"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="160" x="740" y="704.8389">put(api route, new passage)</text><polygon fill="#181818" points="1122.5,736.0469,1132.5,740.0469,1122.5,744.0469,1126.5,740.0469" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="996.5" x2="1128.5" y1="740.0469" y2="740.0469"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="75" x="1003.5" y="735.1904">send request</text><line style="stroke:#181818;stroke-width:1.0;" x1="1144.5" x2="1186.5" y1="770.3984" y2="770.3984"/><line style="stroke:#181818;stroke-width:1.0;" x1="1186.5" x2="1186.5" y1="770.3984" y2="783.3984"/><line style="stroke:#181818;stroke-width:1.0;" x1="1145.5" x2="1186.5" y1="783.3984" y2="783.3984"/><polygon fill="#181818" points="1155.5,779.3984,1145.5,783.3984,1155.5,787.3984,1151.5,783.3984" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92" x="1151.5" y="765.542">update passage</text><path d="M1255.5,753.0469 L1255.5,795.0469 L1376.5,795.0469 L1376.5,763.0469 L1366.5,753.0469 L1255.5,753.0469 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><path d="M1366.5,753.0469 L1366.5,763.0469 L1376.5,763.0469 L1366.5,753.0469 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="100" x="1261.5" y="771.542">procedures in the</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="95" x="1261.5" y="787.8936">user story ID270</text><polygon fill="#181818" points="1007.5,819.1016,997.5,823.1016,1007.5,827.1016,1003.5,823.1016" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="1001.5" x2="1133.5" y1="823.1016" y2="823.1016"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="86" x="1013.5" y="818.2451">return passage</text><polygon fill="#181818" points="744,849.4531,734,853.4531,744,857.4531,740,853.4531" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="738" x2="985.5" y1="853.4531" y2="853.4531"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="86" x="750" y="848.5967">return passage</text><polygon fill="#181818" points="568,879.8047,558,883.8047,568,887.8047,564,883.8047" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="562" x2="722" y1="883.8047" y2="883.8047"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="86" x="574" y="878.9482">return passage</text><polygon fill="#181818" points="322,910.1563,312,914.1563,322,918.1563,318,914.1563" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="316" x2="546" y1="914.1563" y2="914.1563"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="212" x="328" y="909.2998">return updated passage successfully</text><polygon fill="#181818" points="79,940.5078,69,944.5078,79,948.5078,75,944.5078" style="stroke:#181818;stroke-width:1.0;"/><line style="stroke:#181818;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="73" x2="300" y1="944.5078" y2="944.5078"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="209" x="85" y="939.6514">show updated passage successfully</text><!--MD5=[90424b80587220355b581dc49037799c]
+@startuml SD Lv3
+
+!pragma teoz true
+
+participant "Campus manager" as Campus
+box "Campus Management UI" #LightBlue
+
+    box "View"
+        participant "HTML + CSS + JS" as html
+        participant "Component" as component
+    end box
+    participant "Passage Service" as passageService
+    participant "API Routes" as API_ROUTES
+    participant "Http driver" as http
+
+end box
+participant "Campus Management API" as CampusAPI
+
+
+Campus -> html : load route
+activate html
+
+    html -> component : load all passages
+    activate component
+
+        component -> passageService : get all passages
+        activate passageService
+
+            passageService -> API_ROUTES : passage.getPassages
+            activate API_ROUTES
+
+            API_ROUTES - -> passageService : api route
+            deactivate API_ROUTES
+
+            passageService -> http : get(api route)
+            activate http
+
+                http -> CampusAPI : send request
+                activate CampusAPI
+
+                    CampusAPI -> CampusAPI : list all passages
+                    note right : procedures in the\nuser story ID240
+                    
+                CampusAPI - -> http : return list
+                deactivate CampusAPI
+
+            http - -> passageService : return list
+            deactivate http
+
+        passageService - -> component : return list
+        deactivate passageService
+
+    component - -> html : return passages
+    deactivate component
+
+html - -> Campus : show list passages
+
+Campus - -> html : select passage
+
+Campus -> html : input new passage information
+
+    html -> component : new passage information
+    activate component
+
+        component -> passageService : updatePassage(passage)
+        activate passageService
+
+            passageService -> API_ROUTES : passage.updatePassage
+            activate API_ROUTES
+
+            API_ROUTES - -> passageService : api route
+            deactivate API_ROUTES
+
+            passageService -> http : put(api route, new passage)
+            activate http
+
+                http -> CampusAPI : send request
+                activate CampusAPI
+
+                    CampusAPI -> CampusAPI : update passage
+                    note right : procedures in the\nuser story ID270
+                    
+                CampusAPI - -> http : return passage
+                deactivate CampusAPI
+
+            http - -> passageService : return passage
+            deactivate http
+
+        passageService - -> component : return passage
+        deactivate passageService
+
+    component - -> html : return updated passage successfully
+    deactivate component
+
+html - -> Campus : show updated passage successfully
+deactivate html
+
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 18:01:30 BST 2022)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: Cp1252
+Language: pt
+Country: PT
+--></g></svg>

@@ -1,0 +1,27 @@
+@startuml SD Lv2
+
+actor "Campus Manager" as user
+box "RobDroneGo" #LightBlue
+participant "UI" as ui
+    participant "Campus Management" as campus
+    participant "DB" as DB
+end box
+
+user -> ui : enter URL
+activate ui
+user -> ui : choose a building
+
+ui -> campus : request floors info
+activate campus
+
+campus -> DB : find floors
+activate DB
+DB --> campus : floors
+deactivate DB
+
+ui <-- campus : List with floors
+deactivate campus
+
+ui --> user : show floors of the\n chosen building
+deactivate ui
+@enduml

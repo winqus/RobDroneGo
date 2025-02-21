@@ -1,0 +1,80 @@
+@startuml SD Lv3
+
+!pragma teoz true
+
+actor "User" as user
+box "RobDroneGo UI" #LightBlue
+    box "View"
+        participant "HTML + CSS + JS" as FrontEnd
+        participant "Task Request\n List Component" as UIComponent
+    end box
+    participant "Data Model" as ModelFE
+    participant "Task Request\n Service" as TaskServiceFE
+    participant "Mapper" as TaskMapperFE
+end box
+box "RobDroneGo Backend (Task Management)"
+    participant "Routing" as TaskRouteBE
+    participant "Controller" as TaskControllerBE
+    participant "DTO" as TaskDtoBE
+    participant "Task \nService" as TaskServiceBE
+    participant "Domain \n  Model" as TaskDomainModelBE
+    participant "Repository" as TaskRepositoryBE
+    participant "Persistance" as TaskPersistanceBE
+    participant "Mapper" as TaskMapperBE
+end box
+
+participant "Campus Management API" as CampusAPI
+  
+user -> FrontEnd : Go to /task/list\n SPA route
+activate FrontEnd
+
+
+FrontEnd -> UIComponent : asks for taskRequest list
+activate UIComponent
+UIComponent -> TaskServiceFE : requests taskRequest list
+activate TaskServiceFE
+TaskServiceFE -> TaskRouteBE : GET /api/taskRequest()
+activate TaskRouteBE
+TaskRouteBE -> TaskControllerBE : getAllTaskRequests()
+activate TaskControllerBE
+TaskControllerBE -> TaskServiceBE : getAllTaskRequests()
+activate TaskServiceBE
+TaskServiceBE -> TaskRepositoryBE : getAllTaskRequests()
+activate TaskRepositoryBE
+TaskRepositoryBE -> TaskPersistanceBE : getAllTaskRequests()
+activate TaskPersistanceBE
+TaskPersistanceBE --> TaskRepositoryBE : taskRequest list
+deactivate TaskPersistanceBE
+TaskRepositoryBE --> TaskServiceBE : taskRequest list
+deactivate TaskRepositoryBE
+TaskServiceBE --> TaskMapperBE : Map to TaskRequestDTO[]
+activate TaskMapperBE
+TaskMapperBE --> TaskServiceBE : TaskRequestDTO[]
+deactivate TaskMapperBE
+TaskServiceBE --> TaskControllerBE : TaskRequestDTO[]
+deactivate TaskServiceBE
+TaskControllerBE --> TaskRouteBE : TaskRequestDTO[]
+deactivate TaskControllerBE
+
+TaskRouteBE --> TaskServiceFE : TaskRequestDTO[]
+deactivate TaskRouteBE
+TaskServiceFE -> TaskMapperFE : Map to TaskRequest[] model
+activate TaskMapperFE
+TaskMapperFE --> TaskServiceFE : TaskRequest[] model
+deactivate TaskMapperFE
+TaskServiceFE --> UIComponent : TaskRequest[] model
+deactivate TaskServiceFE
+UIComponent --> FrontEnd : TaskRequest[] model
+deactivate UIComponent
+FrontEnd --> user : Show all 'task request'
+
+user -> FrontEnd : select only pending tasks checkbox
+FrontEnd -> UIComponent : onPendingToggle()
+activate UIComponent
+UIComponent -> UIComponent : filter taskRequest list\n for only pending
+UIComponent --> FrontEnd : TaskRequest[] model
+deactivate UIComponent
+FrontEnd --> user : show only pending tasks
+
+
+@enduml

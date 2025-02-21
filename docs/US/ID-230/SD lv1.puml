@@ -1,0 +1,12 @@
+@startuml SD Lv1
+
+participant RobDroneGo as system
+[o-> system : Patch (map, buildingCode, \nfloorNumber)
+activate system
+
+system -> system : Add map to floor
+
+[o<--o system : floor with map
+deactivate system
+
+@enduml
