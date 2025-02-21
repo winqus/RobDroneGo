@@ -1,0 +1,140 @@
+image: node:18.18.0
+
+pipelines:
+  pull-requests:
+    '**':
+      - parallel:
+          - step:
+              name: Build and Test Node
+              caches:
+                - node
+              script:
+                - if [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "main" ] && [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "develop" ]; then echo 'Destination not main or develop branch.'; exit 0; fi
+                - node -v
+                - python3 --version
+                - npm install
+                - npm run build
+                - npx jest
+          - step:
+              name: Code linting Node
+              caches:
+                - node
+              script:
+                - if [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "main" ] && [ "$BITBUCKET_PR_DESTINATION_BRANCH" != "develop" ]; then echo 'Destination not main or develop branch.'; exit 0; fi
+                - npm install
+                - npm run lint:js || true
+  custom:
+    ssh-test:
+      - step:
+          name: Test SSH Connection
+          runs-on:
+            - self.hosted
+            - linux
+          script:
+            - echo "Testing SSH connection to the server"
+            - ssh -p $SERVER_SSH_PORT $SERVER_USERNAME@$SERVER_HOSTNAME "echo 'SSH connection successful'; ls"
+    manual-trigger:
+      - parallel:
+          - step:
+              name: Manually Triggered Build and Test Node
+              runs-on:
+                - self.hosted
+                - linux
+              script:
+                - node -v
+                - python3 --version
+                - npm install
+                - npm run build
+                - npx jest
+          - step:
+              name: Manually Triggered Node Code linting
+              runs-on:
+                - self.hosted
+                - linux
+              script:
+                - npm install
+                - npm run lint:js || true
+    deploy-main:
+      - step:
+          name: Build & Test Node for Production
+          # runs-on:
+          #   - self.hosted
+          #   - linux
+          caches:
+            - node
+          script:
+            - npm install
+            - echo "MONGODB_URI=$MONGO_DB_URI" > .env
+            - echo "JWT_SECRET=$JWT_SECRET" >> .env
+            - echo "PLANNING_API_HOSTNAME=$PLANNING_API_HOSTNAME" >> .env
+            - echo "PLANNING_API_PORT=$PLANNING_API_PORT" >> .env
+            - echo "PLANNING_API_BASE_PATH=$PLANNING_API_BASE_PATH" >> .env
+            - echo "NODE_ENV=production" >> .env
+            - echo "PORT=4000" >> .env
+            - npm run build
+            - npx jest
+          artifacts:
+            - build/**
+      - step:
+          name: Deploy to Production
+          # runs-on:
+          #   - self.hosted
+          #   - linux
+          script:
+            - pipe: atlassian/sftp-deploy:0.8.0
+              variables:
+                USER: '$SERVER_USERNAME'
+                SERVER: '$SERVER_HOSTNAME'
+                REMOTE_PATH: '/home/www/node-app/production/build/'
+                LOCAL_PATH: 'build/**'
+                DEBUG: 'true'
+                EXTRA_ARGS: '-oPort=$SERVER_SSH_PORT -P $SERVER_SSH_PORT'
+            - ssh -tt -p $SERVER_SSH_PORT $SERVER_USERNAME@$SERVER_HOSTNAME << EOF
+            - set -euxo pipefail;
+            - cd /home/www/node-app/production/;
+            - npm run restart:prod;
+            - set +e;
+            - exit 0
+            - EOF
+    deploy-develop:
+      - step:
+          name: Build & Test Node
+          # runs-on:
+          #   - self.hosted
+          #   - linux
+          caches:
+            - node
+          script:
+            - npm install
+            - echo "MONGODB_URI='$MONGO_DB_URI'" > .env;
+            - echo "JWT_SECRET='$JWT_SECRET'" >> .env;
+            - echo "PLANNING_API_HOSTNAME='$PLANNING_API_HOSTNAME'" >> .env;
+            - echo "PLANNING_API_PORT=$PLANNING_API_PORT" >> .env;
+            - echo "PLANNING_API_BASE_PATH='$PLANNING_API_BASE_PATH'" >> .env;
+            - echo "NODE_ENV=development" >> .env;
+            - echo "PORT=4001" >> .env;
+            - npm run build
+            - npx jest
+          artifacts:
+            - build/**
+      - step:
+          name: Deploy to Development
+          # runs-on:
+          #   - self.hosted
+          #   - linux
+          script:
+            - pipe: atlassian/sftp-deploy:0.8.0
+              variables:
+                USER: '$SERVER_USERNAME'
+                SERVER: '$SERVER_HOSTNAME'
+                REMOTE_PATH: '/home/www/node-app/development/build/'
+                LOCAL_PATH: 'build/**'
+                DEBUG: 'true'
+                EXTRA_ARGS: '-oPort=$SERVER_SSH_PORT -P $SERVER_SSH_PORT'
+            - ssh -tt -p $SERVER_SSH_PORT $SERVER_USERNAME@$SERVER_HOSTNAME << EOF
+            - set -euxo pipefail;
+            - cd /home/www/node-app/development/;
+            - npm run restart:dev;
+            - set +e;
+            - exit 0
+            - EOF
